@@ -1,0 +1,156 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# exploreHTP <a href="https://apariciojohan.github.io/exploreHTP/"><img src="man/figures/logo.png" align="right" height="138" alt="exploreHTP website" /></a>
+
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+exploreHTP is designed to assist researchers and plant breeders in efficiently exploring and analyzing data derived from drone imagery. This package offers a suite of tools tailored to the unique needs of plant breeding data, facilitating comprehensive data exploration, correlation analysis, and data manipulation. 
+
+Key functionalities include:
+
+ * Data Exploration: Simplified methods for visualizing and manipulating large datasets from high throughput phenotyping.
+* Correlation Analysis: Tools to calculate correlations between different traits and across multiple time points, providing insights into trait relationships and temporal dynamics.
+* Modeling Canopy Evolution: Advanced functionalities for modeling and predicting canopy growth and development over time.
+
+## Installation
+
+You can install the development version of exploreHTP from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("AparicioJohan/exploreHTP")
+```
+
+## 1. Reading Data
+
+This is a basic example which shows how to use exploreHTP:
+
+```{r example}
+library(exploreHTP)
+
+data(dt_potato)
+dt_potato <- dt_potato
+
+results <- read_HTP(
+  data = dt_potato,
+  genotype = "Gen",
+  time = "DAP",
+  plot = "Plot",
+  traits = c("Canopy", "PH"),
+  row = "Row",
+  range = "Range"
+)
+
+names(results)
+```
+
+```{r, eval=FALSE}
+head(results$summ_traits)
+```
+
+
+```{r, echo = FALSE}
+results$summ_traits |>
+  head() |>
+  dplyr::mutate_if(is.numeric, round, 2) |>
+  gt::gt() |>
+  gt::data_color(
+    columns = c(Median),
+    method = "numeric",
+    palette = "ggsci::red_material",
+    domain = c(0, 100),
+    reverse = FALSE
+  ) |>
+  gt::cols_align(
+    align = "center",
+    columns = everything()
+  )
+results$exp_design_resum |>
+  dplyr::mutate_if(is.numeric, round, 2) |>
+  gt::gt()
+```
+
+## 2. Plotting correlations (1)
+
+```{r, fig.width=10, fig.height=2}
+# Trait by Time
+table <- plot(results, label_size = 4, signif = TRUE, n_row = 1)
+```
+
+```{r, eval = FALSE}
+head(table)
+```
+
+
+```{r, echo = FALSE}
+table |>
+  gt::gt() |>
+  gt::data_color(
+    columns = c(corr),
+    method = "numeric",
+    palette = "ggsci::red_material",
+    domain = c(-0.19, 0.7),
+    reverse = FALSE
+  ) |>
+  gt::cols_align(
+    align = "center",
+    columns = everything()
+  )
+```
+
+
+## 3. Plotting correlations (2)
+
+```{r, fig.width=10, fig.height=5}
+# Time by Trait
+table <- plot(results, type = "time_by_trait", label_size = 4, signif = TRUE)
+```
+
+```{r, eval = FALSE}
+head(table)
+```
+
+
+```{r, echo = FALSE}
+head(table) |>
+  gt::gt() |>
+  gt::data_color(
+    columns = c(corr),
+    method = "numeric",
+    palette = "ggsci::red_material",
+    domain = c(-0.19, 0.9),
+    reverse = FALSE
+  ) |>
+  gt::cols_align(
+    align = "center",
+    columns = everything()
+  )
+```
+
+
+## 4. Estimating days to emergence and days to full canopy
+
+```{r, fig.width= 8, fig.height=4}
+out <- canopy_HTP(results, plot_id = c(22, 169))
+plot(out)
+```
+```{r, echo =FALSE}
+out$param |>
+  dplyr::mutate_if(is.numeric, round, 2) |>
+  gt::gt()
+```

@@ -1,11 +1,22 @@
 Package: exploreHTP
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Explore High-Throughput Phenotypic (HTP) Data
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Author: Johan Aparicio
+Maintainer: Johan Aparicio <aparicioarce@wisc.edu> 
+Description: Utilities designed to explore high-throughput phenotypic (HTP) data
+    for field trials in plant breeding.
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+Depends: 
+    R (>= 2.10)
+RoxygenNote: 7.3.1
+Imports: 
+    agriutilities,
+    dplyr,
+    ggplot2,
+    optimx,
+    subplex,
+    tibble,
+    tidyr

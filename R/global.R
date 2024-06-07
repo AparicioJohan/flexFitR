@@ -1,0 +1,32 @@
+utils::globalVariables(
+  names = c(
+    "gen_reps",
+    "trait",
+    "value",
+    "median",
+    "sd",
+    "SD",
+    "Mean",
+    "miss",
+    "data",
+    "deltaT",
+    "genotype",
+    "local_max",
+    "opm",
+    "res",
+    "rownames_to_column",
+    "slope",
+    "t1",
+    "t2",
+    "time",
+    "corrected",
+    "intercept",
+    "quantile",
+    "label",
+    "mat",
+    "miss%",
+    "name.x",
+    "txtCol",
+    "value.y"
+  )
+)

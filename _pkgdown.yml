@@ -1,0 +1,34 @@
+template:
+  bootstrap: 5
+  bootswatch: materia
+  theme: a11y-light
+  bslib:
+    pkgdown-nav-height: 100px
+url: https://apariciojohan.github.io/exploreHTP/
+navbar:
+  title: exploreHTP
+  type: default
+  bg: secondary
+  left:
+  - icon: fa-home fa-lg
+    text: Home
+    href: index.html
+  - icon: fa-code
+    text: Reference
+    href: reference/index.html
+  - icon: fa-newspaper
+    text: News
+    href: news/index.html
+  right:
+  - icon: fa-github
+    text: Github
+    href: https://github.com/AparicioJohan/agriutilities
+reference:
+- title: Explore HTP
+  desc: Identify the design and fit the models automatically
+- contents:
+  - read_HTP
+  - canopy_HTP
+  - dt_potato
+  - plot.read_HTP
+  - plot.canopy_HTP
