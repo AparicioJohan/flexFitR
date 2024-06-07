@@ -22,7 +22,7 @@ navbar:
   right:
   - icon: fa-github
     text: Github
-    href: https://github.com/AparicioJohan/agriutilities
+    href: https://github.com/AparicioJohan/exploreHTP
 reference:
 - title: Explore HTP
   desc: Identify the design and fit the models automatically
