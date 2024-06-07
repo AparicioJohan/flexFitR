@@ -10,8 +10,10 @@
   label_size = 4,
   signif = FALSE,
   method = "pearson",
+  filter_trait = NULL,
   n_row = NULL,
   n_col = NULL,
+  base_size = 13,
   ...
 )
 }
@@ -19,7 +21,8 @@
 \item{x}{An object inheriting from class \code{read_HTP} resulting of
 executing the function \code{read_HTP()}}
 
-\item{type}{Character string "trait_by_time" or "time_by_trait".}
+\item{type}{Character string. Available options are:
+"trait_by_time", "time_by_trait", "evolution". "trait_by_time" by default.}
 
 \item{label_size}{Label size. 4 by default.}
 
@@ -29,9 +32,14 @@ executing the function \code{read_HTP()}}
 passed to cor are "spearman" and "kendall". These last two are much slower,
 particularly for big data sets.}
 
+\item{filter_trait}{A character vector specifying the traits to remove from
+the plot.}
+
 \item{n_row}{Number of rows to use in face_wrap(). NULL by default.}
 
 \item{n_col}{Number of columns to use in face_wrap(). NULL by default.}
+
+\item{base_size}{Base font size, given in pts.}
 
 \item{...}{Further graphical parameters. For future improvements.}
 }

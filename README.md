@@ -55,10 +55,14 @@ names(results)
 ```
 
 ``` r
-head(results$summ_traits)
+plot(results, type = "evolution")
 ```
 
-<center>
+<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
+
+``` r
+head(results$summ_traits)
+```
 
 | trait  | time |   Min |  Mean | Median |    Max |    SD |   CV |   n | miss | miss% | neg% |
 |:-------|-----:|------:|------:|-------:|-------:|------:|-----:|----:|-----:|------:|-----:|
@@ -69,14 +73,9 @@ head(results$summ_traits)
 | Canopy |   76 | 89.56 | 99.70 | 100.00 | 100.00 |  1.05 | 0.01 | 196 |    0 |     0 |    0 |
 | Canopy |   92 | 63.14 | 97.12 |  98.46 | 100.02 |  4.24 | 0.04 | 196 |    0 |     0 |    0 |
 
-</center>
-<center>
-
 |   n | n_gen | n_row | n_range | num_of_reps | num_of_gen |
 |----:|------:|------:|--------:|:------------|:-----------|
 | 196 |   185 |    14 |      14 | 1_2         | 174_11     |
-
-</center>
 
 ## 2. Plotting correlations (1)
 
@@ -85,13 +84,11 @@ head(results$summ_traits)
 table <- plot(results, label_size = 4, signif = TRUE, n_row = 1)
 ```
 
-<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
 
 ``` r
 head(table)
 ```
-
-<center>
 
 | time | col    | row |  corr |   p.value |   n | signi  |
 |-----:|:-------|:----|------:|----------:|----:|:-------|
@@ -103,8 +100,6 @@ head(table)
 |  100 | Canopy | PH  |  0.31 | 0.0000138 | 196 | \*\*\* |
 |  108 | Canopy | PH  |  0.07 | 0.3369443 | 196 | ns     |
 
-</center>
-
 ## 3. Plotting correlations (2)
 
 ``` r
@@ -112,13 +107,11 @@ head(table)
 table <- plot(results, type = "time_by_trait", label_size = 4, signif = TRUE)
 ```
 
-<img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
 
 ``` r
 head(table)
 ```
-
-<center>
 
 | trait  | col | row |  corr |   p.value |   n | signi  |
 |:-------|:----|:----|------:|----------:|----:|:-------|
@@ -129,22 +122,16 @@ head(table)
 | Canopy | 36  | 56  |  0.70 | 0.0000000 | 196 | \*\*\* |
 | Canopy | 36  | 76  |  0.17 | 0.1786972 | 196 | ns     |
 
-</center>
-
 ## 4. Estimating days to emergence and days to full canopy
 
 ``` r
-out <- canopy_HTP(results, plot_id = c(22, 169))
+out <- canopy_HTP(results, plot_id = c(22, 40))
 plot(out)
 ```
 
-<img src="man/figures/README-unnamed-chunk-11-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-12-1.png" width="100%" />
 
-<center>
-
-| plot | genotype  | row | range |    t1 |    t2 |   max | deltaT | slope | intercept |
-|-----:|:----------|----:|------:|------:|------:|------:|-------:|------:|----------:|
-|   22 | W17047-5  |   8 |     2 | 39.49 | 75.62 | 98.88 |  36.13 |  2.74 |   -108.09 |
-|  169 | W17037-57 |   1 |    13 | 38.48 | 67.05 | 99.76 |  28.57 |  3.49 |   -134.36 |
-
-</center>
+| plot | genotype  | row | range |    t1 |    t2 |    max | deltaT | slope | intercept |
+|-----:|:----------|----:|------:|------:|------:|-------:|-------:|------:|----------:|
+|   22 | W17047-5  |   8 |     2 | 39.49 | 75.62 |  98.88 |  36.13 |  2.74 |   -108.09 |
+|   40 | W17043-37 |  12 |     3 | 34.88 | 61.78 | 100.00 |  26.90 |  3.72 |   -129.66 |

@@ -57,10 +57,13 @@ results <- read_HTP(
 names(results)
 ```
 
+```{r, fig.height=3}
+plot(results, type = "evolution")
+```
+
 ```{r, eval=FALSE}
 head(results$summ_traits)
 ```
-
 
 ```{r, echo = FALSE}
 results$summ_traits |>
@@ -123,7 +126,7 @@ head(table) |>
 ## 4. Estimating days to emergence and days to full canopy
 
 ```{r, fig.width= 8, fig.height=4}
-out <- canopy_HTP(results, plot_id = c(22, 169))
+out <- canopy_HTP(results, plot_id = c(22, 40))
 plot(out)
 ```
 ```{r, echo =FALSE}

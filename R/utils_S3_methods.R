@@ -73,7 +73,7 @@ plot.canopy_HTP <- function(x, plot_id = NULL, label_size = 4, ...) {
       aes(
         label = paste0("t1 = ", round(t1, 2), "\n", "t2 = ", round(t2, 2)),
         x = quantile(time, probs = 0.08)[1],
-        y = (max(corrected) - min(corrected))/2
+        y = (max(corrected) - min(corrected)) / 2
       ),
       stat = "unique",
       size = label_size, colour = "black"
@@ -89,14 +89,18 @@ plot.canopy_HTP <- function(x, plot_id = NULL, label_size = 4, ...) {
 #' @aliases plot.read_HTP
 #' @param x An object inheriting from class \code{read_HTP} resulting of
 #' executing the function \code{read_HTP()}
-#' @param type  Character string "trait_by_time" or "time_by_trait".
+#' @param type  Character string. Available options are:
+#'  "trait_by_time", "time_by_trait", "evolution". "trait_by_time" by default.
 #' @param signif TRUE or FALSE. Add the pvalue to the correlations plot.
 #' @param label_size Label size. 4 by default.
 #' @param method method="pearson" is the default value. The alternatives to be
 #'  passed to cor are "spearman" and "kendall". These last two are much slower,
 #'  particularly for big data sets.
+#' @param filter_trait A character vector specifying the traits to remove from
+#' the plot.
 #' @param n_row Number of rows to use in face_wrap(). NULL by default.
 #' @param n_col Number of columns to use in face_wrap(). NULL by default.
+#' @param base_size Base font size, given in pts.
 #' @param ... Further graphical parameters. For future improvements.
 #' @author Johan Aparicio [aut]
 #' @method plot read_HTP
@@ -125,8 +129,10 @@ plot.read_HTP <- function(x,
                           label_size = 4,
                           signif = FALSE,
                           method = "pearson",
+                          filter_trait = NULL,
                           n_row = NULL,
-                          n_col = NULL, ...) {
+                          n_col = NULL,
+                          base_size = 13, ...) {
   colours <- c("#db4437", "white", "#4285f4")
   flt <- x$summ_traits |>
     filter(`miss%` <= 0.2 & SD > 0) |>
@@ -140,8 +146,17 @@ plot.read_HTP <- function(x,
     select(-id) |>
     droplevels()
 
+  if (length(filter_trait) >= 1) {
+    data <- filter(data, !trait %in% filter_trait)
+  }
+
   # Correlation between traits by time
   if (type == "trait_by_time") {
+    traits <- unique(data$trait)
+    if (length(traits) <= 1) {
+      stop("Only one trait available. 'trait_by_time' plot not informative.")
+    }
+
     trait_by_time <- data |>
       pivot_wider(names_from = trait, values_from = value) |>
       select(-c(plot:genotype)) |>
@@ -158,7 +173,7 @@ plot.read_HTP <- function(x,
       ) +
       geom_tile(color = "gray") +
       labs(x = NULL, y = NULL) +
-      theme_minimal(base_size = 13) +
+      theme_minimal(base_size = base_size) +
       {
         if (signif) {
           geom_text(
@@ -213,7 +228,7 @@ plot.read_HTP <- function(x,
       ) +
       geom_tile(color = "gray") +
       labs(x = NULL, y = NULL) +
-      theme_minimal(base_size = 13) +
+      theme_minimal(base_size = base_size) +
       {
         if (signif) {
           geom_text(
@@ -248,6 +263,30 @@ plot.read_HTP <- function(x,
       rename(corr = name.x, p.value = value.y, n = value) |>
       select(-label, -txtCol)
   }
+
+  if (type == "evolution") {
+    dt_avg <- data |>
+      group_by(time, trait) |>
+      summarise(value = mean(value, na.rm = TRUE), .groups = "drop")
+    p1 <- data |>
+      ggplot(
+        aes(x = time, y = value)
+      ) +
+      geom_vline(
+        data = dt_avg,
+        mapping = aes(xintercept = time),
+        linetype = 2, color = "grey90"
+      ) +
+      geom_line(color = "grey", aes(group = plot)) +
+      geom_line(data = dt_avg, color = "red") +
+      geom_point(data = dt_avg, color = "red") +
+      facet_wrap(~trait, scales = "free_y") +
+      theme_classic(base_size = base_size) +
+      labs(x = "Time", y = NULL, nrow = n_row, ncol = n_col)
+  }
+
   print(p1)
-  invisible(table)
+  if (type %in% c("time_by_trait", "trait_by_time")) {
+    invisible(table)
+  }
 }
