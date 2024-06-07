@@ -62,19 +62,22 @@ head(results$summ_traits)
 ```
 
 
+<center>
 ```{r, echo = FALSE}
 results$summ_traits |>
   head() |>
   dplyr::mutate_if(is.numeric, round, 2) |>
   kableExtra::kable()
 ```
+</center>
 
+<center>
 ```{r, echo = FALSE}
 results$exp_design_resum |>
   dplyr::mutate_if(is.numeric, round, 2) |>
   kableExtra::kable()
 ```
-
+</center>
 
 ## 2. Plotting correlations (1)
 
@@ -87,11 +90,11 @@ table <- plot(results, label_size = 4, signif = TRUE, n_row = 1)
 head(table)
 ```
 
-
+<center>
 ```{r, echo = FALSE}
 table |> kableExtra::kable()
 ```
-
+</center>
 
 ## 3. Plotting correlations (2)
 
@@ -104,11 +107,11 @@ table <- plot(results, type = "time_by_trait", label_size = 4, signif = TRUE)
 head(table)
 ```
 
-
+<center>
 ```{r, echo = FALSE}
 head(table) |> kableExtra::kable()
 ```
-
+</center>
 
 ## 4. Estimating days to emergence and days to full canopy
 
@@ -116,8 +119,11 @@ head(table) |> kableExtra::kable()
 out <- canopy_HTP(results, plot_id = c(22, 169))
 plot(out)
 ```
+
+<center>
 ```{r, echo =FALSE}
 out$param |>
   dplyr::mutate_if(is.numeric, round, 2) |>
   kableExtra::kable()
 ```
+</center>
