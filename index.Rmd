@@ -42,7 +42,6 @@ This is a basic example which shows how to use exploreHTP:
 
 ```{r example}
 library(exploreHTP)
-
 data(dt_potato)
 dt_potato <- dt_potato
 
@@ -55,7 +54,6 @@ results <- read_HTP(
   row = "Row",
   range = "Range"
 )
-
 names(results)
 ```
 
@@ -69,13 +67,6 @@ results$summ_traits |>
   head() |>
   dplyr::mutate_if(is.numeric, round, 2) |>
   gt::gt() |>
-  gt::data_color(
-    columns = c(Median),
-    method = "numeric",
-    palette = "ggsci::red_material",
-    domain = c(0, 100),
-    reverse = FALSE
-  ) |>
   gt::cols_align(
     align = "center",
     columns = everything()
@@ -100,13 +91,6 @@ head(table)
 ```{r, echo = FALSE}
 table |>
   gt::gt() |>
-  gt::data_color(
-    columns = c(corr),
-    method = "numeric",
-    palette = "ggsci::red_material",
-    domain = c(-0.19, 0.7),
-    reverse = FALSE
-  ) |>
   gt::cols_align(
     align = "center",
     columns = everything()
@@ -129,13 +113,6 @@ head(table)
 ```{r, echo = FALSE}
 head(table) |>
   gt::gt() |>
-  gt::data_color(
-    columns = c(corr),
-    method = "numeric",
-    palette = "ggsci::red_material",
-    domain = c(-0.19, 0.9),
-    reverse = FALSE
-  ) |>
   gt::cols_align(
     align = "center",
     columns = everything()

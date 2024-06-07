@@ -76,6 +76,7 @@ correct_maximun <- function(results,
 #' )
 #' print(results)
 #' out <- canopy_HTP(results, plot_id = 22)
+#' out
 #' @import optimx
 #' @import tibble
 canopy_HTP <- function(results,

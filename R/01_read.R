@@ -35,7 +35,9 @@
 #'   row = "Row",
 #'   range = "Range"
 #' )
-#' print(results)
+#' names(results)
+#'
+#' head(results$summ_traits)
 #' @import dplyr
 #' @import tidyr
 #' @importFrom stats sd median
