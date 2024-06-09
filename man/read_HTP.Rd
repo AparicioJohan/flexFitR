@@ -54,4 +54,5 @@ results <- read_HTP(
 names(results)
 
 head(results$summ_traits)
+plot(results, label_size = 4, signif = TRUE, n_row = 2)
 }

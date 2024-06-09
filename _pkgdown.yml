@@ -25,10 +25,16 @@ navbar:
     href: https://github.com/AparicioJohan/exploreHTP
 reference:
 - title: Explore HTP
-  desc: Identify the design and fit the models automatically
+  desc: Read and fit models
 - contents:
   - read_HTP
   - canopy_HTP
+- title: Data
+  desc: Example Datasets
+- contents:
   - dt_potato
+- title: Plotting Results
+  desc: S3 methods
+- contents:
   - plot.read_HTP
   - plot.canopy_HTP

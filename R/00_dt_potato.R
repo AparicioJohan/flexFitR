@@ -1,4 +1,4 @@
-#' Drone Data Example in Potato
+#' Drone Data in Potato
 #'
 #' Vegetative indices and biomass related traits for a potato trial arranged in a p-rep design.
 #'

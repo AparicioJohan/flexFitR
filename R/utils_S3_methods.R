@@ -4,8 +4,9 @@
 #' @aliases plot.canopy_HTP
 #' @param x An object inheriting from class \code{canopy_HTP} resulting of
 #' executing the function \code{canopy_HTP()}
-#' @param plot_id To avoid to many plots in one figure. Filter by Plot Id.
+#' @param plot_id To avoid too many plots in one figure. Filter by Plot Id.
 #' @param label_size Label size. 3 by default.
+#' @param base_size Base font size, given in pts.
 #' @param ... Further graphical parameters. For future improvements.
 #' @author Johan Aparicio [aut]
 #' @method plot canopy_HTP
@@ -24,13 +25,15 @@
 #'   row = "Row",
 #'   range = "Range"
 #' )
-#' print(results)
 #' out <- canopy_HTP(results, plot_id = 22)
 #' plot(out)
 #' @import ggplot2
 #' @import dplyr
 #' @importFrom stats quantile
-plot.canopy_HTP <- function(x, plot_id = NULL, label_size = 4, ...) {
+plot.canopy_HTP <- function(x,
+                            plot_id = NULL,
+                            label_size = 4,
+                            base_size = 14, ...) {
   dt <- x$dt |>
     full_join(y = x$param, by = c("plot", "row", "range", "genotype"))
   if (is.null(plot_id)) {
@@ -66,7 +69,7 @@ plot.canopy_HTP <- function(x, plot_id = NULL, label_size = 4, ...) {
     ) +
     geom_vline(aes(xintercept = c(t1)), linetype = 2) +
     geom_vline(aes(xintercept = c(t2)), linetype = 2) +
-    theme_minimal(base_size = 14) +
+    theme_classic(base_size = base_size) +
     ylim(c(0, NA)) +
     facet_wrap(~plot) +
     geom_text(

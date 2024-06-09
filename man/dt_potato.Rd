@@ -3,7 +3,7 @@
 \docType{data}
 \name{dt_potato}
 \alias{dt_potato}
-\title{Drone Data Example in Potato}
+\title{Drone Data in Potato}
 \format{
 A tibble with 1372 rows and 17 variables:
 \describe{

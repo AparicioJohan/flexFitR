@@ -56,7 +56,7 @@ results <- read_HTP(
 )
 names(results)
 ```
-```{r, fig.height=3}
+```{r, fig.height=3, fig.dpi=600}
 plot(results, type = "evolution")
 ```
 
@@ -82,7 +82,7 @@ results$exp_design_resum |>
 
 ## 2. Plotting correlations (1)
 
-```{r, fig.width=10, fig.height=2}
+```{r, fig.width=10, fig.height=2, fig.dpi=600}
 # Trait by Time
 table <- plot(results, label_size = 4, signif = TRUE, n_row = 1)
 ```
@@ -99,7 +99,7 @@ table |> kableExtra::kable()
 
 ## 3. Plotting correlations (2)
 
-```{r, fig.width=10, fig.height=5}
+```{r, fig.width=10, fig.height=5, fig.dpi=600}
 # Time by Trait
 table <- plot(results, type = "time_by_trait", label_size = 4, signif = TRUE)
 ```
@@ -116,11 +116,17 @@ head(table) |> kableExtra::kable()
 
 ## 4. Estimating days to emergence and days to full canopy
 
-```{r, fig.width= 8, fig.height=4}
-out <- canopy_HTP(results, plot_id = c(22, 40))
+```{r, fig.width= 8, fig.height=4, fig.dpi=600}
+out <- canopy_HTP(
+  results = results,
+  canopy = "Canopy",
+  plot_id = c(22, 40),
+  correct_max = TRUE,
+  add_zero = TRUE
+)
+names(out)
 plot(out)
 ```
-
 
 ```{r, echo =FALSE}
 out$param |>
@@ -128,3 +134,9 @@ out$param |>
   kableExtra::kable()
 ```
 
+```{r, echo =FALSE}
+out$dt |>
+  dplyr::mutate_if(is.numeric, round, 2) |>
+  dplyr::filter(plot == 22) |> 
+  kableExtra::kable()
+```

@@ -4,15 +4,17 @@
 \alias{plot.canopy_HTP}
 \title{Plot an object of class \code{canopy_HTP}}
 \usage{
-\method{plot}{canopy_HTP}(x, plot_id = NULL, label_size = 4, ...)
+\method{plot}{canopy_HTP}(x, plot_id = NULL, label_size = 4, base_size = 14, ...)
 }
 \arguments{
 \item{x}{An object inheriting from class \code{canopy_HTP} resulting of
 executing the function \code{canopy_HTP()}}
 
-\item{plot_id}{To avoid to many plots in one figure. Filter by Plot Id.}
+\item{plot_id}{To avoid too many plots in one figure. Filter by Plot Id.}
 
 \item{label_size}{Label size. 3 by default.}
+
+\item{base_size}{Base font size, given in pts.}
 
 \item{...}{Further graphical parameters. For future improvements.}
 }
@@ -35,7 +37,6 @@ results <- read_HTP(
   row = "Row",
   range = "Range"
 )
-print(results)
 out <- canopy_HTP(results, plot_id = 22)
 plot(out)
 }
