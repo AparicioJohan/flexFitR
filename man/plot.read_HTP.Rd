@@ -14,6 +14,7 @@
   n_row = NULL,
   n_col = NULL,
   base_size = 13,
+  return_gg = FALSE,
   ...
 )
 }
@@ -40,6 +41,8 @@ the plot.}
 \item{n_col}{Number of columns to use in face_wrap(). NULL by default.}
 
 \item{base_size}{Base font size, given in pts.}
+
+\item{return_gg}{Whether or not to return the ggplot object. FALSE by default.}
 
 \item{...}{Further graphical parameters. For future improvements.}
 }

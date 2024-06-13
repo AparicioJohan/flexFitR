@@ -27,6 +27,7 @@ utils::globalVariables(
     "miss%",
     "name.x",
     "txtCol",
-    "value.y"
+    "value.y",
+    "dens"
   )
 )

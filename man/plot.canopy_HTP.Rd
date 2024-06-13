@@ -39,6 +39,7 @@ results <- read_HTP(
 )
 out <- canopy_HTP(results, plot_id = 22)
 plot(out)
+out$param
 }
 \author{
 Johan Aparicio [aut]

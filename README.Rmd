@@ -125,7 +125,7 @@ out <- canopy_HTP(
   add_zero = TRUE
 )
 names(out)
-plot(out)
+plot(out, c(22, 40))
 ```
 
 ```{r, echo =FALSE}

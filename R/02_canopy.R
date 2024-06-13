@@ -1,9 +1,12 @@
 #' @noRd
-fun_piece_wise <- function(t, a = 45, b = 80, k = 0.9) {
-  if (t < a) {
+fun_piece_wise <- function(t, t1 = 45, t2 = 80, k = 0.9) {
+  if (is.na(t)) {
+    stop("Missing values not allowed for t.")
+  }
+  if (t < t1) {
     y <- 0
-  } else if (t >= a && t <= b) {
-    y <- k / (b - a) * (t - a)
+  } else if (t >= t1 && t <= t2) {
+    y <- k / (t2 - t1) * (t - t1)
   } else {
     y <- k
   }
@@ -12,10 +15,10 @@ fun_piece_wise <- function(t, a = 45, b = 80, k = 0.9) {
 
 #' @noRd
 SSE <- function(params, t, y) {
-  a <- params[1]
-  b <- params[2]
+  t1 <- params[1]
+  t2 <- params[2]
   k <- max(y)
-  y_hat <- sapply(t, FUN = fun_piece_wise, a = a, b = b, k = k)
+  y_hat <- sapply(t, FUN = fun_piece_wise, t1 = t1, t2 = t2, k = k)
   sse <- sum((y - y_hat)^2)
   return(sse)
 }
@@ -74,7 +77,7 @@ correct_maximun <- function(results,
 #'   row = "Row",
 #'   range = "Range"
 #' )
-#' print(results)
+#' names(results)
 #' out <- canopy_HTP(
 #'   results = results,
 #'   canopy = "Canopy",
@@ -83,7 +86,8 @@ correct_maximun <- function(results,
 #'   add_zero = TRUE
 #' )
 #' names(out)
-#' plot(out)
+#' plot(out, c(22, 40))
+#' out$param
 #' @import optimx
 #' @import tibble
 canopy_HTP <- function(results,
@@ -131,7 +135,8 @@ canopy_HTP <- function(results,
           mutate(max = max(data$corrected)) |>
           rownames_to_column(var = "method") |>
           arrange(value) |>
-          select(t1:t2, max, method) |>
+          rename(SSE = value) |>
+          select(t1:t2, max, method, SSE) |>
           slice(1)
       ),
       .groups = "drop"

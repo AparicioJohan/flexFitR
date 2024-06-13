@@ -51,7 +51,7 @@ results <- read_HTP(
   row = "Row",
   range = "Range"
 )
-print(results)
+names(results)
 out <- canopy_HTP(
   results = results,
   canopy = "Canopy",
@@ -60,5 +60,6 @@ out <- canopy_HTP(
   add_zero = TRUE
 )
 names(out)
-plot(out)
+plot(out, c(22, 40))
+out$param
 }

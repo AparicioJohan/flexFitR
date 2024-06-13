@@ -27,6 +27,7 @@
 #' )
 #' out <- canopy_HTP(results, plot_id = 22)
 #' plot(out)
+#' out$param
 #' @import ggplot2
 #' @import dplyr
 #' @importFrom stats quantile
@@ -34,39 +35,35 @@ plot.canopy_HTP <- function(x,
                             plot_id = NULL,
                             label_size = 4,
                             base_size = 14, ...) {
-  dt <- x$dt |>
-    full_join(y = x$param, by = c("plot", "row", "range", "genotype"))
+  data <- x$dt
+  param <- x$param
+  dt <- full_join(data, y = param, by = c("plot", "row", "range", "genotype"))
   if (is.null(plot_id)) {
     plot_id <- dt$plot[1]
-  } else {
-    dt <- dt |>
-      filter(plot %in% plot_id) |>
-      droplevels()
   }
+  dt <- dt |>
+    filter(plot %in% plot_id) |>
+    droplevels()
+  param <- param |>
+    filter(plot %in% plot_id) |>
+    droplevels()
+
+  max_x <- max(dt$time, na.rm = TRUE)
+  min_x <- min(dt$time, na.rm = TRUE)
+  sq <- seq(min_x, max_x, by = 0.05)
+  func_dt <- full_join(
+    x = expand.grid(time = sq, plot = unique(dt$plot)),
+    y = param,
+    by = "plot"
+  ) |>
+    group_by(time, plot) |>
+    mutate(dens = fun_piece_wise(t = time, t1, t2, max)) |>
+    ungroup()
+
   p0 <- dt |>
-    ggplot(
-      aes(x = time)
-    ) +
-    geom_point(aes(y = corrected)) +
-    geom_segment(
-      aes(
-        x = t1,
-        xend = t2,
-        y = intercept + slope * t1,
-        yend = intercept + slope * t2,
-      ),
-      color = "red"
-    ) +
-    geom_segment(aes(x = 0, xend = t1, y = 0, yend = 0), color = "red") +
-    geom_segment(
-      aes(
-        x = t2,
-        xend = max(time),
-        y = max,
-        yend = max
-      ),
-      color = "red"
-    ) +
+    ggplot() +
+    geom_point(aes(x = time, y = corrected)) +
+    geom_line(data = func_dt, aes(x = time, y = dens), color = "red") +
     geom_vline(aes(xintercept = c(t1)), linetype = 2) +
     geom_vline(aes(xintercept = c(t2)), linetype = 2) +
     theme_classic(base_size = base_size) +
@@ -104,6 +101,7 @@ plot.canopy_HTP <- function(x,
 #' @param n_row Number of rows to use in face_wrap(). NULL by default.
 #' @param n_col Number of columns to use in face_wrap(). NULL by default.
 #' @param base_size Base font size, given in pts.
+#' @param return_gg Whether or not to return the ggplot object. FALSE by default.
 #' @param ... Further graphical parameters. For future improvements.
 #' @author Johan Aparicio [aut]
 #' @method plot read_HTP
@@ -135,7 +133,8 @@ plot.read_HTP <- function(x,
                           filter_trait = NULL,
                           n_row = NULL,
                           n_col = NULL,
-                          base_size = 13, ...) {
+                          base_size = 13,
+                          return_gg = FALSE, ...) {
   colours <- c("#db4437", "white", "#4285f4")
   flt <- x$summ_traits |>
     filter(`miss%` <= 0.2 & SD > 0) |>
@@ -286,6 +285,10 @@ plot.read_HTP <- function(x,
       facet_wrap(~trait, scales = "free_y") +
       theme_classic(base_size = base_size) +
       labs(x = "Time", y = NULL, nrow = n_row, ncol = n_col)
+  }
+
+  if (return_gg) {
+    return(p1)
   }
 
   print(p1)
