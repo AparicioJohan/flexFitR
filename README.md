@@ -130,7 +130,8 @@ out <- canopy_HTP(
   canopy = "Canopy",
   plot_id = c(22, 40),
   correct_max = TRUE,
-  add_zero = TRUE
+  add_zero = TRUE,
+  fn = sse
 )
 names(out)
 #> [1] "param" "dt"
@@ -142,10 +143,10 @@ plot(out, c(22, 40))
 
 <img src="man/figures/README-unnamed-chunk-12-1.png" width="100%" />
 
-| plot | genotype  | row | range |    t1 |    t2 |    max |  SSE | deltaT | slope | intercept |
-|-----:|:----------|----:|------:|------:|------:|-------:|-----:|-------:|------:|----------:|
-|   22 | W17047-5  |   8 |     2 | 39.49 | 75.62 |  98.88 | 0.37 |  36.13 |  2.74 |   -108.09 |
-|   40 | W17043-37 |  12 |     3 | 34.88 | 61.78 | 100.00 | 0.16 |  26.90 |  3.72 |   -129.66 |
+| plot | genotype  | row | range |    t1 |    t2 |    max |  sse |
+|-----:|:----------|----:|------:|------:|------:|-------:|-----:|
+|   22 | W17047-5  |   8 |     2 | 39.49 | 75.62 |  98.88 | 0.37 |
+|   40 | W17043-37 |  12 |     3 | 34.88 | 61.78 | 100.00 | 0.16 |
 
 | time | plot | row | range | genotype | trait  | value | local_max_at | local_max | corrected |
 |-----:|-----:|----:|------:|:---------|:-------|------:|:-------------|----------:|----------:|

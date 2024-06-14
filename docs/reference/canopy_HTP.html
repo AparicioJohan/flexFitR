@@ -73,8 +73,10 @@
 <span>  plot_id <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  correct_max <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  add_zero <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"subplex"</span>, <span class="st">"pracmanm"</span>, <span class="st">"anms"</span><span class="op">)</span>,</span>
 <span>  return_method <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"subplex"</span>, <span class="st">"pracmanm"</span>, <span class="st">"anms"</span><span class="op">)</span></span>
+<span>  parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">45</span>, t2 <span class="op">=</span> <span class="fl">80</span><span class="op">)</span>,</span>
+<span>  fn <span class="op">=</span> <span class="va">sse</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -101,14 +103,25 @@ by default.</p></dd>
 <dd><p>TRUE or FALSE. Add zero to the time series.TRUE by default.</p></dd>
 
 
+<dt>method</dt>
+<dd><p>A vector of the methods to be used, each as a character string.
+See optimx package. c("subplex", "pracmanm", "anms") by default.</p></dd>
+
+
 <dt>return_method</dt>
 <dd><p>TRUE or FALSE. To return the method selected for the
 optimization in the table. FALSE by default.</p></dd>
 
 
-<dt>method</dt>
-<dd><p>A vector of the methods to be used, each as a character string.
-See optimx package. c("subplex", "pracmanm", "anms") by default.</p></dd>
+<dt>parameters</dt>
+<dd><p>(Optional)    Initial values for the parameters to be
+optimized over. c(45, 80) by default.</p></dd>
+
+
+<dt>fn</dt>
+<dd><p>A function to be minimized (or maximized), with first argument the
+vector of parameters over which minimization is to take place.
+It should return a scalar result.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -121,6 +134,15 @@ See optimx package. c("subplex", "pracmanm", "anms") by default.</p></dd>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">exploreHTP</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: 'dplyr'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from 'package:stats':</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     filter, lag</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from 'package:base':</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     intersect, setdiff, setequal, union</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">dt_potato</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">dt_potato</span> <span class="op">&lt;-</span> <span class="va">dt_potato</span></span></span>
 <span class="r-in"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_HTP.html">read_HTP</a></span><span class="op">(</span></span></span>
@@ -145,12 +167,13 @@ See optimx package. c("subplex", "pracmanm", "anms") by default.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "param" "dt"   </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">out</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">22</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="canopy_HTP-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span><span class="va">out</span><span class="op">$</span><span class="va">param</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 11</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    plot genotype    row range    t1    t2   max   SSE deltaT slope intercept</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    22 W17047-5      8     2  39.5  75.6  98.9 0.371   36.1  2.74     -<span style="color: #BB0000;">108.</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>    40 W17043-37    12     3  34.9  61.8 100   0.162   26.9  3.72     -<span style="color: #BB0000;">130.</span></span>
+<span class="r-in"><span><span class="va">out</span><span class="op">$</span><span class="va">param</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>deltaT <span class="op">=</span> <span class="va">t2</span> <span class="op">-</span> <span class="va">t1</span>, slope <span class="op">=</span> <span class="va">max</span> <span class="op">/</span> <span class="va">deltaT</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 10</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    plot genotype    row range    t1    t2   max   sse deltaT slope</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    22 W17047-5      8     2  39.5  75.6  98.9 0.371   36.1  2.74</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>    40 W17043-37    12     3  34.9  61.8 100   0.162   26.9  3.72</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

@@ -57,7 +57,7 @@ plot.canopy_HTP <- function(x,
     by = "plot"
   ) |>
     group_by(time, plot) |>
-    mutate(dens = fun_piece_wise(t = time, t1, t2, max)) |>
+    mutate(dens = fn_canopy(t = time, t1, t2, max)) |>
     ungroup()
 
   p0 <- dt |>

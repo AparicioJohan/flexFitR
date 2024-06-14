@@ -10,8 +10,10 @@ canopy_HTP(
   plot_id = NULL,
   correct_max = TRUE,
   add_zero = TRUE,
+  method = c("subplex", "pracmanm", "anms"),
   return_method = FALSE,
-  method = c("subplex", "pracmanm", "anms")
+  parameters = c(t1 = 45, t2 = 80),
+  fn = sse
 )
 }
 \arguments{
@@ -26,11 +28,18 @@ by default.}
 
 \item{add_zero}{TRUE or FALSE. Add zero to the time series.TRUE by default.}
 
+\item{method}{A vector of the methods to be used, each as a character string.
+See optimx package. c("subplex", "pracmanm", "anms") by default.}
+
 \item{return_method}{TRUE or FALSE. To return the method selected for the
 optimization in the table. FALSE by default.}
 
-\item{method}{A vector of the methods to be used, each as a character string.
-See optimx package. c("subplex", "pracmanm", "anms") by default.}
+\item{parameters}{(Optional)    Initial values for the parameters to be
+optimized over. c(45, 80) by default.}
+
+\item{fn}{A function to be minimized (or maximized), with first argument the
+vector of parameters over which minimization is to take place.
+It should return a scalar result.}
 }
 \value{
 data.frame
@@ -40,6 +49,7 @@ Canopy Modelling
 }
 \examples{
 library(exploreHTP)
+library(dplyr)
 data(dt_potato)
 dt_potato <- dt_potato
 results <- read_HTP(
@@ -61,5 +71,6 @@ out <- canopy_HTP(
 )
 names(out)
 plot(out, c(22, 40))
-out$param
+out$param |>
+  mutate(deltaT = t2 - t1, slope = max / deltaT)
 }

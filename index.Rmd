@@ -131,7 +131,8 @@ out <- canopy_HTP(
   canopy = "Canopy",
   plot_id = c(22, 40),
   correct_max = TRUE,
-  add_zero = TRUE
+  add_zero = TRUE,
+  fn = sse
 )
 names(out)
 plot(out, c(22, 40))

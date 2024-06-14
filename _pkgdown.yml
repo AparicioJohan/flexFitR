@@ -38,3 +38,8 @@ reference:
 - contents:
   - plot.read_HTP
   - plot.canopy_HTP
+- title: Growth functions
+  desc: Functions to pass to optimx
+- contents:
+  - fn_canopy
+  - sse
