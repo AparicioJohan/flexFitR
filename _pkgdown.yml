@@ -42,4 +42,4 @@ reference:
   desc: Functions to pass to optimx
 - contents:
   - fn_canopy
-  - sse
+  - fn_sse

@@ -13,7 +13,7 @@ canopy_HTP(
   method = c("subplex", "pracmanm", "anms"),
   return_method = FALSE,
   parameters = c(t1 = 45, t2 = 80),
-  fn = sse
+  fn = fn_sse
 )
 }
 \arguments{

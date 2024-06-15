@@ -7,6 +7,7 @@
 #' @param plot_id To avoid too many plots in one figure. Filter by Plot Id.
 #' @param label_size Label size. 3 by default.
 #' @param base_size Base font size, given in pts.
+#' @param fn Object of class call. e.g. \code{quote(fn_canopy(time, t1, t2, max))}
 #' @param ... Further graphical parameters. For future improvements.
 #' @author Johan Aparicio [aut]
 #' @method plot canopy_HTP
@@ -34,7 +35,8 @@
 plot.canopy_HTP <- function(x,
                             plot_id = NULL,
                             label_size = 4,
-                            base_size = 14, ...) {
+                            base_size = 14,
+                            fn = quote(fn_canopy(time, t1, t2, max)), ...) {
   data <- x$dt
   param <- x$param
   dt <- full_join(data, y = param, by = c("plot", "row", "range", "genotype"))
@@ -51,13 +53,14 @@ plot.canopy_HTP <- function(x,
   max_x <- max(dt$time, na.rm = TRUE)
   min_x <- min(dt$time, na.rm = TRUE)
   sq <- seq(min_x, max_x, by = 0.05)
+
   func_dt <- full_join(
     x = expand.grid(time = sq, plot = unique(dt$plot)),
     y = param,
     by = "plot"
   ) |>
     group_by(time, plot) |>
-    mutate(dens = fn_canopy(t = time, t1, t2, max)) |>
+    mutate(dens = !!fn) |>
     ungroup()
 
   p0 <- dt |>

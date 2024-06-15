@@ -68,7 +68,14 @@
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for canopy_HTP</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">x</span>, plot_id <span class="op">=</span> <span class="cn">NULL</span>, label_size <span class="op">=</span> <span class="fl">4</span>, base_size <span class="op">=</span> <span class="fl">14</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  plot_id <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  label_size <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>  base_size <span class="op">=</span> <span class="fl">14</span>,</span>
+<span>  fn <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="fu"><a href="fn_canopy.html">fn_canopy</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">t1</span>, <span class="va">t2</span>, <span class="va">max</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -88,6 +95,10 @@ executing the function <code><a href="canopy_HTP.html">canopy_HTP()</a></code></
 
 <dt>base_size</dt>
 <dd><p>Base font size, given in pts.</p></dd>
+
+
+<dt>fn</dt>
+<dd><p>Object of class call. e.g. <code>quote(fn_canopy(time, t1, t2, max))</code></p></dd>
 
 
 <dt>...</dt>

@@ -43,11 +43,11 @@ fn_canopy <- function(t, t1 = 45, t2 = 80, k = 0.9) {
 #' library(exploreHTP)
 #' x <- c(0, 29, 36, 42, 56, 76, 92, 100, 108)
 #' y <- c(0, 0, 4.379, 26.138, 78.593, 100, 100, 100, 100)
-#' sse(params = c(34.9, 61.8), t = x, y = y)
+#' fn_sse(params = c(34.9, 61.8), t = x, y = y)
 #'
 #' y_hat <- sapply(x, FUN = fn_canopy, t1 = 34.9, t2 = 61.8, k = 100)
 #' sum((y - y_hat)^2)
-sse <- function(params, t, y) {
+fn_sse <- function(params, t, y) {
   t1 <- params[1]
   t2 <- params[2]
   k <- max(y)
@@ -58,17 +58,17 @@ sse <- function(params, t, y) {
 
 #' @noRd
 correct_maximun <- function(results,
-                            trait_to_corr = "Canopy",
+                            var = "Canopy",
                             add_zero = TRUE) {
   dt_can <- results$dt_long |>
-    filter(trait %in% trait_to_corr) |>
+    filter(trait %in% var) |>
     group_by(plot, genotype, row, range) |>
     mutate(
-      local_max_at = paste(local_min_max(value, time)$days_max, collapse = "_"),
-      local_max = as.numeric(local_min_max(value, time)$days_max[1])
+      loc_max_at = paste(local_min_max(value, time)$days_max, collapse = "_"),
+      loc_max = as.numeric(local_min_max(value, time)$days_max[1])
     ) |>
     mutate(
-      corrected = ifelse(time <= local_max, value, value[time == local_max])
+      corrected = ifelse(time <= loc_max, value, value[time == loc_max])
     ) |>
     ungroup()
   if (add_zero) {
@@ -138,13 +138,9 @@ canopy_HTP <- function(results,
                        method = c("subplex", "pracmanm", "anms"),
                        return_method = FALSE,
                        parameters = c(t1 = 45, t2 = 80),
-                       fn = sse) {
+                       fn = fn_sse) {
   if (correct_max) {
-    dt <- correct_maximun(
-      results = results,
-      trait_to_corr = canopy,
-      add_zero = add_zero
-    )
+    dt <- correct_maximun(results, var = canopy, add_zero = add_zero)
   } else {
     dt <- results$dt_long |>
       filter(trait %in% canopy) |>

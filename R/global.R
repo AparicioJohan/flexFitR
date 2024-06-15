@@ -11,7 +11,7 @@ utils::globalVariables(
     "data",
     "deltaT",
     "genotype",
-    "local_max",
+    "loc_max",
     "opm",
     "res",
     "rownames_to_column",
@@ -28,6 +28,7 @@ utils::globalVariables(
     "name.x",
     "txtCol",
     "value.y",
-    "dens"
+    "dens",
+    "sse"
   )
 )

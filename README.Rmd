@@ -123,7 +123,7 @@ out <- canopy_HTP(
   plot_id = c(22, 40),
   correct_max = TRUE,
   add_zero = TRUE,
-  fn = sse
+  fn = fn_sse
 )
 names(out)
 plot(out, c(22, 40))
