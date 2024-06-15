@@ -49,7 +49,6 @@ Canopy Modelling
 }
 \examples{
 library(exploreHTP)
-library(dplyr)
 data(dt_potato)
 dt_potato <- dt_potato
 results <- read_HTP(
@@ -71,6 +70,7 @@ out <- canopy_HTP(
 )
 names(out)
 plot(out, c(22, 40))
-out$param |>
-  mutate(deltaT = t2 - t1, slope = max / deltaT)
+out$param$deltaT <- out$param$t2 - out$param$t1
+out$param$slope <- out$param$max / out$param$deltaT
+out$param
 }
