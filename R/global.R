@@ -29,6 +29,7 @@ utils::globalVariables(
     "txtCol",
     "value.y",
     "dens",
-    "sse"
+    "sse",
+    "DMC"
   )
 )

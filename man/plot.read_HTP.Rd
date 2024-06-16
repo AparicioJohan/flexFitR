@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_S3_methods.R
 \name{plot.read_HTP}
 \alias{plot.read_HTP}
-\title{Plot an object of class \code{read_HTP}}
+\title{Plot an Object of Class \code{read_HTP}}
 \usage{
 \method{plot}{read_HTP}(
   x,
@@ -19,38 +19,38 @@
 )
 }
 \arguments{
-\item{x}{An object inheriting from class \code{read_HTP} resulting of
-executing the function \code{read_HTP()}}
+\item{x}{An object inheriting from class \code{read_HTP}, resulting from executing the function \code{read_HTP()}.}
 
-\item{type}{Character string. Available options are:
-"trait_by_time", "time_by_trait", "evolution". "trait_by_time" by default.}
+\item{type}{Character string specifying the type of plot to generate. Available options are:
+\describe{
+  \item{\code{"trait_by_time"}}{Plots correlations between traits over time (default).}
+  \item{\code{"time_by_trait"}}{Plots correlations between time points for each trait.}
+  \item{\code{"evolution"}}{Plots the evolution of traits over time.}
+}}
 
-\item{label_size}{Label size. 4 by default.}
+\item{label_size}{Numeric. Size of the labels in the plot. Default is 4.}
 
-\item{signif}{TRUE or FALSE. Add the pvalue to the correlations plot.}
+\item{signif}{Logical. If \code{TRUE}, adds p-values to the correlation plot labels. Default is \code{FALSE}.}
 
-\item{method}{method="pearson" is the default value. The alternatives to be
-passed to cor are "spearman" and "kendall". These last two are much slower,
-particularly for big data sets.}
+\item{method}{Character string specifying the method for correlation calculation. Available options are \code{"pearson"} (default), \code{"spearman"}, and \code{"kendall"}.}
 
-\item{filter_trait}{A character vector specifying the traits to remove from
-the plot.}
+\item{filter_trait}{Character vector specifying the traits to exclude from the plot.}
 
-\item{n_row}{Number of rows to use in face_wrap(). NULL by default.}
+\item{n_row}{Integer specifying the number of rows to use in \code{facet_wrap()}. Default is \code{NULL}.}
 
-\item{n_col}{Number of columns to use in face_wrap(). NULL by default.}
+\item{n_col}{Integer specifying the number of columns to use in \code{facet_wrap()}. Default is \code{NULL}.}
 
-\item{base_size}{Base font size, given in pts.}
+\item{base_size}{Numeric. Base font size for the plot. Default is 13.}
 
-\item{return_gg}{Whether or not to return the ggplot object. FALSE by default.}
+\item{return_gg}{Logical. If \code{TRUE}, returns the ggplot object instead of printing it. Default is \code{FALSE}.}
 
-\item{...}{Further graphical parameters. For future improvements.}
+\item{...}{Further graphical parameters for future improvements.}
 }
 \value{
-A ggplot object and an invisible data.frame
+A ggplot object and an invisible data.frame containing the correlation table when \code{type} is \code{"trait_by_time"} or \code{"time_by_trait"}.
 }
 \description{
-Create several plots for an object of class \code{read_HTP}
+Creates various plots for an object of class \code{read_HTP}. Depending on the specified type, the function can generate plots that show correlations between traits over time, correlations between time points for each trait, or the evolution of traits over time.
 }
 \examples{
 library(exploreHTP)
@@ -68,7 +68,4 @@ results <- read_HTP(
 table <- plot(results, label_size = 4, signif = TRUE, n_row = 2)
 table
 plot(results, type = "time_by_trait", label_size = 4, signif = TRUE)
-}
-\author{
-Johan Aparicio [aut]
 }

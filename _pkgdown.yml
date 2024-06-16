@@ -29,6 +29,7 @@ reference:
 - contents:
   - read_HTP
   - canopy_HTP
+  - height_HTP
 - title: Data
   desc: Example Datasets
 - contents:
@@ -38,8 +39,13 @@ reference:
 - contents:
   - plot.read_HTP
   - plot.canopy_HTP
+  - plot.height_HTP
 - title: Growth functions
   desc: Functions to pass to optimx
 - contents:
   - fn_canopy
-  - fn_sse
+  - fn_sse_can
+  - fn_exp_linear
+  - fn_sse_lin
+  - fn_exp_exp
+  - fn_sse_exp

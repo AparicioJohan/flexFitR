@@ -1,10 +1,14 @@
 #' Piece-wise Regression
 #'
-#' @param t Numeric value.
-#' @param t1 First break point.
-#' @param t2 t value to reach the maximum value.
-#' @param k Maximum y value.
-#' @return Numeric value.
+#' @param t Numeric. The time value.
+#' @param t1 Numeric. The lower threshold time. Default is 45.
+#' @param t2 Numeric. The upper threshold time. Default is 80.
+#' @param k Numeric. The maximum value of the function. Default is 0.9.
+#' @return A numeric value based on the threshold model.
+#' If \code{t} is less than \code{t1}, the function returns 0.
+#' If \code{t} is between \code{t1} and \code{t2} (inclusive),
+#' the function returns a value between 0 and \code{k} in a linear trend.
+#' If \code{t} is greater than \code{t2}, the function returns \code{k}.
 #' @export
 #'
 #' @examples
@@ -30,24 +34,27 @@ fn_canopy <- function(t, t1 = 45, t2 = 80, k = 0.9) {
 
 #' Sum of Squares Error Function
 #'
-#' Function to be minimized in the optimx package.
+#' Calculates the sum of squared errors (SSE) between observed values and values
+#' predicted by the \code{fn_canopy} function. This is the objective function to
+#' be minimized in the optimx package.
 #'
-#' @param params Numeric vector with two parameters.
-#' @param t Independent variable.
-#' @param y Response variable.
+#' @param params Numeric vector. The parameters for the \code{fn_canopy} function,
+#' where \code{params[1]} is \code{t1} and \code{params[2]} is \code{t2}.
+#' @param t Numeric vector. The time values.
+#' @param y Numeric vector. The observed values.
 #'
-#' @return sum of squares error
+#' @return A numeric value representing the sum of squared errors.
 #' @export
 #'
 #' @examples
 #' library(exploreHTP)
 #' x <- c(0, 29, 36, 42, 56, 76, 92, 100, 108)
 #' y <- c(0, 0, 4.379, 26.138, 78.593, 100, 100, 100, 100)
-#' fn_sse(params = c(34.9, 61.8), t = x, y = y)
+#' fn_sse_can(params = c(34.9, 61.8), t = x, y = y)
 #'
 #' y_hat <- sapply(x, FUN = fn_canopy, t1 = 34.9, t2 = 61.8, k = 100)
 #' sum((y - y_hat)^2)
-fn_sse <- function(params, t, y) {
+fn_sse_can <- function(params, t, y) {
   t1 <- params[1]
   t2 <- params[2]
   k <- max(y)
@@ -83,23 +90,24 @@ correct_maximun <- function(results,
 
 #' Canopy Modelling
 #'
-#' @param results Object of class exploreHTP
-#' @param canopy  string
-#' @param plot_id Optional Plot ID. NULL by default
-#' @param correct_max Add maximum value after reaching the local maximum. TRUE
-#' by default.
-#' @param add_zero TRUE or FALSE. Add zero to the time series.TRUE by default.
-#' @param method A vector of the methods to be used, each as a character string.
-#' See optimx package. c("subplex", "pracmanm", "anms") by default.
-#' @param return_method TRUE or FALSE. To return the method selected for the
-#' optimization in the table. FALSE by default.
-#' @param parameters (Optional)	Initial values for the parameters to be
-#' optimized over. c(45, 80) by default.
-#' @param fn A function to be minimized (or maximized), with first argument the
-#' vector of parameters over which minimization is to take place.
-#' It should return a scalar result.
-
-#' @return data.frame
+#' @description
+#' This function performs canopy modelling based on time series data from high-throughput phenotyping (HTP). It optimizes parameters to fit a specified function to the canopy data over time, potentially correcting maximum values and adding a zero point to the series.
+#'
+#' @param results An object of class \code{exploreHTP}, containing the results of the \code{read_HTP()} function.
+#' @param canopy A string specifying the canopy trait to be modeled. Default is \code{"Canopy"}.
+#' @param plot_id An optional vector of plot IDs to filter the data. Default is \code{NULL}, meaning all plots are used.
+#' @param correct_max Logical. If \code{TRUE}, adds the maximum value after reaching the local maximum. Default is \code{TRUE}.
+#' @param add_zero Logical. If \code{TRUE}, adds a zero value to the time series. Default is \code{TRUE}.
+#' @param method A character vector of optimization methods to be used, as specified in the \code{optimx} package. Default is \code{c("subplex", "pracmanm", "anms")}.
+#' @param return_method Logical. If \code{TRUE}, includes the selected optimization method in the output table. Default is \code{FALSE}.
+#' @param parameters A named vector specifying the initial values for the parameters to be optimized. Default is \code{c(t1 = 45, t2 = 80)}.
+#' @param fn A function to be minimized (or maximized), with the first argument being the vector of parameters over which minimization is to take place. It should return a scalar result. Default is \link{fn_sse_can}.
+#'
+#' @return A list with two elements:
+#' \describe{
+#'   \item{\code{param}}{A data frame containing the optimized parameters and related information.}
+#'   \item{\code{dt}}{A data frame with the corrected and possibly zero-augmented canopy data.}
+#' }
 #' @export
 #'
 #' @examples
@@ -138,7 +146,7 @@ canopy_HTP <- function(results,
                        method = c("subplex", "pracmanm", "anms"),
                        return_method = FALSE,
                        parameters = c(t1 = 45, t2 = 80),
-                       fn = fn_sse) {
+                       fn = fn_sse_can) {
   if (correct_max) {
     dt <- correct_maximun(results, var = canopy, add_zero = add_zero)
   } else {

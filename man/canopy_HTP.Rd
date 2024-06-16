@@ -13,39 +13,37 @@ canopy_HTP(
   method = c("subplex", "pracmanm", "anms"),
   return_method = FALSE,
   parameters = c(t1 = 45, t2 = 80),
-  fn = fn_sse
+  fn = fn_sse_can
 )
 }
 \arguments{
-\item{results}{Object of class exploreHTP}
+\item{results}{An object of class \code{exploreHTP}, containing the results of the \code{read_HTP()} function.}
 
-\item{canopy}{string}
+\item{canopy}{A string specifying the canopy trait to be modeled. Default is \code{"Canopy"}.}
 
-\item{plot_id}{Optional Plot ID. NULL by default}
+\item{plot_id}{An optional vector of plot IDs to filter the data. Default is \code{NULL}, meaning all plots are used.}
 
-\item{correct_max}{Add maximum value after reaching the local maximum. TRUE
-by default.}
+\item{correct_max}{Logical. If \code{TRUE}, adds the maximum value after reaching the local maximum. Default is \code{TRUE}.}
 
-\item{add_zero}{TRUE or FALSE. Add zero to the time series.TRUE by default.}
+\item{add_zero}{Logical. If \code{TRUE}, adds a zero value to the time series. Default is \code{TRUE}.}
 
-\item{method}{A vector of the methods to be used, each as a character string.
-See optimx package. c("subplex", "pracmanm", "anms") by default.}
+\item{method}{A character vector of optimization methods to be used, as specified in the \code{optimx} package. Default is \code{c("subplex", "pracmanm", "anms")}.}
 
-\item{return_method}{TRUE or FALSE. To return the method selected for the
-optimization in the table. FALSE by default.}
+\item{return_method}{Logical. If \code{TRUE}, includes the selected optimization method in the output table. Default is \code{FALSE}.}
 
-\item{parameters}{(Optional)    Initial values for the parameters to be
-optimized over. c(45, 80) by default.}
+\item{parameters}{A named vector specifying the initial values for the parameters to be optimized. Default is \code{c(t1 = 45, t2 = 80)}.}
 
-\item{fn}{A function to be minimized (or maximized), with first argument the
-vector of parameters over which minimization is to take place.
-It should return a scalar result.}
+\item{fn}{A function to be minimized (or maximized), with the first argument being the vector of parameters over which minimization is to take place. It should return a scalar result. Default is \link{fn_sse_can}.}
 }
 \value{
-data.frame
+A list with two elements:
+\describe{
+  \item{\code{param}}{A data frame containing the optimized parameters and related information.}
+  \item{\code{dt}}{A data frame with the corrected and possibly zero-augmented canopy data.}
+}
 }
 \description{
-Canopy Modelling
+This function performs canopy modelling based on time series data from high-throughput phenotyping (HTP). It optimizes parameters to fit a specified function to the canopy data over time, potentially correcting maximum values and adding a zero point to the series.
 }
 \examples{
 library(exploreHTP)

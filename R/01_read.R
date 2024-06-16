@@ -1,25 +1,25 @@
-#' Read HTP data
+#' Read HTP Data
 #'
-#' @param data A data.frame in a wide format.
-#' @param genotype A character string indicating the column in data that
-#' contains genotypes.
-#' @param time A character string indicating the column in data that contains the
-#' time points.
-#' @param plot A character string indicating the column in data that contains the
-#' plot IDs.
-#' @param traits A character vector specifying the traits for which the models
-#' should be fitted.
-#' @param row A character string indicating the column in data that contains the
-#' row coordinates.
-#' @param range A character string indicating the column in data that contains the
-#' range coordinates.
+#' Reads and processes high-throughput phenotyping (HTP) data from a data frame in wide format.
 #'
-#' @return An object of class \code{read_HTP}, with a list of:
-#' \item{summ_traits}{A data.frame containing a summary of the traits.}
-#' \item{exp_design_resum}{A data.frame containing a summary of the experimental
-#'  design.}
-#' \item{locals_min_max}{A data.frame containing local maximums and minimuns}
-#' \item{dt_long}{A data.frame in long format.}
+#' This function processes and prepares HTP data to be analyzed.
+#'
+#' @param data A data.frame in a wide format containing HTP data.
+#' @param genotype A character string indicating the column in `data` that contains genotype information.
+#' @param time A character string indicating the column in `data` that contains time points.
+#' @param plot A character string indicating the column in `data` that contains plot IDs.
+#' @param traits A character vector specifying the columns in `data` that contain the traits to be analyzed.
+#' @param row A character string indicating the column in `data` that contains row coordinates.
+#' @param range A character string indicating the column in `data` that contains range coordinates.
+#'
+#' @return An object of class \code{read_HTP}, which is a list containing the following elements:
+#' \describe{
+#'   \item{\code{summ_traits}}{A data.frame containing summary statistics for each trait at each time point, including minimum, mean, median, maximum, standard deviation, coefficient of variation, number of non-missing values, percentage of missing values, and percentage of negative values.}
+#'   \item{\code{exp_design_resum}}{A data.frame summarizing the experimental design, including the number of unique genotypes, rows, ranges, and the replication structure.}
+#'   \item{\code{locals_min_max}}{A data.frame containing the local minima and maxima of the mean trait values over time.}
+#'   \item{\code{dt_long}}{A data.frame in long format, with columns for time, plot, row, range, genotype, trait, and value.}
+#' }
+#'
 #' @export
 #'
 #' @examples

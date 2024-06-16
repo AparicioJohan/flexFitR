@@ -7,16 +7,20 @@
 fn_canopy(t, t1 = 45, t2 = 80, k = 0.9)
 }
 \arguments{
-\item{t}{Numeric value.}
+\item{t}{Numeric. The time value.}
 
-\item{t1}{First break point.}
+\item{t1}{Numeric. The lower threshold time. Default is 45.}
 
-\item{t2}{t value to reach the maximum value.}
+\item{t2}{Numeric. The upper threshold time. Default is 80.}
 
-\item{k}{Maximum y value.}
+\item{k}{Numeric. The maximum value of the function. Default is 0.9.}
 }
 \value{
-Numeric value.
+A numeric value based on the threshold model.
+If \code{t} is less than \code{t1}, the function returns 0.
+If \code{t} is between \code{t1} and \code{t2} (inclusive),
+the function returns a value between 0 and \code{k} in a linear trend.
+If \code{t} is greater than \code{t2}, the function returns \code{k}.
 }
 \description{
 Piece-wise Regression

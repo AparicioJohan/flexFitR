@@ -2,41 +2,39 @@
 % Please edit documentation in R/01_read.R
 \name{read_HTP}
 \alias{read_HTP}
-\title{Read HTP data}
+\title{Read HTP Data}
 \usage{
 read_HTP(data, genotype, time, plot, traits, row, range)
 }
 \arguments{
-\item{data}{A data.frame in a wide format.}
+\item{data}{A data.frame in a wide format containing HTP data.}
 
-\item{genotype}{A character string indicating the column in data that
-contains genotypes.}
+\item{genotype}{A character string indicating the column in `data` that contains genotype information.}
 
-\item{time}{A character string indicating the column in data that contains the
-time points.}
+\item{time}{A character string indicating the column in `data` that contains time points.}
 
-\item{plot}{A character string indicating the column in data that contains the
-plot IDs.}
+\item{plot}{A character string indicating the column in `data` that contains plot IDs.}
 
-\item{traits}{A character vector specifying the traits for which the models
-should be fitted.}
+\item{traits}{A character vector specifying the columns in `data` that contain the traits to be analyzed.}
 
-\item{row}{A character string indicating the column in data that contains the
-row coordinates.}
+\item{row}{A character string indicating the column in `data` that contains row coordinates.}
 
-\item{range}{A character string indicating the column in data that contains the
-range coordinates.}
+\item{range}{A character string indicating the column in `data` that contains range coordinates.}
 }
 \value{
-An object of class \code{read_HTP}, with a list of:
-\item{summ_traits}{A data.frame containing a summary of the traits.}
-\item{exp_design_resum}{A data.frame containing a summary of the experimental
- design.}
-\item{locals_min_max}{A data.frame containing local maximums and minimuns}
-\item{dt_long}{A data.frame in long format.}
+An object of class \code{read_HTP}, which is a list containing the following elements:
+\describe{
+  \item{\code{summ_traits}}{A data.frame containing summary statistics for each trait at each time point, including minimum, mean, median, maximum, standard deviation, coefficient of variation, number of non-missing values, percentage of missing values, and percentage of negative values.}
+  \item{\code{exp_design_resum}}{A data.frame summarizing the experimental design, including the number of unique genotypes, rows, ranges, and the replication structure.}
+  \item{\code{locals_min_max}}{A data.frame containing the local minima and maxima of the mean trait values over time.}
+  \item{\code{dt_long}}{A data.frame in long format, with columns for time, plot, row, range, genotype, trait, and value.}
+}
 }
 \description{
-Read HTP data
+Reads and processes high-throughput phenotyping (HTP) data from a data frame in wide format.
+}
+\details{
+This function processes and prepares HTP data to be analyzed.
 }
 \examples{
 library(exploreHTP)

@@ -5,8 +5,8 @@
 #' @param x An object inheriting from class \code{canopy_HTP} resulting of
 #' executing the function \code{canopy_HTP()}
 #' @param plot_id To avoid too many plots in one figure. Filter by Plot Id.
-#' @param label_size Label size. 3 by default.
-#' @param base_size Base font size, given in pts.
+#' @param label_size Numeric. Size of the labels in the plot. Default is 4.
+#' @param base_size Base font size, given in pts. Default is 14.
 #' @param fn Object of class call. e.g. \code{quote(fn_canopy(time, t1, t2, max))}
 #' @param ... Further graphical parameters. For future improvements.
 #' @author Johan Aparicio [aut]
@@ -85,30 +85,112 @@ plot.canopy_HTP <- function(x,
   return(p0)
 }
 
-
-#' Plot an object of class \code{read_HTP}
+#' Plot an object of class \code{height_HTP}
 #'
-#' @description Create several plots for an object of class \code{read_HTP}
-#' @aliases plot.read_HTP
-#' @param x An object inheriting from class \code{read_HTP} resulting of
-#' executing the function \code{read_HTP()}
-#' @param type  Character string. Available options are:
-#'  "trait_by_time", "time_by_trait", "evolution". "trait_by_time" by default.
-#' @param signif TRUE or FALSE. Add the pvalue to the correlations plot.
-#' @param label_size Label size. 4 by default.
-#' @param method method="pearson" is the default value. The alternatives to be
-#'  passed to cor are "spearman" and "kendall". These last two are much slower,
-#'  particularly for big data sets.
-#' @param filter_trait A character vector specifying the traits to remove from
-#' the plot.
-#' @param n_row Number of rows to use in face_wrap(). NULL by default.
-#' @param n_col Number of columns to use in face_wrap(). NULL by default.
+#' @description Create several plots for an object of class \code{height_HTP}
+#' @aliases plot.height_HTP
+#' @param x An object inheriting from class \code{height_HTP} resulting of
+#' executing the function \code{height_HTP()}
+#' @param plot_id To avoid too many plots in one figure. Filter by Plot Id.
+#' @param label_size Label size. 3 by default.
 #' @param base_size Base font size, given in pts.
-#' @param return_gg Whether or not to return the ggplot object. FALSE by default.
+#' @param fn Object of class call. e.g. \code{quote(fn_exp_linear(time, t1, t2, alpha, beta))}
 #' @param ... Further graphical parameters. For future improvements.
 #' @author Johan Aparicio [aut]
-#' @method plot read_HTP
-#' @return A ggplot object and an invisible data.frame
+#' @method plot height_HTP
+#' @return A ggplot object.
+#' @export
+#' @examples
+#' library(exploreHTP)
+#' data(dt_potato)
+#' dt_potato <- dt_potato
+#' results <- read_HTP(
+#'   data = dt_potato,
+#'   genotype = "Gen",
+#'   time = "DAP",
+#'   plot = "Plot",
+#'   traits = c("Canopy", "PH"),
+#'   row = "Row",
+#'   range = "Range"
+#' )
+#' out <- canopy_HTP(results, plot_id = 22)
+#' plot(out)
+#' out$param
+#' @import ggplot2
+#' @import dplyr
+#' @importFrom stats quantile
+plot.height_HTP <- function(x,
+                            plot_id = NULL,
+                            label_size = 4,
+                            base_size = 14,
+                            fn = quote(fn_exp_linear(time, t1, t2, alpha, beta)), ...) {
+  data <- x$dt
+  param <- x$param
+  dt <- full_join(
+    x = data,
+    y = param,
+    by = c("plot", "row", "range", "genotype", "t1")
+  )
+  if (is.null(plot_id)) {
+    plot_id <- dt$plot[1]
+  }
+  dt <- dt |>
+    filter(plot %in% plot_id) |>
+    droplevels()
+  param <- param |>
+    filter(plot %in% plot_id) |>
+    droplevels()
+
+  max_x <- max(dt$time, na.rm = TRUE)
+  min_x <- min(dt$time, na.rm = TRUE)
+  sq <- seq(min_x, max_x, by = 0.05)
+
+  func_dt <- full_join(
+    x = expand.grid(time = sq, plot = unique(dt$plot)),
+    y = param,
+    by = "plot"
+  ) |>
+    group_by(time, plot) |>
+    mutate(dens = !!fn) |>
+    ungroup()
+
+  p0 <- dt |>
+    ggplot() +
+    geom_point(aes(x = time, y = value)) +
+    geom_line(data = func_dt, aes(x = time, y = dens), color = "red") +
+    geom_vline(aes(xintercept = c(t1)), linetype = 2) +
+    geom_vline(aes(xintercept = c(DMC)), linetype = 2) +
+    theme_classic(base_size = base_size) +
+    facet_wrap(~plot) +
+    labs(y = "Canopy (%)")
+  return(p0)
+}
+
+
+#' Plot an Object of Class \code{read_HTP}
+#'
+#' @description
+#' Creates various plots for an object of class \code{read_HTP}. Depending on the specified type, the function can generate plots that show correlations between traits over time, correlations between time points for each trait, or the evolution of traits over time.
+#'
+#' @param x An object inheriting from class \code{read_HTP}, resulting from executing the function \code{read_HTP()}.
+#' @param type Character string specifying the type of plot to generate. Available options are:
+#' \describe{
+#'   \item{\code{"trait_by_time"}}{Plots correlations between traits over time (default).}
+#'   \item{\code{"time_by_trait"}}{Plots correlations between time points for each trait.}
+#'   \item{\code{"evolution"}}{Plots the evolution of traits over time.}
+#' }
+#' @param signif Logical. If \code{TRUE}, adds p-values to the correlation plot labels. Default is \code{FALSE}.
+#' @param label_size Numeric. Size of the labels in the plot. Default is 4.
+#' @param method Character string specifying the method for correlation calculation. Available options are \code{"pearson"} (default), \code{"spearman"}, and \code{"kendall"}.
+#' @param filter_trait Character vector specifying the traits to exclude from the plot.
+#' @param n_row Integer specifying the number of rows to use in \code{facet_wrap()}. Default is \code{NULL}.
+#' @param n_col Integer specifying the number of columns to use in \code{facet_wrap()}. Default is \code{NULL}.
+#' @param base_size Numeric. Base font size for the plot. Default is 13.
+#' @param return_gg Logical. If \code{TRUE}, returns the ggplot object instead of printing it. Default is \code{FALSE}.
+#' @param ... Further graphical parameters for future improvements.
+#'
+#' @return A ggplot object and an invisible data.frame containing the correlation table when \code{type} is \code{"trait_by_time"} or \code{"time_by_trait"}.
+#'
 #' @export
 #' @examples
 #' library(exploreHTP)
