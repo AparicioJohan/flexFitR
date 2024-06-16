@@ -162,7 +162,7 @@ plot.height_HTP <- function(x,
     geom_vline(aes(xintercept = c(DMC)), linetype = 2) +
     theme_classic(base_size = base_size) +
     facet_wrap(~plot) +
-    labs(y = "Canopy (%)")
+    labs(y = "Plant Height")
   return(p0)
 }
 

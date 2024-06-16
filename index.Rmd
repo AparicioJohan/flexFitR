@@ -142,10 +142,3 @@ out$param |>
   dplyr::mutate_if(is.numeric, round, 2) |>
   gt::gt()
 ```
-
-```{r, echo =FALSE}
-out$dt |>
-  dplyr::mutate_if(is.numeric, round, 2) |>
-  dplyr::filter(plot == 22) |> 
-  gt::gt()
-```

@@ -29,6 +29,6 @@ params <- c(50, 0.1, -0.01)
 t <- c(10, 20, 30, 40, 50, 60)
 y <- c(0, 0, 0.2, 0.5, 0.8, 0.9)
 t1 <- 20
-fn_sse_lin(params, t, y, t1)  # Should return the SSE value
+fn_sse_lin(params, t, y, t1) # Should return the SSE value
 
 }

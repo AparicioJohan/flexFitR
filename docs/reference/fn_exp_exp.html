@@ -105,10 +105,21 @@ the function returns <code>exp(alpha * (t - t1)^2) - 1</code>.
 If <code>t</code> is greater than <code>t2</code>, the function returns
 <code>(exp(alpha * (t2 - t1)^2) - 1) * exp(beta * (t - t2))</code>.</p>
     </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>$$
+f(t) =
+\begin{cases}
+0 &amp; \text{if } t &lt; t_1 \\
+\exp(\alpha \cdot (t - t_1)^2) - 1 &amp; \text{if } t_1 \leq t \leq t_2 \\
+\left(\exp(\alpha \cdot (t_2 - t_1)^2) - 1\right) \cdot \exp(\beta \cdot (t - t_2)) &amp; \text{if } t &gt; t_2
+\end{cases}
+$$</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">fn_exp_exp</span><span class="op">(</span><span class="fl">30</span>, <span class="fl">20</span>, <span class="fl">50</span>, <span class="fl">0.1</span>, <span class="op">-</span><span class="fl">0.01</span><span class="op">)</span>  <span class="co"># Example usage</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">fn_exp_exp</span><span class="op">(</span><span class="fl">30</span>, <span class="fl">20</span>, <span class="fl">50</span>, <span class="fl">0.1</span>, <span class="op">-</span><span class="fl">0.01</span><span class="op">)</span> <span class="co"># Example usage</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 22025.47</span>
 </code></pre></div>
     </div>

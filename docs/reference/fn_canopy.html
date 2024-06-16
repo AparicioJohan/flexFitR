@@ -98,6 +98,17 @@ If <code>t</code> is between <code>t1</code> and <code>t2</code> (inclusive),
 the function returns a value between 0 and <code>k</code> in a linear trend.
 If <code>t</code> is greater than <code>t2</code>, the function returns <code>k</code>.</p>
     </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>$$
+f(t) =
+\begin{cases}
+0 &amp; \text{if } t &lt; t_1 \\
+\frac{k}{t_2 - t_1} \cdot (t - t_1) &amp; \text{if } t_1 \leq t \leq t_2 \\
+k &amp; \text{if } t &gt; t_2
+\end{cases}
+$$</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>

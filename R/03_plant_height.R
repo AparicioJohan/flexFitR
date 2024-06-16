@@ -16,8 +16,20 @@
 #' If \code{t} is greater than \code{t2}, the function returns
 #' \code{beta * (t - t2) + (exp(alpha * (t2 - t1)^2) - 1)}.
 #'
+#' @details
+#' \if{html}{
+#' \deqn{
+#' f(t) =
+#' \begin{cases}
+#' 0 & \text{if } t < t_1 \\
+#' \exp(\alpha \cdot (t - t_1)^2) - 1 & \text{if } t_1 \leq t \leq t_2 \\
+#' \beta \cdot (t - t_2) + \left(\exp(\alpha \cdot (t_2 - t_1)^2) - 1\right) & \text{if } t > t_2
+#' \end{cases}
+#' }
+#' }
+#'
 #' @examples
-#' fn_exp_linear(30, 20, 50, 0.1, -0.01)  # Example usage
+#' fn_exp_linear(30, 20, 50, 0.1, -0.01) # Example usage
 #'
 #' @export
 fn_exp_linear <- function(t, t1, t2, alpha, beta) {
@@ -54,7 +66,7 @@ fn_exp_linear <- function(t, t1, t2, alpha, beta) {
 #' t <- c(10, 20, 30, 40, 50, 60)
 #' y <- c(0, 0, 0.2, 0.5, 0.8, 0.9)
 #' t1 <- 20
-#' fn_sse_lin(params, t, y, t1)  # Should return the SSE value
+#' fn_sse_lin(params, t, y, t1) # Should return the SSE value
 #'
 #' @export
 fn_sse_lin <- function(params, t, y, t1) {
@@ -86,8 +98,20 @@ fn_sse_lin <- function(params, t, y, t1) {
 #' If \code{t} is greater than \code{t2}, the function returns
 #' \code{(exp(alpha * (t2 - t1)^2) - 1) * exp(beta * (t - t2))}.
 #'
+#' @details
+#' \if{html}{
+#' \deqn{
+#' f(t) =
+#' \begin{cases}
+#' 0 & \text{if } t < t_1 \\
+#' \exp(\alpha \cdot (t - t_1)^2) - 1 & \text{if } t_1 \leq t \leq t_2 \\
+#' \left(\exp(\alpha \cdot (t_2 - t_1)^2) - 1\right) \cdot \exp(\beta \cdot (t - t_2)) & \text{if } t > t_2
+#' \end{cases}
+#' }
+#' }
+#'
 #' @examples
-#' fn_exp_exp(30, 20, 50, 0.1, -0.01)  # Example usage
+#' fn_exp_exp(30, 20, 50, 0.1, -0.01) # Example usage
 #' @export
 fn_exp_exp <- function(t, t1, t2, alpha, beta) {
   # beta < 0
@@ -123,7 +147,7 @@ fn_exp_exp <- function(t, t1, t2, alpha, beta) {
 #' t <- c(10, 20, 30, 40, 50, 60)
 #' y <- c(0, 0, 0.2, 0.5, 0.8, 0.9)
 #' t1 <- 20
-#' fn_sse_exp(params, t, y, t1)  # Should return the SSE value
+#' fn_sse_exp(params, t, y, t1) # Should return the SSE value
 #'
 #' @export
 fn_sse_exp <- function(params, t, y, t1) {

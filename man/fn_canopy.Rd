@@ -25,6 +25,18 @@ If \code{t} is greater than \code{t2}, the function returns \code{k}.
 \description{
 Piece-wise Regression
 }
+\details{
+\if{html}{
+\deqn{
+f(t) =
+\begin{cases}
+0 & \text{if } t < t_1 \\
+\frac{k}{t_2 - t_1} \cdot (t - t_1) & \text{if } t_1 \leq t \leq t_2 \\
+k & \text{if } t > t_2
+\end{cases}
+}
+}
+}
 \examples{
 library(exploreHTP)
 x <- seq(0, 108, 0.1)

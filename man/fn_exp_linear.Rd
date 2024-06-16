@@ -29,7 +29,19 @@ If \code{t} is greater than \code{t2}, the function returns
 \description{
 Computes a value based on an exponential linear model for time.
 }
+\details{
+\if{html}{
+\deqn{
+f(t) =
+\begin{cases}
+0 & \text{if } t < t_1 \\
+\exp(\alpha \cdot (t - t_1)^2) - 1 & \text{if } t_1 \leq t \leq t_2 \\
+\beta \cdot (t - t_2) + \left(\exp(\alpha \cdot (t_2 - t_1)^2) - 1\right) & \text{if } t > t_2
+\end{cases}
+}
+}
+}
 \examples{
-fn_exp_linear(30, 20, 50, 0.1, -0.01)  # Example usage
+fn_exp_linear(30, 20, 50, 0.1, -0.01) # Example usage
 
 }
