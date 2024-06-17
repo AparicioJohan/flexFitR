@@ -3,7 +3,7 @@
 #' Computes a value based on an exponential linear model for time.
 #'
 #' @param t Numeric. The time value.
-#' @param t1 Numeric. The lower threshold time.
+#' @param t1 Numeric. The lower threshold time. Assumed to be known.
 #' @param t2 Numeric. The upper threshold time.
 #' @param alpha Numeric. The parameter for the exponential term. Must be greater
 #' than 0.
@@ -15,23 +15,34 @@
 #' the function returns \code{exp(alpha * (t - t1)^2) - 1}.
 #' If \code{t} is greater than \code{t2}, the function returns
 #' \code{beta * (t - t2) + (exp(alpha * (t2 - t1)^2) - 1)}.
+#' @export
 #'
 #' @details
 #' \if{html}{
 #' \deqn{
-#' f(t) =
+#' f(t; t_1, t_2, \alpha, \beta) =
 #' \begin{cases}
 #' 0 & \text{if } t < t_1 \\
-#' \exp(\alpha \cdot (t - t_1)^2) - 1 & \text{if } t_1 \leq t \leq t_2 \\
-#' \beta \cdot (t - t_2) + \left(\exp(\alpha \cdot (t_2 - t_1)^2) - 1\right) & \text{if } t > t_2
+#' e^{\alpha \cdot (t - t_1)^2} - 1 & \text{if } t_1 \leq t \leq t_2 \\
+#' \beta \cdot (t - t_2) + \left(e^{\alpha \cdot (t_2 - t_1)^2} - 1\right) & \text{if } t > t_2
 #' \end{cases}
 #' }
 #' }
 #'
 #' @examples
-#' fn_exp_linear(30, 20, 50, 0.1, -0.01) # Example usage
-#'
-#' @export
+#' library(exploreHTP)
+#' t <- seq(0, 108, 0.1)
+#' y_hat <- sapply(
+#'   X = t,
+#'   FUN = fn_exp_linear,
+#'   t1 = 35,
+#'   t2 = 55,
+#'   alpha = 1 / 600,
+#'   beta = -1 / 80
+#' )
+#' plot(t, y_hat, type = "l")
+#' lines(t, y_hat, col = "red")
+#' abline(v = c(35, 55), lty = 2)
 fn_exp_linear <- function(t, t1, t2, alpha, beta) {
   # beta < 0
   # alpha > 0
@@ -84,7 +95,7 @@ fn_sse_lin <- function(params, t, y, t1) {
 #' Computes a value based on a double exponential model for time.
 #'
 #' @param t Numeric. The time value.
-#' @param t1 Numeric. The lower threshold time.
+#' @param t1 Numeric. The lower threshold time. Assumed to be known.
 #' @param t2 Numeric. The upper threshold time.
 #' @param alpha Numeric. The parameter for the first exponential term.
 #' Must be greater than 0.
@@ -97,22 +108,34 @@ fn_sse_lin <- function(params, t, y, t1) {
 #' the function returns \code{exp(alpha * (t - t1)^2) - 1}.
 #' If \code{t} is greater than \code{t2}, the function returns
 #' \code{(exp(alpha * (t2 - t1)^2) - 1) * exp(beta * (t - t2))}.
+#' @export
 #'
 #' @details
 #' \if{html}{
 #' \deqn{
-#' f(t) =
+#' f(t; t_1, t_2, \alpha, \beta) =
 #' \begin{cases}
 #' 0 & \text{if } t < t_1 \\
-#' \exp(\alpha \cdot (t - t_1)^2) - 1 & \text{if } t_1 \leq t \leq t_2 \\
-#' \left(\exp(\alpha \cdot (t_2 - t_1)^2) - 1\right) \cdot \exp(\beta \cdot (t - t_2)) & \text{if } t > t_2
+#' e^{\alpha \cdot (t - t_1)^2} - 1 & \text{if } t_1 \leq t \leq t_2 \\
+#' \left(e^{\alpha \cdot (t_2 - t_1)^2} - 1\right) \cdot e^{\beta \cdot (t - t_2)} & \text{if } t > t_2
 #' \end{cases}
 #' }
 #' }
 #'
 #' @examples
-#' fn_exp_exp(30, 20, 50, 0.1, -0.01) # Example usage
-#' @export
+#' library(exploreHTP)
+#' t <- seq(0, 108, 0.1)
+#' y_hat <- sapply(
+#'   X = t,
+#'   FUN = fn_exp_exp,
+#'   t1 = 35,
+#'   t2 = 55,
+#'   alpha = 1 / 600,
+#'   beta = -1 / 30
+#' )
+#' plot(t, y_hat, type = "l")
+#' lines(t, y_hat, col = "red")
+#' abline(v = c(35, 55), lty = 2)
 fn_exp_exp <- function(t, t1, t2, alpha, beta) {
   # beta < 0
   # alpha > 0

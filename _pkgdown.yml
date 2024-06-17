@@ -40,12 +40,15 @@ reference:
   - plot.read_HTP
   - plot.canopy_HTP
   - plot.height_HTP
-- title: Growth functions
-  desc: Functions to pass to optimx
+- title: Growth Modelling
+  desc: Collection of functions
 - contents:
-  - fn_canopy
-  - fn_sse_can
+  - fn_piwise
   - fn_exp_linear
-  - fn_sse_lin
   - fn_exp_exp
+- title: SSE Functions
+  desc: Functions to optimize
+- contents:
+  - fn_sse_piw
+  - fn_sse_lin
   - fn_sse_exp

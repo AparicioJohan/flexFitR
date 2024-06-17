@@ -9,7 +9,7 @@
   plot_id = NULL,
   label_size = 4,
   base_size = 14,
-  fn = quote(fn_canopy(time, t1, t2, max)),
+  fn = quote(fn_piwise(time, t1, t2, max)),
   ...
 )
 }
@@ -23,7 +23,7 @@ executing the function \code{canopy_HTP()}}
 
 \item{base_size}{Base font size, given in pts. Default is 14.}
 
-\item{fn}{Object of class call. e.g. \code{quote(fn_canopy(time, t1, t2, max))}}
+\item{fn}{Object of class call. e.g. \code{quote(fn_piwise(time, t1, t2, max))}}
 
 \item{...}{Further graphical parameters. For future improvements.}
 }

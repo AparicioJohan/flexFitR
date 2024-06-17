@@ -13,7 +13,7 @@ canopy_HTP(
   method = c("subplex", "pracmanm", "anms"),
   return_method = FALSE,
   parameters = c(t1 = 45, t2 = 80),
-  fn = fn_sse_can
+  fn = fn_sse_piw
 )
 }
 \arguments{
@@ -33,7 +33,7 @@ canopy_HTP(
 
 \item{parameters}{A named vector specifying the initial values for the parameters to be optimized. Default is \code{c(t1 = 45, t2 = 80)}.}
 
-\item{fn}{A function to be minimized (or maximized), with the first argument being the vector of parameters over which minimization is to take place. It should return a scalar result. Default is \link{fn_sse_can}.}
+\item{fn}{A function to be minimized (or maximized), with the first argument being the vector of parameters over which minimization is to take place. It should return a scalar result. Default is \link{fn_sse_piw}.}
 }
 \value{
 A list with two elements:

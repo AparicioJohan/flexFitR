@@ -131,7 +131,7 @@ out <- canopy_HTP(
   plot_id = c(22, 40),
   correct_max = TRUE,
   add_zero = TRUE,
-  fn = fn_sse_can
+  fn = fn_sse_piw
 )
 names(out)
 #> [1] "param" "dt"
