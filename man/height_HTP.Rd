@@ -10,10 +10,10 @@ height_HTP(
   plant_height = "PH",
   plot_id = NULL,
   add_zero = TRUE,
-  method = c("lbfgsb3c", "pracmanm", "anms"),
+  method = c("subplex", "pracmanm", "anms"),
   return_method = FALSE,
   parameters = c(t2 = 67, alpha = 1/600, beta = -1/80),
-  fn = fn_sse_exp
+  fn = sse_exp2_exp
 )
 }
 \arguments{
@@ -38,7 +38,7 @@ optimized over. c(45, 80) by default.}
 
 \item{fn}{A function to be minimized (or maximized), with first argument the
 vector of parameters over which minimization is to take place.
-It should return a scalar result. Default is \link{fn_sse_exp}.}
+It should return a scalar result. Default is \link{sse_exp2_exp}.}
 }
 \value{
 data.frame
@@ -48,10 +48,9 @@ Plant Height Modelling
 }
 \examples{
 library(exploreHTP)
-data(dt_potato)
-dt_potato <- dt_potato
+data(dt_chips)
 results <- read_HTP(
-  data = dt_potato,
+  data = dt_chips,
   genotype = "Gen",
   time = "DAP",
   plot = "Plot",
@@ -63,11 +62,43 @@ names(results)
 out <- canopy_HTP(
   results = results,
   canopy = "Canopy",
-  plot_id = c(22, 40),
+  plot_id = c(60, 150),
   correct_max = TRUE,
   add_zero = TRUE
 )
 names(out)
-plot(out, c(22, 40))
-out$param
+plot(out, plot_id = c(60, 150))
+ph_1 <- height_HTP(
+  results = results,
+  canopy = out,
+  plant_height = "PH",
+  add_zero = TRUE,
+  method = c("nlminb", "anms", "mla", "pracmanm", "subplex"),
+  return_method = TRUE,
+  parameters = c(t2 = 67, alpha = 1 / 600, beta = -1 / 80),
+  fn = sse_exp2_exp
+)
+plot(
+  x = ph_1,
+  plot_id = c(60, 150),
+  fn = quote(fn_exp2_exp(time, t1, t2, alpha, beta))
+)
+ph_1$param
+
+ph_2 <- height_HTP(
+  results = results,
+  canopy = out,
+  plant_height = "PH",
+  add_zero = TRUE,
+  method = c("nlminb", "anms", "mla", "pracmanm", "subplex"),
+  return_method = TRUE,
+  parameters = c(t2 = 67, alpha = 1 / 600, beta = -1 / 80),
+  fn = sse_exp2_lin
+)
+plot(
+  x = ph_2,
+  plot_id = c(60, 150),
+  fn = quote(fn_exp2_lin(time, t1, t2, alpha, beta))
+)
+ph_2$param
 }

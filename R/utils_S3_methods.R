@@ -94,7 +94,7 @@ plot.canopy_HTP <- function(x,
 #' @param plot_id To avoid too many plots in one figure. Filter by Plot Id.
 #' @param label_size Label size. 3 by default.
 #' @param base_size Base font size, given in pts.
-#' @param fn Object of class call. e.g. \code{quote(fn_exp_linear(time, t1, t2, alpha, beta))}
+#' @param fn Object of class call. e.g. \code{quote(fn_exp2_exp(time, t1, t2, alpha, beta))}
 #' @param ... Further graphical parameters. For future improvements.
 #' @author Johan Aparicio [aut]
 #' @method plot height_HTP
@@ -123,7 +123,7 @@ plot.height_HTP <- function(x,
                             plot_id = NULL,
                             label_size = 4,
                             base_size = 14,
-                            fn = quote(fn_exp_linear(time, t1, t2, alpha, beta)), ...) {
+                            fn = quote(fn_exp2_exp(time, t1, t2, alpha, beta)), ...) {
   data <- x$dt
   param <- x$param
   dt <- full_join(
@@ -133,6 +133,10 @@ plot.height_HTP <- function(x,
   )
   if (is.null(plot_id)) {
     plot_id <- dt$plot[1]
+  } else {
+    if (!all(plot_id %in% dt$plot)) {
+      stop("Some of the plot_id were not found.")
+    }
   }
   dt <- dt |>
     filter(plot %in% plot_id) |>

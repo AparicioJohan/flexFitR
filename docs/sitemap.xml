@@ -25,10 +25,25 @@
     <loc>https://apariciojohan.github.io/exploreHTP/reference/canopy_model.html</loc>
   </url>
   <url>
+    <loc>https://apariciojohan.github.io/exploreHTP/reference/dt_chips.html</loc>
+  </url>
+  <url>
     <loc>https://apariciojohan.github.io/exploreHTP/reference/dt_potato.html</loc>
   </url>
   <url>
     <loc>https://apariciojohan.github.io/exploreHTP/reference/fn_canopy.html</loc>
+  </url>
+  <url>
+    <loc>https://apariciojohan.github.io/exploreHTP/reference/fn_exp1_exp.html</loc>
+  </url>
+  <url>
+    <loc>https://apariciojohan.github.io/exploreHTP/reference/fn_exp1_lin.html</loc>
+  </url>
+  <url>
+    <loc>https://apariciojohan.github.io/exploreHTP/reference/fn_exp2_exp.html</loc>
+  </url>
+  <url>
+    <loc>https://apariciojohan.github.io/exploreHTP/reference/fn_exp2_lin.html</loc>
   </url>
   <url>
     <loc>https://apariciojohan.github.io/exploreHTP/reference/fn_exp_exp.html</loc>
@@ -80,5 +95,20 @@
   </url>
   <url>
     <loc>https://apariciojohan.github.io/exploreHTP/reference/SSE.html</loc>
+  </url>
+  <url>
+    <loc>https://apariciojohan.github.io/exploreHTP/reference/sse_exp1_exp.html</loc>
+  </url>
+  <url>
+    <loc>https://apariciojohan.github.io/exploreHTP/reference/sse_exp1_lin.html</loc>
+  </url>
+  <url>
+    <loc>https://apariciojohan.github.io/exploreHTP/reference/sse_exp2_exp.html</loc>
+  </url>
+  <url>
+    <loc>https://apariciojohan.github.io/exploreHTP/reference/sse_exp2_lin.html</loc>
+  </url>
+  <url>
+    <loc>https://apariciojohan.github.io/exploreHTP/reference/sse_piwise.html</loc>
   </url>
 </urlset>

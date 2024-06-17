@@ -1,80 +1,3 @@
-#' Piecewise Regression
-#'
-#' @param t Numeric. The time value.
-#' @param t1 Numeric. The lower threshold time. Default is 45.
-#' @param t2 Numeric. The upper threshold time. Default is 80.
-#' @param k Numeric. The maximum value of the function. Default is 0.9. Assumed to be known.
-#' @return A numeric value based on the threshold model.
-#' If \code{t} is less than \code{t1}, the function returns 0.
-#' If \code{t} is between \code{t1} and \code{t2} (inclusive),
-#' the function returns a value between 0 and \code{k} in a linear trend.
-#' If \code{t} is greater than \code{t2}, the function returns \code{k}.
-#' @export
-#'
-#' @details
-#' \if{html}{
-#' \deqn{
-#' f(t; t_1, t_2, k) =
-#' \begin{cases}
-#' 0 & \text{if } t < t_1 \\
-#' \dfrac{k}{t_2 - t_1} \cdot (t - t_1) & \text{if } t_1 \leq t \leq t_2 \\
-#' k & \text{if } t > t_2
-#' \end{cases}
-#' }
-#' }
-#'
-#' @examples
-#' library(exploreHTP)
-#' t <- seq(0, 108, 0.1)
-#' y_hat <- sapply(t, FUN = fn_piwise, t1 = 34.9, t2 = 61.8, k = 100)
-#' plot(t, y_hat, type = "l")
-#' lines(t, y_hat, col = "red")
-#' abline(v = c(34.9, 61.8), lty = 2)
-fn_piwise <- function(t, t1 = 45, t2 = 80, k = 0.9) {
-  if (is.na(t)) {
-    stop("Missing values not allowed for t.")
-  }
-  if (t < t1) {
-    y <- 0
-  } else if (t >= t1 && t <= t2) {
-    y <- k / (t2 - t1) * (t - t1)
-  } else {
-    y <- k
-  }
-  return(y)
-}
-
-#' Sum of Squares Error Function for Piecewise Model
-#'
-#' Calculates the sum of squared errors (SSE) between observed values and values
-#' predicted by the \code{fn_piwise} function. This is the objective function to
-#' be minimized in the optimx package.
-#'
-#' @param params Numeric vector. The parameters for the \code{fn_piwise} function,
-#' where \code{params[1]} is \code{t1} and \code{params[2]} is \code{t2}.
-#' @param t Numeric vector. The time values.
-#' @param y Numeric vector. The observed values.
-#'
-#' @return A numeric value representing the sum of squared errors.
-#' @export
-#'
-#' @examples
-#' library(exploreHTP)
-#' x <- c(0, 29, 36, 42, 56, 76, 92, 100, 108)
-#' y <- c(0, 0, 4.379, 26.138, 78.593, 100, 100, 100, 100)
-#' fn_sse_piw(params = c(34.9, 61.8), t = x, y = y)
-#'
-#' y_hat <- sapply(x, FUN = fn_piwise, t1 = 34.9, t2 = 61.8, k = 100)
-#' sum((y - y_hat)^2)
-fn_sse_piw <- function(params, t, y) {
-  t1 <- params[1]
-  t2 <- params[2]
-  k <- max(y)
-  y_hat <- sapply(t, FUN = fn_piwise, t1 = t1, t2 = t2, k = k)
-  sse <- sum((y - y_hat)^2)
-  return(sse)
-}
-
 #' @noRd
 correct_maximun <- function(results,
                             var = "Canopy",
@@ -113,7 +36,7 @@ correct_maximun <- function(results,
 #' @param method A character vector of optimization methods to be used, as specified in the \code{optimx} package. Default is \code{c("subplex", "pracmanm", "anms")}.
 #' @param return_method Logical. If \code{TRUE}, includes the selected optimization method in the output table. Default is \code{FALSE}.
 #' @param parameters A named vector specifying the initial values for the parameters to be optimized. Default is \code{c(t1 = 45, t2 = 80)}.
-#' @param fn A function to be minimized (or maximized), with the first argument being the vector of parameters over which minimization is to take place. It should return a scalar result. Default is \link{fn_sse_piw}.
+#' @param fn A function to be minimized (or maximized), with the first argument being the vector of parameters over which minimization is to take place. It should return a scalar result. Default is \link{sse_piwise}.
 #'
 #' @return A list with two elements:
 #' \describe{
@@ -158,7 +81,7 @@ canopy_HTP <- function(results,
                        method = c("subplex", "pracmanm", "anms"),
                        return_method = FALSE,
                        parameters = c(t1 = 45, t2 = 80),
-                       fn = fn_sse_piw) {
+                       fn = sse_piwise) {
   if (correct_max) {
     dt <- correct_maximun(results, var = canopy, add_zero = add_zero)
   } else {

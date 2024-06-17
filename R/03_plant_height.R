@@ -1,188 +1,3 @@
-#' Exponential Linear Function
-#'
-#' Computes a value based on an exponential growth curve and linear decay model for time.
-#'
-#' @param t Numeric. The time value.
-#' @param t1 Numeric. The lower threshold time. Assumed to be known.
-#' @param t2 Numeric. The upper threshold time.
-#' @param alpha Numeric. The parameter for the exponential term. Must be greater
-#' than 0.
-#' @param beta Numeric. The parameter for the linear term. Must be less than 0.
-#'
-#' @return A numeric value based on the exponential linear model.
-#' If \code{t} is less than \code{t1}, the function returns 0.
-#' If \code{t} is between \code{t1} and \code{t2} (inclusive),
-#' the function returns \code{exp(alpha * (t - t1)^2) - 1}.
-#' If \code{t} is greater than \code{t2}, the function returns
-#' \code{beta * (t - t2) + (exp(alpha * (t2 - t1)^2) - 1)}.
-#' @export
-#'
-#' @details
-#' \if{html}{
-#' \deqn{
-#' f(t; t_1, t_2, \alpha, \beta) =
-#' \begin{cases}
-#' 0 & \text{if } t < t_1 \\
-#' e^{\alpha \cdot (t - t_1)^2} - 1 & \text{if } t_1 \leq t \leq t_2 \\
-#' \beta \cdot (t - t_2) + \left(e^{\alpha \cdot (t_2 - t_1)^2} - 1\right) & \text{if } t > t_2
-#' \end{cases}
-#' }
-#' }
-#'
-#' @examples
-#' library(exploreHTP)
-#' t <- seq(0, 108, 0.1)
-#' y_hat <- sapply(
-#'   X = t,
-#'   FUN = fn_exp_linear,
-#'   t1 = 35,
-#'   t2 = 55,
-#'   alpha = 1 / 600,
-#'   beta = -1 / 80
-#' )
-#' plot(t, y_hat, type = "l")
-#' lines(t, y_hat, col = "red")
-#' abline(v = c(35, 55), lty = 2)
-fn_exp_linear <- function(t, t1, t2, alpha, beta) {
-  # beta < 0
-  # alpha > 0
-  if (t < t1) {
-    return(0)
-  }
-  if (t >= t1 & t <= t2) {
-    return(exp(alpha * (t - t1)^2) - 1)
-  }
-  if (t > t2) {
-    y2 <- exp(alpha * (t2 - t1)^2) - 1
-    return(beta * (t - t2) + y2)
-  }
-}
-
-#' Sum of Squares Error Function for Exponential Linear Model
-#'
-#' Calculates the sum of squared errors (SSE) between observed values and values
-#' predicted by the \code{fn_exp_linear} function.
-#'
-#' @param params Numeric vector. The parameters for the \code{fn_exp_linear}
-#' function, where \code{params[1]} is \code{t2}, \code{params[2]} is \code{alpha},
-#' and \code{params[3]} is \code{beta}.
-#' @param t Numeric vector. The time values.
-#' @param y Numeric vector. The observed values.
-#' @param t1 Numeric. The lower threshold time.
-#'
-#' @return A numeric value representing the sum of squared errors.
-#'
-#' @examples
-#' params <- c(50, 0.1, -0.01)
-#' t <- c(10, 20, 30, 40, 50, 60)
-#' y <- c(0, 0, 0.2, 0.5, 0.8, 0.9)
-#' t1 <- 20
-#' fn_sse_lin(params, t, y, t1) # Should return the SSE value
-#'
-#' @export
-fn_sse_lin <- function(params, t, y, t1) {
-  t1 <- t1
-  t2 <- params[1]
-  alpha <- params[2]
-  beta <- params[3]
-  y_hat <- sapply(t, FUN = fn_exp_linear, t1, t2, alpha, beta)
-  sse <- sum((y - y_hat)^2)
-  return(sse)
-}
-
-#' Exponential Exponential Function
-#'
-#' Computes a value based on an exponential growth curve and exponential decay model for time.
-#'
-#' @param t Numeric. The time value.
-#' @param t1 Numeric. The lower threshold time. Assumed to be known.
-#' @param t2 Numeric. The upper threshold time.
-#' @param alpha Numeric. The parameter for the first exponential term.
-#' Must be greater than 0.
-#' @param beta Numeric. The parameter for the second exponential term.
-#' Must be less than 0.
-#'
-#' @return A numeric value based on the double exponential model.
-#' If \code{t} is less than \code{t1}, the function returns 0.
-#' If \code{t} is between \code{t1} and \code{t2} (inclusive),
-#' the function returns \code{exp(alpha * (t - t1)^2) - 1}.
-#' If \code{t} is greater than \code{t2}, the function returns
-#' \code{(exp(alpha * (t2 - t1)^2) - 1) * exp(beta * (t - t2))}.
-#' @export
-#'
-#' @details
-#' \if{html}{
-#' \deqn{
-#' f(t; t_1, t_2, \alpha, \beta) =
-#' \begin{cases}
-#' 0 & \text{if } t < t_1 \\
-#' e^{\alpha \cdot (t - t_1)^2} - 1 & \text{if } t_1 \leq t \leq t_2 \\
-#' \left(e^{\alpha \cdot (t_2 - t_1)^2} - 1\right) \cdot e^{\beta \cdot (t - t_2)} & \text{if } t > t_2
-#' \end{cases}
-#' }
-#' }
-#'
-#' @examples
-#' library(exploreHTP)
-#' t <- seq(0, 108, 0.1)
-#' y_hat <- sapply(
-#'   X = t,
-#'   FUN = fn_exp_exp,
-#'   t1 = 35,
-#'   t2 = 55,
-#'   alpha = 1 / 600,
-#'   beta = -1 / 30
-#' )
-#' plot(t, y_hat, type = "l")
-#' lines(t, y_hat, col = "red")
-#' abline(v = c(35, 55), lty = 2)
-fn_exp_exp <- function(t, t1, t2, alpha, beta) {
-  # beta < 0
-  # alpha > 0
-  if (t < t1) {
-    return(0)
-  }
-  if (t >= t1 & t <= t2) {
-    return(exp(alpha * (t - t1)^2) - 1)
-  }
-  if (t > t2) {
-    y2 <- exp(alpha * (t2 - t1)^2) - 1
-    return(y2 * exp(beta * (t - t2)))
-  }
-}
-
-#' Sum of Squares Error Function for Exponential Exponential Model
-#'
-#' Calculates the sum of squared errors (SSE) between observed values and values
-#' predicted by the \code{fn_exp_exp} function.
-#'
-#' @param params Numeric vector. The parameters for the \code{fn_exp_exp} function,
-#' where \code{params[1]} is \code{t2}, \code{params[2]} is \code{alpha}, and
-#' \code{params[3]} is \code{beta}.
-#' @param t Numeric vector. The time values.
-#' @param y Numeric vector. The observed values.
-#' @param t1 Numeric. The lower threshold time.
-#'
-#' @return A numeric value representing the sum of squared errors.
-#'
-#' @examples
-#' params <- c(50, 0.1, -0.01)
-#' t <- c(10, 20, 30, 40, 50, 60)
-#' y <- c(0, 0, 0.2, 0.5, 0.8, 0.9)
-#' t1 <- 20
-#' fn_sse_exp(params, t, y, t1) # Should return the SSE value
-#'
-#' @export
-fn_sse_exp <- function(params, t, y, t1) {
-  t1 <- t1
-  t2 <- params[1]
-  alpha <- params[2]
-  beta <- params[3]
-  y_hat <- sapply(t, FUN = fn_exp_exp, t1, t2, alpha, beta)
-  sse <- sum((y - y_hat)^2)
-  return(sse)
-}
-
 #' Plant Height Modelling
 #'
 #' @param results Object of class exploreHTP
@@ -198,17 +13,16 @@ fn_sse_exp <- function(params, t, y, t1) {
 #' optimized over. c(45, 80) by default.
 #' @param fn A function to be minimized (or maximized), with first argument the
 #' vector of parameters over which minimization is to take place.
-#' It should return a scalar result. Default is \link{fn_sse_exp}.
+#' It should return a scalar result. Default is \link{sse_exp2_exp}.
 
 #' @return data.frame
 #' @export
 #'
 #' @examples
 #' library(exploreHTP)
-#' data(dt_potato)
-#' dt_potato <- dt_potato
+#' data(dt_chips)
 #' results <- read_HTP(
-#'   data = dt_potato,
+#'   data = dt_chips,
 #'   genotype = "Gen",
 #'   time = "DAP",
 #'   plot = "Plot",
@@ -220,13 +34,45 @@ fn_sse_exp <- function(params, t, y, t1) {
 #' out <- canopy_HTP(
 #'   results = results,
 #'   canopy = "Canopy",
-#'   plot_id = c(22, 40),
+#'   plot_id = c(60, 150),
 #'   correct_max = TRUE,
 #'   add_zero = TRUE
 #' )
 #' names(out)
-#' plot(out, c(22, 40))
-#' out$param
+#' plot(out, plot_id = c(60, 150))
+#' ph_1 <- height_HTP(
+#'   results = results,
+#'   canopy = out,
+#'   plant_height = "PH",
+#'   add_zero = TRUE,
+#'   method = c("nlminb", "anms", "mla", "pracmanm", "subplex"),
+#'   return_method = TRUE,
+#'   parameters = c(t2 = 67, alpha = 1 / 600, beta = -1 / 80),
+#'   fn = sse_exp2_exp
+#' )
+#' plot(
+#'   x = ph_1,
+#'   plot_id = c(60, 150),
+#'   fn = quote(fn_exp2_exp(time, t1, t2, alpha, beta))
+#' )
+#' ph_1$param
+#'
+#' ph_2 <- height_HTP(
+#'   results = results,
+#'   canopy = out,
+#'   plant_height = "PH",
+#'   add_zero = TRUE,
+#'   method = c("nlminb", "anms", "mla", "pracmanm", "subplex"),
+#'   return_method = TRUE,
+#'   parameters = c(t2 = 67, alpha = 1 / 600, beta = -1 / 80),
+#'   fn = sse_exp2_lin
+#' )
+#' plot(
+#'   x = ph_2,
+#'   plot_id = c(60, 150),
+#'   fn = quote(fn_exp2_lin(time, t1, t2, alpha, beta))
+#' )
+#' ph_2$param
 #' @import optimx
 #' @import tibble
 height_HTP <- function(results,
@@ -234,10 +80,10 @@ height_HTP <- function(results,
                        plant_height = "PH",
                        plot_id = NULL,
                        add_zero = TRUE,
-                       method = c("lbfgsb3c", "pracmanm", "anms"),
+                       method = c("subplex", "pracmanm", "anms"),
                        return_method = FALSE,
                        parameters = c(t2 = 67, alpha = 1 / 600, beta = -1 / 80),
-                       fn = fn_sse_exp) {
+                       fn = sse_exp2_exp) {
   param <- canopy$param |>
     select(plot:range, t1, t2) |>
     rename(DMC = t2)

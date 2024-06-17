@@ -9,7 +9,7 @@
   plot_id = NULL,
   label_size = 4,
   base_size = 14,
-  fn = quote(fn_exp_linear(time, t1, t2, alpha, beta)),
+  fn = quote(fn_exp2_exp(time, t1, t2, alpha, beta)),
   ...
 )
 }
@@ -23,7 +23,7 @@ executing the function \code{height_HTP()}}
 
 \item{base_size}{Base font size, given in pts.}
 
-\item{fn}{Object of class call. e.g. \code{quote(fn_exp_linear(time, t1, t2, alpha, beta))}}
+\item{fn}{Object of class call. e.g. \code{quote(fn_exp2_exp(time, t1, t2, alpha, beta))}}
 
 \item{...}{Further graphical parameters. For future improvements.}
 }

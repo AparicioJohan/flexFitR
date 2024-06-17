@@ -34,6 +34,7 @@ reference:
   desc: Example Datasets
 - contents:
   - dt_potato
+  - dt_chips
 - title: Plotting Results
   desc: S3 methods
 - contents:
@@ -44,11 +45,15 @@ reference:
   desc: Collection of functions
 - contents:
   - fn_piwise
-  - fn_exp_linear
-  - fn_exp_exp
+  - fn_exp1_lin
+  - fn_exp2_lin
+  - fn_exp1_exp
+  - fn_exp2_exp
 - title: SSE Functions
   desc: Functions to optimize
 - contents:
-  - fn_sse_piw
-  - fn_sse_lin
-  - fn_sse_exp
+  - sse_piwise
+  - sse_exp1_lin
+  - sse_exp2_lin
+  - sse_exp1_exp
+  - sse_exp2_exp
