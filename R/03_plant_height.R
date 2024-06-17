@@ -1,6 +1,6 @@
 #' Exponential Linear Function
 #'
-#' Computes a value based on an exponential linear model for time.
+#' Computes a value based on an exponential growth curve and linear decay model for time.
 #'
 #' @param t Numeric. The time value.
 #' @param t1 Numeric. The lower threshold time. Assumed to be known.
@@ -92,7 +92,7 @@ fn_sse_lin <- function(params, t, y, t1) {
 
 #' Exponential Exponential Function
 #'
-#' Computes a value based on a double exponential model for time.
+#' Computes a value based on an exponential growth curve and exponential decay model for time.
 #'
 #' @param t Numeric. The time value.
 #' @param t1 Numeric. The lower threshold time. Assumed to be known.

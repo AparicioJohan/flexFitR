@@ -28,12 +28,12 @@ If \code{t} is greater than \code{t2}, the function returns
 \code{(exp(alpha * (t2 - t1)^2) - 1) * exp(beta * (t - t2))}.
 }
 \description{
-Computes a value based on a double exponential model for time.
+Computes a value based on an exponential growth curve and exponential decay model for time.
 }
 \details{
 \if{html}{
 \deqn{
-f(t, t_1, t_2, \alpha, \beta) =
+f(t; t_1, t_2, \alpha, \beta) =
 \begin{cases}
 0 & \text{if } t < t_1 \\
 e^{\alpha \cdot (t - t_1)^2} - 1 & \text{if } t_1 \leq t \leq t_2 \\
