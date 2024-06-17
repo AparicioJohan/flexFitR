@@ -28,6 +28,7 @@ If \code{t} is greater than \code{t2}, the function returns
 }
 \description{
 Computes a value based on an exponential growth curve and linear decay model for time.
+The function is used in \link{sse_exp1_lin}.
 }
 \details{
 \if{html}{
@@ -49,8 +50,8 @@ y_hat <- sapply(
   FUN = fn_exp1_lin,
   t1 = 35,
   t2 = 55,
-  alpha = 1 / 600,
-  beta = -1 / 80
+  alpha = 1 / 20,
+  beta = -1 / 40
 )
 plot(t, y_hat, type = "l")
 lines(t, y_hat, col = "red")

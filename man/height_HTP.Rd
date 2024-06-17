@@ -21,7 +21,7 @@ height_HTP(
 
 \item{canopy}{Object of class canopy_HTP}
 
-\item{plant_height}{string}
+\item{plant_height}{A string specifying the Plant Height trait to be modeled. Default is \code{"PH"}.}
 
 \item{plot_id}{Optional Plot ID. NULL by default}
 

@@ -1,6 +1,7 @@
 #' Exponential Linear Function 1
 #'
 #' Computes a value based on an exponential growth curve and linear decay model for time.
+#' The function is used in \link{sse_exp1_lin}.
 #'
 #' @param t Numeric. The time value.
 #' @param t1 Numeric. The lower threshold time. Assumed to be known.
@@ -37,8 +38,8 @@
 #'   FUN = fn_exp1_lin,
 #'   t1 = 35,
 #'   t2 = 55,
-#'   alpha = 1 / 600,
-#'   beta = -1 / 80
+#'   alpha = 1 / 20,
+#'   beta = -1 / 40
 #' )
 #' plot(t, y_hat, type = "l")
 #' lines(t, y_hat, col = "red")
@@ -93,6 +94,7 @@ sse_exp1_lin <- function(params, t, y, t1) {
 #' Exponential Linear Function 2
 #'
 #' Computes a value based on an exponential growth curve and linear decay model for time.
+#' The function is used in \link{sse_exp2_lin}.
 #'
 #' @param t Numeric. The time value.
 #' @param t1 Numeric. The lower threshold time. Assumed to be known.
@@ -185,6 +187,7 @@ sse_exp2_lin <- function(params, t, y, t1) {
 #' Exponential Exponential Function 1
 #'
 #' Computes a value based on an exponential growth curve and exponential decay model for time.
+#' The function is used in \link{sse_exp1_exp}.
 #'
 #' @param t Numeric. The time value.
 #' @param t1 Numeric. The lower threshold time. Assumed to be known.
@@ -222,7 +225,7 @@ sse_exp2_lin <- function(params, t, y, t1) {
 #'   FUN = fn_exp1_exp,
 #'   t1 = 35,
 #'   t2 = 55,
-#'   alpha = 1 / 600,
+#'   alpha = 1 / 20,
 #'   beta = -1 / 30
 #' )
 #' plot(t, y_hat, type = "l")
@@ -278,6 +281,7 @@ sse_exp1_exp <- function(params, t, y, t1) {
 #' Exponential Exponential Function 2
 #'
 #' Computes a value based on an exponential growth curve and exponential decay model for time.
+#' The function is used in \link{sse_exp2_exp}.
 #'
 #' @param t Numeric. The time value.
 #' @param t1 Numeric. The lower threshold time. Assumed to be known.
@@ -369,7 +373,10 @@ sse_exp2_exp <- function(params, t, y, t1) {
 }
 
 
-#' Piecewise Regression
+#' Piecewise Linear Regression
+#'
+#' Computes a value based on a linear growth curve reaching a plateau for time.
+#' The function is used in \link{sse_piwise}.
 #'
 #' @param t Numeric. The time value.
 #' @param t1 Numeric. The lower threshold time. Default is 45.

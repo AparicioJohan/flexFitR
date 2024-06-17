@@ -2,7 +2,7 @@
 #'
 #' @param results Object of class exploreHTP
 #' @param canopy Object of class canopy_HTP
-#' @param plant_height  string
+#' @param plant_height A string specifying the Plant Height trait to be modeled. Default is \code{"PH"}.
 #' @param plot_id Optional Plot ID. NULL by default
 #' @param add_zero TRUE or FALSE. Add zero to the time series.TRUE by default.
 #' @param method A vector of the methods to be used, each as a character string.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/04_growth_curves.R
 \name{fn_piwise}
 \alias{fn_piwise}
-\title{Piecewise Regression}
+\title{Piecewise Linear Regression}
 \usage{
 fn_piwise(t, t1 = 45, t2 = 80, k = 0.9)
 }
@@ -23,7 +23,8 @@ the function returns a value between 0 and \code{k} in a linear trend.
 If \code{t} is greater than \code{t2}, the function returns \code{k}.
 }
 \description{
-Piecewise Regression
+Computes a value based on a linear growth curve reaching a plateau for time.
+The function is used in \link{sse_piwise}.
 }
 \details{
 \if{html}{

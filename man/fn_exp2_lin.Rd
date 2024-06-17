@@ -28,6 +28,7 @@ If \code{t} is greater than \code{t2}, the function returns
 }
 \description{
 Computes a value based on an exponential growth curve and linear decay model for time.
+The function is used in \link{sse_exp2_lin}.
 }
 \details{
 \if{html}{
