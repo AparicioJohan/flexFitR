@@ -42,11 +42,10 @@ This is a basic example which shows how to use exploreHTP:
 
 ```{r example}
 library(exploreHTP)
-data(dt_potato)
-dt_potato <- dt_potato
+data(dt_chips)
 
 results <- read_HTP(
-  data = dt_potato,
+  data = dt_chips,
   genotype = "Gen",
   time = "DAP",
   plot = "Plot",
@@ -56,7 +55,6 @@ results <- read_HTP(
 )
 names(results)
 ```
-
 ```{r, fig.height=3, fig.dpi=600}
 plot(results, type = "evolution")
 ```
@@ -69,15 +67,17 @@ head(results$summ_traits)
 results$summ_traits |>
   head() |>
   dplyr::mutate_if(is.numeric, round, 2) |>
-  gt::gt() |>
-  gt::cols_align(
-    align = "center",
-    columns = everything()
-  )
+  kableExtra::kable()
+```
+
+
+
+```{r, echo = FALSE}
 results$exp_design_resum |>
   dplyr::mutate_if(is.numeric, round, 2) |>
-  gt::gt()
+  kableExtra::kable()
 ```
+
 
 ## 2. Plotting correlations (1)
 
@@ -92,12 +92,7 @@ head(table)
 
 
 ```{r, echo = FALSE}
-table |>
-  gt::gt() |>
-  gt::cols_align(
-    align = "center",
-    columns = everything()
-  )
+table |> kableExtra::kable()
 ```
 
 
@@ -114,12 +109,7 @@ head(table)
 
 
 ```{r, echo = FALSE}
-head(table) |>
-  gt::gt() |>
-  gt::cols_align(
-    align = "center",
-    columns = everything()
-  )
+head(table) |> kableExtra::kable()
 ```
 
 
@@ -129,16 +119,75 @@ head(table) |>
 out <- canopy_HTP(
   results = results,
   canopy = "Canopy",
-  plot_id = c(22, 40),
+  plot_id = c(60, 150),
   correct_max = TRUE,
   add_zero = TRUE,
-  fn = fn_sse_piw
+  fn = sse_piwise
 )
 names(out)
-plot(out, c(22, 40))
+plot(out, plot_id = c(60, 150))
 ```
+
 ```{r, echo =FALSE}
 out$param |>
-  dplyr::mutate_if(is.numeric, round, 2) |>
-  gt::gt()
+  dplyr::mutate_if(is.numeric, round, 3) |>
+  kableExtra::kable()
 ```
+
+## 5. Modelling Plant Height
+
+```{r}
+ph_1 <- height_HTP(
+  results = results,
+  canopy = out,
+  plant_height = "PH",
+  add_zero = TRUE,
+  method = c("nlminb", "anms", "mla", "pracmanm", "subplex"),
+  return_method = TRUE,
+  parameters = c(t2 = 67, alpha = 1 / 600, beta = -1 / 80),
+  fn = sse_exp2_exp
+)
+```
+
+```{r,  fig.width= 8, fig.height=4,fig.dpi=600}
+plot(
+  x = ph_1,
+  plot_id = c(60, 150),
+  fn = quote(fn_exp2_exp(time, t1, t2, alpha, beta))
+)
+```
+
+```{r, echo =FALSE}
+ph_1$param |>
+  dplyr::mutate_if(is.numeric, round, 3) |>
+  kableExtra::kable()
+```
+
+
+```{r}
+ph_2 <- height_HTP(
+  results = results,
+  canopy = out,
+  plant_height = "PH",
+  add_zero = TRUE,
+  method = c("nlminb", "anms", "mla", "pracmanm", "subplex"),
+  return_method = TRUE,
+  parameters = c(t2 = 67, alpha = 1 / 600, beta = -1 / 80),
+  fn = sse_exp2_lin
+)
+```
+
+```{r,  fig.width= 8, fig.height=4, fig.dpi=600}
+plot(
+  x = ph_2,
+  plot_id = c(60, 150),
+  fn = quote(fn_exp2_lin(time, t1, t2, alpha, beta))
+)
+```
+
+```{r, echo =FALSE}
+ph_2$param |>
+  dplyr::mutate_if(is.numeric, round, 3) |>
+  kableExtra::kable()
+```
+

@@ -254,7 +254,9 @@ plot.read_HTP <- function(x,
       nest_by(time) |>
       mutate(
         mat = list(
-          gg_cor(return_table = TRUE, data = data, method = method)
+          suppressWarnings(
+            gg_cor(return_table = TRUE, data = data, method = method)
+          )
         )
       ) |>
       reframe(mat)
@@ -309,7 +311,9 @@ plot.read_HTP <- function(x,
       nest_by(trait) |>
       mutate(
         mat = list(
-          gg_cor(return_table = TRUE, data = data, method = method)
+          suppressWarnings(
+            gg_cor(return_table = TRUE, data = data, method = method)
+          )
         )
       ) |>
       reframe(mat)

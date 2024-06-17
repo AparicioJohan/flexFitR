@@ -38,11 +38,10 @@ This is a basic example which shows how to use exploreHTP:
 
 ``` r
 library(exploreHTP)
-data(dt_potato)
-dt_potato <- dt_potato
+data(dt_chips)
 
 results <- read_HTP(
-  data = dt_potato,
+  data = dt_chips,
   genotype = "Gen",
   time = "DAP",
   plot = "Plot",
@@ -66,16 +65,16 @@ head(results$summ_traits)
 
 | trait  | time |   Min |  Mean | Median |    Max |    SD |   CV |   n | miss | miss% | neg% |
 |:-------|-----:|------:|------:|-------:|-------:|------:|-----:|----:|-----:|------:|-----:|
-| Canopy |   29 |  0.00 |  0.00 |   0.00 |   0.00 |  0.00 |  NaN | 196 |    0 |     0 |    0 |
-| Canopy |   36 |  0.00 |  2.86 |   1.77 |  14.53 |  3.12 | 1.09 | 196 |    0 |     0 |    0 |
-| Canopy |   42 |  0.73 | 22.66 |  22.32 |  44.14 |  9.00 | 0.40 | 196 |    0 |     0 |    0 |
-| Canopy |   56 | 32.83 | 74.04 |  73.75 |  99.24 | 12.24 | 0.17 | 196 |    0 |     0 |    0 |
-| Canopy |   76 | 89.56 | 99.70 | 100.00 | 100.00 |  1.05 | 0.01 | 196 |    0 |     0 |    0 |
-| Canopy |   92 | 63.14 | 97.12 |  98.46 | 100.02 |  4.24 | 0.04 | 196 |    0 |     0 |    0 |
+| Canopy |   28 |  0.00 |  0.01 |   0.00 |   0.52 |  0.06 | 4.46 | 196 |    0 |     0 |    0 |
+| Canopy |   42 |  1.33 | 19.31 |  19.72 |  41.65 |  8.14 | 0.42 | 196 |    0 |     0 |    0 |
+| Canopy |   50 | 18.53 | 52.75 |  53.36 |  82.39 | 11.76 | 0.22 | 196 |    0 |     0 |    0 |
+| Canopy |   62 | 52.37 | 85.06 |  86.31 |  99.86 |  9.63 | 0.11 | 196 |    0 |     0 |    0 |
+| Canopy |   77 | 94.83 | 99.83 |  99.94 | 100.00 |  0.51 | 0.01 | 196 |    0 |     0 |    0 |
+| Canopy |   84 | 95.40 | 99.88 | 100.00 | 100.02 |  0.51 | 0.01 | 196 |    0 |     0 |    0 |
 
 |   n | n_gen | n_row | n_range | num_of_reps | num_of_gen |
 |----:|------:|------:|--------:|:------------|:-----------|
-| 196 |   185 |    14 |      14 | 1_2         | 174_11     |
+| 196 |   178 |    14 |      14 | 1_2_3       | 163_12_3   |
 
 ## 2. Plotting correlations (1)
 
@@ -90,15 +89,15 @@ table <- plot(results, label_size = 4, signif = TRUE, n_row = 1)
 head(table)
 ```
 
-| time | col    | row |  corr |   p.value |   n | signi  |
-|-----:|:-------|:----|------:|----------:|----:|:-------|
-|   36 | Canopy | PH  |  0.47 | 0.0000000 | 176 | \*\*\* |
-|   42 | Canopy | PH  |  0.67 | 0.0000000 | 196 | \*\*\* |
-|   56 | Canopy | PH  | -0.18 | 0.0116179 | 196 | \*     |
-|   76 | Canopy | PH  |  0.31 | 0.0000089 | 196 | \*\*\* |
-|   92 | Canopy | PH  |  0.27 | 0.0001317 | 196 | \*\*\* |
-|  100 | Canopy | PH  |  0.31 | 0.0000138 | 196 | \*\*\* |
-|  108 | Canopy | PH  |  0.07 | 0.3369443 | 196 | ns     |
+| time | col    | row | corr |   p.value |   n | signi  |
+|-----:|:-------|:----|-----:|----------:|----:|:-------|
+|   42 | Canopy | PH  | 0.77 | 0.0000000 | 196 | \*\*\* |
+|   50 | Canopy | PH  | 0.89 | 0.0000000 | 196 | \*\*\* |
+|   62 | Canopy | PH  | 0.50 | 0.0000000 | 196 | \*\*\* |
+|   77 | Canopy | PH  | 0.28 | 0.0000557 | 196 | \*\*\* |
+|   84 | Canopy | PH  | 0.23 | 0.0009829 | 196 | \*\*\* |
+|   96 | Canopy | PH  | 0.43 | 0.0000000 | 196 | \*\*\* |
+|  105 | Canopy | PH  | 0.52 | 0.0000000 | 196 | \*\*\* |
 
 ## 3. Plotting correlations (2)
 
@@ -113,14 +112,14 @@ table <- plot(results, type = "time_by_trait", label_size = 4, signif = TRUE)
 head(table)
 ```
 
-| trait  | col | row |  corr |   p.value |   n | signi  |
-|:-------|:----|:----|------:|----------:|----:|:-------|
-| Canopy | 100 | 108 |  0.88 | 0.0000000 | 196 | \*\*\* |
-| Canopy | 36  | 100 | -0.08 | 1.0000000 | 196 | ns     |
-| Canopy | 36  | 108 | -0.13 | 0.5731675 | 196 | ns     |
-| Canopy | 36  | 42  |  0.86 | 0.0000000 | 196 | \*\*\* |
-| Canopy | 36  | 56  |  0.70 | 0.0000000 | 196 | \*\*\* |
-| Canopy | 36  | 76  |  0.17 | 0.1786972 | 196 | ns     |
+| trait  | col | row |  corr |   p.value |   n | signi |
+|:-------|:----|:----|------:|----------:|----:|:------|
+| Canopy | 28  | 105 | -0.06 | 1.0000000 | 196 | ns    |
+| Canopy | 28  | 42  |  0.21 | 0.0646376 | 196 | ns    |
+| Canopy | 28  | 50  |  0.17 | 0.2985603 | 196 | ns    |
+| Canopy | 28  | 62  |  0.04 | 1.0000000 | 196 | ns    |
+| Canopy | 28  | 77  |  0.06 | 1.0000000 | 196 | ns    |
+| Canopy | 28  | 84  |  0.04 | 1.0000000 | 196 | ns    |
 
 ## 4. Estimating days to emergence and days to full canopy
 
@@ -128,22 +127,80 @@ head(table)
 out <- canopy_HTP(
   results = results,
   canopy = "Canopy",
-  plot_id = c(22, 40),
+  plot_id = c(60, 150),
   correct_max = TRUE,
   add_zero = TRUE,
-  fn = fn_sse_piw
+  fn = sse_piwise
 )
 names(out)
 #> [1] "param" "dt"
 ```
 
 ``` r
-plot(out, c(22, 40))
+plot(out, plot_id = c(60, 150))
 ```
 
 <img src="man/figures/README-unnamed-chunk-12-1.png" width="100%" />
 
-| plot | genotype  | row | range |    t1 |    t2 |    max |  sse |
-|-----:|:----------|----:|------:|------:|------:|-------:|-----:|
-|   22 | W17047-5  |   8 |     2 | 39.49 | 75.62 |  98.88 | 0.37 |
-|   40 | W17043-37 |  12 |     3 | 34.88 | 61.78 | 100.00 | 0.16 |
+| plot | genotype  | row | range |     t1 |     t2 |     max |    sse |
+|-----:|:----------|----:|------:|-------:|-------:|--------:|-------:|
+|   60 | W19026-15 |   4 |     5 | 38.045 | 68.662 |  99.956 |  4.894 |
+|  150 | W19023-21 |  10 |    11 | 33.791 | 68.496 | 100.000 | 40.406 |
+
+## 5. Modelling Plant Height
+
+``` r
+ph_1 <- height_HTP(
+  results = results,
+  canopy = out,
+  plant_height = "PH",
+  add_zero = TRUE,
+  method = c("nlminb", "anms", "mla", "pracmanm", "subplex"),
+  return_method = TRUE,
+  parameters = c(t2 = 67, alpha = 1 / 600, beta = -1 / 80),
+  fn = sse_exp2_exp
+)
+```
+
+``` r
+plot(
+  x = ph_1,
+  plot_id = c(60, 150),
+  fn = quote(fn_exp2_exp(time, t1, t2, alpha, beta))
+)
+```
+
+<img src="man/figures/README-unnamed-chunk-15-1.png" width="100%" />
+
+| plot | genotype  | row | range |  t2 | alpha |   beta |     t1 | method  |   sse |
+|-----:|:----------|----:|------:|----:|------:|-------:|-------:|:--------|------:|
+|   60 | W19026-15 |   4 |     5 |  62 | 0.001 | -0.035 | 38.045 | subplex | 0.009 |
+|  150 | W19023-21 |  10 |    11 |  62 | 0.001 | -0.018 | 33.791 | subplex | 0.001 |
+
+``` r
+ph_2 <- height_HTP(
+  results = results,
+  canopy = out,
+  plant_height = "PH",
+  add_zero = TRUE,
+  method = c("nlminb", "anms", "mla", "pracmanm", "subplex"),
+  return_method = TRUE,
+  parameters = c(t2 = 67, alpha = 1 / 600, beta = -1 / 80),
+  fn = sse_exp2_lin
+)
+```
+
+``` r
+plot(
+  x = ph_2,
+  plot_id = c(60, 150),
+  fn = quote(fn_exp2_lin(time, t1, t2, alpha, beta))
+)
+```
+
+<img src="man/figures/README-unnamed-chunk-18-1.png" width="100%" />
+
+| plot | genotype  | row | range |  t2 | alpha |   beta |     t1 | method  |   sse |
+|-----:|:----------|----:|------:|----:|------:|-------:|-------:|:--------|------:|
+|   60 | W19026-15 |   4 |     5 |  62 | 0.001 | -0.017 | 38.045 | subplex | 0.032 |
+|  150 | W19023-21 |  10 |    11 |  62 | 0.001 | -0.011 | 33.791 | subplex | 0.003 |
