@@ -30,6 +30,7 @@ reference:
   - read_HTP
   - canopy_HTP
   - height_HTP
+  - maturity_HTP
 - title: Data
   desc: Example Datasets
 - contents:
@@ -41,6 +42,7 @@ reference:
   - plot.read_HTP
   - plot.canopy_HTP
   - plot.height_HTP
+  - plot.maturity_HTP
 - title: Growth Modelling
   desc: Collection of functions
 - contents:
@@ -49,6 +51,7 @@ reference:
   - fn_exp2_lin
   - fn_exp1_exp
   - fn_exp2_exp
+  - fn_lin_pl_lin
 - title: SSE Functions
   desc: Functions to optimize
 - contents:
@@ -57,3 +60,4 @@ reference:
   - sse_exp2_lin
   - sse_exp1_exp
   - sse_exp2_exp
+  - sse_lin_pl_lin

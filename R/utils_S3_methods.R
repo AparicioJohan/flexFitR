@@ -170,6 +170,69 @@ plot.height_HTP <- function(x,
   return(p0)
 }
 
+#' Plot an object of class \code{maturity_HTP}
+#'
+#' @description Create several plots for an object of class \code{maturity_HTP}
+#' @aliases plot.maturity_HTP
+#' @param x An object inheriting from class \code{maturity_HTP} resulting of
+#' executing the function \code{maturity_HTP()}
+#' @param plot_id To avoid too many plots in one figure. Filter by Plot Id.
+#' @param label_size Label size. 3 by default.
+#' @param base_size Base font size, given in pts.
+#' @param fn Object of class call. e.g. \code{quote(fn_lin_pl_lin(time, t1, t2, t3, k, beta))}
+#' @param ... Further graphical parameters. For future improvements.
+#' @author Johan Aparicio [aut]
+#' @method plot maturity_HTP
+#' @return A ggplot object.
+#' @export
+#' @examples
+#' # in progress
+#' @import ggplot2
+#' @import dplyr
+#' @importFrom stats quantile
+plot.maturity_HTP <- function(x,
+                              plot_id = NULL,
+                              label_size = 4,
+                              base_size = 14,
+                              fn = quote(fn_lin_pl_lin(time, t1, t2, t3, k, beta)), ...) {
+  data <- x$dt
+  param <- x$param
+  dt <- full_join(data, y = param, by = c("plot", "row", "range", "genotype"))
+  if (is.null(plot_id)) {
+    plot_id <- dt$plot[1]
+  }
+  dt <- dt |>
+    filter(plot %in% plot_id) |>
+    droplevels()
+  param <- param |>
+    filter(plot %in% plot_id) |>
+    droplevels()
+
+  max_x <- max(dt$time, na.rm = TRUE)
+  min_x <- min(dt$time, na.rm = TRUE)
+  sq <- seq(min_x, max_x, by = 0.05)
+
+  func_dt <- full_join(
+    x = expand.grid(time = sq, plot = unique(dt$plot)),
+    y = param,
+    by = "plot"
+  ) |>
+    group_by(time, plot) |>
+    mutate(dens = !!fn) |>
+    ungroup()
+
+  p0 <- dt |>
+    ggplot() +
+    geom_point(aes(x = time, y = value)) +
+    geom_line(data = func_dt, aes(x = time, y = dens), color = "red") +
+    geom_vline(aes(xintercept = c(t1)), linetype = 2) +
+    geom_vline(aes(xintercept = c(DMC)), linetype = 2) +
+    theme_classic(base_size = base_size) +
+    facet_wrap(~plot) +
+    labs(y = "Maturity")
+  return(p0)
+}
+
 
 #' Plot an Object of Class \code{read_HTP}
 #'

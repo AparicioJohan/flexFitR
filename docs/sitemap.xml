@@ -52,6 +52,9 @@
     <loc>https://apariciojohan.github.io/exploreHTP/reference/fn_exp_linear.html</loc>
   </url>
   <url>
+    <loc>https://apariciojohan.github.io/exploreHTP/reference/fn_lin_pl_lin.html</loc>
+  </url>
+  <url>
     <loc>https://apariciojohan.github.io/exploreHTP/reference/fn_piwise.html</loc>
   </url>
   <url>
@@ -79,6 +82,9 @@
     <loc>https://apariciojohan.github.io/exploreHTP/reference/index.html</loc>
   </url>
   <url>
+    <loc>https://apariciojohan.github.io/exploreHTP/reference/maturity_HTP.html</loc>
+  </url>
+  <url>
     <loc>https://apariciojohan.github.io/exploreHTP/reference/plot.canopyHTP.html</loc>
   </url>
   <url>
@@ -86,6 +92,9 @@
   </url>
   <url>
     <loc>https://apariciojohan.github.io/exploreHTP/reference/plot.height_HTP.html</loc>
+  </url>
+  <url>
+    <loc>https://apariciojohan.github.io/exploreHTP/reference/plot.maturity_HTP.html</loc>
   </url>
   <url>
     <loc>https://apariciojohan.github.io/exploreHTP/reference/plot.read_HTP.html</loc>
@@ -107,6 +116,9 @@
   </url>
   <url>
     <loc>https://apariciojohan.github.io/exploreHTP/reference/sse_exp2_lin.html</loc>
+  </url>
+  <url>
+    <loc>https://apariciojohan.github.io/exploreHTP/reference/sse_lin_pl_lin.html</loc>
   </url>
   <url>
     <loc>https://apariciojohan.github.io/exploreHTP/reference/sse_piwise.html</loc>
