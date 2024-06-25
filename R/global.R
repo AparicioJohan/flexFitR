@@ -30,6 +30,7 @@ utils::globalVariables(
     "value.y",
     "dens",
     "sse",
+    "DE",
     "DMC"
   )
 )

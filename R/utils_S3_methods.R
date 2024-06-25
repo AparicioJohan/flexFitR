@@ -186,7 +186,34 @@ plot.height_HTP <- function(x,
 #' @return A ggplot object.
 #' @export
 #' @examples
-#' # in progress
+#' library(exploreHTP)
+#' data(dt_potato)
+#' dt_potato <- dt_potato
+#' results <- read_HTP(
+#'   data = dt_potato,
+#'   genotype = "Gen",
+#'   time = "DAP",
+#'   plot = "Plot",
+#'   traits = c("Canopy", "GLI_2"),
+#'   row = "Row",
+#'   range = "Range"
+#' )
+#' names(results)
+#' out <- canopy_HTP(
+#'   results = results,
+#'   canopy = "Canopy",
+#'   plot_id = c(195, 40),
+#'   correct_max = TRUE,
+#'   add_zero = TRUE
+#' )
+#' mat <- maturity_HTP(
+#'   results = results,
+#'   canopy = out,
+#'   index = "GLI_2",
+#'   parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
+#'   fn = sse_lin_pl_lin
+#' )
+#' plot(mat, plot_id = c(195, 40))
 #' @import ggplot2
 #' @import dplyr
 #' @importFrom stats quantile
@@ -225,7 +252,7 @@ plot.maturity_HTP <- function(x,
     ggplot() +
     geom_point(aes(x = time, y = value)) +
     geom_line(data = func_dt, aes(x = time, y = dens), color = "red") +
-    geom_vline(aes(xintercept = c(t1)), linetype = 2) +
+    geom_vline(aes(xintercept = c(DE)), linetype = 2) +
     geom_vline(aes(xintercept = c(DMC)), linetype = 2) +
     theme_classic(base_size = base_size) +
     facet_wrap(~plot) +

@@ -50,5 +50,32 @@ data.frame
 Maturity Modelling
 }
 \examples{
-# in progress
+library(exploreHTP)
+data(dt_potato)
+dt_potato <- dt_potato
+results <- read_HTP(
+  data = dt_potato,
+  genotype = "Gen",
+  time = "DAP",
+  plot = "Plot",
+  traits = c("Canopy", "GLI_2"),
+  row = "Row",
+  range = "Range"
+)
+names(results)
+out <- canopy_HTP(
+  results = results,
+  canopy = "Canopy",
+  plot_id = c(195, 40),
+  correct_max = TRUE,
+  add_zero = TRUE
+)
+mat <- maturity_HTP(
+  results = results,
+  canopy = out,
+  index = "GLI_2",
+  parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
+  fn = sse_lin_pl_lin
+)
+plot(mat, plot_id = c(195, 40))
 }
