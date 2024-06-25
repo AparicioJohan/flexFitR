@@ -14,8 +14,11 @@
 #' @param fn A function to be minimized (or maximized), with first argument the
 #' vector of parameters over which minimization is to take place.
 #' It should return a scalar result. Default is \link{sse_exp2_exp}.
-
-#' @return data.frame
+#' @return A list with two elements:
+#' \describe{
+#'   \item{\code{param}}{A data frame containing the optimized parameters and related information.}
+#'   \item{\code{dt}}{A data frame with data used.}
+#' }
 #' @export
 #'
 #' @examples

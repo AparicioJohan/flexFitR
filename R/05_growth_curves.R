@@ -474,7 +474,7 @@ sse_piwise <- function(params, t, y) {
 #' 0 & \text{if } t < t_1 \\
 #' \dfrac{k}{t_2 - t_1} \cdot (t - t_1) & \text{if } t_1 \leq t \leq t_2 \\
 #' k & \text{if } t_2 \leq t \leq t_3 \\
-#' k + \beta \cdot (t - t3) & \text{if } t > t_3
+#' k + \beta \cdot (t - t_3) & \text{if } t > t_3
 #' \end{cases}
 #' }
 #' }
@@ -524,14 +524,17 @@ fn_lin_pl_lin <- function(t, t1, t2, t3, k, beta) {
 #' @examples
 #' library(exploreHTP)
 #' x <- c(0, 29, 36, 42, 56, 76, 92, 100, 108)
-#' y <- c(0, 0, 0.027, 0.185, 0.325, 0.321, 0.256, 0.176)
+#' y <- c(0, 0, 0, 0.027, 0.185, 0.325, 0.321, 0.256, 0.176)
 #' sse_lin_pl_lin(
 #'   params = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
 #'   t = x,
 #'   y = y
 #' )
-#'
-#' y_hat <- sapply(x, FUN = fn_piwise, t1 = 34.9, t2 = 61.8, k = 100)
+#' y_hat <- sapply(
+#'   X = x,
+#'   FUN = fn_lin_pl_lin,
+#'   t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01
+#' )
 #' sum((y - y_hat)^2)
 sse_lin_pl_lin <- function(params, t, y) {
   t1 <- params[1]
@@ -540,6 +543,100 @@ sse_lin_pl_lin <- function(params, t, y) {
   k <- params[4]
   beta <- params[5]
   y_hat <- sapply(t, FUN = fn_lin_pl_lin, t1 = t1, t2 = t2, t3 = t3, k = k, beta = beta)
+  sse <- sum((y - y_hat)^2)
+  return(sse)
+}
+
+
+#' Linear Plateau Linear with Constrains
+#'
+#' @param t Numeric. The time value.
+#' @param t1 Numeric. The lower threshold time. Default is 45.
+#' @param dt Numeric. dt = t3 - t2. Default is 28
+#' @param t3 Numeric. The lower threshold time after plateau. Default is 45.
+#' @param k Numeric. The maximum value of the function. Default is 0.9.
+#' @param beta Numeric. Slope of the linear decay.
+#'
+#' @return A numeric value based on the linear plateau linear model.
+#' @export
+#'
+#' @details
+#' \if{html}{
+#' \deqn{
+#' f(t; t_1, dt, t_3, k, \beta) =
+#' \begin{cases}
+#' 0 & \text{if } t < t_1 \\
+#' \dfrac{k}{(t_3 - dt) - t_1} \cdot (t - t_1) & \text{if } t_1 \leq t \leq (t_3 - dt) \\
+#' k & \text{if } (t_3 - dt) \leq t \leq t_3 \\
+#' k + \beta \cdot (t - t_3) & \text{if } t > t_3
+#' \end{cases}
+#' }
+#' }
+#'
+#' @examples
+#' library(exploreHTP)
+#' t <- seq(0, 108, 0.1)
+#' y_hat <- sapply(
+#'   X = t,
+#'   FUN = fn_lin_pl_lin2,
+#'   t1 = 38.7, dt = 28, t3 = 90, k = 0.32, beta = -0.01
+#' )
+#' plot(t, y_hat, type = "l")
+#' lines(t, y_hat, col = "red")
+#' abline(v = c(38.7, 62), lty = 2)
+fn_lin_pl_lin2 <- function(t, t1, dt, t3, k, beta) {
+  if (t < t1) {
+    return(0)
+  }
+  if (t >= t1 & t <= t3 - dt) {
+    y <- k / ((t3 - dt) - t1) * (t - t1)
+  }
+  if (t >= (t3 - dt) & t <= t3) {
+    y <- k
+  }
+  if (t >= t3) {
+    y <- k + beta * (t - t3)
+  }
+  return(y)
+}
+
+#' Sum of Squares Error Function for Linear Plateau Linear Model with Constrains
+#'
+#' Calculates the sum of squared errors (SSE) between observed values and values
+#' predicted by the \link{fn_lin_pl_lin2} function. This is the objective function to
+#' be minimized in the optimx package.
+#'
+#' @param params Numeric vector. The parameters for the \code{fn_lin_pl_lin2} function,
+#' where \code{params[1]} is \code{t1}, \code{params[2]} is \code{t2}, \code{params[3]} is \code{t3}
+#' \code{params[4]} is \code{k} and \code{params[5]} is \code{beta}.
+#' @param t Numeric vector. The time values.
+#' @param y Numeric vector. The observed values.
+#'
+#' @return A numeric value representing the sum of squared errors.
+#' @export
+#'
+#' @examples
+#' library(exploreHTP)
+#' x <- c(0, 29, 36, 42, 56, 76, 92, 100, 108)
+#' y <- c(0, 0, 0, 0.027, 0.185, 0.325, 0.321, 0.256, 0.176)
+#' sse_lin_pl_lin2(
+#'   params = c(t1 = 38.7, dt = 28, t3 = 90, k = 0.32, beta = -0.01),
+#'   t = x,
+#'   y = y
+#' )
+#' y_hat <- sapply(
+#'   X = x,
+#'   FUN = fn_lin_pl_lin2,
+#'   t1 = 38.7, dt = 28, t3 = 90, k = 0.32, beta = -0.01
+#' )
+#' sum((y - y_hat)^2)
+sse_lin_pl_lin2 <- function(params, t, y) {
+  t1 <- params[1]
+  dt <- params[2]
+  t3 <- params[3]
+  k <- params[4]
+  beta <- params[5]
+  y_hat <- sapply(t, FUN = fn_lin_pl_lin2, t1 = t1, dt = dt, t3 = t3, k = k, beta = beta)
   sse <- sum((y - y_hat)^2)
   return(sse)
 }

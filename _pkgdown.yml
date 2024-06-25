@@ -52,6 +52,7 @@ reference:
   - fn_exp1_exp
   - fn_exp2_exp
   - fn_lin_pl_lin
+  - fn_lin_pl_lin2
 - title: SSE Functions
   desc: Functions to optimize
 - contents:
@@ -61,3 +62,4 @@ reference:
   - sse_exp1_exp
   - sse_exp2_exp
   - sse_lin_pl_lin
+  - sse_lin_pl_lin2
