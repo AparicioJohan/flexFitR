@@ -46,8 +46,8 @@ optimized over. c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01) by defaul
 
 \item{upper}{Bounds on the variables for methods such as "L-BFGS-B" that can handle box (or bounds) constraints.}
 
-\item{initial_vals}{TRUE or FALSE. If the user wants to use t1 and t2 from the
-Canopy model as initial values. Only works if the function \code{fn} uses t1 and t2 as parameters.
+\item{initial_vals}{TRUE or FALSE. Whether the user wants to use t1 and t2 from the
+Canopy model as initial values or not. Only works if the function \code{fn} uses t1 and t2 as parameters.
 FALSE by default.}
 
 \item{fn}{A function to be minimized (or maximized), with first argument the

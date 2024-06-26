@@ -14,8 +14,8 @@
 #' optimized over. c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01) by default.
 #' @param lower Bounds on the variables for methods such as "L-BFGS-B" that can handle box (or bounds) constraints.
 #' @param upper Bounds on the variables for methods such as "L-BFGS-B" that can handle box (or bounds) constraints.
-#' @param initial_vals TRUE or FALSE. If the user wants to use t1 and t2 from the
-#' Canopy model as initial values. Only works if the function \code{fn} uses t1 and t2 as parameters.
+#' @param initial_vals TRUE or FALSE. Whether the user wants to use t1 and t2 from the
+#' Canopy model as initial values or not. Only works if the function \code{fn} uses t1 and t2 as parameters.
 #' FALSE by default.
 #' @param fn A function to be minimized (or maximized), with first argument the
 #' vector of parameters over which minimization is to take place.

@@ -640,3 +640,100 @@ sse_lin_pl_lin2 <- function(params, t, y) {
   sse <- sum((y - y_hat)^2)
   return(sse)
 }
+
+
+# -------------------------------------------------------------------------
+
+#' Linear Plateau Linear with Constrains
+#'
+#' @param t Numeric. The time value.
+#' @param t1 Numeric. The lower threshold time.
+#' @param t2 Numeric. The upper threshold time before plateau.
+#' @param dt Numeric. dt = t3 - t2.
+#' @param k Numeric. The maximum value of the function.
+#' @param beta Numeric. Slope of the linear decay.
+#'
+#' @return A numeric value based on the linear plateau linear model.
+#' @export
+#'
+#' @details
+#' \if{html}{
+#' \deqn{
+#' f(t; t_1, t_2, dt, k, \beta) =
+#' \begin{cases}
+#' 0 & \text{if } t < t_1 \\
+#' \dfrac{k}{t_2 - t_1} \cdot (t - t_1) & \text{if } t_1 \leq t \leq t_2 \\
+#' k & \text{if } t_2 \leq t \leq (t_2 + dt) \\
+#' k + \beta \cdot (t - (t_2 + dt)) & \text{if } t > (t_2 + dt)
+#' \end{cases}
+#' }
+#' }
+#'
+#' @examples
+#' library(exploreHTP)
+#' t <- seq(0, 108, 0.1)
+#' y_hat <- sapply(
+#'   X = t,
+#'   FUN = fn_lin_pl_lin3,
+#'   t1 = 38.7, t2 = 62, dt = 28, k = 0.32, beta = -0.01
+#' )
+#' plot(t, y_hat, type = "l")
+#' lines(t, y_hat, col = "red")
+#' abline(v = c(38.7, 62), lty = 2)
+fn_lin_pl_lin3 <- function(t, t1, t2, dt, k, beta) {
+  if (t < t1) {
+    return(0)
+  }
+  if (t >= t1 & t <= t2) {
+    y <- k / (t2 - t1) * (t - t1)
+  }
+  if (t >= t2 & t <= (t2 + dt)) {
+    y <- k
+  }
+  if (t >= (t2 + dt)) {
+    y <- k + beta * (t - (t2 + dt))
+  }
+  return(y)
+}
+
+#' Sum of Squares Error Function for Linear Plateau Linear Model with Constrains
+#'
+#' Calculates the sum of squared errors (SSE) between observed values and values
+#' predicted by the \link{fn_lin_pl_lin3} function. This is the objective function to
+#' be minimized in the optimx package.
+#'
+#' @param params Numeric vector. The parameters for the \code{fn_lin_pl_lin3} function,
+#' where \code{params[1]} is \code{t1}, \code{params[2]} is \code{t2}, \code{params[3]} is \code{t3}
+#' \code{params[4]} is \code{k} and \code{params[5]} is \code{beta}.
+#' @param t Numeric vector. The time values.
+#' @param y Numeric vector. The observed values.
+#'
+#' @return A numeric value representing the sum of squared errors.
+#' @export
+#'
+#' @examples
+#' library(exploreHTP)
+#' x <- c(0, 29, 36, 42, 56, 76, 92, 100, 108)
+#' y <- c(0, 0, 0, 0.027, 0.185, 0.325, 0.321, 0.256, 0.176)
+#' sse_lin_pl_lin3(
+#'   params = c(t1 = 38.7, t2 = 62, dt = 28, k = 0.32, beta = -0.01),
+#'   t = x,
+#'   y = y
+#' )
+#' y_hat <- sapply(
+#'   X = x,
+#'   FUN = fn_lin_pl_lin3,
+#'   t1 = 38.7, t2 = 62, dt = 28, k = 0.32, beta = -0.01
+#' )
+#' sum((y - y_hat)^2)
+sse_lin_pl_lin3 <- function(params, t, y) {
+  t1 <- params[1]
+  t2 <- params[2]
+  dt <- params[3]
+  k <- params[4]
+  beta <- params[5]
+  y_hat <- sapply(t, FUN = fn_lin_pl_lin3, t1 = t1, t2 = t2, dt = dt, k = k, beta = beta)
+  sse <- sum((y - y_hat)^2)
+  return(sse)
+}
+
