@@ -79,6 +79,7 @@
 <span>  parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">38.7</span>, t2 <span class="op">=</span> <span class="fl">62</span>, t3 <span class="op">=</span> <span class="fl">90</span>, k <span class="op">=</span> <span class="fl">0.32</span>, beta <span class="op">=</span> <span class="op">-</span><span class="fl">0.01</span><span class="op">)</span>,</span>
 <span>  lower <span class="op">=</span> <span class="op">-</span><span class="cn">Inf</span>,</span>
 <span>  upper <span class="op">=</span> <span class="cn">Inf</span>,</span>
+<span>  initial_vals <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  fn <span class="op">=</span> <span class="va">sse_lin_pl_lin</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -130,6 +131,12 @@ optimized over. c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01) by defaul
 
 <dt>upper</dt>
 <dd><p>Bounds on the variables for methods such as "L-BFGS-B" that can handle box (or bounds) constraints.</p></dd>
+
+
+<dt>initial_vals</dt>
+<dd><p>TRUE or FALSE. If the user wants to use t1 and t2 from the
+Canopy model as initial values. Only works if the function <code>fn</code> uses t1 and t2 as parameters.
+FALSE by default.</p></dd>
 
 
 <dt>fn</dt>

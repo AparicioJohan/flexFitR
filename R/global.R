@@ -31,6 +31,8 @@ utils::globalVariables(
     "dens",
     "sse",
     "DE",
-    "DMC"
+    "DMC",
+    "val",
+    "coef"
   )
 )

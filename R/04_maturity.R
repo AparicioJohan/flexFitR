@@ -14,6 +14,9 @@
 #' optimized over. c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01) by default.
 #' @param lower Bounds on the variables for methods such as "L-BFGS-B" that can handle box (or bounds) constraints.
 #' @param upper Bounds on the variables for methods such as "L-BFGS-B" that can handle box (or bounds) constraints.
+#' @param initial_vals TRUE or FALSE. If the user wants to use t1 and t2 from the
+#' Canopy model as initial values. Only works if the function \code{fn} uses t1 and t2 as parameters.
+#' FALSE by default.
 #' @param fn A function to be minimized (or maximized), with first argument the
 #' vector of parameters over which minimization is to take place.
 #' It should return a scalar result. Default is \link{sse_lin_pl_lin}.
@@ -66,6 +69,7 @@ maturity_HTP <- function(results,
                          parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
                          lower = -Inf,
                          upper = Inf,
+                         initial_vals = FALSE,
                          fn = sse_lin_pl_lin) {
   param <- canopy$param |>
     select(plot:range, t1, t2) |>
@@ -88,18 +92,45 @@ maturity_HTP <- function(results,
       rbind.data.frame(dt) |>
       arrange(plot, time)
   }
-  if (!is.null(plot_id)) {
-    dt <- dt |>
-      filter(plot %in% plot_id) |>
-      droplevels()
+
+  if (initial_vals) {
+    init <- canopy$param |>
+      select(plot, genotype, t1, t2) |>
+      cbind(data.frame(t(parameters[-c(1:2)]))) |>
+      pivot_longer(
+        cols = -c(plot, genotype),
+        names_to = "coef",
+        values_to = "val"
+      ) |>
+      nest_by(plot, genotype, .key = "param") |>
+      mutate(param = list(pull(param, val, coef)))
+  } else {
+    init <- canopy$param |>
+      select(plot, genotype) |>
+      cbind(data.frame(t(parameters))) |>
+      pivot_longer(
+        cols = -c(plot, genotype),
+        names_to = "coef",
+        values_to = "val"
+      ) |>
+      nest_by(plot, genotype, .key = "param") |>
+      mutate(param = list(pull(param, val, coef)))
   }
 
-  param_mat <- dt |>
+  if (!is.null(plot_id)) {
+    dt <- droplevels(filter(dt, plot %in% plot_id))
+    init <- droplevels(filter(init, plot %in% plot_id))
+  }
+
+  dt_nest <- dt |>
     nest_by(plot, genotype, row, range) |>
+    full_join(init, by = c("plot", "genotype"))
+
+  param_mat <- dt_nest |>
     summarise(
       res = list(
         opm(
-          par = parameters,
+          par = param,
           fn = fn,
           t = data$time,
           y = data$value,
