@@ -122,7 +122,7 @@ out <- canopy_HTP(
   plot_id = c(60, 150),
   correct_max = TRUE,
   add_zero = TRUE,
-  fn = sse_piwise
+  fn_sse = sse_piwise
 )
 names(out)
 plot(out, plot_id = c(60, 150))
@@ -145,7 +145,8 @@ ph_1 <- height_HTP(
   method = c("nlminb", "anms", "mla", "pracmanm", "subplex"),
   return_method = TRUE,
   parameters = c(t2 = 67, alpha = 1 / 600, beta = -1 / 80),
-  fn = sse_exp2_exp
+  fn_sse = sse_exp2_exp,
+  fn = quote(fn_exp2_exp(time, t1, t2, alpha, beta))
 )
 ```
 
@@ -173,7 +174,8 @@ ph_2 <- height_HTP(
   method = c("nlminb", "anms", "mla", "pracmanm", "subplex"),
   return_method = TRUE,
   parameters = c(t2 = 67, alpha = 1 / 600, beta = -1 / 80),
-  fn = sse_exp2_lin
+  fn_sse = sse_exp2_lin,
+  fn = quote(fn_exp2_lin(time, t1, t2, alpha, beta))
 )
 ```
 
@@ -190,4 +192,3 @@ ph_2$param |>
   dplyr::mutate_if(is.numeric, round, 3) |>
   kableExtra::kable()
 ```
-

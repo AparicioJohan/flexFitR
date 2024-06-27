@@ -13,7 +13,10 @@ canopy_HTP(
   method = c("subplex", "pracmanm", "anms"),
   return_method = FALSE,
   parameters = c(t1 = 45, t2 = 80),
-  fn = sse_piwise
+  fn_sse = sse_piwise,
+  fn = quote(fn_piwise(time, t1, t2, k)),
+  n_points = 1000,
+  max_time = NULL
 )
 }
 \arguments{
@@ -33,7 +36,13 @@ canopy_HTP(
 
 \item{parameters}{A named vector specifying the initial values for the parameters to be optimized. Default is \code{c(t1 = 45, t2 = 80)}.}
 
-\item{fn}{A function to be minimized (or maximized), with the first argument being the vector of parameters over which minimization is to take place. It should return a scalar result. Default is \link{sse_piwise}.}
+\item{fn_sse}{A function to be minimized (or maximized), with the first argument being the vector of parameters over which minimization is to take place. It should return a scalar result. Default is \link{sse_piwise}.}
+
+\item{fn}{Object of class call. e.g. \code{quote(fn_piwise(time, t1, t2, k))} to calculate the area under the curve (AUC).}
+
+\item{n_points}{Number of time points to approximate the AUC. 1000 by default.}
+
+\item{max_time}{Maximum time value for calculating the AUC. NULL by default takes the last time point.}
 }
 \value{
 A list with two elements:
@@ -69,6 +78,6 @@ out <- canopy_HTP(
 names(out)
 plot(out, c(22, 40))
 out$param$deltaT <- out$param$t2 - out$param$t1
-out$param$slope <- out$param$max / out$param$deltaT
+out$param$slope <- out$param$k / out$param$deltaT
 out$param
 }

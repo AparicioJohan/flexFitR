@@ -11,9 +11,12 @@
 #' optimization in the table. FALSE by default.
 #' @param parameters (Optional)	Initial values for the parameters to be
 #' optimized over. c(45, 80) by default.
-#' @param fn A function to be minimized (or maximized), with first argument the
+#' @param fn_sse A function to be minimized (or maximized), with first argument the
 #' vector of parameters over which minimization is to take place.
 #' It should return a scalar result. Default is \link{sse_exp2_exp}.
+#' @param fn Object of class call. e.g. \code{quote(fn_exp2_exp(time, t1, t2, alpha, beta))} to calculate the area under the curve (AUC).
+#' @param n_points Number of time points to approximate the AUC. 1000 by default.
+#' @param max_time Maximum time value for calculating the AUC. NULL by default takes the last time point.
 #' @return A list with two elements:
 #' \describe{
 #'   \item{\code{param}}{A data frame containing the optimized parameters and related information.}
@@ -51,7 +54,8 @@
 #'   method = c("nlminb", "anms", "mla", "pracmanm", "subplex"),
 #'   return_method = TRUE,
 #'   parameters = c(t2 = 67, alpha = 1 / 600, beta = -1 / 80),
-#'   fn = sse_exp2_exp
+#'   fn_sse = sse_exp2_exp,
+#'   fn = quote(fn_exp2_exp(time, t1, t2, alpha, beta))
 #' )
 #' plot(
 #'   x = ph_1,
@@ -68,7 +72,8 @@
 #'   method = c("nlminb", "anms", "mla", "pracmanm", "subplex"),
 #'   return_method = TRUE,
 #'   parameters = c(t2 = 67, alpha = 1 / 600, beta = -1 / 80),
-#'   fn = sse_exp2_lin
+#'   fn_sse = sse_exp2_lin,
+#'   fn = quote(fn_exp2_lin(time, t1, t2, alpha, beta))
 #' )
 #' plot(
 #'   x = ph_2,
@@ -86,7 +91,10 @@ height_HTP <- function(results,
                        method = c("subplex", "pracmanm", "anms"),
                        return_method = FALSE,
                        parameters = c(t2 = 67, alpha = 1 / 600, beta = -1 / 80),
-                       fn = sse_exp2_exp) {
+                       fn_sse = sse_exp2_exp,
+                       fn = quote(fn_exp2_exp(time, t1, t2, alpha, beta)),
+                       n_points = 1000,
+                       max_time = NULL) {
   param <- canopy$param |>
     select(plot:range, t1, t2) |>
     rename(DMC = t2)
@@ -116,7 +124,7 @@ height_HTP <- function(results,
       res = list(
         opm(
           par = parameters,
-          fn = fn,
+          fn = fn_sse,
           t = data$time,
           y = data$value,
           t1 = unique(data$t1),
@@ -132,6 +140,26 @@ height_HTP <- function(results,
       .groups = "drop"
     ) |>
     unnest(cols = res)
+
+  if (is.null(max_time)) {
+    max_time <- max(dt$time, na.rm = TRUE)
+  }
+
+  # AUC
+  sq <- seq(0, max_time, length.out = n_points)
+  auc <- full_join(
+    x = expand.grid(time = sq, plot = unique(dt$plot)),
+    y = param_ph,
+    by = "plot"
+  ) |>
+    group_by(time, plot) |>
+    mutate(hat = !!fn) |>
+    group_by(plot) |>
+    mutate(trapezoid_area = (lead(hat) + hat) / 2 * (lead(time) - time)) |>
+    filter(!is.na(trapezoid_area)) |>
+    summarise(total_area = sum(trapezoid_area))
+  param_ph <- full_join(param_ph, auc, by = "plot")
+
   if (!return_method) {
     param_ph <- select(param_ph, -method)
   }

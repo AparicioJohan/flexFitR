@@ -7,7 +7,7 @@
 #' @param plot_id To avoid too many plots in one figure. Filter by Plot Id.
 #' @param label_size Numeric. Size of the labels in the plot. Default is 4.
 #' @param base_size Base font size, given in pts. Default is 14.
-#' @param fn Object of class call. e.g. \code{quote(fn_piwise(time, t1, t2, max))}
+#' @param fn Object of class call. e.g. \code{quote(fn_piwise(time, t1, t2, k))}
 #' @param ... Further graphical parameters. For future improvements.
 #' @author Johan Aparicio [aut]
 #' @method plot canopy_HTP
@@ -26,8 +26,18 @@
 #'   row = "Row",
 #'   range = "Range"
 #' )
-#' out <- canopy_HTP(results, plot_id = 22)
-#' plot(out)
+#' names(results)
+#' out <- canopy_HTP(
+#'   results = results,
+#'   canopy = "Canopy",
+#'   plot_id = c(22, 40),
+#'   correct_max = TRUE,
+#'   add_zero = TRUE
+#' )
+#' names(out)
+#' plot(out, c(22, 40))
+#' out$param$deltaT <- out$param$t2 - out$param$t1
+#' out$param$slope <- out$param$k / out$param$deltaT
 #' out$param
 #' @import ggplot2
 #' @import dplyr
@@ -36,7 +46,7 @@ plot.canopy_HTP <- function(x,
                             plot_id = NULL,
                             label_size = 4,
                             base_size = 14,
-                            fn = quote(fn_piwise(time, t1, t2, max)), ...) {
+                            fn = quote(fn_piwise(time, t1, t2, k)), ...) {
   data <- x$dt
   param <- x$param
   dt <- full_join(data, y = param, by = c("plot", "row", "range", "genotype"))
@@ -102,10 +112,9 @@ plot.canopy_HTP <- function(x,
 #' @export
 #' @examples
 #' library(exploreHTP)
-#' data(dt_potato)
-#' dt_potato <- dt_potato
+#' data(dt_chips)
 #' results <- read_HTP(
-#'   data = dt_potato,
+#'   data = dt_chips,
 #'   genotype = "Gen",
 #'   time = "DAP",
 #'   plot = "Plot",
@@ -113,9 +122,51 @@ plot.canopy_HTP <- function(x,
 #'   row = "Row",
 #'   range = "Range"
 #' )
-#' out <- canopy_HTP(results, plot_id = 22)
-#' plot(out)
-#' out$param
+#' names(results)
+#' out <- canopy_HTP(
+#'   results = results,
+#'   canopy = "Canopy",
+#'   plot_id = c(60, 150),
+#'   correct_max = TRUE,
+#'   add_zero = TRUE
+#' )
+#' names(out)
+#' plot(out, plot_id = c(60, 150))
+#' ph_1 <- height_HTP(
+#'   results = results,
+#'   canopy = out,
+#'   plant_height = "PH",
+#'   add_zero = TRUE,
+#'   method = c("nlminb", "anms", "mla", "pracmanm", "subplex"),
+#'   return_method = TRUE,
+#'   parameters = c(t2 = 67, alpha = 1 / 600, beta = -1 / 80),
+#'   fn_sse = sse_exp2_exp,
+#'   fn = quote(fn_exp2_exp(time, t1, t2, alpha, beta))
+#' )
+#' plot(
+#'   x = ph_1,
+#'   plot_id = c(60, 150),
+#'   fn = quote(fn_exp2_exp(time, t1, t2, alpha, beta))
+#' )
+#' ph_1$param
+#'
+#' ph_2 <- height_HTP(
+#'   results = results,
+#'   canopy = out,
+#'   plant_height = "PH",
+#'   add_zero = TRUE,
+#'   method = c("nlminb", "anms", "mla", "pracmanm", "subplex"),
+#'   return_method = TRUE,
+#'   parameters = c(t2 = 67, alpha = 1 / 600, beta = -1 / 80),
+#'   fn_sse = sse_exp2_lin,
+#'   fn = quote(fn_exp2_lin(time, t1, t2, alpha, beta))
+#' )
+#' plot(
+#'   x = ph_2,
+#'   plot_id = c(60, 150),
+#'   fn = quote(fn_exp2_lin(time, t1, t2, alpha, beta))
+#' )
+#' ph_2$param
 #' @import ggplot2
 #' @import dplyr
 #' @importFrom stats quantile
@@ -211,9 +262,11 @@ plot.height_HTP <- function(x,
 #'   canopy = out,
 #'   index = "GLI_2",
 #'   parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
-#'   fn = sse_lin_pl_lin
+#'   fn_sse = sse_lin_pl_lin,
+#'   fn = quote(fn_lin_pl_lin(time, t1, t2, t3, k, beta))
 #' )
 #' plot(mat, plot_id = c(195, 40))
+#' mat$param
 #' @import ggplot2
 #' @import dplyr
 #' @importFrom stats quantile

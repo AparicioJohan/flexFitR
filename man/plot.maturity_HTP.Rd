@@ -59,9 +59,11 @@ mat <- maturity_HTP(
   canopy = out,
   index = "GLI_2",
   parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
-  fn = sse_lin_pl_lin
+  fn_sse = sse_lin_pl_lin,
+  fn = quote(fn_lin_pl_lin(time, t1, t2, t3, k, beta))
 )
 plot(mat, plot_id = c(195, 40))
+mat$param
 }
 \author{
 Johan Aparicio [aut]

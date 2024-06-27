@@ -35,10 +35,9 @@ Create several plots for an object of class \code{height_HTP}
 }
 \examples{
 library(exploreHTP)
-data(dt_potato)
-dt_potato <- dt_potato
+data(dt_chips)
 results <- read_HTP(
-  data = dt_potato,
+  data = dt_chips,
   genotype = "Gen",
   time = "DAP",
   plot = "Plot",
@@ -46,9 +45,51 @@ results <- read_HTP(
   row = "Row",
   range = "Range"
 )
-out <- canopy_HTP(results, plot_id = 22)
-plot(out)
-out$param
+names(results)
+out <- canopy_HTP(
+  results = results,
+  canopy = "Canopy",
+  plot_id = c(60, 150),
+  correct_max = TRUE,
+  add_zero = TRUE
+)
+names(out)
+plot(out, plot_id = c(60, 150))
+ph_1 <- height_HTP(
+  results = results,
+  canopy = out,
+  plant_height = "PH",
+  add_zero = TRUE,
+  method = c("nlminb", "anms", "mla", "pracmanm", "subplex"),
+  return_method = TRUE,
+  parameters = c(t2 = 67, alpha = 1 / 600, beta = -1 / 80),
+  fn_sse = sse_exp2_exp,
+  fn = quote(fn_exp2_exp(time, t1, t2, alpha, beta))
+)
+plot(
+  x = ph_1,
+  plot_id = c(60, 150),
+  fn = quote(fn_exp2_exp(time, t1, t2, alpha, beta))
+)
+ph_1$param
+
+ph_2 <- height_HTP(
+  results = results,
+  canopy = out,
+  plant_height = "PH",
+  add_zero = TRUE,
+  method = c("nlminb", "anms", "mla", "pracmanm", "subplex"),
+  return_method = TRUE,
+  parameters = c(t2 = 67, alpha = 1 / 600, beta = -1 / 80),
+  fn_sse = sse_exp2_lin,
+  fn = quote(fn_exp2_lin(time, t1, t2, alpha, beta))
+)
+plot(
+  x = ph_2,
+  plot_id = c(60, 150),
+  fn = quote(fn_exp2_lin(time, t1, t2, alpha, beta))
+)
+ph_2$param
 }
 \author{
 Johan Aparicio [aut]

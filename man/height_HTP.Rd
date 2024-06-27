@@ -13,7 +13,10 @@ height_HTP(
   method = c("subplex", "pracmanm", "anms"),
   return_method = FALSE,
   parameters = c(t2 = 67, alpha = 1/600, beta = -1/80),
-  fn = sse_exp2_exp
+  fn_sse = sse_exp2_exp,
+  fn = quote(fn_exp2_exp(time, t1, t2, alpha, beta)),
+  n_points = 1000,
+  max_time = NULL
 )
 }
 \arguments{
@@ -36,9 +39,15 @@ optimization in the table. FALSE by default.}
 \item{parameters}{(Optional)    Initial values for the parameters to be
 optimized over. c(45, 80) by default.}
 
-\item{fn}{A function to be minimized (or maximized), with first argument the
+\item{fn_sse}{A function to be minimized (or maximized), with first argument the
 vector of parameters over which minimization is to take place.
 It should return a scalar result. Default is \link{sse_exp2_exp}.}
+
+\item{fn}{Object of class call. e.g. \code{quote(fn_exp2_exp(time, t1, t2, alpha, beta))} to calculate the area under the curve (AUC).}
+
+\item{n_points}{Number of time points to approximate the AUC. 1000 by default.}
+
+\item{max_time}{Maximum time value for calculating the AUC. NULL by default takes the last time point.}
 }
 \value{
 A list with two elements:
@@ -80,7 +89,8 @@ ph_1 <- height_HTP(
   method = c("nlminb", "anms", "mla", "pracmanm", "subplex"),
   return_method = TRUE,
   parameters = c(t2 = 67, alpha = 1 / 600, beta = -1 / 80),
-  fn = sse_exp2_exp
+  fn_sse = sse_exp2_exp,
+  fn = quote(fn_exp2_exp(time, t1, t2, alpha, beta))
 )
 plot(
   x = ph_1,
@@ -97,7 +107,8 @@ ph_2 <- height_HTP(
   method = c("nlminb", "anms", "mla", "pracmanm", "subplex"),
   return_method = TRUE,
   parameters = c(t2 = 67, alpha = 1 / 600, beta = -1 / 80),
-  fn = sse_exp2_lin
+  fn_sse = sse_exp2_lin,
+  fn = quote(fn_exp2_lin(time, t1, t2, alpha, beta))
 )
 plot(
   x = ph_2,

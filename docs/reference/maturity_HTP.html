@@ -80,7 +80,10 @@
 <span>  lower <span class="op">=</span> <span class="op">-</span><span class="cn">Inf</span>,</span>
 <span>  upper <span class="op">=</span> <span class="cn">Inf</span>,</span>
 <span>  initial_vals <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  fn <span class="op">=</span> <span class="va">sse_lin_pl_lin</span></span>
+<span>  fn_sse <span class="op">=</span> <span class="va">sse_lin_pl_lin</span>,</span>
+<span>  fn <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="fu"><a href="fn_lin_pl_lin.html">fn_lin_pl_lin</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">t1</span>, <span class="va">t2</span>, <span class="va">t3</span>, <span class="va">k</span>, <span class="va">beta</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  n_points <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>  max_time <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -139,10 +142,22 @@ Canopy model as initial values or not. Only works if the function <code>fn</code
 FALSE by default.</p></dd>
 
 
-<dt>fn</dt>
+<dt>fn_sse</dt>
 <dd><p>A function to be minimized (or maximized), with first argument the
 vector of parameters over which minimization is to take place.
 It should return a scalar result. Default is <a href="sse_lin_pl_lin.html">sse_lin_pl_lin</a>.</p></dd>
+
+
+<dt>fn</dt>
+<dd><p>Object of class call. e.g. <code>quote(fn_lin_pl_lin(time, t1, t2, t3, k, beta))</code> to calculate the area under the curve (AUC).</p></dd>
+
+
+<dt>n_points</dt>
+<dd><p>Number of time points to approximate the AUC. 1000 by default.</p></dd>
+
+
+<dt>max_time</dt>
+<dd><p>Maximum time value for calculating the AUC. NULL by default takes the last time point.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -186,10 +201,17 @@ It should return a scalar result. Default is <a href="sse_lin_pl_lin.html">sse_l
 <span class="r-in"><span>  canopy <span class="op">=</span> <span class="va">out</span>,</span></span>
 <span class="r-in"><span>  index <span class="op">=</span> <span class="st">"GLI_2"</span>,</span></span>
 <span class="r-in"><span>  parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">38.7</span>, t2 <span class="op">=</span> <span class="fl">62</span>, t3 <span class="op">=</span> <span class="fl">90</span>, k <span class="op">=</span> <span class="fl">0.32</span>, beta <span class="op">=</span> <span class="op">-</span><span class="fl">0.01</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  fn <span class="op">=</span> <span class="va">sse_lin_pl_lin</span></span></span>
+<span class="r-in"><span>  fn_sse <span class="op">=</span> <span class="va">sse_lin_pl_lin</span>,</span></span>
+<span class="r-in"><span>  fn <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="fu"><a href="fn_lin_pl_lin.html">fn_lin_pl_lin</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">t1</span>, <span class="va">t2</span>, <span class="va">t3</span>, <span class="va">k</span>, <span class="va">beta</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mat</span>, plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="maturity_HTP-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="va">mat</span><span class="op">$</span><span class="va">param</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 11</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    plot genotype    row range    t1    t2    t3     k    beta     sse total_area</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    40 W17043-37    12     3  36.9  66.4  79.9 0.369 -<span style="color: #BB0000;">0.010</span><span style="color: #BB0000; text-decoration: underline;">6</span> 6.77<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span>       16.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>   195 W16219-8     13    14  39.6  68.3  93.3 0.323 -<span style="color: #BB0000;">0.010</span><span style="color: #BB0000; text-decoration: underline;">0</span> 1.02<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span>       16.4</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

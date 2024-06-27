@@ -33,6 +33,9 @@ utils::globalVariables(
     "DE",
     "DMC",
     "val",
-    "coef"
+    "coef",
+    "trapezoid_area",
+    "hat",
+    "k"
   )
 )

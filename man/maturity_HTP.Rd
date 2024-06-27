@@ -17,7 +17,10 @@ maturity_HTP(
   lower = -Inf,
   upper = Inf,
   initial_vals = FALSE,
-  fn = sse_lin_pl_lin
+  fn_sse = sse_lin_pl_lin,
+  fn = quote(fn_lin_pl_lin(time, t1, t2, t3, k, beta)),
+  n_points = 1000,
+  max_time = NULL
 )
 }
 \arguments{
@@ -50,9 +53,15 @@ optimized over. c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01) by defaul
 Canopy model as initial values or not. Only works if the function \code{fn} uses t1 and t2 as parameters.
 FALSE by default.}
 
-\item{fn}{A function to be minimized (or maximized), with first argument the
+\item{fn_sse}{A function to be minimized (or maximized), with first argument the
 vector of parameters over which minimization is to take place.
 It should return a scalar result. Default is \link{sse_lin_pl_lin}.}
+
+\item{fn}{Object of class call. e.g. \code{quote(fn_lin_pl_lin(time, t1, t2, t3, k, beta))} to calculate the area under the curve (AUC).}
+
+\item{n_points}{Number of time points to approximate the AUC. 1000 by default.}
+
+\item{max_time}{Maximum time value for calculating the AUC. NULL by default takes the last time point.}
 }
 \value{
 A list with two elements:
@@ -90,7 +99,9 @@ mat <- maturity_HTP(
   canopy = out,
   index = "GLI_2",
   parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
-  fn = sse_lin_pl_lin
+  fn_sse = sse_lin_pl_lin,
+  fn = quote(fn_lin_pl_lin(time, t1, t2, t3, k, beta))
 )
 plot(mat, plot_id = c(195, 40))
+mat$param
 }

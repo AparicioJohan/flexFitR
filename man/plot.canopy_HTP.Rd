@@ -9,7 +9,7 @@
   plot_id = NULL,
   label_size = 4,
   base_size = 14,
-  fn = quote(fn_piwise(time, t1, t2, max)),
+  fn = quote(fn_piwise(time, t1, t2, k)),
   ...
 )
 }
@@ -23,7 +23,7 @@ executing the function \code{canopy_HTP()}}
 
 \item{base_size}{Base font size, given in pts. Default is 14.}
 
-\item{fn}{Object of class call. e.g. \code{quote(fn_piwise(time, t1, t2, max))}}
+\item{fn}{Object of class call. e.g. \code{quote(fn_piwise(time, t1, t2, k))}}
 
 \item{...}{Further graphical parameters. For future improvements.}
 }
@@ -46,8 +46,18 @@ results <- read_HTP(
   row = "Row",
   range = "Range"
 )
-out <- canopy_HTP(results, plot_id = 22)
-plot(out)
+names(results)
+out <- canopy_HTP(
+  results = results,
+  canopy = "Canopy",
+  plot_id = c(22, 40),
+  correct_max = TRUE,
+  add_zero = TRUE
+)
+names(out)
+plot(out, c(22, 40))
+out$param$deltaT <- out$param$t2 - out$param$t1
+out$param$slope <- out$param$k / out$param$deltaT
 out$param
 }
 \author{

@@ -130,7 +130,7 @@ out <- canopy_HTP(
   plot_id = c(60, 150),
   correct_max = TRUE,
   add_zero = TRUE,
-  fn = sse_piwise
+  fn_sse = sse_piwise
 )
 names(out)
 #> [1] "param" "dt"
@@ -142,10 +142,10 @@ plot(out, plot_id = c(60, 150))
 
 <img src="man/figures/README-unnamed-chunk-12-1.png" width="100%" />
 
-| plot | genotype  | row | range |     t1 |     t2 |     max |    sse |
-|-----:|:----------|----:|------:|-------:|-------:|--------:|-------:|
-|   60 | W19026-15 |   4 |     5 | 38.045 | 68.662 |  99.956 |  4.894 |
-|  150 | W19023-21 |  10 |    11 | 33.791 | 68.496 | 100.000 | 40.406 |
+| plot | genotype  | row | range |     t1 |     t2 |       k |    sse | total_area |
+|-----:|:----------|----:|------:|-------:|-------:|--------:|-------:|-----------:|
+|   60 | W19026-15 |   4 |     5 | 38.045 | 68.662 |  99.956 |  4.894 |   5162.344 |
+|  150 | W19023-21 |  10 |    11 | 33.791 | 68.496 | 100.000 | 40.406 |   5385.674 |
 
 ## 5. Modelling Plant Height
 
@@ -158,7 +158,8 @@ ph_1 <- height_HTP(
   method = c("nlminb", "anms", "mla", "pracmanm", "subplex"),
   return_method = TRUE,
   parameters = c(t2 = 67, alpha = 1 / 600, beta = -1 / 80),
-  fn = sse_exp2_exp
+  fn_sse = sse_exp2_exp,
+  fn = quote(fn_exp2_exp(time, t1, t2, alpha, beta))
 )
 ```
 
@@ -172,10 +173,10 @@ plot(
 
 <img src="man/figures/README-unnamed-chunk-15-1.png" width="100%" />
 
-| plot | genotype  | row | range |  t2 | alpha |   beta |     t1 | method  |   sse |
-|-----:|:----------|----:|------:|----:|------:|-------:|-------:|:--------|------:|
-|   60 | W19026-15 |   4 |     5 |  62 | 0.001 | -0.035 | 38.045 | subplex | 0.009 |
-|  150 | W19023-21 |  10 |    11 |  62 | 0.001 | -0.018 | 33.791 | subplex | 0.001 |
+| plot | genotype  | row | range |  t2 | alpha |   beta |     t1 | method  |   sse | total_area |
+|-----:|:----------|----:|------:|----:|------:|-------:|-------:|:--------|------:|-----------:|
+|   60 | W19026-15 |   4 |     5 |  62 | 0.001 | -0.035 | 38.045 | subplex | 0.009 |     27.976 |
+|  150 | W19023-21 |  10 |    11 |  62 | 0.001 | -0.018 | 33.791 | subplex | 0.001 |     32.890 |
 
 ``` r
 ph_2 <- height_HTP(
@@ -186,7 +187,8 @@ ph_2 <- height_HTP(
   method = c("nlminb", "anms", "mla", "pracmanm", "subplex"),
   return_method = TRUE,
   parameters = c(t2 = 67, alpha = 1 / 600, beta = -1 / 80),
-  fn = sse_exp2_lin
+  fn_sse = sse_exp2_lin,
+  fn = quote(fn_exp2_lin(time, t1, t2, alpha, beta))
 )
 ```
 
@@ -200,7 +202,7 @@ plot(
 
 <img src="man/figures/README-unnamed-chunk-18-1.png" width="100%" />
 
-| plot | genotype  | row | range |  t2 | alpha |   beta |     t1 | method  |   sse |
-|-----:|:----------|----:|------:|----:|------:|-------:|-------:|:--------|------:|
-|   60 | W19026-15 |   4 |     5 |  62 | 0.001 | -0.017 | 38.045 | subplex | 0.032 |
-|  150 | W19023-21 |  10 |    11 |  62 | 0.001 | -0.011 | 33.791 | subplex | 0.003 |
+| plot | genotype  | row | range |  t2 | alpha |   beta |     t1 | method  |   sse | total_area |
+|-----:|:----------|----:|------:|----:|------:|-------:|-------:|:--------|------:|-----------:|
+|   60 | W19026-15 |   4 |     5 |  62 | 0.001 | -0.017 | 38.045 | subplex | 0.032 |     28.449 |
+|  150 | W19023-21 |  10 |    11 |  62 | 0.001 | -0.011 | 33.791 | subplex | 0.003 |     33.032 |

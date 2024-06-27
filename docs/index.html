@@ -438,7 +438,7 @@
 <span>  plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">60</span>, <span class="fl">150</span><span class="op">)</span>,</span>
 <span>  correct_max <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  add_zero <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  fn <span class="op">=</span> <span class="va">sse_piwise</span></span>
+<span>  fn_sse <span class="op">=</span> <span class="va">sse_piwise</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "param" "dt"</span></span></code></pre></div>
@@ -446,6 +446,17 @@
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">out</span>, plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">60</span>, <span class="fl">150</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-12-1.png" width="100%"></p>
 <table class="table">
+<colgroup>
+<col width="8%">
+<col width="14%">
+<col width="6%">
+<col width="9%">
+<col width="10%">
+<col width="10%">
+<col width="12%">
+<col width="10%">
+<col width="16%">
+</colgroup>
 <thead><tr class="header">
 <th align="right">plot</th>
 <th align="left">genotype</th>
@@ -453,8 +464,9 @@
 <th align="right">range</th>
 <th align="right">t1</th>
 <th align="right">t2</th>
-<th align="right">max</th>
+<th align="right">k</th>
 <th align="right">sse</th>
+<th align="right">total_area</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -466,6 +478,7 @@
 <td align="right">68.662</td>
 <td align="right">99.956</td>
 <td align="right">4.894</td>
+<td align="right">5162.344</td>
 </tr>
 <tr class="even">
 <td align="right">150</td>
@@ -476,6 +489,7 @@
 <td align="right">68.496</td>
 <td align="right">100.000</td>
 <td align="right">40.406</td>
+<td align="right">5385.674</td>
 </tr>
 </tbody>
 </table>
@@ -492,7 +506,8 @@
 <span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"nlminb"</span>, <span class="st">"anms"</span>, <span class="st">"mla"</span>, <span class="st">"pracmanm"</span>, <span class="st">"subplex"</span><span class="op">)</span>,</span>
 <span>  return_method <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t2 <span class="op">=</span> <span class="fl">67</span>, alpha <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="fl">600</span>, beta <span class="op">=</span> <span class="op">-</span><span class="fl">1</span> <span class="op">/</span> <span class="fl">80</span><span class="op">)</span>,</span>
-<span>  fn <span class="op">=</span> <span class="va">sse_exp2_exp</span></span>
+<span>  fn_sse <span class="op">=</span> <span class="va">sse_exp2_exp</span>,</span>
+<span>  fn <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="fu"><a href="reference/fn_exp2_exp.html">fn_exp2_exp</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">t1</span>, <span class="va">t2</span>, <span class="va">alpha</span>, <span class="va">beta</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span></span>
@@ -503,16 +518,17 @@
 <p><img src="reference/figures/README-unnamed-chunk-15-1.png" width="100%"></p>
 <table class="table">
 <colgroup>
-<col width="8%">
-<col width="15%">
-<col width="6%">
-<col width="9%">
-<col width="6%">
-<col width="9%">
-<col width="10%">
-<col width="10%">
+<col width="7%">
 <col width="12%">
+<col width="5%">
+<col width="8%">
+<col width="5%">
+<col width="8%">
 <col width="9%">
+<col width="9%">
+<col width="10%">
+<col width="8%">
+<col width="14%">
 </colgroup>
 <thead><tr class="header">
 <th align="right">plot</th>
@@ -525,6 +541,7 @@
 <th align="right">t1</th>
 <th align="left">method</th>
 <th align="right">sse</th>
+<th align="right">total_area</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -538,6 +555,7 @@
 <td align="right">38.045</td>
 <td align="left">subplex</td>
 <td align="right">0.009</td>
+<td align="right">27.976</td>
 </tr>
 <tr class="even">
 <td align="right">150</td>
@@ -550,6 +568,7 @@
 <td align="right">33.791</td>
 <td align="left">subplex</td>
 <td align="right">0.001</td>
+<td align="right">32.890</td>
 </tr>
 </tbody>
 </table>
@@ -562,7 +581,8 @@
 <span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"nlminb"</span>, <span class="st">"anms"</span>, <span class="st">"mla"</span>, <span class="st">"pracmanm"</span>, <span class="st">"subplex"</span><span class="op">)</span>,</span>
 <span>  return_method <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t2 <span class="op">=</span> <span class="fl">67</span>, alpha <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="fl">600</span>, beta <span class="op">=</span> <span class="op">-</span><span class="fl">1</span> <span class="op">/</span> <span class="fl">80</span><span class="op">)</span>,</span>
-<span>  fn <span class="op">=</span> <span class="va">sse_exp2_lin</span></span>
+<span>  fn_sse <span class="op">=</span> <span class="va">sse_exp2_lin</span>,</span>
+<span>  fn <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="fu"><a href="reference/fn_exp2_lin.html">fn_exp2_lin</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">t1</span>, <span class="va">t2</span>, <span class="va">alpha</span>, <span class="va">beta</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span></span>
@@ -573,16 +593,17 @@
 <p><img src="reference/figures/README-unnamed-chunk-18-1.png" width="100%"></p>
 <table class="table">
 <colgroup>
-<col width="8%">
-<col width="15%">
-<col width="6%">
-<col width="9%">
-<col width="6%">
-<col width="9%">
-<col width="10%">
-<col width="10%">
+<col width="7%">
 <col width="12%">
+<col width="5%">
+<col width="8%">
+<col width="5%">
+<col width="8%">
 <col width="9%">
+<col width="9%">
+<col width="10%">
+<col width="8%">
+<col width="14%">
 </colgroup>
 <thead><tr class="header">
 <th align="right">plot</th>
@@ -595,6 +616,7 @@
 <th align="right">t1</th>
 <th align="left">method</th>
 <th align="right">sse</th>
+<th align="right">total_area</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -608,6 +630,7 @@
 <td align="right">38.045</td>
 <td align="left">subplex</td>
 <td align="right">0.032</td>
+<td align="right">28.449</td>
 </tr>
 <tr class="even">
 <td align="right">150</td>
@@ -620,6 +643,7 @@
 <td align="right">33.791</td>
 <td align="left">subplex</td>
 <td align="right">0.003</td>
+<td align="right">33.032</td>
 </tr>
 </tbody>
 </table>
