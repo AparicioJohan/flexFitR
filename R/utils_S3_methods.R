@@ -318,6 +318,7 @@ plot.maturity_HTP <- function(x,
 #' @export
 #' @examples
 #' library(exploreHTP)
+#' suppressMessages(library(dplyr))
 #' data(dt_potato)
 #' dt_potato <- dt_potato
 #' results <- read_HTP(
@@ -339,12 +340,28 @@ plot.maturity_HTP <- function(x,
 #' )
 #' plot(mat, plot_id = c(195, 40))
 #' mat$param
+#'
 #' can <- modeler_HTP(
 #'   results = results,
 #'   index = "Canopy",
 #'   plot_id = c(195, 40),
-#'   parameters = c(t1 = 45,t2 = 80, k = 0.9),
+#'   parameters = c(t1 = 45, t2 = 80, k = 0.9),
+#'   fn = "fn_piwise"
+#' )
+#' plot(can, plot_id = c(195, 40))
+#' can$param
+#'
+#' fixed_params <- results$dt_long |>
+#'   filter(trait %in% "Canopy") |>
+#'   group_by(plot, genotype) |>
+#'   summarise(k = max(value, na.rm = TRUE), .groups = "drop")
+#' can <- modeler_HTP(
+#'   results = results,
+#'   index = "Canopy",
+#'   plot_id = c(195, 40),
+#'   parameters = c(t1 = 45, t2 = 80, k = 0.9),
 #'   fn = "fn_piwise",
+#'   fixed_params = fixed_params
 #' )
 #' plot(can, plot_id = c(195, 40))
 #' can$param

@@ -16,6 +16,7 @@ modeler_HTP(
   lower = -Inf,
   upper = Inf,
   initial_vals = NULL,
+  fixed_params = NULL,
   fn = "fn_piwise",
   n_points = 1000,
   max_time = NULL
@@ -46,6 +47,8 @@ optimization in the table. \code{FALSE} by default.}
 
 \item{initial_vals}{data.frame with columns <plot, genotype, t1, t2, ... , and all the initial parameters>.}
 
+\item{fixed_params}{data.frame with columns <plot, genotype, t1, t2, ... , and all the fixed parameters>.}
+
 \item{fn}{String character with the name of the function "fn_lin_pl_lin".}
 
 \item{n_points}{Number of time points to approximate the AUC. 1000 by default.}
@@ -66,6 +69,7 @@ Modeler HTP
 }
 \examples{
 library(exploreHTP)
+suppressMessages(library(dplyr))
 data(dt_potato)
 dt_potato <- dt_potato
 results <- read_HTP(
@@ -87,12 +91,28 @@ mat <- modeler_HTP(
 )
 plot(mat, plot_id = c(195, 40))
 mat$param
+
 can <- modeler_HTP(
   results = results,
   index = "Canopy",
   plot_id = c(195, 40),
-  parameters = c(t1 = 45,t2 = 80, k = 0.9),
+  parameters = c(t1 = 45, t2 = 80, k = 0.9),
+  fn = "fn_piwise"
+)
+plot(can, plot_id = c(195, 40))
+can$param
+
+fixed_params <- results$dt_long |>
+  filter(trait \%in\% "Canopy") |>
+  group_by(plot, genotype) |>
+  summarise(k = max(value, na.rm = TRUE), .groups = "drop")
+can <- modeler_HTP(
+  results = results,
+  index = "Canopy",
+  plot_id = c(195, 40),
+  parameters = c(t1 = 45, t2 = 80, k = 0.9),
   fn = "fn_piwise",
+  fixed_params = fixed_params
 )
 plot(can, plot_id = c(195, 40))
 can$param

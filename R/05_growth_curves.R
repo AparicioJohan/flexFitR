@@ -739,14 +739,40 @@ sse_lin_pl_lin3 <- function(params, t, y) {
 
 
 #' @examples
-#' params <- c(34.9, 61.8, 100)
+#' params <- c(t1 = 34.9, t2 = 61.8)
+#' fixed <- c(k = 90)
 #' t <- c(0, 29, 36, 42, 56, 76, 92, 100, 108)
 #' y <- c(0, 0, 4.379, 26.138, 78.593, 100, 100, 100, 100)
-#' curve <- "fn_piwise"
-#' sse_generic(params, t, y, curve)
+#' fn <- "fn_piwise"
+#' sse_generic(params, t, y, fn, fixed = fixed)
+#' res <- opm(
+#'   par = params,
+#'   fn = sse_generic,
+#'   t = t,
+#'   y = y,
+#'   curve = fn,
+#'   fixed = fixed,
+#'   method = c("subplex"),
+#'   lower = -Inf,
+#'   upper = Inf
+#' ) |>
+#'   cbind(t(fixed))
 #' @noRd
-sse_generic <- function(params, t, y, curve) {
+sse_generic <- function(params, t, y, curve, fixed_params = NA) {
+  arg <- names(formals(curve))[-1]
   values <- paste(params, collapse = ", ")
+  if (!any(is.na(fixed_params))) {
+    names(params) <- arg[!arg %in% names(fixed_params)]
+    values <- paste(
+      paste(names(params), params, sep = " = "),
+      collapse = ", "
+    )
+    fix <- paste(
+      paste(names(fixed_params), fixed_params, sep = " = "),
+      collapse = ", "
+    )
+    values <- paste(values, fix, sep = ", ")
+  }
   string <- paste("sapply(t, FUN = ", curve, ", ", values, ")", sep = "")
   y_hat <- eval(parse(text = string))
   sse <- sum((y - y_hat)^2)

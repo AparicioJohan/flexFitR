@@ -13,6 +13,7 @@
 #' @param lower Bounds on the variables for methods such as "L-BFGS-B" that can handle box (or bounds) constraints.
 #' @param upper Bounds on the variables for methods such as "L-BFGS-B" that can handle box (or bounds) constraints.
 #' @param initial_vals data.frame with columns <plot, genotype, t1, t2, ... , and all the initial parameters>.
+#' @param fixed_params data.frame with columns <plot, genotype, t1, t2, ... , and all the fixed parameters>.
 #' @param fn String character with the name of the function "fn_lin_pl_lin".
 #' @param n_points Number of time points to approximate the AUC. 1000 by default.
 #' @param max_time Maximum time value for calculating the AUC. \code{NULL} by default takes the last time point.
@@ -27,6 +28,7 @@
 #'
 #' @examples
 #' library(exploreHTP)
+#' suppressMessages(library(dplyr))
 #' data(dt_potato)
 #' dt_potato <- dt_potato
 #' results <- read_HTP(
@@ -48,12 +50,28 @@
 #' )
 #' plot(mat, plot_id = c(195, 40))
 #' mat$param
+#'
 #' can <- modeler_HTP(
 #'   results = results,
 #'   index = "Canopy",
 #'   plot_id = c(195, 40),
-#'   parameters = c(t1 = 45,t2 = 80, k = 0.9),
+#'   parameters = c(t1 = 45, t2 = 80, k = 0.9),
+#'   fn = "fn_piwise"
+#' )
+#' plot(can, plot_id = c(195, 40))
+#' can$param
+#'
+#' fixed_params <- results$dt_long |>
+#'   filter(trait %in% "Canopy") |>
+#'   group_by(plot, genotype) |>
+#'   summarise(k = max(value, na.rm = TRUE), .groups = "drop")
+#' can <- modeler_HTP(
+#'   results = results,
+#'   index = "Canopy",
+#'   plot_id = c(195, 40),
+#'   parameters = c(t1 = 45, t2 = 80, k = 0.9),
 #'   fn = "fn_piwise",
+#'   fixed_params = fixed_params
 #' )
 #' plot(can, plot_id = c(195, 40))
 #' can$param
@@ -71,22 +89,20 @@ modeler_HTP <- function(results,
                         lower = -Inf,
                         upper = Inf,
                         initial_vals = NULL,
+                        fixed_params = NULL,
                         fn = "fn_piwise",
                         n_points = 1000,
                         max_time = NULL) {
   if (!inherits(results, "read_HTP")) {
     stop("The object should be of read_HTP class")
   }
-
   dt <- results$dt_long |>
     filter(trait %in% index) |>
     filter(!is.na(value)) |>
     droplevels()
-
   if (check_negative) {
     dt <- mutate(dt, value = ifelse(value < 0, 0, value))
   }
-
   if (add_zero) {
     dt <- dt |>
       mutate(time = 0, value = 0) |>
@@ -94,7 +110,6 @@ modeler_HTP <- function(results,
       rbind.data.frame(dt) |>
       arrange(plot, time)
   }
-
   if (!is.null(initial_vals)) {
     init <- initial_vals |>
       pivot_longer(
@@ -102,8 +117,8 @@ modeler_HTP <- function(results,
         names_to = "coef",
         values_to = "val"
       ) |>
-      nest_by(plot, genotype, .key = "param") |>
-      mutate(param = list(pull(param, val, coef)))
+      nest_by(plot, genotype, .key = "initials") |>
+      mutate(initials = list(pull(initials, val, coef)))
   } else {
     init <- dt |>
       select(plot, genotype) |>
@@ -114,15 +129,36 @@ modeler_HTP <- function(results,
         names_to = "coef",
         values_to = "val"
       ) |>
-      nest_by(plot, genotype, .key = "param") |>
-      mutate(param = list(pull(param, val, coef)))
+      nest_by(plot, genotype, .key = "initials") |>
+      mutate(initials = list(pull(initials, val, coef)))
   }
-
+  if (!is.null(fixed_params)) {
+    fixed <- fixed_params |>
+      pivot_longer(
+        cols = -c(plot, genotype),
+        names_to = "coef",
+        values_to = "val"
+      ) |>
+      nest_by(plot, genotype, .key = "fx_params") |>
+      mutate(fx_params = list(pull(fx_params, val, coef)))
+    init <- init |>
+      full_join(fixed, by = c("plot", "genotype")) |>
+      mutate(
+        initials = list(initials[!names(initials) %in% names(fixed_params)])
+      )
+  } else {
+    fixed <- dt |>
+      select(plot, genotype) |>
+      unique.data.frame() |>
+      nest_by(plot, genotype, .key = "fx_params") |>
+      mutate(fx_params = list(NA))
+    init <- full_join(init, fixed, by = c("plot", "genotype"))
+  }
   if (!is.null(plot_id)) {
     dt <- droplevels(filter(dt, plot %in% plot_id))
     init <- droplevels(filter(init, plot %in% plot_id))
+    fixed <- droplevels(filter(fixed, plot %in% plot_id))
   }
-
   dt_nest <- dt |>
     nest_by(plot, genotype, row, range) |>
     full_join(init, by = c("plot", "genotype"))
@@ -131,11 +167,12 @@ modeler_HTP <- function(results,
     summarise(
       res = list(
         opm(
-          par = param,
+          par = initials,
           fn = sse_generic,
           t = data$time,
           y = data$value,
           curve = fn,
+          fixed_params = fx_params,
           method = method,
           lower = lower,
           upper = upper
@@ -144,12 +181,16 @@ modeler_HTP <- function(results,
           arrange(value) |>
           rename(sse = value) |>
           select(2:(length(parameters) + 1), method, sse) |>
-          slice(1)
+          slice(1) |>
+          cbind(t(fx_params))
       ),
       .groups = "drop"
     ) |>
     unnest(cols = res)
 
+  if (is.null(fixed_params)) {
+    param_mat <- param_mat |> select(-`t(fx_params)`)
+  }
   if (is.null(max_time)) {
     max_time <- max(dt$time, na.rm = TRUE)
   }

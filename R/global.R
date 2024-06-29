@@ -37,6 +37,10 @@ utils::globalVariables(
     "trapezoid_area",
     "hat",
     "k",
-    "param"
+    "param",
+    "initials",
+    "fixed_params",
+    "t(fx_params)",
+    "fx_params"
   )
 )
