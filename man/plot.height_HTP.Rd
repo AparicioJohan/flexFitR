@@ -4,14 +4,7 @@
 \alias{plot.height_HTP}
 \title{Plot an object of class \code{height_HTP}}
 \usage{
-\method{plot}{height_HTP}(
-  x,
-  plot_id = NULL,
-  label_size = 4,
-  base_size = 14,
-  fn = quote(fn_exp2_exp(time, t1, t2, alpha, beta)),
-  ...
-)
+\method{plot}{height_HTP}(x, plot_id = NULL, label_size = 4, base_size = 14, ...)
 }
 \arguments{
 \item{x}{An object inheriting from class \code{height_HTP} resulting of
@@ -22,8 +15,6 @@ executing the function \code{height_HTP()}}
 \item{label_size}{Label size. 3 by default.}
 
 \item{base_size}{Base font size, given in pts.}
-
-\item{fn}{Object of class call. e.g. \code{quote(fn_exp2_exp(time, t1, t2, alpha, beta))}}
 
 \item{...}{Further graphical parameters. For future improvements.}
 }
@@ -66,11 +57,7 @@ ph_1 <- height_HTP(
   fn_sse = sse_exp2_exp,
   fn = quote(fn_exp2_exp(time, t1, t2, alpha, beta))
 )
-plot(
-  x = ph_1,
-  plot_id = c(60, 150),
-  fn = quote(fn_exp2_exp(time, t1, t2, alpha, beta))
-)
+plot(x = ph_1, plot_id = c(60, 150))
 ph_1$param
 
 ph_2 <- height_HTP(
@@ -84,11 +71,7 @@ ph_2 <- height_HTP(
   fn_sse = sse_exp2_lin,
   fn = quote(fn_exp2_lin(time, t1, t2, alpha, beta))
 )
-plot(
-  x = ph_2,
-  plot_id = c(60, 150),
-  fn = quote(fn_exp2_lin(time, t1, t2, alpha, beta))
-)
+plot(x = ph_2, plot_id = c(60, 150))
 ph_2$param
 }
 \author{

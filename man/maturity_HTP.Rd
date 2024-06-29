@@ -24,23 +24,23 @@ maturity_HTP(
 )
 }
 \arguments{
-\item{results}{Object of class exploreHTP}
+\item{results}{An object of class \code{read_HTP}, containing the results of the \code{read_HTP()} function.}
 
-\item{canopy}{Object of class canopy_HTP}
+\item{canopy}{An object of class \code{canopy_HTP}, containing the results of the \code{canopy_HTP()} function.}
 
 \item{index}{A string specifying the trait to be modeled. Default is \code{"GLI"}.}
 
-\item{check_negative}{TRUE of FALSE. Convert negative values to zero.}
+\item{check_negative}{Logical. Convert negative values to zero. \code{TRUE} by default.}
 
-\item{add_zero}{TRUE or FALSE. Add zero to the time series.TRUE by default.}
+\item{add_zero}{\code{TRUE} or \code{FALSE}. Add zero to the time series.\code{TRUE} by default.}
 
-\item{plot_id}{Optional Plot ID. NULL by default}
+\item{plot_id}{An optional vector of plot IDs to filter the data. Default is \code{NULL}, meaning all plots are used.}
 
 \item{method}{A vector of the methods to be used, each as a character string.
 See optimx package. c("subplex", "pracmanm", "anms") by default.}
 
-\item{return_method}{TRUE or FALSE. To return the method selected for the
-optimization in the table. FALSE by default.}
+\item{return_method}{\code{TRUE} or \code{FALSE}. To return the method selected for the
+optimization in the table. \code{FALSE} by default.}
 
 \item{parameters}{(Optional)    Initial values for the parameters to be
 optimized over. c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01) by default.}
@@ -49,25 +49,27 @@ optimized over. c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01) by defaul
 
 \item{upper}{Bounds on the variables for methods such as "L-BFGS-B" that can handle box (or bounds) constraints.}
 
-\item{initial_vals}{TRUE or FALSE. Whether the user wants to use t1 and t2 from the
+\item{initial_vals}{\code{TRUE} or \code{FALSE}. Whether the user wants to use t1 and t2 from the
 Canopy model as initial values or not. Only works if the function \code{fn} uses t1 and t2 as parameters.
-FALSE by default.}
+\code{FALSE} by default.}
 
 \item{fn_sse}{A function to be minimized (or maximized), with first argument the
 vector of parameters over which minimization is to take place.
 It should return a scalar result. Default is \link{sse_lin_pl_lin}.}
 
-\item{fn}{Object of class call. e.g. \code{quote(fn_lin_pl_lin(time, t1, t2, t3, k, beta))} to calculate the area under the curve (AUC).}
+\item{fn}{Object of class call. e.g. \code{quote(fn_lin_pl_lin(time, t1, t2, t3, k, beta))} to calculate the area under the curve (AUC). Always use time as first argument.}
 
 \item{n_points}{Number of time points to approximate the AUC. 1000 by default.}
 
-\item{max_time}{Maximum time value for calculating the AUC. NULL by default takes the last time point.}
+\item{max_time}{Maximum time value for calculating the AUC. \code{NULL} by default takes the last time point.}
 }
 \value{
-A list with two elements:
+An object of class \code{maturity_HTP}, which is a list containing the following elements:
 \describe{
   \item{\code{param}}{A data frame containing the optimized parameters and related information.}
   \item{\code{dt}}{A data frame with data used.}
+  \item{\code{fn}}{The call used to calculate the AUC.}
+  \item{\code{max_time}}{Maximum time value used for calculating the AUC.}
 }
 }
 \description{

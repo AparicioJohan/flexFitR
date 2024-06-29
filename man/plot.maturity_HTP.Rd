@@ -4,14 +4,7 @@
 \alias{plot.maturity_HTP}
 \title{Plot an object of class \code{maturity_HTP}}
 \usage{
-\method{plot}{maturity_HTP}(
-  x,
-  plot_id = NULL,
-  label_size = 4,
-  base_size = 14,
-  fn = quote(fn_lin_pl_lin(time, t1, t2, t3, k, beta)),
-  ...
-)
+\method{plot}{maturity_HTP}(x, plot_id = NULL, label_size = 4, base_size = 14, ...)
 }
 \arguments{
 \item{x}{An object inheriting from class \code{maturity_HTP} resulting of
@@ -22,8 +15,6 @@ executing the function \code{maturity_HTP()}}
 \item{label_size}{Label size. 3 by default.}
 
 \item{base_size}{Base font size, given in pts.}
-
-\item{fn}{Object of class call. e.g. \code{quote(fn_lin_pl_lin(time, t1, t2, t3, k, beta))}}
 
 \item{...}{Further graphical parameters. For future improvements.}
 }

@@ -57,7 +57,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Plot an object of class <code>height_HTP</code></h1>
-      
+      <small class="dont-index">Source: <a href="https://github.com/AparicioJohan/exploreHTP/blob/HEAD/R/utils_S3_methods.R" class="external-link"><code>R/utils_S3_methods.R</code></a></small>
       <div class="d-none name"><code>plot.height_HTP.Rd</code></div>
     </div>
 
@@ -68,14 +68,7 @@
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for height_HTP</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span></span>
-<span>  <span class="va">x</span>,</span>
-<span>  plot_id <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  label_size <span class="op">=</span> <span class="fl">4</span>,</span>
-<span>  base_size <span class="op">=</span> <span class="fl">14</span>,</span>
-<span>  fn <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="fu"><a href="fn_exp2_exp.html">fn_exp2_exp</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">t1</span>, <span class="va">t2</span>, <span class="va">alpha</span>, <span class="va">beta</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  <span class="va">...</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">x</span>, plot_id <span class="op">=</span> <span class="cn">NULL</span>, label_size <span class="op">=</span> <span class="fl">4</span>, base_size <span class="op">=</span> <span class="fl">14</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -97,10 +90,6 @@ executing the function <code><a href="height_HTP.html">height_HTP()</a></code></
 <dd><p>Base font size, given in pts.</p></dd>
 
 
-<dt>fn</dt>
-<dd><p>Object of class call. e.g. <code>quote(fn_exp2_exp(time, t1, t2, alpha, beta))</code></p></dd>
-
-
 <dt>...</dt>
 <dd><p>Further graphical parameters. For future improvements.</p></dd>
 
@@ -118,7 +107,7 @@ executing the function <code><a href="height_HTP.html">height_HTP()</a></code></
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">exploreHTP</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://apariciojohan.github.io/exploreHTP/">exploreHTP</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">dt_chips</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_HTP.html">read_HTP</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  data <span class="op">=</span> <span class="va">dt_chips</span>,</span></span>
@@ -139,7 +128,7 @@ executing the function <code><a href="height_HTP.html">height_HTP()</a></code></
 <span class="r-in"><span>  add_zero <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "param" "dt"   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "param"    "dt"       "fn"       "max_time"</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">out</span>, plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">60</span>, <span class="fl">150</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot.height_HTP-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="va">ph_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="height_HTP.html">height_HTP</a></span><span class="op">(</span></span></span>
@@ -153,11 +142,7 @@ executing the function <code><a href="height_HTP.html">height_HTP()</a></code></
 <span class="r-in"><span>  fn_sse <span class="op">=</span> <span class="va">sse_exp2_exp</span>,</span></span>
 <span class="r-in"><span>  fn <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="fu"><a href="fn_exp2_exp.html">fn_exp2_exp</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">t1</span>, <span class="va">t2</span>, <span class="va">alpha</span>, <span class="va">beta</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  x <span class="op">=</span> <span class="va">ph_1</span>,</span></span>
-<span class="r-in"><span>  plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">60</span>, <span class="fl">150</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  fn <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="fu"><a href="fn_exp2_exp.html">fn_exp2_exp</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">t1</span>, <span class="va">t2</span>, <span class="va">alpha</span>, <span class="va">beta</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">ph_1</span>, plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">60</span>, <span class="fl">150</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot.height_HTP-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="va">ph_1</span><span class="op">$</span><span class="va">param</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 11</span></span>
@@ -178,11 +163,7 @@ executing the function <code><a href="height_HTP.html">height_HTP()</a></code></
 <span class="r-in"><span>  fn_sse <span class="op">=</span> <span class="va">sse_exp2_lin</span>,</span></span>
 <span class="r-in"><span>  fn <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="fu"><a href="fn_exp2_lin.html">fn_exp2_lin</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">t1</span>, <span class="va">t2</span>, <span class="va">alpha</span>, <span class="va">beta</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  x <span class="op">=</span> <span class="va">ph_2</span>,</span></span>
-<span class="r-in"><span>  plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">60</span>, <span class="fl">150</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  fn <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="fu"><a href="fn_exp2_lin.html">fn_exp2_lin</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">t1</span>, <span class="va">t2</span>, <span class="va">alpha</span>, <span class="va">beta</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">ph_2</span>, plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">60</span>, <span class="fl">150</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot.height_HTP-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="va">ph_2</span><span class="op">$</span><span class="va">param</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 11</span></span>

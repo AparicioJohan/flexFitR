@@ -23,9 +23,11 @@ exploreHTP is designed to assist researchers and plant breeders in efficiently e
 
 Key functionalities include:
 
- * Data Exploration: Simplified methods for visualizing and manipulating large datasets from high throughput phenotyping.
+* Data Exploration: Simplified methods for visualizing and manipulating large datasets from high throughput phenotyping.
 * Correlation Analysis: Tools to calculate correlations between different traits and across multiple time points, providing insights into trait relationships and temporal dynamics.
 * Modeling Canopy Evolution: Advanced functionalities for modeling and predicting canopy growth and development over time.
+* Modeling Plant Height: Functionalities for modeling and predicting Plant Height and development over time.
+* Modeling Maturity: Functionalities for modeling and predicting Maturity and development over time.
 
 ## Installation
 
@@ -151,11 +153,7 @@ ph_1 <- height_HTP(
 ```
 
 ```{r,  fig.width= 8, fig.height=4,fig.dpi=600}
-plot(
-  x = ph_1,
-  plot_id = c(60, 150),
-  fn = quote(fn_exp2_exp(time, t1, t2, alpha, beta))
-)
+plot(ph_1, plot_id = c(60, 150))
 ```
 
 ```{r, echo =FALSE}
@@ -164,31 +162,34 @@ ph_1$param |>
   kableExtra::kable()
 ```
 
+## 6. Modelling Maturity
 
-```{r}
-ph_2 <- height_HTP(
+```{r, fig.width= 8, fig.height=4,fig.dpi=600}
+data(dt_potato)
+results <- read_HTP(
+  data = dt_potato,
+  genotype = "Gen",
+  time = "DAP",
+  plot = "Plot",
+  traits = c("Canopy", "GLI_2"),
+  row = "Row",
+  range = "Range"
+)
+out <- canopy_HTP(results,  canopy = "Canopy", plot_id = c(195, 40))
+mat <- maturity_HTP(
   results = results,
   canopy = out,
-  plant_height = "PH",
-  add_zero = TRUE,
-  method = c("nlminb", "anms", "mla", "pracmanm", "subplex"),
-  return_method = TRUE,
-  parameters = c(t2 = 67, alpha = 1 / 600, beta = -1 / 80),
-  fn_sse = sse_exp2_lin,
-  fn = quote(fn_exp2_lin(time, t1, t2, alpha, beta))
+  index = "GLI_2",
+  parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
+  fn_sse = sse_lin_pl_lin,
+  fn = quote(fn_lin_pl_lin(time, t1, t2, t3, k, beta))
 )
-```
-
-```{r,  fig.width= 8, fig.height=4, fig.dpi=600}
-plot(
-  x = ph_2,
-  plot_id = c(60, 150),
-  fn = quote(fn_exp2_lin(time, t1, t2, alpha, beta))
-)
+plot(mat, plot_id = c(195, 40))
 ```
 
 ```{r, echo =FALSE}
-ph_2$param |>
+mat$param |>
   dplyr::mutate_if(is.numeric, round, 3) |>
   kableExtra::kable()
 ```
+

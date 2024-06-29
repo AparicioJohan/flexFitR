@@ -2,7 +2,17 @@ Package: exploreHTP
 Type: Package
 Title: Explore High-Throughput Phenotypic (HTP) Data
 Version: 0.1.0
-Author: Johan Aparicio
+Authors@R: 
+    c(person(given = "Johan",
+             family = "Aparicio",
+             role = c("aut", "cre"),
+             email = "johanstevenapa@gmail.com"),
+      person(given = "Jeffrey",
+             family = "Endelman",
+             role = "ctb",
+             email = "endelman@wisc.edu"),
+      person(given = "University of Wisconsin Madison",
+             role = "cph"))
 Maintainer: Johan Aparicio <aparicioarce@wisc.edu> 
 Description: Utilities designed to explore high-throughput phenotypic (HTP) data
     for field trials in plant breeding.
@@ -12,6 +22,8 @@ LazyData: true
 Depends: 
     R (>= 2.10)
 RoxygenNote: 7.3.1
+Author: Johan Aparicio [cre, aut], Jeffrey Endelman [ctb],
+ University of Wisconsin Madison [cph]
 Imports: 
     agriutilities,
     dplyr,
@@ -20,3 +32,6 @@ Imports:
     subplex,
     tibble,
     tidyr
+URL: https://apariciojohan.github.io/exploreHTP/,
+     https://github.com/AparicioJohan/exploreHTP
+BugReports: https://github.com/AparicioJohan/exploreHTP/issues

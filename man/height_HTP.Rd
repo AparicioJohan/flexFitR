@@ -20,40 +20,39 @@ height_HTP(
 )
 }
 \arguments{
-\item{results}{Object of class exploreHTP}
+\item{results}{An object of class \code{read_HTP}, containing the results of the \code{read_HTP()} function.}
 
-\item{canopy}{Object of class canopy_HTP}
+\item{canopy}{An object of class \code{canopy_HTP}, containing the results of the \code{canopy_HTP()} function.}
 
 \item{plant_height}{A string specifying the Plant Height trait to be modeled. Default is \code{"PH"}.}
 
-\item{plot_id}{Optional Plot ID. NULL by default}
+\item{plot_id}{An optional vector of plot IDs to filter the data. Default is \code{NULL}, meaning all plots are used.}
 
-\item{add_zero}{TRUE or FALSE. Add zero to the time series.TRUE by default.}
+\item{add_zero}{\code{TRUE} or \code{FALSE}. Add zero to the time series. \code{TRUE} by default.}
 
-\item{method}{A vector of the methods to be used, each as a character string.
-See optimx package. c("subplex", "pracmanm", "anms") by default.}
+\item{method}{A character vector of optimization methods to be used, as specified in the \code{optimx} package. Default is \code{c("subplex", "pracmanm", "anms")}.}
 
-\item{return_method}{TRUE or FALSE. To return the method selected for the
-optimization in the table. FALSE by default.}
+\item{return_method}{Logical. If \code{TRUE}, includes the selected optimization method in the output table. Default is \code{FALSE}.}
 
-\item{parameters}{(Optional)    Initial values for the parameters to be
-optimized over. c(45, 80) by default.}
+\item{parameters}{A named vector specifying the initial values for the parameters to be optimized.
+Default is c(t2 = 67, alpha = 1 / 600, beta = -1 / 80). The first parameter, t1, is assumed to be known and is calculated from the Canopy Model.}
 
-\item{fn_sse}{A function to be minimized (or maximized), with first argument the
-vector of parameters over which minimization is to take place.
+\item{fn_sse}{A function to be minimized (or maximized), with first argument the vector of parameters over which minimization is to take place.
 It should return a scalar result. Default is \link{sse_exp2_exp}.}
 
-\item{fn}{Object of class call. e.g. \code{quote(fn_exp2_exp(time, t1, t2, alpha, beta))} to calculate the area under the curve (AUC).}
+\item{fn}{Object of class call. e.g. \code{quote(fn_exp2_exp(time, t1, t2, alpha, beta))} to calculate the area under the curve (AUC). Always use time as first argument.}
 
 \item{n_points}{Number of time points to approximate the AUC. 1000 by default.}
 
-\item{max_time}{Maximum time value for calculating the AUC. NULL by default takes the last time point.}
+\item{max_time}{Maximum time value for calculating the AUC. \code{NULL} by default takes the last time point.}
 }
 \value{
-A list with two elements:
+An object of class \code{height_HTP}, which is a list containing the following elements:
 \describe{
   \item{\code{param}}{A data frame containing the optimized parameters and related information.}
   \item{\code{dt}}{A data frame with data used.}
+  \item{\code{fn}}{The call used to calculate the AUC.}
+  \item{\code{max_time}}{Maximum time value used for calculating the AUC.}
 }
 }
 \description{
@@ -92,11 +91,7 @@ ph_1 <- height_HTP(
   fn_sse = sse_exp2_exp,
   fn = quote(fn_exp2_exp(time, t1, t2, alpha, beta))
 )
-plot(
-  x = ph_1,
-  plot_id = c(60, 150),
-  fn = quote(fn_exp2_exp(time, t1, t2, alpha, beta))
-)
+plot(x = ph_1, plot_id = c(60, 150))
 ph_1$param
 
 ph_2 <- height_HTP(
@@ -110,10 +105,6 @@ ph_2 <- height_HTP(
   fn_sse = sse_exp2_lin,
   fn = quote(fn_exp2_lin(time, t1, t2, alpha, beta))
 )
-plot(
-  x = ph_2,
-  plot_id = c(60, 150),
-  fn = quote(fn_exp2_lin(time, t1, t2, alpha, beta))
-)
+plot(x = ph_2, plot_id = c(60, 150))
 ph_2$param
 }

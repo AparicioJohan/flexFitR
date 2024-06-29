@@ -21,6 +21,10 @@ Key functionalities include:
   into trait relationships and temporal dynamics.
 - Modeling Canopy Evolution: Advanced functionalities for modeling and
   predicting canopy growth and development over time.
+- Modeling Plant Height: Functionalities for modeling and predicting
+  Plant Height and development over time.
+- Modeling Maturity: Functionalities for modeling and predicting
+  Maturity and development over time.
 
 ## Installation
 
@@ -133,7 +137,7 @@ out <- canopy_HTP(
   fn_sse = sse_piwise
 )
 names(out)
-#> [1] "param" "dt"
+#> [1] "param"    "dt"       "fn"       "max_time"
 ```
 
 ``` r
@@ -164,11 +168,7 @@ ph_1 <- height_HTP(
 ```
 
 ``` r
-plot(
-  x = ph_1,
-  plot_id = c(60, 150),
-  fn = quote(fn_exp2_exp(time, t1, t2, alpha, beta))
-)
+plot(ph_1, plot_id = c(60, 150))
 ```
 
 <img src="man/figures/README-unnamed-chunk-15-1.png" width="100%" />
@@ -178,31 +178,34 @@ plot(
 |   60 | W19026-15 |   4 |     5 |  62 | 0.001 | -0.035 | 38.045 | subplex | 0.009 |     27.976 |
 |  150 | W19023-21 |  10 |    11 |  62 | 0.001 | -0.018 | 33.791 | subplex | 0.001 |     32.890 |
 
+## 6. Modelling Maturity
+
 ``` r
-ph_2 <- height_HTP(
+data(dt_potato)
+results <- read_HTP(
+  data = dt_potato,
+  genotype = "Gen",
+  time = "DAP",
+  plot = "Plot",
+  traits = c("Canopy", "GLI_2"),
+  row = "Row",
+  range = "Range"
+)
+out <- canopy_HTP(results,  canopy = "Canopy", plot_id = c(195, 40))
+mat <- maturity_HTP(
   results = results,
   canopy = out,
-  plant_height = "PH",
-  add_zero = TRUE,
-  method = c("nlminb", "anms", "mla", "pracmanm", "subplex"),
-  return_method = TRUE,
-  parameters = c(t2 = 67, alpha = 1 / 600, beta = -1 / 80),
-  fn_sse = sse_exp2_lin,
-  fn = quote(fn_exp2_lin(time, t1, t2, alpha, beta))
+  index = "GLI_2",
+  parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
+  fn_sse = sse_lin_pl_lin,
+  fn = quote(fn_lin_pl_lin(time, t1, t2, t3, k, beta))
 )
+plot(mat, plot_id = c(195, 40))
 ```
 
-``` r
-plot(
-  x = ph_2,
-  plot_id = c(60, 150),
-  fn = quote(fn_exp2_lin(time, t1, t2, alpha, beta))
-)
-```
+<img src="man/figures/README-unnamed-chunk-17-1.png" width="100%" />
 
-<img src="man/figures/README-unnamed-chunk-18-1.png" width="100%" />
-
-| plot | genotype  | row | range |  t2 | alpha |   beta |     t1 | method  |   sse | total_area |
-|-----:|:----------|----:|------:|----:|------:|-------:|-------:|:--------|------:|-----------:|
-|   60 | W19026-15 |   4 |     5 |  62 | 0.001 | -0.017 | 38.045 | subplex | 0.032 |     28.449 |
-|  150 | W19023-21 |  10 |    11 |  62 | 0.001 | -0.011 | 33.791 | subplex | 0.003 |     33.032 |
+| plot | genotype  | row | range |     t1 |     t2 |     t3 |     k |   beta |   sse | total_area |
+|-----:|:----------|----:|------:|-------:|-------:|-------:|------:|-------:|------:|-----------:|
+|   40 | W17043-37 |  12 |     3 | 36.880 | 66.416 | 79.854 | 0.369 | -0.011 | 0.001 |     16.615 |
+|  195 | W16219-8  |  13 |    14 | 39.591 | 68.279 | 93.336 | 0.323 | -0.010 | 0.000 |     16.376 |

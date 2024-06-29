@@ -28,7 +28,7 @@ correct_maximun <- function(results,
 #' @description
 #' This function performs canopy modelling based on time series data from high-throughput phenotyping (HTP). It optimizes parameters to fit a specified function to the canopy data over time, potentially correcting maximum values and adding a zero point to the series.
 #'
-#' @param results An object of class \code{exploreHTP}, containing the results of the \code{read_HTP()} function.
+#' @param results An object of class \code{read_HTP}, containing the results of the \code{read_HTP()} function.
 #' @param canopy A string specifying the canopy trait to be modeled. Default is \code{"Canopy"}.
 #' @param plot_id An optional vector of plot IDs to filter the data. Default is \code{NULL}, meaning all plots are used.
 #' @param correct_max Logical. If \code{TRUE}, adds the maximum value after reaching the local maximum. Default is \code{TRUE}.
@@ -37,13 +37,15 @@ correct_maximun <- function(results,
 #' @param return_method Logical. If \code{TRUE}, includes the selected optimization method in the output table. Default is \code{FALSE}.
 #' @param parameters A named vector specifying the initial values for the parameters to be optimized. Default is \code{c(t1 = 45, t2 = 80)}.
 #' @param fn_sse A function to be minimized (or maximized), with the first argument being the vector of parameters over which minimization is to take place. It should return a scalar result. Default is \link{sse_piwise}.
-#' @param fn Object of class call. e.g. \code{quote(fn_piwise(time, t1, t2, k))} to calculate the area under the curve (AUC).
+#' @param fn Object of class call. e.g. \code{quote(fn_piwise(time, t1, t2, k))} to calculate the area under the curve (AUC). Always use time as first argument.
 #' @param n_points Number of time points to approximate the AUC. 1000 by default.
-#' @param max_time Maximum time value for calculating the AUC. NULL by default takes the last time point.
-#' @return A list with two elements:
+#' @param max_time Maximum time value for calculating the AUC. \code{NULL} by default takes the last time point.
+#' @return An object of class \code{canopy_HTP}, which is a list containing the following elements:
 #' \describe{
 #'   \item{\code{param}}{A data frame containing the optimized parameters and related information.}
 #'   \item{\code{dt}}{A data frame with the corrected and possibly zero-augmented canopy data.}
+#'   \item{\code{fn}}{The call used to calculate the AUC.}
+#'   \item{\code{max_time}}{Maximum time value used for calculating the AUC.}
 #' }
 #' @export
 #'
@@ -87,6 +89,9 @@ canopy_HTP <- function(results,
                        fn = quote(fn_piwise(time, t1, t2, k)),
                        n_points = 1000,
                        max_time = NULL) {
+  if (!inherits(results, "read_HTP")) {
+    stop("The object should be of read_HTP class")
+  }
   if (correct_max) {
     dt <- correct_maximun(results, var = canopy, add_zero = add_zero)
   } else {
@@ -151,7 +156,7 @@ canopy_HTP <- function(results,
   if (!return_method) {
     param <- select(param, -method)
   }
-  out <- list(param = param, dt = dt)
+  out <- list(param = param, dt = dt, fn = fn, max_time = max_time)
   class(out) <- "canopy_HTP"
-  return(out)
+  return(invisible(out))
 }

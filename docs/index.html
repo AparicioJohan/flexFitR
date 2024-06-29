@@ -97,6 +97,8 @@
 <li>Data Exploration: Simplified methods for visualizing and manipulating large datasets from high throughput phenotyping.</li>
 <li>Correlation Analysis: Tools to calculate correlations between different traits and across multiple time points, providing insights into trait relationships and temporal dynamics.</li>
 <li>Modeling Canopy Evolution: Advanced functionalities for modeling and predicting canopy growth and development over time.</li>
+<li>Modeling Plant Height: Functionalities for modeling and predicting Plant Height and development over time.</li>
+<li>Modeling Maturity: Functionalities for modeling and predicting Maturity and development over time.</li>
 </ul>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -111,7 +113,7 @@
 </h2>
 <p>This is a basic example which shows how to use exploreHTP:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">exploreHTP</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://apariciojohan.github.io/exploreHTP/">exploreHTP</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">dt_chips</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_HTP.html">read_HTP</a></span><span class="op">(</span></span>
@@ -441,7 +443,7 @@
 <span>  fn_sse <span class="op">=</span> <span class="va">sse_piwise</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "param" "dt"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "param"    "dt"       "fn"       "max_time"</span></span></code></pre></div>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">out</span>, plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">60</span>, <span class="fl">150</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-12-1.png" width="100%"></p>
@@ -510,11 +512,7 @@
 <span>  fn <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="fu"><a href="reference/fn_exp2_exp.html">fn_exp2_exp</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">t1</span>, <span class="va">t2</span>, <span class="va">alpha</span>, <span class="va">beta</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span></span>
-<span>  x <span class="op">=</span> <span class="va">ph_1</span>,</span>
-<span>  plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">60</span>, <span class="fl">150</span><span class="op">)</span>,</span>
-<span>  fn <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="fu"><a href="reference/fn_exp2_exp.html">fn_exp2_exp</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">t1</span>, <span class="va">t2</span>, <span class="va">alpha</span>, <span class="va">beta</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ph_1</span>, plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">60</span>, <span class="fl">150</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-15-1.png" width="100%"></p>
 <table class="table">
 <colgroup>
@@ -572,84 +570,99 @@
 </tr>
 </tbody>
 </table>
+</div>
+<div class="section level2">
+<h2 id="id_6-modelling-maturity">6. Modelling Maturity<a class="anchor" aria-label="anchor" href="#id_6-modelling-maturity"></a>
+</h2>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ph_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/height_HTP.html">height_HTP</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">dt_potato</span><span class="op">)</span></span>
+<span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_HTP.html">read_HTP</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">dt_potato</span>,</span>
+<span>  genotype <span class="op">=</span> <span class="st">"Gen"</span>,</span>
+<span>  time <span class="op">=</span> <span class="st">"DAP"</span>,</span>
+<span>  plot <span class="op">=</span> <span class="st">"Plot"</span>,</span>
+<span>  traits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Canopy"</span>, <span class="st">"GLI_2"</span><span class="op">)</span>,</span>
+<span>  row <span class="op">=</span> <span class="st">"Row"</span>,</span>
+<span>  range <span class="op">=</span> <span class="st">"Range"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/canopy_HTP.html">canopy_HTP</a></span><span class="op">(</span><span class="va">results</span>,  canopy <span class="op">=</span> <span class="st">"Canopy"</span>, plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/maturity_HTP.html">maturity_HTP</a></span><span class="op">(</span></span>
 <span>  results <span class="op">=</span> <span class="va">results</span>,</span>
 <span>  canopy <span class="op">=</span> <span class="va">out</span>,</span>
-<span>  plant_height <span class="op">=</span> <span class="st">"PH"</span>,</span>
-<span>  add_zero <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"nlminb"</span>, <span class="st">"anms"</span>, <span class="st">"mla"</span>, <span class="st">"pracmanm"</span>, <span class="st">"subplex"</span><span class="op">)</span>,</span>
-<span>  return_method <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t2 <span class="op">=</span> <span class="fl">67</span>, alpha <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="fl">600</span>, beta <span class="op">=</span> <span class="op">-</span><span class="fl">1</span> <span class="op">/</span> <span class="fl">80</span><span class="op">)</span>,</span>
-<span>  fn_sse <span class="op">=</span> <span class="va">sse_exp2_lin</span>,</span>
-<span>  fn <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="fu"><a href="reference/fn_exp2_lin.html">fn_exp2_lin</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">t1</span>, <span class="va">t2</span>, <span class="va">alpha</span>, <span class="va">beta</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span></span>
-<span>  x <span class="op">=</span> <span class="va">ph_2</span>,</span>
-<span>  plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">60</span>, <span class="fl">150</span><span class="op">)</span>,</span>
-<span>  fn <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="fu"><a href="reference/fn_exp2_lin.html">fn_exp2_lin</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">t1</span>, <span class="va">t2</span>, <span class="va">alpha</span>, <span class="va">beta</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-18-1.png" width="100%"></p>
+<span>  index <span class="op">=</span> <span class="st">"GLI_2"</span>,</span>
+<span>  parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">38.7</span>, t2 <span class="op">=</span> <span class="fl">62</span>, t3 <span class="op">=</span> <span class="fl">90</span>, k <span class="op">=</span> <span class="fl">0.32</span>, beta <span class="op">=</span> <span class="op">-</span><span class="fl">0.01</span><span class="op">)</span>,</span>
+<span>  fn_sse <span class="op">=</span> <span class="va">sse_lin_pl_lin</span>,</span>
+<span>  fn <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="fu"><a href="reference/fn_lin_pl_lin.html">fn_lin_pl_lin</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">t1</span>, <span class="va">t2</span>, <span class="va">t3</span>, <span class="va">k</span>, <span class="va">beta</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mat</span>, plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-17-1.png" width="100%"></p>
 <table class="table">
 <colgroup>
-<col width="7%">
+<col width="6%">
 <col width="12%">
 <col width="5%">
 <col width="8%">
-<col width="5%">
-<col width="8%">
 <col width="9%">
 <col width="9%">
-<col width="10%">
+<col width="9%">
 <col width="8%">
-<col width="14%">
+<col width="9%">
+<col width="8%">
+<col width="13%">
 </colgroup>
 <thead><tr class="header">
 <th align="right">plot</th>
 <th align="left">genotype</th>
 <th align="right">row</th>
 <th align="right">range</th>
-<th align="right">t2</th>
-<th align="right">alpha</th>
-<th align="right">beta</th>
 <th align="right">t1</th>
-<th align="left">method</th>
+<th align="right">t2</th>
+<th align="right">t3</th>
+<th align="right">k</th>
+<th align="right">beta</th>
 <th align="right">sse</th>
 <th align="right">total_area</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="right">60</td>
-<td align="left">W19026-15</td>
-<td align="right">4</td>
-<td align="right">5</td>
-<td align="right">62</td>
+<td align="right">40</td>
+<td align="left">W17043-37</td>
+<td align="right">12</td>
+<td align="right">3</td>
+<td align="right">36.880</td>
+<td align="right">66.416</td>
+<td align="right">79.854</td>
+<td align="right">0.369</td>
+<td align="right">-0.011</td>
 <td align="right">0.001</td>
-<td align="right">-0.017</td>
-<td align="right">38.045</td>
-<td align="left">subplex</td>
-<td align="right">0.032</td>
-<td align="right">28.449</td>
+<td align="right">16.615</td>
 </tr>
 <tr class="even">
-<td align="right">150</td>
-<td align="left">W19023-21</td>
-<td align="right">10</td>
-<td align="right">11</td>
-<td align="right">62</td>
-<td align="right">0.001</td>
-<td align="right">-0.011</td>
-<td align="right">33.791</td>
-<td align="left">subplex</td>
-<td align="right">0.003</td>
-<td align="right">33.032</td>
+<td align="right">195</td>
+<td align="left">W16219-8</td>
+<td align="right">13</td>
+<td align="right">14</td>
+<td align="right">39.591</td>
+<td align="right">68.279</td>
+<td align="right">93.336</td>
+<td align="right">0.323</td>
+<td align="right">-0.010</td>
+<td align="right">0.000</td>
+<td align="right">16.376</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-  </main><aside class="col-md-3"><div class="license">
+  </main><aside class="col-md-3"><div class="links">
+<h2 data-toc-skip>Links</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/AparicioJohan/exploreHTP/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/AparicioJohan/exploreHTP/issues" class="external-link">Report a bug</a></li>
+</ul>
+</div>
+
+<div class="license">
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
@@ -668,7 +681,8 @@
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Johan Aparicio <br><small class="roles"> Maintainer </small>  </li>
+<li>Johan Aparicio <br><small class="roles"> Author, maintainer </small>  </li>
+<li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
 

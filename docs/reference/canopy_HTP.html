@@ -57,7 +57,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Canopy Modelling</h1>
-      
+      <small class="dont-index">Source: <a href="https://github.com/AparicioJohan/exploreHTP/blob/HEAD/R/02_canopy.R" class="external-link"><code>R/02_canopy.R</code></a></small>
       <div class="d-none name"><code>canopy_HTP.Rd</code></div>
     </div>
 
@@ -86,7 +86,7 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>results</dt>
-<dd><p>An object of class <code>exploreHTP</code>, containing the results of the <code><a href="read_HTP.html">read_HTP()</a></code> function.</p></dd>
+<dd><p>An object of class <code>read_HTP</code>, containing the results of the <code><a href="read_HTP.html">read_HTP()</a></code> function.</p></dd>
 
 
 <dt>canopy</dt>
@@ -122,7 +122,7 @@
 
 
 <dt>fn</dt>
-<dd><p>Object of class call. e.g. <code>quote(fn_piwise(time, t1, t2, k))</code> to calculate the area under the curve (AUC).</p></dd>
+<dd><p>Object of class call. e.g. <code>quote(fn_piwise(time, t1, t2, k))</code> to calculate the area under the curve (AUC). Always use time as first argument.</p></dd>
 
 
 <dt>n_points</dt>
@@ -130,25 +130,31 @@
 
 
 <dt>max_time</dt>
-<dd><p>Maximum time value for calculating the AUC. NULL by default takes the last time point.</p></dd>
+<dd><p>Maximum time value for calculating the AUC. <code>NULL</code> by default takes the last time point.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>A list with two elements:</p><dl><dt><code>param</code></dt>
+<p>An object of class <code>canopy_HTP</code>, which is a list containing the following elements:</p><dl><dt><code>param</code></dt>
 <dd><p>A data frame containing the optimized parameters and related information.</p></dd>
 
   <dt><code>dt</code></dt>
 <dd><p>A data frame with the corrected and possibly zero-augmented canopy data.</p></dd>
+
+  <dt><code>fn</code></dt>
+<dd><p>The call used to calculate the AUC.</p></dd>
+
+  <dt><code>max_time</code></dt>
+<dd><p>Maximum time value used for calculating the AUC.</p></dd>
 
 
 </dl></div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">exploreHTP</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://apariciojohan.github.io/exploreHTP/">exploreHTP</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">dt_potato</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">dt_potato</span> <span class="op">&lt;-</span> <span class="va">dt_potato</span></span></span>
 <span class="r-in"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_HTP.html">read_HTP</a></span><span class="op">(</span></span></span>
@@ -170,7 +176,7 @@
 <span class="r-in"><span>  add_zero <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "param" "dt"   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "param"    "dt"       "fn"       "max_time"</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">out</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">22</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="canopy_HTP-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="va">out</span><span class="op">$</span><span class="va">param</span><span class="op">$</span><span class="va">deltaT</span> <span class="op">&lt;-</span> <span class="va">out</span><span class="op">$</span><span class="va">param</span><span class="op">$</span><span class="va">t2</span> <span class="op">-</span> <span class="va">out</span><span class="op">$</span><span class="va">param</span><span class="op">$</span><span class="va">t1</span></span></span>

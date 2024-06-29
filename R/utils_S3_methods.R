@@ -7,7 +7,6 @@
 #' @param plot_id To avoid too many plots in one figure. Filter by Plot Id.
 #' @param label_size Numeric. Size of the labels in the plot. Default is 4.
 #' @param base_size Base font size, given in pts. Default is 14.
-#' @param fn Object of class call. e.g. \code{quote(fn_piwise(time, t1, t2, k))}
 #' @param ... Further graphical parameters. For future improvements.
 #' @author Johan Aparicio [aut]
 #' @method plot canopy_HTP
@@ -45,10 +44,10 @@
 plot.canopy_HTP <- function(x,
                             plot_id = NULL,
                             label_size = 4,
-                            base_size = 14,
-                            fn = quote(fn_piwise(time, t1, t2, k)), ...) {
+                            base_size = 14, ...) {
   data <- x$dt
   param <- x$param
+  fn <- x$fn
   dt <- full_join(data, y = param, by = c("plot", "row", "range", "genotype"))
   if (is.null(plot_id)) {
     plot_id <- dt$plot[1]
@@ -82,15 +81,15 @@ plot.canopy_HTP <- function(x,
     theme_classic(base_size = base_size) +
     ylim(c(0, NA)) +
     facet_wrap(~plot) +
-    geom_text(
-      aes(
-        label = paste0("t1 = ", round(t1, 2), "\n", "t2 = ", round(t2, 2)),
-        x = quantile(time, probs = 0.08)[1],
-        y = (max(corrected) - min(corrected)) / 2
-      ),
-      stat = "unique",
-      size = label_size, colour = "black"
-    ) +
+    # geom_text(
+    #   aes(
+    #     label = paste0("t1 = ", round(t1, 2), "\n", "t2 = ", round(t2, 2)),
+    #     x = quantile(time, probs = 0.08)[1],
+    #     y = (max(corrected) - min(corrected)) / 2
+    #   ),
+    #   stat = "unique",
+    #   size = label_size, colour = "black"
+    # ) +
     labs(y = "Canopy (%)")
   return(p0)
 }
@@ -104,7 +103,6 @@ plot.canopy_HTP <- function(x,
 #' @param plot_id To avoid too many plots in one figure. Filter by Plot Id.
 #' @param label_size Label size. 3 by default.
 #' @param base_size Base font size, given in pts.
-#' @param fn Object of class call. e.g. \code{quote(fn_exp2_exp(time, t1, t2, alpha, beta))}
 #' @param ... Further graphical parameters. For future improvements.
 #' @author Johan Aparicio [aut]
 #' @method plot height_HTP
@@ -143,11 +141,7 @@ plot.canopy_HTP <- function(x,
 #'   fn_sse = sse_exp2_exp,
 #'   fn = quote(fn_exp2_exp(time, t1, t2, alpha, beta))
 #' )
-#' plot(
-#'   x = ph_1,
-#'   plot_id = c(60, 150),
-#'   fn = quote(fn_exp2_exp(time, t1, t2, alpha, beta))
-#' )
+#' plot(x = ph_1, plot_id = c(60, 150))
 #' ph_1$param
 #'
 #' ph_2 <- height_HTP(
@@ -161,11 +155,7 @@ plot.canopy_HTP <- function(x,
 #'   fn_sse = sse_exp2_lin,
 #'   fn = quote(fn_exp2_lin(time, t1, t2, alpha, beta))
 #' )
-#' plot(
-#'   x = ph_2,
-#'   plot_id = c(60, 150),
-#'   fn = quote(fn_exp2_lin(time, t1, t2, alpha, beta))
-#' )
+#' plot(x = ph_2, plot_id = c(60, 150))
 #' ph_2$param
 #' @import ggplot2
 #' @import dplyr
@@ -173,10 +163,10 @@ plot.canopy_HTP <- function(x,
 plot.height_HTP <- function(x,
                             plot_id = NULL,
                             label_size = 4,
-                            base_size = 14,
-                            fn = quote(fn_exp2_exp(time, t1, t2, alpha, beta)), ...) {
+                            base_size = 14, ...) {
   data <- x$dt
   param <- x$param
+  fn <- x$fn
   dt <- full_join(
     x = data,
     y = param,
@@ -230,7 +220,6 @@ plot.height_HTP <- function(x,
 #' @param plot_id To avoid too many plots in one figure. Filter by Plot Id.
 #' @param label_size Label size. 3 by default.
 #' @param base_size Base font size, given in pts.
-#' @param fn Object of class call. e.g. \code{quote(fn_lin_pl_lin(time, t1, t2, t3, k, beta))}
 #' @param ... Further graphical parameters. For future improvements.
 #' @author Johan Aparicio [aut]
 #' @method plot maturity_HTP
@@ -273,10 +262,10 @@ plot.height_HTP <- function(x,
 plot.maturity_HTP <- function(x,
                               plot_id = NULL,
                               label_size = 4,
-                              base_size = 14,
-                              fn = quote(fn_lin_pl_lin(time, t1, t2, t3, k, beta)), ...) {
+                              base_size = 14, ...) {
   data <- x$dt
   param <- x$param
+  fn <- x$fn
   dt <- full_join(data, y = param, by = c("plot", "row", "range", "genotype"))
   if (is.null(plot_id)) {
     plot_id <- dt$plot[1]
