@@ -738,24 +738,26 @@ sse_lin_pl_lin3 <- function(params, t, y) {
 }
 
 
+#' @examples
+#' params <- c(34.9, 61.8, 100)
+#' t <- c(0, 29, 36, 42, 56, 76, 92, 100, 108)
+#' y <- c(0, 0, 4.379, 26.138, 78.593, 100, 100, 100, 100)
+#' curve <- "fn_piwise"
+#' sse_generic(params, t, y, curve)
+#' @noRd
+sse_generic <- function(params, t, y, curve) {
+  values <- paste(params, collapse = ", ")
+  string <- paste("sapply(t, FUN = ", curve, ", ", values, ")", sep = "")
+  y_hat <- eval(parse(text = string))
+  sse <- sum((y - y_hat)^2)
+  return(sse)
+}
 
-# params <- c(34.9, 61.8, 100)
-# t <- c(0, 29, 36, 42, 56, 76, 92, 100, 108)
-# y <- c(0, 0, 4.379, 26.138, 78.593, 100, 100, 100, 100)
-# fn <- fn_piwise
-#
-# sse_generic_can <- function(params, t, y, fn) {
-#   values <- paste(c(params[1:2], max(y, na.rm = TRUE)), collapse = ", ")
-#   values <- paste(c(params), collapse = ", ")
-#   string <- paste("sapply(t, FUN = fn, ", values, ")", sep = "")
-#   y_hat <- eval(parse(text = string))
-#   sse <- sum((y - y_hat)^2)
-#   return(sse)
-# }
-#
-# sse_generic_can(
-#   params <- c(34.9, 61.8, 100),
-#   t <- c(0, 29, 36, 42, 56, 76, 92, 100, 108),
-#   y <- c(0, 0, 4.379, 26.138, 78.593, 100, 100, 100, 100),
-#   fn <- fn_piwise
-# )
+#' @noRd
+create_call <- function(fn = "fn_piwise") {
+  arg <- formals(fn)
+  values <- paste(names(arg)[-1], collapse = ", ")
+  string <- paste(fn, "(time, ", values, ")", sep = "")
+  out <- rlang::parse_expr(string)
+  return(out)
+}

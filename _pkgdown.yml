@@ -31,6 +31,7 @@ reference:
   - canopy_HTP
   - height_HTP
   - maturity_HTP
+  - modeler_HTP
 - title: Data
   desc: Example Datasets
 - contents:
@@ -43,6 +44,7 @@ reference:
   - plot.canopy_HTP
   - plot.height_HTP
   - plot.maturity_HTP
+  - plot.modeler_HTP
 - title: Growth Modelling
   desc: Collection of functions
 - contents:

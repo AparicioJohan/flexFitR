@@ -36,6 +36,7 @@ utils::globalVariables(
     "coef",
     "trapezoid_area",
     "hat",
-    "k"
+    "k",
+    "param"
   )
 )

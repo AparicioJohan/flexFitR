@@ -302,6 +302,96 @@ plot.maturity_HTP <- function(x,
   return(p0)
 }
 
+#' Plot an object of class \code{modeler_HTP}
+#'
+#' @description Create several plots for an object of class \code{modeler_HTP}
+#' @aliases plot.modeler_HTP
+#' @param x An object inheriting from class \code{modeler_HTP} resulting of
+#' executing the function \code{modeler_HTP()}
+#' @param plot_id To avoid too many plots in one figure. Filter by Plot Id.
+#' @param label_size Label size. 3 by default.
+#' @param base_size Base font size, given in pts.
+#' @param ... Further graphical parameters. For future improvements.
+#' @author Johan Aparicio [aut]
+#' @method plot modeler_HTP
+#' @return A ggplot object.
+#' @export
+#' @examples
+#' library(exploreHTP)
+#' data(dt_potato)
+#' dt_potato <- dt_potato
+#' results <- read_HTP(
+#'   data = dt_potato,
+#'   genotype = "Gen",
+#'   time = "DAP",
+#'   plot = "Plot",
+#'   traits = c("Canopy", "GLI_2"),
+#'   row = "Row",
+#'   range = "Range"
+#' )
+#' names(results)
+#' mat <- modeler_HTP(
+#'   results = results,
+#'   index = "GLI_2",
+#'   plot_id = c(195, 40),
+#'   parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
+#'   fn = "fn_lin_pl_lin",
+#' )
+#' plot(mat, plot_id = c(195, 40))
+#' mat$param
+#' can <- modeler_HTP(
+#'   results = results,
+#'   index = "Canopy",
+#'   plot_id = c(195, 40),
+#'   parameters = c(t1 = 45,t2 = 80, k = 0.9),
+#'   fn = "fn_piwise",
+#' )
+#' plot(can, plot_id = c(195, 40))
+#' can$param
+#' @import ggplot2
+#' @import dplyr
+#' @importFrom stats quantile
+plot.modeler_HTP <- function(x,
+                             plot_id = NULL,
+                             label_size = 4,
+                             base_size = 14, ...) {
+  data <- x$dt
+  param <- x$param
+  fn <- x$fn
+  dt <- full_join(data, y = param, by = c("plot", "row", "range", "genotype"))
+  if (is.null(plot_id)) {
+    plot_id <- dt$plot[1]
+  }
+  dt <- dt |>
+    filter(plot %in% plot_id) |>
+    droplevels()
+  param <- param |>
+    filter(plot %in% plot_id) |>
+    droplevels()
+
+  max_x <- max(dt$time, na.rm = TRUE)
+  min_x <- min(dt$time, na.rm = TRUE)
+  sq <- seq(min_x, max_x, by = 0.05)
+
+  func_dt <- full_join(
+    x = expand.grid(time = sq, plot = unique(dt$plot)),
+    y = param,
+    by = "plot"
+  ) |>
+    group_by(time, plot) |>
+    mutate(dens = !!fn) |>
+    ungroup()
+
+  label <- unique(dt$trait)
+  p0 <- dt |>
+    ggplot() +
+    geom_point(aes(x = time, y = value)) +
+    geom_line(data = func_dt, aes(x = time, y = dens), color = "red") +
+    theme_classic(base_size = base_size) +
+    facet_wrap(~plot) +
+    labs(y = label)
+  return(p0)
+}
 
 #' Plot an Object of Class \code{read_HTP}
 #'

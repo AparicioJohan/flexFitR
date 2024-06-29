@@ -1,7 +1,6 @@
-#' Maturity Modelling
+#' Modeler HTP
 #'
 #' @param results An object of class \code{read_HTP}, containing the results of the \code{read_HTP()} function.
-#' @param canopy An object of class \code{canopy_HTP}, containing the results of the \code{canopy_HTP()} function.
 #' @param index A string specifying the trait to be modeled. Default is \code{"GLI"}.
 #' @param plot_id An optional vector of plot IDs to filter the data. Default is \code{NULL}, meaning all plots are used.
 #' @param add_zero \code{TRUE} or \code{FALSE}. Add zero to the time series.\code{TRUE} by default.
@@ -10,20 +9,14 @@
 #' See optimx package. c("subplex", "pracmanm", "anms") by default.
 #' @param return_method \code{TRUE} or \code{FALSE}. To return the method selected for the
 #' optimization in the table. \code{FALSE} by default.
-#' @param parameters (Optional)	Initial values for the parameters to be
-#' optimized over. c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01) by default.
+#' @param parameters Initial values for the parameters to be optimized over. c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01) by default.
 #' @param lower Bounds on the variables for methods such as "L-BFGS-B" that can handle box (or bounds) constraints.
 #' @param upper Bounds on the variables for methods such as "L-BFGS-B" that can handle box (or bounds) constraints.
-#' @param initial_vals \code{TRUE} or \code{FALSE}. Whether the user wants to use t1 and t2 from the
-#' Canopy model as initial values or not. Only works if the function \code{fn} uses t1 and t2 as parameters.
-#' \code{FALSE} by default.
-#' @param fn_sse A function to be minimized (or maximized), with first argument the
-#' vector of parameters over which minimization is to take place.
-#' It should return a scalar result. Default is \link{sse_lin_pl_lin}.
-#' @param fn Object of class call. e.g. \code{quote(fn_lin_pl_lin(time, t1, t2, t3, k, beta))} to calculate the area under the curve (AUC). Always use time as first argument.
+#' @param initial_vals data.frame with columns <plot, genotype, t1, t2, ... , and all the initial parameters>.
+#' @param fn String character with the name of the function "fn_lin_pl_lin".
 #' @param n_points Number of time points to approximate the AUC. 1000 by default.
 #' @param max_time Maximum time value for calculating the AUC. \code{NULL} by default takes the last time point.
-#' @return An object of class \code{maturity_HTP}, which is a list containing the following elements:
+#' @return An object of class \code{modeler_HTP}, which is a list containing the following elements:
 #' \describe{
 #'   \item{\code{param}}{A data frame containing the optimized parameters and related information.}
 #'   \item{\code{dt}}{A data frame with data used.}
@@ -46,51 +39,49 @@
 #'   range = "Range"
 #' )
 #' names(results)
-#' out <- canopy_HTP(
+#' mat <- modeler_HTP(
 #'   results = results,
-#'   canopy = "Canopy",
-#'   plot_id = c(195, 40),
-#'   correct_max = TRUE,
-#'   add_zero = TRUE
-#' )
-#' mat <- maturity_HTP(
-#'   results = results,
-#'   canopy = out,
 #'   index = "GLI_2",
+#'   plot_id = c(195, 40),
 #'   parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
-#'   fn_sse = sse_lin_pl_lin,
-#'   fn = quote(fn_lin_pl_lin(time, t1, t2, t3, k, beta))
+#'   fn = "fn_lin_pl_lin",
 #' )
 #' plot(mat, plot_id = c(195, 40))
 #' mat$param
+#' can <- modeler_HTP(
+#'   results = results,
+#'   index = "Canopy",
+#'   plot_id = c(195, 40),
+#'   parameters = c(t1 = 45,t2 = 80, k = 0.9),
+#'   fn = "fn_piwise",
+#' )
+#' plot(can, plot_id = c(195, 40))
+#' can$param
 #' @import optimx
 #' @import tibble
 #' @import dplyr
-maturity_HTP <- function(results,
-                         canopy,
-                         index = "GLI",
-                         plot_id = NULL,
-                         add_zero = TRUE,
-                         check_negative = TRUE,
-                         method = c("subplex", "pracmanm", "anms"),
-                         return_method = FALSE,
-                         parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
-                         lower = -Inf,
-                         upper = Inf,
-                         initial_vals = FALSE,
-                         fn_sse = sse_lin_pl_lin,
-                         fn = quote(fn_lin_pl_lin(time, t1, t2, t3, k, beta)),
-                         n_points = 1000,
-                         max_time = NULL) {
-  param <- canopy$param |>
-    select(plot:range, t1, t2) |>
-    rename(DE = t1, DMC = t2)
+modeler_HTP <- function(results,
+                        index = "GLI",
+                        plot_id = NULL,
+                        check_negative = TRUE,
+                        add_zero = TRUE,
+                        method = c("subplex", "pracmanm", "anms"),
+                        return_method = FALSE,
+                        parameters = NULL,
+                        lower = -Inf,
+                        upper = Inf,
+                        initial_vals = NULL,
+                        fn = "fn_piwise",
+                        n_points = 1000,
+                        max_time = NULL) {
+  if (!inherits(results, "read_HTP")) {
+    stop("The object should be of read_HTP class")
+  }
 
   dt <- results$dt_long |>
     filter(trait %in% index) |>
     filter(!is.na(value)) |>
-    filter(plot %in% param$plot) |>
-    full_join(param, by = c("plot", "row", "range", "genotype"))
+    droplevels()
 
   if (check_negative) {
     dt <- mutate(dt, value = ifelse(value < 0, 0, value))
@@ -104,10 +95,8 @@ maturity_HTP <- function(results,
       arrange(plot, time)
   }
 
-  if (initial_vals) {
-    init <- canopy$param |>
-      select(plot, genotype, t1, t2) |>
-      cbind(data.frame(t(parameters[-c(1:2)]))) |>
+  if (!is.null(initial_vals)) {
+    init <- initial_vals |>
       pivot_longer(
         cols = -c(plot, genotype),
         names_to = "coef",
@@ -116,8 +105,9 @@ maturity_HTP <- function(results,
       nest_by(plot, genotype, .key = "param") |>
       mutate(param = list(pull(param, val, coef)))
   } else {
-    init <- canopy$param |>
+    init <- dt |>
       select(plot, genotype) |>
+      unique.data.frame() |>
       cbind(data.frame(t(parameters))) |>
       pivot_longer(
         cols = -c(plot, genotype),
@@ -142,9 +132,10 @@ maturity_HTP <- function(results,
       res = list(
         opm(
           par = param,
-          fn = fn_sse,
+          fn = sse_generic,
           t = data$time,
           y = data$value,
+          curve = fn,
           method = method,
           lower = lower,
           upper = upper
@@ -164,6 +155,7 @@ maturity_HTP <- function(results,
   }
 
   # AUC
+  density <- create_call(fn)
   sq <- seq(0, max_time, length.out = n_points)
   auc <- full_join(
     x = expand.grid(time = sq, plot = unique(dt$plot)),
@@ -171,7 +163,7 @@ maturity_HTP <- function(results,
     by = "plot"
   ) |>
     group_by(time, plot) |>
-    mutate(hat = !!fn) |>
+    mutate(hat = !!density) |>
     group_by(plot) |>
     mutate(trapezoid_area = (lead(hat) + hat) / 2 * (lead(time) - time)) |>
     filter(!is.na(trapezoid_area)) |>
@@ -181,7 +173,7 @@ maturity_HTP <- function(results,
   if (!return_method) {
     param_mat <- select(param_mat, -method)
   }
-  out <- list(param = param_mat, dt = dt, fn = fn, max_time = max_time)
-  class(out) <- "maturity_HTP"
+  out <- list(param = param_mat, dt = dt, fn = density, max_time = max_time)
+  class(out) <- "modeler_HTP"
   return(invisible(out))
 }
