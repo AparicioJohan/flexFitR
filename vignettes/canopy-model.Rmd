@@ -56,7 +56,9 @@ kable(mutate_if(results$summ_traits, is.numeric, round, 2))
 ```
 
 
-## Target Function `fn_piwise()`
+## Target Function 
+
+`fn_piwise()`
 
 \begin{equation}
 f(t; t_1, t_2, k) =
@@ -76,7 +78,7 @@ lines(t, y_hat, col = "red")
 abline(v = c(34.9, 61.8), lty = 2)
 ```
 
-## Fitting Models `modeler_HTP()`
+## Fitting Models
 
 ```{r}
 mod_1 <- modeler_HTP(
@@ -94,7 +96,7 @@ plot(mod_1, plot_id = c(195, 40))
 kable(mod_1$param)
 ```
 
-## Providing different initial values per plot
+## Providing different initial values
 
 ```{r}
 initials <- results |>

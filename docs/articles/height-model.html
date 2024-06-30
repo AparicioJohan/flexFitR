@@ -146,7 +146,7 @@
 <p><img src="height-model_files/figure-html/unnamed-chunk-5-1.png" width="768"></p>
 </div>
 <div class="section level2">
-<h2 id="estimating-days-to-emergence-from-the-canopy-model">Estimating days to emergence from the canopy model<a class="anchor" aria-label="anchor" href="#estimating-days-to-emergence-from-the-canopy-model"></a>
+<h2 id="estimating-days-to-emergence">Estimating days to emergence<a class="anchor" aria-label="anchor" href="#estimating-days-to-emergence"></a>
 </h2>
 <p><span class="math display">\[\begin{equation}
 f(t; t_1, t_2, k) =
@@ -160,7 +160,7 @@ k &amp; \text{if } t &gt; t_2
 <p><img src="height-model_files/figure-html/unnamed-chunk-6-1.png" width="768"></p>
 </div>
 <div class="section level2">
-<h2 id="fitting-models-for-canopy-modeler_htp">Fitting models for canopy <code>modeler_HTP()</code><a class="anchor" aria-label="anchor" href="#fitting-models-for-canopy-modeler_htp"></a>
+<h2 id="fitting-models-for-canopy">Fitting models for canopy<a class="anchor" aria-label="anchor" href="#fitting-models-for-canopy"></a>
 </h2>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fixed_params</span> <span class="op">&lt;-</span> <span class="va">results</span> <span class="op">|&gt;</span></span>
@@ -233,8 +233,9 @@ k &amp; \text{if } t &gt; t_2
 </table>
 </div>
 <div class="section level2">
-<h2 id="target-function-for-plant-height-fn_exp2_exp">Target function for plant height <code>fn_exp2_exp()</code><a class="anchor" aria-label="anchor" href="#target-function-for-plant-height-fn_exp2_exp"></a>
+<h2 id="target-function-for-plant-height">Target function for plant height<a class="anchor" aria-label="anchor" href="#target-function-for-plant-height"></a>
 </h2>
+<p><code><a href="../reference/fn_exp2_exp.html">fn_exp2_exp()</a></code></p>
 <p><span class="math display">\[\begin{equation}
 f(t; t_1, t_2, \alpha, \beta) =
 \begin{cases}
@@ -247,7 +248,7 @@ e^{\alpha \cdot (t - t_1)^2} - 1 &amp; \text{if } t_1 \leq t \leq t_2 \\
 <p><img src="height-model_files/figure-html/unnamed-chunk-10-1.png" width="768"></p>
 </div>
 <div class="section level2">
-<h2 id="fixing-parameters-and-proving-initial-values">Fixing parameters and proving initial values<a class="anchor" aria-label="anchor" href="#fixing-parameters-and-proving-initial-values"></a>
+<h2 id="fixing-parameters-and-providing-initial-values">Fixing parameters and providing initial values<a class="anchor" aria-label="anchor" href="#fixing-parameters-and-providing-initial-values"></a>
 </h2>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fixed_params</span> <span class="op">&lt;-</span> <span class="va">mod_1</span> <span class="op">|&gt;</span></span>
@@ -309,10 +310,10 @@ e^{\alpha \cdot (t - t_1)^2} - 1 &amp; \text{if } t_1 \leq t \leq t_2 \\
 </table>
 </div>
 <div class="section level2">
-<h2 id="fitting-models-for-plant-height-modeler_htp">Fitting models for plant height <code>modeler_HTP()</code><a class="anchor" aria-label="anchor" href="#fitting-models-for-plant-height-modeler_htp"></a>
+<h2 id="fitting-models-for-plant-height">Fitting models for plant height<a class="anchor" aria-label="anchor" href="#fitting-models-for-plant-height"></a>
 </h2>
-<p>Using t1 from the prevoius model as a fixed parameter and using t2 as
-initial per plot.</p>
+<p>Using t1 from the previous model as a fixed parameter and using t2 as
+initial parameter per plot.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mod_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/modeler_HTP.html">modeler_HTP</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="va">results</span>,</span>

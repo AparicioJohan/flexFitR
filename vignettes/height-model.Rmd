@@ -51,7 +51,7 @@ p2 <- plot(results, type = "time_by_trait", return_gg = TRUE)
 ggarrange(p1, p2, nrow = 2)
 ```
 
-## Estimating days to emergence from the canopy model
+## Estimating days to emergence
 
 \begin{equation}
 f(t; t_1, t_2, k) =
@@ -71,7 +71,7 @@ abline(v = c(34.9, 61.8), lty = 2)
 ```
 
 
-## Fitting models for canopy `modeler_HTP()`
+## Fitting models for canopy
 
 ```{r}
 fixed_params <- results |>
@@ -98,7 +98,9 @@ plot(mod_1, plot_id = c(195, 40))
 kable(mod_1$param)
 ```
 
-## Target function for plant height `fn_exp2_exp()`
+## Target function for plant height 
+
+`fn_exp2_exp()`
 
 \begin{equation}
 f(t; t_1, t_2, \alpha, \beta) =
@@ -124,7 +126,7 @@ lines(t, y_hat, col = "red")
 abline(v = c(35, 55), lty = 2)
 ```
 
-## Fixing parameters and proving initial values
+## Fixing parameters and providing initial values
 
 ```{r}
 fixed_params <- mod_1 |>
@@ -142,9 +144,9 @@ kable(initials)
 ```
 
 
-## Fitting models for plant height `modeler_HTP()`
+## Fitting models for plant height
 
-Using t1 from the prevoius model as a fixed parameter and using t2 as initial per plot.
+Using t1 from the previous model as a fixed parameter and using t2 as initial parameter per plot.
 
 
 ```{r}
