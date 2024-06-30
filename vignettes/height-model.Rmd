@@ -1,0 +1,211 @@
+---
+title: "Modelling Plant Height"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Modelling Plant Height}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Loading libraries
+
+```{r, warning=FALSE, message=FALSE }
+library(exploreHTP)
+library(dplyr)
+library(kableExtra)
+library(ggpubr)
+library(purrr)
+```
+
+## Reading data `read_HTP()`
+
+```{r}
+data(dt_chips)
+results <- read_HTP(
+  data = dt_chips,
+  genotype = "Gen",
+  time = "DAP",
+  plot = "Plot",
+  traits = c("PH", "Canopy"),
+  row = "Row",
+  range = "Range"
+)
+```
+
+```{r}
+names(results)
+```
+
+## Data exploration
+
+```{r, fig.width= 8, fig.height=6}
+p1 <- plot(results, type = "evolution", return_gg = TRUE)
+p2 <- plot(results, type = "time_by_trait", return_gg = TRUE)
+ggarrange(p1, p2, nrow = 2)
+```
+
+## Estimating days to emergence from the canopy model
+
+\begin{equation}
+f(t; t_1, t_2, k) =
+  \begin{cases}
+0 & \text{if } t < t_1 \\
+\dfrac{k}{t_2 - t_1} \cdot (t - t_1) & \text{if } t_1 \leq t \leq t_2 \\
+k & \text{if } t > t_2
+\end{cases}
+\end{equation}
+
+```{r, echo = FALSE, fig.width= 8}
+t <- seq(0, 108, 0.1)
+y_hat <- sapply(t, FUN = fn_piwise, t1 = 34.9, t2 = 61.8, k = 100)
+plot(t, y_hat, type = "l")
+lines(t, y_hat, col = "red")
+abline(v = c(34.9, 61.8), lty = 2)
+```
+
+
+## Fitting models for canopy `modeler_HTP()`
+
+```{r}
+fixed_params <- results |>
+  pluck("dt_long") |>
+  filter(trait %in% "Canopy" & plot %in% c(195, 40)) |>
+  group_by(plot, genotype) |>
+  summarise(k = max(value), .groups = "drop")
+```
+
+```{r}
+mod_1 <- modeler_HTP(
+  x = results,
+  index = "Canopy",
+  plot_id = c(195, 40),
+  parameters = c(t1 = 45, t2 = 80, k = 0.9),
+  fn = "fn_piwise",
+  fixed_params = fixed_params,
+  max_as_last = TRUE
+)
+```
+
+```{r, fig.width= 8, fig.height=4}
+plot(mod_1, plot_id = c(195, 40))
+kable(mod_1$param)
+```
+
+## Target function for plant height `fn_exp2_exp()`
+
+\begin{equation}
+f(t; t_1, t_2, \alpha, \beta) =
+\begin{cases}
+0 & \text{if } t < t_1 \\
+e^{\alpha \cdot (t - t_1)^2} - 1 & \text{if } t_1 \leq t \leq t_2 \\
+\left(e^{\alpha \cdot (t_2 - t_1)^2} - 1\right) \cdot e^{\beta \cdot (t - t_2)} & \text{if } t > t_2
+\end{cases}
+\end{equation}
+
+```{r, echo = FALSE, fig.width= 8}
+t <- seq(0, 108, 0.1)
+y_hat <- sapply(
+  X = t,
+  FUN = fn_exp2_exp,
+  t1 = 35,
+  t2 = 55,
+  alpha = 1 / 600,
+  beta = -1 / 30
+)
+plot(t, y_hat, type = "l")
+lines(t, y_hat, col = "red")
+abline(v = c(35, 55), lty = 2)
+```
+
+## Fixing parameters and proving initial values
+
+```{r}
+fixed_params <- mod_1 |>
+  pluck("param") |>
+  select(plot, genotype, t1)
+kable(fixed_params)
+```
+
+```{r}
+initials <- mod_1 |>
+  pluck("param") |>
+  select(plot, genotype, t1, t2) |>
+  mutate(alpha = 1 / 600, beta = -1 / 30)
+kable(initials)
+```
+
+
+## Fitting models for plant height `modeler_HTP()`
+
+Using t1 from the prevoius model as a fixed parameter and using t2 as initial per plot.
+
+
+```{r}
+mod_2 <- modeler_HTP(
+  x = results,
+  index = "PH",
+  plot_id = c(195, 40),
+  fn = "fn_exp2_exp",
+  initial_vals = initials,
+  fixed_params = fixed_params
+)
+```
+
+
+```{r, fig.width= 8, fig.height=4}
+plot(mod_2, plot_id = c(195, 40))
+kable(mod_2$param)
+```
+
+<hr>
+
+## Code
+
+```{r, eval = FALSE}
+data(dt_chips)
+results <- read_HTP(
+  data = dt_chips,
+  genotype = "Gen",
+  time = "DAP",
+  plot = "Plot",
+  traits = c("PH", "Canopy"),
+  row = "Row",
+  range = "Range"
+)
+fixed_params <- results |>
+  pluck("dt_long") |>
+  filter(trait %in% "Canopy" & plot %in% c(195, 40)) |>
+  group_by(plot, genotype) |>
+  summarise(k = max(value), .groups = "drop")
+mod_1 <- modeler_HTP(
+  x = results,
+  index = "Canopy",
+  plot_id = c(195, 40),
+  parameters = c(t1 = 45, t2 = 80, k = 0.9),
+  fn = "fn_piwise",
+  fixed_params = fixed_params,
+  max_as_last = TRUE
+)
+fixed_params <- mod_1 |>
+  pluck("param") |>
+  select(plot, genotype, t1)
+initials <- mod_1 |>
+  pluck("param") |>
+  select(plot, genotype, t1, t2) |>
+  mutate(alpha = 1 / 600, beta = -1 / 30)
+mod_2 <- modeler_HTP(
+  x = results,
+  index = "PH",
+  plot_id = c(195, 40),
+  fn = "fn_exp2_exp",
+  initial_vals = initials,
+  fixed_params = fixed_params
+)
+```

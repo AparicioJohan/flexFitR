@@ -192,6 +192,13 @@ modeler_HTP <- function(x,
     nest_by(plot, genotype, row, range) |>
     full_join(init, by = c("plot", "genotype"))
 
+  if (any(unlist(lapply(dt_nest$fx_params, is.null)))) {
+    stop(
+      "Fitting models for all plots but 'fixed_params' has only a few.
+       Check the argument 'plot_id'"
+    )
+  }
+
   param_mat <- dt_nest |>
     summarise(
       res = list(
@@ -209,7 +216,7 @@ modeler_HTP <- function(x,
           rownames_to_column(var = "method") |>
           arrange(value) |>
           rename(sse = value) |>
-          select(2:(length(parameters) + 1), method, sse) |>
+          select(-c(fevals:xtime)) |>
           slice(1) |>
           cbind(t(fx_params))
       ),

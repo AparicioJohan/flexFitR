@@ -36,3 +36,7 @@ Imports:
 URL: https://apariciojohan.github.io/exploreHTP/,
      https://github.com/AparicioJohan/exploreHTP
 BugReports: https://github.com/AparicioJohan/exploreHTP/issues
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

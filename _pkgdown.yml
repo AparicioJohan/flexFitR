@@ -16,6 +16,13 @@ navbar:
   - icon: fa-code
     text: Reference
     href: reference/index.html
+  - icon: fa-book
+    text: Articles
+    menu:
+      - text: Modeling Emergence
+        href: articles/canopy-model.html
+      - text: Modeling Plant Height
+        href: articles/height-model.html
   - icon: fa-newspaper
     text: News
     href: news/index.html
