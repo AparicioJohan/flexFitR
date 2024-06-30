@@ -1,4 +1,20 @@
 #' @noRd
+max_as_last <- function(data, index = "Canopy") {
+  dt_can <- data |>
+    group_by(plot, genotype, row, range) |>
+    mutate(
+      loc_max_at = paste(local_min_max(value, time)$days_max, collapse = "_"),
+      loc_max = as.numeric(local_min_max(value, time)$days_max[1])
+    ) |>
+    mutate(
+      value = ifelse(time <= loc_max, value, value[time == loc_max])
+    ) |>
+    select(-loc_max_at, -loc_max) |>
+    ungroup()
+  return(dt_can)
+}
+
+#' @noRd
 correct_maximun <- function(results,
                             var = "Canopy",
                             add_zero = TRUE) {

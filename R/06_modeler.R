@@ -1,21 +1,22 @@
 #' Modeler HTP
 #'
-#' @param results An object of class \code{read_HTP}, containing the results of the \code{read_HTP()} function.
+#' @param x An object of class \code{read_HTP}, containing the results of the \code{read_HTP()} function.
 #' @param index A string specifying the trait to be modeled. Default is \code{"GLI"}.
 #' @param plot_id An optional vector of plot IDs to filter the data. Default is \code{NULL}, meaning all plots are used.
 #' @param add_zero \code{TRUE} or \code{FALSE}. Add zero to the time series.\code{TRUE} by default.
 #' @param check_negative Logical. Convert negative values to zero. \code{TRUE} by default.
+#' @param max_as_last Logical. If \code{TRUE}, adds the maximum value after reaching the local maximum. Default is \code{FALSE}.
 #' @param method A vector of the methods to be used, each as a character string.
 #' See optimx package. c("subplex", "pracmanm", "anms") by default.
 #' @param return_method \code{TRUE} or \code{FALSE}. To return the method selected for the
 #' optimization in the table. \code{FALSE} by default.
-#' @param parameters Initial values for the parameters to be optimized over. c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01) by default.
+#' @param parameters A named vector specifying the initial values for the parameters to be optimized. c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01) by default which is the same for all the plots.
 #' @param lower Bounds on the variables for methods such as "L-BFGS-B" that can handle box (or bounds) constraints.
 #' @param upper Bounds on the variables for methods such as "L-BFGS-B" that can handle box (or bounds) constraints.
-#' @param initial_vals data.frame with columns <plot, genotype, t1, t2, ... , and all the initial parameters>.
-#' @param fixed_params data.frame with columns <plot, genotype, t1, t2, ... , and all the fixed parameters>.
+#' @param initial_vals A data.frame with columns <plot, genotype, t1, t2, ... , and all the initial parameters>. Specific initial values per plot.
+#' @param fixed_params A data.frame with columns <plot, genotype, t1, t2, ... , and all the fixed parameters>.
 #' @param fn String character with the name of the function "fn_lin_pl_lin".
-#' @param n_points Number of time points to approximate the AUC. 1000 by default.
+#' @param n_points Number of time points to approximate the Area Under the Curve (AUC). 1000 by default.
 #' @param max_time Maximum time value for calculating the AUC. \code{NULL} by default takes the last time point.
 #' @return An object of class \code{modeler_HTP}, which is a list containing the following elements:
 #' \describe{
@@ -42,23 +43,23 @@
 #' )
 #' names(results)
 #' mat <- modeler_HTP(
-#'   results = results,
+#'   x = results,
 #'   index = "GLI_2",
-#'   plot_id = c(195, 40),
+#'   plot_id = c(195),
 #'   parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
 #'   fn = "fn_lin_pl_lin",
 #' )
-#' plot(mat, plot_id = c(195, 40))
+#' plot(mat, plot_id = c(195))
 #' mat$param
 #'
 #' can <- modeler_HTP(
-#'   results = results,
+#'   x = results,
 #'   index = "Canopy",
-#'   plot_id = c(195, 40),
+#'   plot_id = c(195),
 #'   parameters = c(t1 = 45, t2 = 80, k = 0.9),
 #'   fn = "fn_piwise"
 #' )
-#' plot(can, plot_id = c(195, 40))
+#' plot(can, plot_id = c(195))
 #' can$param
 #'
 #' fixed_params <- results$dt_long |>
@@ -66,23 +67,24 @@
 #'   group_by(plot, genotype) |>
 #'   summarise(k = max(value, na.rm = TRUE), .groups = "drop")
 #' can <- modeler_HTP(
-#'   results = results,
+#'   x = results,
 #'   index = "Canopy",
-#'   plot_id = c(195, 40),
+#'   plot_id = c(195),
 #'   parameters = c(t1 = 45, t2 = 80, k = 0.9),
 #'   fn = "fn_piwise",
 #'   fixed_params = fixed_params
 #' )
-#' plot(can, plot_id = c(195, 40))
+#' plot(can, plot_id = c(195))
 #' can$param
 #' @import optimx
 #' @import tibble
 #' @import dplyr
-modeler_HTP <- function(results,
+modeler_HTP <- function(x,
                         index = "GLI",
                         plot_id = NULL,
                         check_negative = TRUE,
                         add_zero = TRUE,
+                        max_as_last = FALSE,
                         method = c("subplex", "pracmanm", "anms"),
                         return_method = FALSE,
                         parameters = NULL,
@@ -93,13 +95,52 @@ modeler_HTP <- function(results,
                         fn = "fn_piwise",
                         n_points = 1000,
                         max_time = NULL) {
-  if (!inherits(results, "read_HTP")) {
+  if (!inherits(x, "read_HTP")) {
     stop("The object should be of read_HTP class")
   }
-  dt <- results$dt_long |>
+  traits <- unique(x$dt_long$trait)
+  if (!index %in% traits) {
+    stop("Index not found in x. Please verify the spelling.")
+  }
+  args <- try(expr = names(formals(fn))[-1], silent = TRUE)
+  if (inherits(args, "try-error")) {
+    stop("Please verify the function you provide: '", fn, "'. It was not found.")
+  }
+  if (!is.null(initial_vals)) {
+    nam_ini_vals <- colnames(initial_vals)
+    if (!all(nam_ini_vals[1:2] %in% c("plot", "genotype"))) {
+      stop("initial_vals should contain c('plot', 'genotype')")
+    }
+    if (!sum(nam_ini_vals[-c(1:2)] %in% args) == length(args)) {
+      stop("initial_vals should have the same parameters as the function: ", fn)
+    }
+  }
+  if (!is.null(fixed_params)) {
+    nam_fix_params <- colnames(fixed_params)
+    if (!all(nam_fix_params[1:2] %in% c("plot", "genotype"))) {
+      stop("fixed_params should contain c('plot', 'genotype')")
+    }
+    if (!any(nam_fix_params[-c(1:2)] %in% args)) {
+      stop("fixed_params should have at least one parameter of: ", fn)
+    }
+    if (sum(nam_fix_params[-c(1:2)] %in% args) == length(args)) {
+      stop("fixed_params can not have all parameters of the function: ", fn)
+    }
+  }
+  if (is.null(parameters) & is.null(fixed_params)) {
+    stop("You have to provide initial values for the optimization procedure")
+  } else if (!is.null(parameters)) {
+    if (!sum(names(parameters) %in% args) == length(args)) {
+      stop("names of parameters have to be in: ", fn)
+    }
+  }
+  dt <- x$dt_long |>
     filter(trait %in% index) |>
     filter(!is.na(value)) |>
     droplevels()
+  if (max_as_last) {
+    dt <- max_as_last(dt, index = index)
+  }
   if (check_negative) {
     dt <- mutate(dt, value = ifelse(value < 0, 0, value))
   }
@@ -112,35 +153,23 @@ modeler_HTP <- function(results,
   }
   if (!is.null(initial_vals)) {
     init <- initial_vals |>
-      pivot_longer(
-        cols = -c(plot, genotype),
-        names_to = "coef",
-        values_to = "val"
-      ) |>
+      pivot_longer(cols = -c(plot, genotype), names_to = "coef") |>
       nest_by(plot, genotype, .key = "initials") |>
-      mutate(initials = list(pull(initials, val, coef)))
+      mutate(initials = list(pull(initials, value, coef)))
   } else {
     init <- dt |>
       select(plot, genotype) |>
       unique.data.frame() |>
       cbind(data.frame(t(parameters))) |>
-      pivot_longer(
-        cols = -c(plot, genotype),
-        names_to = "coef",
-        values_to = "val"
-      ) |>
+      pivot_longer(cols = -c(plot, genotype), names_to = "coef") |>
       nest_by(plot, genotype, .key = "initials") |>
-      mutate(initials = list(pull(initials, val, coef)))
+      mutate(initials = list(pull(initials, value, coef)))
   }
   if (!is.null(fixed_params)) {
     fixed <- fixed_params |>
-      pivot_longer(
-        cols = -c(plot, genotype),
-        names_to = "coef",
-        values_to = "val"
-      ) |>
+      pivot_longer(cols = -c(plot, genotype), names_to = "coef") |>
       nest_by(plot, genotype, .key = "fx_params") |>
-      mutate(fx_params = list(pull(fx_params, val, coef)))
+      mutate(fx_params = list(pull(fx_params, value, coef)))
     init <- init |>
       full_join(fixed, by = c("plot", "genotype")) |>
       mutate(

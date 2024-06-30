@@ -5,11 +5,12 @@
 \title{Modeler HTP}
 \usage{
 modeler_HTP(
-  results,
+  x,
   index = "GLI",
   plot_id = NULL,
   check_negative = TRUE,
   add_zero = TRUE,
+  max_as_last = FALSE,
   method = c("subplex", "pracmanm", "anms"),
   return_method = FALSE,
   parameters = NULL,
@@ -23,7 +24,7 @@ modeler_HTP(
 )
 }
 \arguments{
-\item{results}{An object of class \code{read_HTP}, containing the results of the \code{read_HTP()} function.}
+\item{x}{An object of class \code{read_HTP}, containing the results of the \code{read_HTP()} function.}
 
 \item{index}{A string specifying the trait to be modeled. Default is \code{"GLI"}.}
 
@@ -33,25 +34,27 @@ modeler_HTP(
 
 \item{add_zero}{\code{TRUE} or \code{FALSE}. Add zero to the time series.\code{TRUE} by default.}
 
+\item{max_as_last}{Logical. If \code{TRUE}, adds the maximum value after reaching the local maximum. Default is \code{FALSE}.}
+
 \item{method}{A vector of the methods to be used, each as a character string.
 See optimx package. c("subplex", "pracmanm", "anms") by default.}
 
 \item{return_method}{\code{TRUE} or \code{FALSE}. To return the method selected for the
 optimization in the table. \code{FALSE} by default.}
 
-\item{parameters}{Initial values for the parameters to be optimized over. c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01) by default.}
+\item{parameters}{A named vector specifying the initial values for the parameters to be optimized. c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01) by default which is the same for all the plots.}
 
 \item{lower}{Bounds on the variables for methods such as "L-BFGS-B" that can handle box (or bounds) constraints.}
 
 \item{upper}{Bounds on the variables for methods such as "L-BFGS-B" that can handle box (or bounds) constraints.}
 
-\item{initial_vals}{data.frame with columns <plot, genotype, t1, t2, ... , and all the initial parameters>.}
+\item{initial_vals}{A data.frame with columns <plot, genotype, t1, t2, ... , and all the initial parameters>. Specific initial values per plot.}
 
-\item{fixed_params}{data.frame with columns <plot, genotype, t1, t2, ... , and all the fixed parameters>.}
+\item{fixed_params}{A data.frame with columns <plot, genotype, t1, t2, ... , and all the fixed parameters>.}
 
 \item{fn}{String character with the name of the function "fn_lin_pl_lin".}
 
-\item{n_points}{Number of time points to approximate the AUC. 1000 by default.}
+\item{n_points}{Number of time points to approximate the Area Under the Curve (AUC). 1000 by default.}
 
 \item{max_time}{Maximum time value for calculating the AUC. \code{NULL} by default takes the last time point.}
 }
@@ -83,23 +86,23 @@ results <- read_HTP(
 )
 names(results)
 mat <- modeler_HTP(
-  results = results,
+  x = results,
   index = "GLI_2",
-  plot_id = c(195, 40),
+  plot_id = c(195),
   parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
   fn = "fn_lin_pl_lin",
 )
-plot(mat, plot_id = c(195, 40))
+plot(mat, plot_id = c(195))
 mat$param
 
 can <- modeler_HTP(
-  results = results,
+  x = results,
   index = "Canopy",
-  plot_id = c(195, 40),
+  plot_id = c(195),
   parameters = c(t1 = 45, t2 = 80, k = 0.9),
   fn = "fn_piwise"
 )
-plot(can, plot_id = c(195, 40))
+plot(can, plot_id = c(195))
 can$param
 
 fixed_params <- results$dt_long |>
@@ -107,13 +110,13 @@ fixed_params <- results$dt_long |>
   group_by(plot, genotype) |>
   summarise(k = max(value, na.rm = TRUE), .groups = "drop")
 can <- modeler_HTP(
-  results = results,
+  x = results,
   index = "Canopy",
-  plot_id = c(195, 40),
+  plot_id = c(195),
   parameters = c(t1 = 45, t2 = 80, k = 0.9),
   fn = "fn_piwise",
   fixed_params = fixed_params
 )
-plot(can, plot_id = c(195, 40))
+plot(can, plot_id = c(195))
 can$param
 }

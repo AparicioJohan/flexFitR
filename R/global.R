@@ -41,6 +41,7 @@ utils::globalVariables(
     "initials",
     "fixed_params",
     "t(fx_params)",
-    "fx_params"
+    "fx_params",
+    "loc_max_at"
   )
 )

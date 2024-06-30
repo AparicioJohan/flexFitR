@@ -40,7 +40,7 @@ results <- read_HTP(
 )
 names(results)
 mat <- modeler_HTP(
-  results = results,
+  x = results,
   index = "GLI_2",
   plot_id = c(195, 40),
   parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
@@ -50,7 +50,7 @@ plot(mat, plot_id = c(195, 40))
 mat$param
 
 can <- modeler_HTP(
-  results = results,
+  x = results,
   index = "Canopy",
   plot_id = c(195, 40),
   parameters = c(t1 = 45, t2 = 80, k = 0.9),
@@ -64,7 +64,7 @@ fixed_params <- results$dt_long |>
   group_by(plot, genotype) |>
   summarise(k = max(value, na.rm = TRUE), .groups = "drop")
 can <- modeler_HTP(
-  results = results,
+  x = results,
   index = "Canopy",
   plot_id = c(195, 40),
   parameters = c(t1 = 45, t2 = 80, k = 0.9),
