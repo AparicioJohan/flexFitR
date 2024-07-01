@@ -1,0 +1,171 @@
+---
+title: "Modelling Maturity"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Modelling Maturity}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Loading libraries
+
+```{r, warning=FALSE, message=FALSE }
+library(exploreHTP)
+library(dplyr)
+library(kableExtra)
+library(ggpubr)
+library(purrr)
+```
+
+## Reading data `read_HTP()`
+
+```{r}
+data(dt_potato)
+results <- read_HTP(
+  data = dt_potato,
+  genotype = "Gen",
+  time = "DAP",
+  plot = "Plot",
+  traits = c("Canopy", "GLI_2"),
+  row = "Row",
+  range = "Range"
+)
+```
+
+```{r}
+names(results)
+```
+
+## Data exploration
+
+```{r, fig.width= 8, fig.height=6}
+p1 <- plot(results, type = "evolution", return_gg = TRUE)
+p2 <- plot(results, type = "time_by_trait", return_gg = TRUE)
+ggarrange(p1, p2, nrow = 2)
+```
+
+## Target function for maturity
+
+`fn_lin_pl_lin()`
+
+\begin{equation}
+f(t; t_1, t_2, t_3, k, \beta) =
+\begin{cases}
+0 & \text{if } t < t_1 \\
+\dfrac{k}{t_2 - t_1} \cdot (t - t_1) & \text{if } t_1 \leq t \leq t_2 \\
+k & \text{if } t_2 \leq t \leq t_3 \\
+k + \beta \cdot (t - t_3) & \text{if } t > t_3
+\end{cases}
+\end{equation}
+
+```{r, echo = FALSE, fig.width= 8}
+t <- seq(0, 108, 0.1)
+y_hat <- sapply(
+  X = t,
+  FUN = fn_lin_pl_lin,
+  t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01
+)
+plot(t, y_hat, type = "l")
+lines(t, y_hat, col = "red")
+abline(v = c(38.7, 62), lty = 2)
+```
+
+## Fitting models for maturity
+
+```{r}
+mod_1 <- modeler_HTP(
+  x = results,
+  index = "GLI_2",
+  plot_id = c(195, 40),
+  parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
+  fn = "fn_lin_pl_lin",
+)
+```
+
+
+```{r, fig.width= 8, fig.height=4}
+plot(mod_1, plot_id = c(195, 40))
+kable(mod_1$param)
+```
+
+## Providing initial parameters from the canopy model
+
+```{r}
+fixed_params <- results |>
+  pluck("dt_long") |>
+  filter(trait %in% "Canopy" & plot %in% c(195, 40)) |>
+  group_by(plot, genotype) |>
+  summarise(k = max(value), .groups = "drop")
+```
+
+```{r}
+mod_2 <- modeler_HTP(
+  x = results,
+  index = "Canopy",
+  plot_id = c(195, 40),
+  parameters = c(t1 = 45, t2 = 80, k = 0.9),
+  fn = "fn_piwise",
+  fixed_params = fixed_params,
+  max_as_last = TRUE
+)
+```
+
+```{r, fig.width= 8, fig.height=4}
+plot(mod_2, plot_id = c(195, 40))
+kable(mod_2$param)
+```
+
+## Passing initial values
+
+```{r}
+initials <- mod_2 |>
+  pluck("param") |>
+  select(plot, genotype, t1, t2) |>
+  mutate(t3 = 100, k = 0.32, beta = -0.01)
+kable(initials)
+```
+
+```{r}
+mod_3 <- modeler_HTP(
+  x = results,
+  index = "GLI_2",
+  plot_id = c(195, 40),
+  initial_vals = initials,
+  fn = "fn_lin_pl_lin",
+)
+```
+
+```{r, fig.width= 8, fig.height=4}
+plot(mod_3, plot_id = c(195, 40))
+kable(mod_3$param)
+```
+
+
+## Adding constrains to the optimization
+
+```{r}
+mod_4 <- modeler_HTP(
+  x = results,
+  index = "GLI_2",
+  plot_id = c(195, 40),
+  parameters = c(t1 = 38.7, t2 = 62, dt = 28, k = 0.32, beta = -0.01),
+  fn = "fn_lin_pl_lin3",
+  method = c("nlminb", "L-BFGS-B"),
+  lower = c(-Inf, -Inf, 0, -Inf, -Inf),
+  upper = c(Inf, Inf, Inf, Inf, 0),
+)
+```
+
+```{r, fig.width= 8, fig.height=4}
+plot(mod_4, plot_id = c(195, 40))
+kable(mod_4$param)
+```
+
+<hr>

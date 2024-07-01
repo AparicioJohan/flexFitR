@@ -23,6 +23,8 @@ navbar:
         href: articles/canopy-model.html
       - text: Modeling Plant Height
         href: articles/height-model.html
+      - text: Modeling Maturity
+        href: articles/maturity-model.html
   - icon: fa-newspaper
     text: News
     href: news/index.html

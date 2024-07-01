@@ -127,7 +127,7 @@ modeler_HTP <- function(x,
       stop("fixed_params can not have all parameters of the function: ", fn)
     }
   }
-  if (is.null(parameters) & is.null(fixed_params)) {
+  if (is.null(parameters) & is.null(initial_vals)) {
     stop("You have to provide initial values for the optimization procedure")
   } else if (!is.null(parameters)) {
     if (!sum(names(parameters) %in% args) == length(args)) {
