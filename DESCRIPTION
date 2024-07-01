@@ -37,6 +37,9 @@ URL: https://apariciojohan.github.io/exploreHTP/,
      https://github.com/AparicioJohan/exploreHTP
 BugReports: https://github.com/AparicioJohan/exploreHTP/issues
 Suggests: 
+    ggpubr,
+    kableExtra,
     knitr,
+    purrr,
     rmarkdown
 VignetteBuilder: knitr
