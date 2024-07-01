@@ -5,49 +5,29 @@
 \title{Plant Height Modelling}
 \usage{
 height_HTP(
-  results,
-  canopy,
-  plant_height = "PH",
+  x,
+  height = "PH",
+  canopy = "Canopy",
   plot_id = NULL,
-  add_zero = TRUE,
-  method = c("subplex", "pracmanm", "anms"),
-  return_method = FALSE,
-  parameters = c(t2 = 67, alpha = 1/600, beta = -1/80),
-  fn_sse = sse_exp2_exp,
-  fn = quote(fn_exp2_exp(time, t1, t2, alpha, beta)),
-  n_points = 1000,
-  max_time = NULL
+  fn = c("fn_exp1_exp", "fn_exp1_lin", "fn_exp2_exp", "fn_exp2_lin"),
+  ...
 )
 }
 \arguments{
-\item{results}{An object of class \code{read_HTP}, containing the results of the \code{read_HTP()} function.}
+\item{x}{An object of class \code{read_HTP}, containing the results of the \code{read_HTP()} function.}
 
-\item{canopy}{An object of class \code{canopy_HTP}, containing the results of the \code{canopy_HTP()} function.}
+\item{height}{A string specifying the plant height trait to be modeled. Default is \code{"PH"}.}
 
-\item{plant_height}{A string specifying the Plant Height trait to be modeled. Default is \code{"PH"}.}
+\item{canopy}{A string specifying the canopy trait to be modeled. Default is \code{"Canopy"}.}
 
 \item{plot_id}{An optional vector of plot IDs to filter the data. Default is \code{NULL}, meaning all plots are used.}
 
-\item{add_zero}{\code{TRUE} or \code{FALSE}. Add zero to the time series. \code{TRUE} by default.}
+\item{fn}{One of the following options: "fn_exp1_exp", "fn_exp1_lin", "fn_exp2_exp", "fn_exp2_lin".}
 
-\item{method}{A character vector of optimization methods to be used, as specified in the \code{optimx} package. Default is \code{c("subplex", "pracmanm", "anms")}.}
-
-\item{return_method}{Logical. If \code{TRUE}, includes the selected optimization method in the output table. Default is \code{FALSE}.}
-
-\item{parameters}{A named vector specifying the initial values for the parameters to be optimized.
-Default is c(t2 = 67, alpha = 1 / 600, beta = -1 / 80). The first parameter, t1, is assumed to be known and is calculated from the Canopy Model.}
-
-\item{fn_sse}{A function to be minimized (or maximized), with first argument the vector of parameters over which minimization is to take place.
-It should return a scalar result. Default is \link{sse_exp2_exp}.}
-
-\item{fn}{Object of class call. e.g. \code{quote(fn_exp2_exp(time, t1, t2, alpha, beta))} to calculate the area under the curve (AUC). Always use time as first argument.}
-
-\item{n_points}{Number of time points to approximate the AUC. 1000 by default.}
-
-\item{max_time}{Maximum time value for calculating the AUC. \code{NULL} by default takes the last time point.}
+\item{...}{Additional arguments passed to the \code{modeler_HTP()} function.}
 }
 \value{
-An object of class \code{height_HTP}, which is a list containing the following elements:
+An object of class \code{modeler_HTP}, which is a list containing the following elements:
 \describe{
   \item{\code{param}}{A data frame containing the optimized parameters and related information.}
   \item{\code{dt}}{A data frame with data used.}
@@ -70,41 +50,22 @@ results <- read_HTP(
   row = "Row",
   range = "Range"
 )
-names(results)
-out <- canopy_HTP(
-  results = results,
-  canopy = "Canopy",
-  plot_id = c(60, 150),
-  correct_max = TRUE,
-  add_zero = TRUE
-)
-names(out)
-plot(out, plot_id = c(60, 150))
 ph_1 <- height_HTP(
-  results = results,
-  canopy = out,
-  plant_height = "PH",
-  add_zero = TRUE,
-  method = c("nlminb", "anms", "mla", "pracmanm", "subplex"),
-  return_method = TRUE,
-  parameters = c(t2 = 67, alpha = 1 / 600, beta = -1 / 80),
-  fn_sse = sse_exp2_exp,
-  fn = quote(fn_exp2_exp(time, t1, t2, alpha, beta))
+  x = results,
+  height = "PH",
+  canopy = "Canopy",
+  plot_id = 60,
+  fn = "fn_exp2_lin"
 )
-plot(x = ph_1, plot_id = c(60, 150))
-ph_1$param
-
+print(ph_1)
+plot(x = ph_1, plot_id = 60)
 ph_2 <- height_HTP(
-  results = results,
-  canopy = out,
-  plant_height = "PH",
-  add_zero = TRUE,
-  method = c("nlminb", "anms", "mla", "pracmanm", "subplex"),
-  return_method = TRUE,
-  parameters = c(t2 = 67, alpha = 1 / 600, beta = -1 / 80),
-  fn_sse = sse_exp2_lin,
-  fn = quote(fn_exp2_lin(time, t1, t2, alpha, beta))
+  x = results,
+  height = "PH",
+  canopy = "Canopy",
+  plot_id = 60,
+  fn = "fn_exp2_exp"
 )
-plot(x = ph_2, plot_id = c(60, 150))
-ph_2$param
+plot(x = ph_2, plot_id = 60)
+print(ph_2)
 }

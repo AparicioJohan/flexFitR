@@ -19,37 +19,21 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item">
-  <a class="nav-link" href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
-     
-    Home
-  </a>
+  <a class="nav-link" href="../index.html">Home</a>
 </li>
 <li class="active nav-item">
-  <a class="nav-link" href="../reference/index.html">
-    <span class="fa fa-code"></span>
-     
-    Reference
-  </a>
+  <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
 <li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown--articles">
-    <span class="fa fa-book"></span>
-     
-    Articles
-  </a>
-  <div class="dropdown-menu" aria-labelledby="dropdown--articles">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/canopy-model.html">Modeling Emergence</a>
     <a class="dropdown-item" href="../articles/height-model.html">Modeling Plant Height</a>
     <a class="dropdown-item" href="../articles/maturity-model.html">Modeling Maturity</a>
   </div>
 </li>
 <li class="nav-item">
-  <a class="nav-link" href="../news/index.html">
-    <span class="fa fa-newspaper"></span>
-     
-    News
-  </a>
+  <a class="nav-link" href="../news/index.html">News</a>
 </li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
@@ -80,78 +64,46 @@
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">height_HTP</span><span class="op">(</span></span>
-<span>  <span class="va">results</span>,</span>
-<span>  <span class="va">canopy</span>,</span>
-<span>  plant_height <span class="op">=</span> <span class="st">"PH"</span>,</span>
+<span>  <span class="va">x</span>,</span>
+<span>  height <span class="op">=</span> <span class="st">"PH"</span>,</span>
+<span>  canopy <span class="op">=</span> <span class="st">"Canopy"</span>,</span>
 <span>  plot_id <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  add_zero <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"subplex"</span>, <span class="st">"pracmanm"</span>, <span class="st">"anms"</span><span class="op">)</span>,</span>
-<span>  return_method <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t2 <span class="op">=</span> <span class="fl">67</span>, alpha <span class="op">=</span> <span class="fl">1</span><span class="op">/</span><span class="fl">600</span>, beta <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">/</span><span class="fl">80</span><span class="op">)</span>,</span>
-<span>  fn_sse <span class="op">=</span> <span class="va">sse_exp2_exp</span>,</span>
-<span>  fn <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="fu"><a href="fn_exp2_exp.html">fn_exp2_exp</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">t1</span>, <span class="va">t2</span>, <span class="va">alpha</span>, <span class="va">beta</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  n_points <span class="op">=</span> <span class="fl">1000</span>,</span>
-<span>  max_time <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  fn <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"fn_exp1_exp"</span>, <span class="st">"fn_exp1_lin"</span>, <span class="st">"fn_exp2_exp"</span>, <span class="st">"fn_exp2_lin"</span><span class="op">)</span>,</span>
+<span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>results</dt>
+    <dl><dt>x</dt>
 <dd><p>An object of class <code>read_HTP</code>, containing the results of the <code><a href="read_HTP.html">read_HTP()</a></code> function.</p></dd>
 
 
+<dt>height</dt>
+<dd><p>A string specifying the plant height trait to be modeled. Default is <code>"PH"</code>.</p></dd>
+
+
 <dt>canopy</dt>
-<dd><p>An object of class <code>canopy_HTP</code>, containing the results of the <code><a href="canopy_HTP.html">canopy_HTP()</a></code> function.</p></dd>
-
-
-<dt>plant_height</dt>
-<dd><p>A string specifying the Plant Height trait to be modeled. Default is <code>"PH"</code>.</p></dd>
+<dd><p>A string specifying the canopy trait to be modeled. Default is <code>"Canopy"</code>.</p></dd>
 
 
 <dt>plot_id</dt>
 <dd><p>An optional vector of plot IDs to filter the data. Default is <code>NULL</code>, meaning all plots are used.</p></dd>
 
 
-<dt>add_zero</dt>
-<dd><p><code>TRUE</code> or <code>FALSE</code>. Add zero to the time series. <code>TRUE</code> by default.</p></dd>
-
-
-<dt>method</dt>
-<dd><p>A character vector of optimization methods to be used, as specified in the <code>optimx</code> package. Default is <code>c("subplex", "pracmanm", "anms")</code>.</p></dd>
-
-
-<dt>return_method</dt>
-<dd><p>Logical. If <code>TRUE</code>, includes the selected optimization method in the output table. Default is <code>FALSE</code>.</p></dd>
-
-
-<dt>parameters</dt>
-<dd><p>A named vector specifying the initial values for the parameters to be optimized.
-Default is c(t2 = 67, alpha = 1 / 600, beta = -1 / 80). The first parameter, t1, is assumed to be known and is calculated from the Canopy Model.</p></dd>
-
-
-<dt>fn_sse</dt>
-<dd><p>A function to be minimized (or maximized), with first argument the vector of parameters over which minimization is to take place.
-It should return a scalar result. Default is <a href="sse_exp2_exp.html">sse_exp2_exp</a>.</p></dd>
-
-
 <dt>fn</dt>
-<dd><p>Object of class call. e.g. <code>quote(fn_exp2_exp(time, t1, t2, alpha, beta))</code> to calculate the area under the curve (AUC). Always use time as first argument.</p></dd>
+<dd><p>One of the following options: "fn_exp1_exp", "fn_exp1_lin", "fn_exp2_exp", "fn_exp2_lin".</p></dd>
 
 
-<dt>n_points</dt>
-<dd><p>Number of time points to approximate the AUC. 1000 by default.</p></dd>
-
-
-<dt>max_time</dt>
-<dd><p>Maximum time value for calculating the AUC. <code>NULL</code> by default takes the last time point.</p></dd>
+<dt>...</dt>
+<dd><p>Additional arguments passed to the <code><a href="modeler_HTP.html">modeler_HTP()</a></code> function.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>An object of class <code>height_HTP</code>, which is a list containing the following elements:</p><dl><dt><code>param</code></dt>
+<p>An object of class <code>modeler_HTP</code>, which is a list containing the following elements:</p><dl><dt><code>param</code></dt>
 <dd><p>A data frame containing the optimized parameters and related information.</p></dd>
 
   <dt><code>dt</code></dt>
@@ -179,60 +131,52 @@ It should return a scalar result. Default is <a href="sse_exp2_exp.html">sse_exp
 <span class="r-in"><span>  row <span class="op">=</span> <span class="st">"Row"</span>,</span></span>
 <span class="r-in"><span>  range <span class="op">=</span> <span class="st">"Range"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">results</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "summ_traits"      "exp_design_resum" "locals_min_max"   "dt_long"         </span>
-<span class="r-in"><span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="canopy_HTP.html">canopy_HTP</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  results <span class="op">=</span> <span class="va">results</span>,</span></span>
-<span class="r-in"><span>  canopy <span class="op">=</span> <span class="st">"Canopy"</span>,</span></span>
-<span class="r-in"><span>  plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">60</span>, <span class="fl">150</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  correct_max <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
-<span class="r-in"><span>  add_zero <span class="op">=</span> <span class="cn">TRUE</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "param"    "dt"       "fn"       "max_time"</span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">out</span>, plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">60</span>, <span class="fl">150</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="height_HTP-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="va">ph_1</span> <span class="op">&lt;-</span> <span class="fu">height_HTP</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  results <span class="op">=</span> <span class="va">results</span>,</span></span>
-<span class="r-in"><span>  canopy <span class="op">=</span> <span class="va">out</span>,</span></span>
-<span class="r-in"><span>  plant_height <span class="op">=</span> <span class="st">"PH"</span>,</span></span>
-<span class="r-in"><span>  add_zero <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
-<span class="r-in"><span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"nlminb"</span>, <span class="st">"anms"</span>, <span class="st">"mla"</span>, <span class="st">"pracmanm"</span>, <span class="st">"subplex"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  return_method <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
-<span class="r-in"><span>  parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t2 <span class="op">=</span> <span class="fl">67</span>, alpha <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="fl">600</span>, beta <span class="op">=</span> <span class="op">-</span><span class="fl">1</span> <span class="op">/</span> <span class="fl">80</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  fn_sse <span class="op">=</span> <span class="va">sse_exp2_exp</span>,</span></span>
-<span class="r-in"><span>  fn <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="fu"><a href="fn_exp2_exp.html">fn_exp2_exp</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">t1</span>, <span class="va">t2</span>, <span class="va">alpha</span>, <span class="va">beta</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  x <span class="op">=</span> <span class="va">results</span>,</span></span>
+<span class="r-in"><span>  height <span class="op">=</span> <span class="st">"PH"</span>,</span></span>
+<span class="r-in"><span>  canopy <span class="op">=</span> <span class="st">"Canopy"</span>,</span></span>
+<span class="r-in"><span>  plot_id <span class="op">=</span> <span class="fl">60</span>,</span></span>
+<span class="r-in"><span>  fn <span class="op">=</span> <span class="st">"fn_exp2_lin"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">ph_1</span>, plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">60</span>, <span class="fl">150</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="height_HTP-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span><span class="va">ph_1</span><span class="op">$</span><span class="va">param</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 11</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    plot genotype    row range    t2    alpha    beta    t1 method      sse</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    60 W19026-15     4     5    62 0.001<span style="text-decoration: underline;">17</span>  -<span style="color: #BB0000;">0.034</span><span style="color: #BB0000; text-decoration: underline;">6</span>  38.0 subplex 0.009<span style="text-decoration: underline;">48</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>   150 W19023-21    10    11    62 0.000<span style="text-decoration: underline;">783</span> -<span style="color: #BB0000;">0.018</span><span style="color: #BB0000; text-decoration: underline;">3</span>  33.8 subplex 0.001<span style="text-decoration: underline;">43</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1 more variable: total_area &lt;dbl&gt;</span></span>
-<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">ph_1</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Optimization Results:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 10</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    plot genotype    row range    t2   alpha    beta    sse    t1   auc</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    60 W19026-15     4     5    62 0.001<span style="text-decoration: underline;">10</span> -<span style="color: #BB0000;">0.016</span><span style="color: #BB0000; text-decoration: underline;">6</span> 0.032<span style="text-decoration: underline;">0</span>  38.0  28.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Target Function:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> fn_exp2_lin(time, t1, t2, alpha, beta)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">ph_1</span>, plot_id <span class="op">=</span> <span class="fl">60</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="height_HTP-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="va">ph_2</span> <span class="op">&lt;-</span> <span class="fu">height_HTP</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  results <span class="op">=</span> <span class="va">results</span>,</span></span>
-<span class="r-in"><span>  canopy <span class="op">=</span> <span class="va">out</span>,</span></span>
-<span class="r-in"><span>  plant_height <span class="op">=</span> <span class="st">"PH"</span>,</span></span>
-<span class="r-in"><span>  add_zero <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
-<span class="r-in"><span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"nlminb"</span>, <span class="st">"anms"</span>, <span class="st">"mla"</span>, <span class="st">"pracmanm"</span>, <span class="st">"subplex"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  return_method <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
-<span class="r-in"><span>  parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t2 <span class="op">=</span> <span class="fl">67</span>, alpha <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="fl">600</span>, beta <span class="op">=</span> <span class="op">-</span><span class="fl">1</span> <span class="op">/</span> <span class="fl">80</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  fn_sse <span class="op">=</span> <span class="va">sse_exp2_lin</span>,</span></span>
-<span class="r-in"><span>  fn <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="fu"><a href="fn_exp2_lin.html">fn_exp2_lin</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">t1</span>, <span class="va">t2</span>, <span class="va">alpha</span>, <span class="va">beta</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  x <span class="op">=</span> <span class="va">results</span>,</span></span>
+<span class="r-in"><span>  height <span class="op">=</span> <span class="st">"PH"</span>,</span></span>
+<span class="r-in"><span>  canopy <span class="op">=</span> <span class="st">"Canopy"</span>,</span></span>
+<span class="r-in"><span>  plot_id <span class="op">=</span> <span class="fl">60</span>,</span></span>
+<span class="r-in"><span>  fn <span class="op">=</span> <span class="st">"fn_exp2_exp"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">ph_2</span>, plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">60</span>, <span class="fl">150</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="height_HTP-3.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span><span class="va">ph_2</span><span class="op">$</span><span class="va">param</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 11</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    plot genotype    row range    t2    alpha    beta    t1 method      sse</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    60 W19026-15     4     5    62 0.001<span style="text-decoration: underline;">10</span>  -<span style="color: #BB0000;">0.016</span><span style="color: #BB0000; text-decoration: underline;">6</span>  38.0 subplex 0.032<span style="text-decoration: underline;">3</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>   150 W19023-21    10    11    62 0.000<span style="text-decoration: underline;">767</span> -<span style="color: #BB0000;">0.011</span><span style="color: #BB0000; text-decoration: underline;">0</span>  33.8 subplex 0.003<span style="text-decoration: underline;">29</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1 more variable: total_area &lt;dbl&gt;</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">ph_2</span>, plot_id <span class="op">=</span> <span class="fl">60</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="height_HTP-2.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">ph_2</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Optimization Results:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 10</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    plot genotype    row range    t2   alpha    beta     sse    t1   auc</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    60 W19026-15     4     5  62.0 0.001<span style="text-decoration: underline;">17</span> -<span style="color: #BB0000;">0.034</span><span style="color: #BB0000; text-decoration: underline;">6</span> 0.009<span style="text-decoration: underline;">25</span>  38.0  28.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Target Function:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> fn_exp2_exp(time, t1, t2, alpha, beta)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

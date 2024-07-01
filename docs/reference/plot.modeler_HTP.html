@@ -19,37 +19,21 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item">
-  <a class="nav-link" href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
-     
-    Home
-  </a>
+  <a class="nav-link" href="../index.html">Home</a>
 </li>
 <li class="active nav-item">
-  <a class="nav-link" href="../reference/index.html">
-    <span class="fa fa-code"></span>
-     
-    Reference
-  </a>
+  <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
 <li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown--articles">
-    <span class="fa fa-book"></span>
-     
-    Articles
-  </a>
-  <div class="dropdown-menu" aria-labelledby="dropdown--articles">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/canopy-model.html">Modeling Emergence</a>
     <a class="dropdown-item" href="../articles/height-model.html">Modeling Plant Height</a>
     <a class="dropdown-item" href="../articles/maturity-model.html">Modeling Maturity</a>
   </div>
 </li>
 <li class="nav-item">
-  <a class="nav-link" href="../news/index.html">
-    <span class="fa fa-newspaper"></span>
-     
-    News
-  </a>
+  <a class="nav-link" href="../news/index.html">News</a>
 </li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
@@ -145,10 +129,10 @@ executing the function <code><a href="modeler_HTP.html">modeler_HTP()</a></code>
 <span class="r-plt img"><img src="plot.modeler_HTP-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="va">mat</span><span class="op">$</span><span class="va">param</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 11</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    plot genotype    row range    t1    t2    t3     k    beta     sse total_area</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    40 W17043-37    12     3  36.9  66.4  79.9 0.369 -<span style="color: #BB0000;">0.010</span><span style="color: #BB0000; text-decoration: underline;">6</span> 6.77<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span>       16.6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>   195 W16219-8     13    14  39.6  68.3  93.3 0.323 -<span style="color: #BB0000;">0.010</span><span style="color: #BB0000; text-decoration: underline;">0</span> 1.02<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span>       16.4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    plot genotype    row range    t1    t2    t3     k    beta       sse   auc</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    40 W17043-37    12     3  36.9  66.4  79.9 0.369 -<span style="color: #BB0000;">0.010</span><span style="color: #BB0000; text-decoration: underline;">6</span> 0.000<span style="text-decoration: underline;">677</span>   16.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>   195 W16219-8     13    14  39.6  68.3  93.3 0.323 -<span style="color: #BB0000;">0.010</span><span style="color: #BB0000; text-decoration: underline;">0</span> 0.000<span style="text-decoration: underline;">010</span>2  16.4</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">can</span> <span class="op">&lt;-</span> <span class="fu"><a href="modeler_HTP.html">modeler_HTP</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  x <span class="op">=</span> <span class="va">results</span>,</span></span>
@@ -161,10 +145,10 @@ executing the function <code><a href="modeler_HTP.html">modeler_HTP()</a></code>
 <span class="r-plt img"><img src="plot.modeler_HTP-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="va">can</span><span class="op">$</span><span class="va">param</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 9</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    plot genotype    row range    t1    t2     k   sse total_area</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    40 W17043-37    12     3  34.8  53.7  72.5 <span style="text-decoration: underline;">2</span>846.      <span style="text-decoration: underline;">4</span>623.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>   195 W16219-8     13    14  38.7  60.0  91.7  390.      <span style="text-decoration: underline;">5</span>377.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    plot genotype    row range    t1    t2     k   sse   auc</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    40 W17043-37    12     3  34.8  53.7  72.5 <span style="text-decoration: underline;">2</span>846. <span style="text-decoration: underline;">4</span>623.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>   195 W16219-8     13    14  38.7  60.0  91.7  390. <span style="text-decoration: underline;">5</span>377.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">fixed_params</span> <span class="op">&lt;-</span> <span class="va">results</span><span class="op">$</span><span class="va">dt_long</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">trait</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="st">"Canopy"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
@@ -182,10 +166,10 @@ executing the function <code><a href="modeler_HTP.html">modeler_HTP()</a></code>
 <span class="r-plt img"><img src="plot.modeler_HTP-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="va">can</span><span class="op">$</span><span class="va">param</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 9</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    plot genotype    row range    t1    t2   sse     k total_area</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    40 W17043-37    12     3  34.8  60.8 <span style="text-decoration: underline;">6</span>268.   100      <span style="text-decoration: underline;">6</span>017.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>   195 W16219-8     13    14  38.7  62.0  663.   100      <span style="text-decoration: underline;">5</span>765.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    plot genotype    row range    t1    t2   sse     k   auc</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    40 W17043-37    12     3  34.8  60.8 <span style="text-decoration: underline;">6</span>268.   100 <span style="text-decoration: underline;">6</span>017.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>   195 W16219-8     13    14  38.7  62.0  663.   100 <span style="text-decoration: underline;">5</span>765.</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

@@ -1,7 +1,6 @@
 #' Exponential Linear Function 1
 #'
 #' Computes a value based on an exponential growth curve and linear decay model for time.
-#' The function is used in \link{sse_exp1_lin}.
 #'
 #' @param t Numeric. The time value.
 #' @param t1 Numeric. The lower threshold time. Assumed to be known.
@@ -59,42 +58,9 @@ fn_exp1_lin <- function(t, t1, t2, alpha, beta) {
   }
 }
 
-#' Sum of Squares Error Function for Exponential Linear Model 1
-#'
-#' Calculates the sum of squared errors (SSE) between observed values and values
-#' predicted by the \link{fn_exp1_lin} function.
-#'
-#' @param params Numeric vector. The parameters for the \link{fn_exp1_lin}
-#' function, where \code{params[1]} is \code{t2}, \code{params[2]} is \code{alpha},
-#' and \code{params[3]} is \code{beta}.
-#' @param t Numeric vector. The time values.
-#' @param y Numeric vector. The observed values.
-#' @param t1 Numeric. The lower threshold time.
-#'
-#' @return A numeric value representing the sum of squared errors.
-#'
-#' @examples
-#' params <- c(50, 0.1, -0.01)
-#' t <- c(10, 20, 30, 40, 50, 60)
-#' y <- c(0, 0, 0.2, 0.5, 0.8, 0.9)
-#' t1 <- 20
-#' sse_exp1_lin(params, t, y, t1) # Should return the SSE value
-#'
-#' @export
-sse_exp1_lin <- function(params, t, y, t1) {
-  t1 <- t1
-  t2 <- params[1]
-  alpha <- params[2]
-  beta <- params[3]
-  y_hat <- sapply(t, FUN = fn_exp1_lin, t1, t2, alpha, beta)
-  sse <- sum((y - y_hat)^2)
-  return(sse)
-}
-
 #' Exponential Linear Function 2
 #'
 #' Computes a value based on an exponential growth curve and linear decay model for time.
-#' The function is used in \link{sse_exp2_lin}.
 #'
 #' @param t Numeric. The time value.
 #' @param t1 Numeric. The lower threshold time. Assumed to be known.
@@ -152,42 +118,9 @@ fn_exp2_lin <- function(t, t1, t2, alpha, beta) {
   }
 }
 
-#' Sum of Squares Error Function for Exponential Linear Model 2
-#'
-#' Calculates the sum of squared errors (SSE) between observed values and values
-#' predicted by the \link{fn_exp2_lin} function.
-#'
-#' @param params Numeric vector. The parameters for the \code{fn_exp2_lin}
-#' function, where \code{params[1]} is \code{t2}, \code{params[2]} is \code{alpha},
-#' and \code{params[3]} is \code{beta}.
-#' @param t Numeric vector. The time values.
-#' @param y Numeric vector. The observed values.
-#' @param t1 Numeric. The lower threshold time.
-#'
-#' @return A numeric value representing the sum of squared errors.
-#'
-#' @examples
-#' params <- c(50, 0.1, -0.01)
-#' t <- c(10, 20, 30, 40, 50, 60)
-#' y <- c(0, 0, 0.2, 0.5, 0.8, 0.9)
-#' t1 <- 20
-#' sse_exp2_lin(params, t, y, t1) # Should return the SSE value
-#'
-#' @export
-sse_exp2_lin <- function(params, t, y, t1) {
-  t1 <- t1
-  t2 <- params[1]
-  alpha <- params[2]
-  beta <- params[3]
-  y_hat <- sapply(t, FUN = fn_exp2_lin, t1, t2, alpha, beta)
-  sse <- sum((y - y_hat)^2)
-  return(sse)
-}
-
 #' Exponential Exponential Function 1
 #'
 #' Computes a value based on an exponential growth curve and exponential decay model for time.
-#' The function is used in \link{sse_exp1_exp}.
 #'
 #' @param t Numeric. The time value.
 #' @param t1 Numeric. The lower threshold time. Assumed to be known.
@@ -246,42 +179,9 @@ fn_exp1_exp <- function(t, t1, t2, alpha, beta) {
   }
 }
 
-#' Sum of Squares Error Function for Exponential Exponential Model 1
-#'
-#' Calculates the sum of squared errors (SSE) between observed values and values
-#' predicted by the \link{fn_exp1_exp} function.
-#'
-#' @param params Numeric vector. The parameters for the \code{fn_exp1_exp} function,
-#' where \code{params[1]} is \code{t2}, \code{params[2]} is \code{alpha}, and
-#' \code{params[3]} is \code{beta}.
-#' @param t Numeric vector. The time values.
-#' @param y Numeric vector. The observed values.
-#' @param t1 Numeric. The lower threshold time.
-#'
-#' @return A numeric value representing the sum of squared errors.
-#'
-#' @examples
-#' params <- c(50, 0.1, -0.01)
-#' t <- c(10, 20, 30, 40, 50, 60)
-#' y <- c(0, 0, 0.2, 0.5, 0.8, 0.9)
-#' t1 <- 20
-#' sse_exp1_exp(params, t, y, t1) # Should return the SSE value
-#'
-#' @export
-sse_exp1_exp <- function(params, t, y, t1) {
-  t1 <- t1
-  t2 <- params[1]
-  alpha <- params[2]
-  beta <- params[3]
-  y_hat <- sapply(t, FUN = fn_exp1_exp, t1, t2, alpha, beta)
-  sse <- sum((y - y_hat)^2)
-  return(sse)
-}
-
 #' Exponential Exponential Function 2
 #'
 #' Computes a value based on an exponential growth curve and exponential decay model for time.
-#' The function is used in \link{sse_exp2_exp}.
 #'
 #' @param t Numeric. The time value.
 #' @param t1 Numeric. The lower threshold time. Assumed to be known.
@@ -340,43 +240,9 @@ fn_exp2_exp <- function(t, t1, t2, alpha, beta) {
   }
 }
 
-#' Sum of Squares Error Function for Exponential Exponential Model 2
-#'
-#' Calculates the sum of squared errors (SSE) between observed values and values
-#' predicted by the \link{fn_exp2_exp} function.
-#'
-#' @param params Numeric vector. The parameters for the \code{fn_exp2_exp} function,
-#' where \code{params[1]} is \code{t2}, \code{params[2]} is \code{alpha}, and
-#' \code{params[3]} is \code{beta}.
-#' @param t Numeric vector. The time values.
-#' @param y Numeric vector. The observed values.
-#' @param t1 Numeric. The lower threshold time.
-#'
-#' @return A numeric value representing the sum of squared errors.
-#'
-#' @examples
-#' params <- c(50, 0.1, -0.01)
-#' t <- c(10, 20, 30, 40, 50, 60)
-#' y <- c(0, 0, 0.2, 0.5, 0.8, 0.9)
-#' t1 <- 20
-#' sse_exp2_exp(params, t, y, t1) # Should return the SSE value
-#'
-#' @export
-sse_exp2_exp <- function(params, t, y, t1) {
-  t1 <- t1
-  t2 <- params[1]
-  alpha <- params[2]
-  beta <- params[3]
-  y_hat <- sapply(t, FUN = fn_exp2_exp, t1, t2, alpha, beta)
-  sse <- sum((y - y_hat)^2)
-  return(sse)
-}
-
-
 #' Piecewise Linear Regression
 #'
 #' Computes a value based on a linear growth curve reaching a plateau for time.
-#' The function is used in \link{sse_piwise}.
 #'
 #' @param t Numeric. The time value.
 #' @param t1 Numeric. The lower threshold time. Default is 45.
@@ -434,7 +300,7 @@ fn_piwise <- function(t, t1 = 45, t2 = 80, k = 0.9) {
 #' @param y Numeric vector. The observed values.
 #'
 #' @return A numeric value representing the sum of squared errors.
-#' @export
+#' @noRd
 #'
 #' @examples
 #' library(exploreHTP)
@@ -506,47 +372,57 @@ fn_lin_pl_lin <- function(t, t1, t2, t3, k, beta) {
   return(y)
 }
 
-#' Sum of Squares Error Function for Linear Plateau Linear Model
+#' Linear Plateau Linear with Constrains
 #'
-#' Calculates the sum of squared errors (SSE) between observed values and values
-#' predicted by the \link{fn_lin_pl_lin} function. This is the objective function to
-#' be minimized in the optimx package.
+#' @param t Numeric. The time value.
+#' @param t1 Numeric. The lower threshold time.
+#' @param t2 Numeric. The upper threshold time before plateau.
+#' @param dt Numeric. dt = t3 - t2.
+#' @param k Numeric. The maximum value of the function.
+#' @param beta Numeric. Slope of the linear decay.
 #'
-#' @param params Numeric vector. The parameters for the \code{fn_lin_pl_lin} function,
-#' where \code{params[1]} is \code{t1}, \code{params[2]} is \code{t2}, \code{params[3]} is \code{t3}
-#' \code{params[4]} is \code{k} and \code{params[5]} is \code{beta}.
-#' @param t Numeric vector. The time values.
-#' @param y Numeric vector. The observed values.
-#'
-#' @return A numeric value representing the sum of squared errors.
+#' @return A numeric value based on the linear plateau linear model.
 #' @export
+#'
+#' @details
+#' \if{html}{
+#' \deqn{
+#' f(t; t_1, t_2, dt, k, \beta) =
+#' \begin{cases}
+#' 0 & \text{if } t < t_1 \\
+#' \dfrac{k}{t_2 - t_1} \cdot (t - t_1) & \text{if } t_1 \leq t \leq t_2 \\
+#' k & \text{if } t_2 \leq t \leq (t_2 + dt) \\
+#' k + \beta \cdot (t - (t_2 + dt)) & \text{if } t > (t_2 + dt)
+#' \end{cases}
+#' }
+#' }
 #'
 #' @examples
 #' library(exploreHTP)
-#' x <- c(0, 29, 36, 42, 56, 76, 92, 100, 108)
-#' y <- c(0, 0, 0, 0.027, 0.185, 0.325, 0.321, 0.256, 0.176)
-#' sse_lin_pl_lin(
-#'   params = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
-#'   t = x,
-#'   y = y
-#' )
+#' t <- seq(0, 108, 0.1)
 #' y_hat <- sapply(
-#'   X = x,
-#'   FUN = fn_lin_pl_lin,
-#'   t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01
+#'   X = t,
+#'   FUN = fn_lin_pl_lin2,
+#'   t1 = 38.7, t2 = 62, dt = 28, k = 0.32, beta = -0.01
 #' )
-#' sum((y - y_hat)^2)
-sse_lin_pl_lin <- function(params, t, y) {
-  t1 <- params[1]
-  t2 <- params[2]
-  t3 <- params[3]
-  k <- params[4]
-  beta <- params[5]
-  y_hat <- sapply(t, FUN = fn_lin_pl_lin, t1 = t1, t2 = t2, t3 = t3, k = k, beta = beta)
-  sse <- sum((y - y_hat)^2)
-  return(sse)
+#' plot(t, y_hat, type = "l")
+#' lines(t, y_hat, col = "red")
+#' abline(v = c(38.7, 62), lty = 2)
+fn_lin_pl_lin2 <- function(t, t1, t2, dt, k, beta) {
+  if (t < t1) {
+    return(0)
+  }
+  if (t >= t1 & t <= t2) {
+    y <- k / (t2 - t1) * (t - t1)
+  }
+  if (t >= t2 & t <= (t2 + dt)) {
+    y <- k
+  }
+  if (t >= (t2 + dt)) {
+    y <- k + beta * (t - (t2 + dt))
+  }
+  return(y)
 }
-
 
 #' Linear Plateau Linear with Constrains
 #'
@@ -578,13 +454,13 @@ sse_lin_pl_lin <- function(params, t, y) {
 #' t <- seq(0, 108, 0.1)
 #' y_hat <- sapply(
 #'   X = t,
-#'   FUN = fn_lin_pl_lin2,
+#'   FUN = fn_lin_pl_lin3,
 #'   t1 = 38.7, dt = 28, t3 = 90, k = 0.32, beta = -0.01
 #' )
 #' plot(t, y_hat, type = "l")
 #' lines(t, y_hat, col = "red")
 #' abline(v = c(38.7, 62), lty = 2)
-fn_lin_pl_lin2 <- function(t, t1, dt, t3, k, beta) {
+fn_lin_pl_lin3 <- function(t, t1, dt, t3, k, beta) {
   if (t < t1) {
     return(0)
   }
@@ -600,142 +476,6 @@ fn_lin_pl_lin2 <- function(t, t1, dt, t3, k, beta) {
   return(y)
 }
 
-#' Sum of Squares Error Function for Linear Plateau Linear Model with Constrains
-#'
-#' Calculates the sum of squared errors (SSE) between observed values and values
-#' predicted by the \link{fn_lin_pl_lin2} function. This is the objective function to
-#' be minimized in the optimx package.
-#'
-#' @param params Numeric vector. The parameters for the \code{fn_lin_pl_lin2} function,
-#' where \code{params[1]} is \code{t1}, \code{params[2]} is \code{t2}, \code{params[3]} is \code{t3}
-#' \code{params[4]} is \code{k} and \code{params[5]} is \code{beta}.
-#' @param t Numeric vector. The time values.
-#' @param y Numeric vector. The observed values.
-#'
-#' @return A numeric value representing the sum of squared errors.
-#' @export
-#'
-#' @examples
-#' library(exploreHTP)
-#' x <- c(0, 29, 36, 42, 56, 76, 92, 100, 108)
-#' y <- c(0, 0, 0, 0.027, 0.185, 0.325, 0.321, 0.256, 0.176)
-#' sse_lin_pl_lin2(
-#'   params = c(t1 = 38.7, dt = 28, t3 = 90, k = 0.32, beta = -0.01),
-#'   t = x,
-#'   y = y
-#' )
-#' y_hat <- sapply(
-#'   X = x,
-#'   FUN = fn_lin_pl_lin2,
-#'   t1 = 38.7, dt = 28, t3 = 90, k = 0.32, beta = -0.01
-#' )
-#' sum((y - y_hat)^2)
-sse_lin_pl_lin2 <- function(params, t, y) {
-  t1 <- params[1]
-  dt <- params[2]
-  t3 <- params[3]
-  k <- params[4]
-  beta <- params[5]
-  y_hat <- sapply(t, FUN = fn_lin_pl_lin2, t1 = t1, dt = dt, t3 = t3, k = k, beta = beta)
-  sse <- sum((y - y_hat)^2)
-  return(sse)
-}
-
-
-# -------------------------------------------------------------------------
-
-#' Linear Plateau Linear with Constrains
-#'
-#' @param t Numeric. The time value.
-#' @param t1 Numeric. The lower threshold time.
-#' @param t2 Numeric. The upper threshold time before plateau.
-#' @param dt Numeric. dt = t3 - t2.
-#' @param k Numeric. The maximum value of the function.
-#' @param beta Numeric. Slope of the linear decay.
-#'
-#' @return A numeric value based on the linear plateau linear model.
-#' @export
-#'
-#' @details
-#' \if{html}{
-#' \deqn{
-#' f(t; t_1, t_2, dt, k, \beta) =
-#' \begin{cases}
-#' 0 & \text{if } t < t_1 \\
-#' \dfrac{k}{t_2 - t_1} \cdot (t - t_1) & \text{if } t_1 \leq t \leq t_2 \\
-#' k & \text{if } t_2 \leq t \leq (t_2 + dt) \\
-#' k + \beta \cdot (t - (t_2 + dt)) & \text{if } t > (t_2 + dt)
-#' \end{cases}
-#' }
-#' }
-#'
-#' @examples
-#' library(exploreHTP)
-#' t <- seq(0, 108, 0.1)
-#' y_hat <- sapply(
-#'   X = t,
-#'   FUN = fn_lin_pl_lin3,
-#'   t1 = 38.7, t2 = 62, dt = 28, k = 0.32, beta = -0.01
-#' )
-#' plot(t, y_hat, type = "l")
-#' lines(t, y_hat, col = "red")
-#' abline(v = c(38.7, 62), lty = 2)
-fn_lin_pl_lin3 <- function(t, t1, t2, dt, k, beta) {
-  if (t < t1) {
-    return(0)
-  }
-  if (t >= t1 & t <= t2) {
-    y <- k / (t2 - t1) * (t - t1)
-  }
-  if (t >= t2 & t <= (t2 + dt)) {
-    y <- k
-  }
-  if (t >= (t2 + dt)) {
-    y <- k + beta * (t - (t2 + dt))
-  }
-  return(y)
-}
-
-#' Sum of Squares Error Function for Linear Plateau Linear Model with Constrains
-#'
-#' Calculates the sum of squared errors (SSE) between observed values and values
-#' predicted by the \link{fn_lin_pl_lin3} function. This is the objective function to
-#' be minimized in the optimx package.
-#'
-#' @param params Numeric vector. The parameters for the \code{fn_lin_pl_lin3} function,
-#' where \code{params[1]} is \code{t1}, \code{params[2]} is \code{t2}, \code{params[3]} is \code{t3}
-#' \code{params[4]} is \code{k} and \code{params[5]} is \code{beta}.
-#' @param t Numeric vector. The time values.
-#' @param y Numeric vector. The observed values.
-#'
-#' @return A numeric value representing the sum of squared errors.
-#' @export
-#'
-#' @examples
-#' library(exploreHTP)
-#' x <- c(0, 29, 36, 42, 56, 76, 92, 100, 108)
-#' y <- c(0, 0, 0, 0.027, 0.185, 0.325, 0.321, 0.256, 0.176)
-#' sse_lin_pl_lin3(
-#'   params = c(t1 = 38.7, t2 = 62, dt = 28, k = 0.32, beta = -0.01),
-#'   t = x,
-#'   y = y
-#' )
-#' y_hat <- sapply(
-#'   X = x,
-#'   FUN = fn_lin_pl_lin3,
-#'   t1 = 38.7, t2 = 62, dt = 28, k = 0.32, beta = -0.01
-#' )
-#' sum((y - y_hat)^2)
-sse_lin_pl_lin3 <- function(params, t, y) {
-  t1 <- params[1]
-  t2 <- params[2]
-  dt <- params[3]
-  k <- params[4]
-  beta <- params[5]
-  y_hat <- sapply(t, FUN = fn_lin_pl_lin3, t1 = t1, t2 = t2, dt = dt, k = k, beta = beta)
-  sse <- sum((y - y_hat)^2)
-  return(sse)
-}
 
 
 #' @examples

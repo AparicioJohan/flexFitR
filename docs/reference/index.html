@@ -19,37 +19,21 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item">
-  <a class="nav-link" href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
-     
-    Home
-  </a>
+  <a class="nav-link" href="../index.html">Home</a>
 </li>
 <li class="active nav-item">
-  <a class="nav-link" href="../reference/index.html">
-    <span class="fa fa-code"></span>
-     
-    Reference
-  </a>
+  <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
 <li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown--articles">
-    <span class="fa fa-book"></span>
-     
-    Articles
-  </a>
-  <div class="dropdown-menu" aria-labelledby="dropdown--articles">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/canopy-model.html">Modeling Emergence</a>
     <a class="dropdown-item" href="../articles/height-model.html">Modeling Plant Height</a>
     <a class="dropdown-item" href="../articles/maturity-model.html">Modeling Maturity</a>
   </div>
 </li>
 <li class="nav-item">
-  <a class="nav-link" href="../news/index.html">
-    <span class="fa fa-newspaper"></span>
-     
-    News
-  </a>
+  <a class="nav-link" href="../news/index.html">News</a>
 </li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
@@ -89,6 +73,11 @@
         <dd>Read HTP Data</dd>
       </dl><dl><dt>
           
+          <code><a href="modeler_HTP.html">modeler_HTP()</a></code> 
+        </dt>
+        <dd>Modeler HTP</dd>
+      </dl><dl><dt>
+          
           <code><a href="canopy_HTP.html">canopy_HTP()</a></code> 
         </dt>
         <dd>Canopy Modelling</dd>
@@ -102,11 +91,6 @@
           <code><a href="maturity_HTP.html">maturity_HTP()</a></code> 
         </dt>
         <dd>Maturity Modelling</dd>
-      </dl><dl><dt>
-          
-          <code><a href="modeler_HTP.html">modeler_HTP()</a></code> 
-        </dt>
-        <dd>Modeler HTP</dd>
       </dl></div><div class="section level2">
       <h2 id="data">Data<a class="anchor" aria-label="anchor" href="#data"></a></h2>
       
@@ -146,24 +130,14 @@
         <dd>Plot an Object of Class <code>read_HTP</code></dd>
       </dl><dl><dt>
           
-          <code><a href="plot.canopy_HTP.html">plot(<i>&lt;canopy_HTP&gt;</i>)</a></code> 
-        </dt>
-        <dd>Plot an object of class <code>canopy_HTP</code></dd>
-      </dl><dl><dt>
-          
-          <code><a href="plot.height_HTP.html">plot(<i>&lt;height_HTP&gt;</i>)</a></code> 
-        </dt>
-        <dd>Plot an object of class <code>height_HTP</code></dd>
-      </dl><dl><dt>
-          
-          <code><a href="plot.maturity_HTP.html">plot(<i>&lt;maturity_HTP&gt;</i>)</a></code> 
-        </dt>
-        <dd>Plot an object of class <code>maturity_HTP</code></dd>
-      </dl><dl><dt>
-          
           <code><a href="plot.modeler_HTP.html">plot(<i>&lt;modeler_HTP&gt;</i>)</a></code> 
         </dt>
         <dd>Plot an object of class <code>modeler_HTP</code></dd>
+      </dl><dl><dt>
+          
+          <code><a href="print.modeler_HTP.html">print(<i>&lt;modeler_HTP&gt;</i>)</a></code> 
+        </dt>
+        <dd>Print an object of class <code>modeler_HTP</code></dd>
       </dl></div><div class="section level2">
       <h2 id="growth-modelling">Growth Modelling<a class="anchor" aria-label="anchor" href="#growth-modelling"></a></h2>
       
@@ -215,57 +189,6 @@
           <code><a href="fn_lin_pl_lin3.html">fn_lin_pl_lin3()</a></code> 
         </dt>
         <dd>Linear Plateau Linear with Constrains</dd>
-      </dl></div><div class="section level2">
-      <h2 id="sse-functions">SSE Functions<a class="anchor" aria-label="anchor" href="#sse-functions"></a></h2>
-      
-      <div class="section-desc"><p>Functions to optimize</p></div>
-
-      
-    </div><div id="" class="section level2">
-      
-      
-      
-
-      <dl><dt>
-          
-          <code><a href="sse_piwise.html">sse_piwise()</a></code> 
-        </dt>
-        <dd>Sum of Squares Error Function for Piecewise Model</dd>
-      </dl><dl><dt>
-          
-          <code><a href="sse_exp1_lin.html">sse_exp1_lin()</a></code> 
-        </dt>
-        <dd>Sum of Squares Error Function for Exponential Linear Model 1</dd>
-      </dl><dl><dt>
-          
-          <code><a href="sse_exp2_lin.html">sse_exp2_lin()</a></code> 
-        </dt>
-        <dd>Sum of Squares Error Function for Exponential Linear Model 2</dd>
-      </dl><dl><dt>
-          
-          <code><a href="sse_exp1_exp.html">sse_exp1_exp()</a></code> 
-        </dt>
-        <dd>Sum of Squares Error Function for Exponential Exponential Model 1</dd>
-      </dl><dl><dt>
-          
-          <code><a href="sse_exp2_exp.html">sse_exp2_exp()</a></code> 
-        </dt>
-        <dd>Sum of Squares Error Function for Exponential Exponential Model 2</dd>
-      </dl><dl><dt>
-          
-          <code><a href="sse_lin_pl_lin.html">sse_lin_pl_lin()</a></code> 
-        </dt>
-        <dd>Sum of Squares Error Function for Linear Plateau Linear Model</dd>
-      </dl><dl><dt>
-          
-          <code><a href="sse_lin_pl_lin2.html">sse_lin_pl_lin2()</a></code> 
-        </dt>
-        <dd>Sum of Squares Error Function for Linear Plateau Linear Model with Constrains</dd>
-      </dl><dl><dt>
-          
-          <code><a href="sse_lin_pl_lin3.html">sse_lin_pl_lin3()</a></code> 
-        </dt>
-        <dd>Sum of Squares Error Function for Linear Plateau Linear Model with Constrains</dd>
       </dl></div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>

@@ -24,7 +24,6 @@ If \code{t} is greater than \code{t2}, the function returns \code{k}.
 }
 \description{
 Computes a value based on a linear growth curve reaching a plateau for time.
-The function is used in \link{sse_piwise}.
 }
 \details{
 \if{html}{

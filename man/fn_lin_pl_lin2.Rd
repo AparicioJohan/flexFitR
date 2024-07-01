@@ -4,18 +4,18 @@
 \alias{fn_lin_pl_lin2}
 \title{Linear Plateau Linear with Constrains}
 \usage{
-fn_lin_pl_lin2(t, t1, dt, t3, k, beta)
+fn_lin_pl_lin2(t, t1, t2, dt, k, beta)
 }
 \arguments{
 \item{t}{Numeric. The time value.}
 
-\item{t1}{Numeric. The lower threshold time. Default is 45.}
+\item{t1}{Numeric. The lower threshold time.}
 
-\item{dt}{Numeric. dt = t3 - t2. Default is 28}
+\item{t2}{Numeric. The upper threshold time before plateau.}
 
-\item{t3}{Numeric. The lower threshold time after plateau. Default is 45.}
+\item{dt}{Numeric. dt = t3 - t2.}
 
-\item{k}{Numeric. The maximum value of the function. Default is 0.9.}
+\item{k}{Numeric. The maximum value of the function.}
 
 \item{beta}{Numeric. Slope of the linear decay.}
 }
@@ -28,12 +28,12 @@ Linear Plateau Linear with Constrains
 \details{
 \if{html}{
 \deqn{
-f(t; t_1, dt, t_3, k, \beta) =
+f(t; t_1, t_2, dt, k, \beta) =
 \begin{cases}
 0 & \text{if } t < t_1 \\
-\dfrac{k}{(t_3 - dt) - t_1} \cdot (t - t_1) & \text{if } t_1 \leq t \leq (t_3 - dt) \\
-k & \text{if } (t_3 - dt) \leq t \leq t_3 \\
-k + \beta \cdot (t - t_3) & \text{if } t > t_3
+\dfrac{k}{t_2 - t_1} \cdot (t - t_1) & \text{if } t_1 \leq t \leq t_2 \\
+k & \text{if } t_2 \leq t \leq (t_2 + dt) \\
+k + \beta \cdot (t - (t_2 + dt)) & \text{if } t > (t_2 + dt)
 \end{cases}
 }
 }
@@ -44,7 +44,7 @@ t <- seq(0, 108, 0.1)
 y_hat <- sapply(
   X = t,
   FUN = fn_lin_pl_lin2,
-  t1 = 38.7, dt = 28, t3 = 90, k = 0.32, beta = -0.01
+  t1 = 38.7, t2 = 62, dt = 28, k = 0.32, beta = -0.01
 )
 plot(t, y_hat, type = "l")
 lines(t, y_hat, col = "red")

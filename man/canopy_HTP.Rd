@@ -4,48 +4,19 @@
 \alias{canopy_HTP}
 \title{Canopy Modelling}
 \usage{
-canopy_HTP(
-  results,
-  canopy = "Canopy",
-  plot_id = NULL,
-  correct_max = TRUE,
-  add_zero = TRUE,
-  method = c("subplex", "pracmanm", "anms"),
-  return_method = FALSE,
-  parameters = c(t1 = 45, t2 = 80),
-  fn_sse = sse_piwise,
-  fn = quote(fn_piwise(time, t1, t2, k)),
-  n_points = 1000,
-  max_time = NULL
-)
+canopy_HTP(x, index = "Canopy", plot_id = NULL, ...)
 }
 \arguments{
-\item{results}{An object of class \code{read_HTP}, containing the results of the \code{read_HTP()} function.}
+\item{x}{An object of class \code{read_HTP}, containing the results of the \code{read_HTP()} function.}
 
-\item{canopy}{A string specifying the canopy trait to be modeled. Default is \code{"Canopy"}.}
+\item{index}{A string specifying the canopy trait to be modeled. Default is \code{"Canopy"}.}
 
 \item{plot_id}{An optional vector of plot IDs to filter the data. Default is \code{NULL}, meaning all plots are used.}
 
-\item{correct_max}{Logical. If \code{TRUE}, adds the maximum value after reaching the local maximum. Default is \code{TRUE}.}
-
-\item{add_zero}{Logical. If \code{TRUE}, adds a zero value to the time series. Default is \code{TRUE}.}
-
-\item{method}{A character vector of optimization methods to be used, as specified in the \code{optimx} package. Default is \code{c("subplex", "pracmanm", "anms")}.}
-
-\item{return_method}{Logical. If \code{TRUE}, includes the selected optimization method in the output table. Default is \code{FALSE}.}
-
-\item{parameters}{A named vector specifying the initial values for the parameters to be optimized. Default is \code{c(t1 = 45, t2 = 80)}.}
-
-\item{fn_sse}{A function to be minimized (or maximized), with the first argument being the vector of parameters over which minimization is to take place. It should return a scalar result. Default is \link{sse_piwise}.}
-
-\item{fn}{Object of class call. e.g. \code{quote(fn_piwise(time, t1, t2, k))} to calculate the area under the curve (AUC). Always use time as first argument.}
-
-\item{n_points}{Number of time points to approximate the AUC. 1000 by default.}
-
-\item{max_time}{Maximum time value for calculating the AUC. \code{NULL} by default takes the last time point.}
+\item{...}{Additional arguments passed to the \code{modeler_HTP()} function.}
 }
 \value{
-An object of class \code{canopy_HTP}, which is a list containing the following elements:
+An object of class \code{modeler_HTP}, which is a list containing the following elements:
 \describe{
   \item{\code{param}}{A data frame containing the optimized parameters and related information.}
   \item{\code{dt}}{A data frame with the corrected and possibly zero-augmented canopy data.}
@@ -69,17 +40,7 @@ results <- read_HTP(
   row = "Row",
   range = "Range"
 )
-names(results)
-out <- canopy_HTP(
-  results = results,
-  canopy = "Canopy",
-  plot_id = c(22, 40),
-  correct_max = TRUE,
-  add_zero = TRUE
-)
-names(out)
+out <- canopy_HTP(x = results, index = "Canopy", plot_id = c(22, 40))
 plot(out, c(22, 40))
-out$param$deltaT <- out$param$t2 - out$param$t1
-out$param$slope <- out$param$k / out$param$deltaT
-out$param
+print(out)
 }

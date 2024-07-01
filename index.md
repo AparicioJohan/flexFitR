@@ -10,21 +10,7 @@ exploreHTP is designed to assist researchers and plant breeders in
 efficiently exploring and analyzing data derived from drone imagery.
 This package offers a suite of tools tailored to the unique needs of
 plant breeding data, facilitating comprehensive data exploration,
-correlation analysis, and data manipulation.
-
-Key functionalities include:
-
-- Data Exploration: Simplified methods for visualizing and manipulating
-  large datasets from high throughput phenotyping.
-- Correlation Analysis: Tools to calculate correlations between
-  different traits and across multiple time points, providing insights
-  into trait relationships and temporal dynamics.
-- Modeling Canopy Evolution: Advanced functionalities for modeling and
-  predicting canopy growth and development over time.
-- Modeling Plant Height: Functionalities for modeling and predicting
-  Plant Height and development over time.
-- Modeling Maturity: Functionalities for modeling and predicting
-  Maturity and development over time.
+correlation analysis, data manipulation, and flexible data modeling.
 
 ## Installation
 
@@ -54,7 +40,7 @@ results <- read_HTP(
   range = "Range"
 )
 names(results)
-#> [1] "summ_traits"      "exp_design_resum" "locals_min_max"   "dt_long"
+[1] "summ_traits"      "exp_design_resum" "locals_min_max"   "dt_long"         
 ```
 
 ``` r
@@ -128,55 +114,76 @@ head(table)
 ## 4. Estimating days to emergence and days to full canopy
 
 ``` r
-out <- canopy_HTP(
-  results = results,
-  canopy = "Canopy",
-  plot_id = c(60, 150),
-  correct_max = TRUE,
-  add_zero = TRUE,
-  fn_sse = sse_piwise
-)
-names(out)
-#> [1] "param"    "dt"       "fn"       "max_time"
+out <- canopy_HTP(x = results, index = "Canopy", plot_id = c(60, 150))
+```
+
+``` r
+print(out)
+-------------------------------------------------------------------------
+Optimization Results:
+-------------------------------------------------------------------------
+# A tibble: 2 × 11
+   plot genotype    row range    t1    t2   sse     k   auc deltaT slope
+  <dbl> <chr>     <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>  <dbl> <dbl>
+1    60 W19026-15     4     5  38.0  68.7  4.89  100. 5162.   30.6  3.26
+2   150 W19023-21    10    11  33.8  68.5 40.4   100  5386.   34.7  2.88
+
+-------------------------------------------------------------------------
+Target Function:
+-------------------------------------------------------------------------
+fn_piwise(time, t1, t2, k)
 ```
 
 ``` r
 plot(out, plot_id = c(60, 150))
 ```
 
-<img src="man/figures/README-unnamed-chunk-12-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-13-1.png" width="100%" />
 
-| plot | genotype  | row | range |     t1 |     t2 |       k |    sse | total_area |
-|-----:|:----------|----:|------:|-------:|-------:|--------:|-------:|-----------:|
-|   60 | W19026-15 |   4 |     5 | 38.045 | 68.662 |  99.956 |  4.894 |   5162.344 |
-|  150 | W19023-21 |  10 |    11 | 33.791 | 68.496 | 100.000 | 40.406 |   5385.674 |
+| plot | genotype  | row | range |     t1 |     t2 |    sse |       k |      auc | deltaT | slope |
+|-----:|:----------|----:|------:|-------:|-------:|-------:|--------:|---------:|-------:|------:|
+|   60 | W19026-15 |   4 |     5 | 38.045 | 68.662 |  4.894 |  99.956 | 5162.344 | 30.617 | 3.265 |
+|  150 | W19023-21 |  10 |    11 | 33.791 | 68.496 | 40.406 | 100.000 | 5385.674 | 34.705 | 2.881 |
 
 ## 5. Modelling Plant Height
 
 ``` r
 ph_1 <- height_HTP(
-  results = results,
-  canopy = out,
-  plant_height = "PH",
-  add_zero = TRUE,
-  method = c("nlminb", "anms", "mla", "pracmanm", "subplex"),
-  return_method = TRUE,
-  parameters = c(t2 = 67, alpha = 1 / 600, beta = -1 / 80),
-  fn_sse = sse_exp2_exp,
-  fn = quote(fn_exp2_exp(time, t1, t2, alpha, beta))
+  x = results,
+  height = "PH",
+  canopy = "Canopy",
+  plot_id = c(60, 150),
+  fn = "fn_exp2_exp"
 )
+```
+
+``` r
+print(ph_1)
+-------------------------------------------------------------------------
+Optimization Results:
+-------------------------------------------------------------------------
+# A tibble: 2 × 10
+   plot genotype    row range    t2    alpha    beta     sse    t1   auc
+  <dbl> <chr>     <dbl> <dbl> <dbl>    <dbl>   <dbl>   <dbl> <dbl> <dbl>
+1    60 W19026-15     4     5  62.0 0.00117  -0.0346 0.00925  38.0  28.0
+2   150 W19023-21    10    11  62   0.000783 -0.0183 0.00143  33.8  32.9
+
+-------------------------------------------------------------------------
+Target Function:
+-------------------------------------------------------------------------
+fn_exp2_exp(time, t1, t2, alpha, beta)
 ```
 
 ``` r
 plot(ph_1, plot_id = c(60, 150))
 ```
 
-<img src="man/figures/README-unnamed-chunk-15-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-16-1.png" width="100%" />
 
-| plot | genotype  | row | range |  t2 | alpha |   beta |     t1 | method  |   sse | total_area |
-|-----:|:----------|----:|------:|----:|------:|-------:|-------:|:--------|------:|-----------:|
-|   60 | W19026-15 |   4 |     5 |  62 | 0.001 | -0.035 | 38.045 | subplex | 0.009 |     27.976 |
-|  150 | W19023-21 |  10 |    11 |  62 | 0.001 | -0.018 | 33.791 | subplex | 0.001 |     32.890 |
+| plot | genotype  | row | range |  t2 | alpha |   beta |   sse |     t1 |    auc |
+|-----:|:----------|----:|------:|----:|------:|-------:|------:|-------:|-------:|
+|   60 | W19026-15 |   4 |     5 |  62 | 0.001 | -0.035 | 0.009 | 38.045 | 27.977 |
+|  150 | W19023-21 |  10 |    11 |  62 | 0.001 | -0.018 | 0.001 | 33.791 | 32.890 |
 
 ## 6. Modelling Maturity
 
@@ -191,21 +198,35 @@ results <- read_HTP(
   row = "Row",
   range = "Range"
 )
-out <- canopy_HTP(results,  canopy = "Canopy", plot_id = c(195, 40))
 mat <- maturity_HTP(
-  results = results,
-  canopy = out,
+  x = results,
   index = "GLI_2",
-  parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
-  fn_sse = sse_lin_pl_lin,
-  fn = quote(fn_lin_pl_lin(time, t1, t2, t3, k, beta))
+  canopy = "Canopy",
+  plot_id = c(195, 40)
 )
+print(mat)
+-------------------------------------------------------------------------
+Optimization Results:
+-------------------------------------------------------------------------
+# A tibble: 2 × 11
+   plot genotype    row range    t1    t2    dt     k    beta       sse   auc
+  <dbl> <chr>     <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>   <dbl>     <dbl> <dbl>
+1    40 W17043-37    12     3  36.9  66.4  13.4 0.369 -0.0106 0.000677   16.6
+2   195 W16219-8     13    14  39.6  68.3  25.1 0.323 -0.0100 0.0000102  16.4
+
+-------------------------------------------------------------------------
+Target Function:
+-------------------------------------------------------------------------
+fn_lin_pl_lin2(time, t1, t2, dt, k, beta)
+```
+
+``` r
 plot(mat, plot_id = c(195, 40))
 ```
 
-<img src="man/figures/README-unnamed-chunk-17-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-18-1.png" width="100%" />
 
-| plot | genotype  | row | range |     t1 |     t2 |     t3 |     k |   beta |   sse | total_area |
-|-----:|:----------|----:|------:|-------:|-------:|-------:|------:|-------:|------:|-----------:|
-|   40 | W17043-37 |  12 |     3 | 36.880 | 66.416 | 79.854 | 0.369 | -0.011 | 0.001 |     16.615 |
-|  195 | W16219-8  |  13 |    14 | 39.591 | 68.279 | 93.336 | 0.323 | -0.010 | 0.000 |     16.376 |
+| plot | genotype  | row | range |     t1 |     t2 |     dt |     k |   beta |   sse |    auc |
+|-----:|:----------|----:|------:|-------:|-------:|-------:|------:|-------:|------:|-------:|
+|   40 | W17043-37 |  12 |     3 | 36.880 | 66.416 | 13.438 | 0.369 | -0.011 | 0.001 | 16.615 |
+|  195 | W16219-8  |  13 |    14 | 39.591 | 68.279 | 25.058 | 0.323 | -0.010 | 0.000 | 16.376 |

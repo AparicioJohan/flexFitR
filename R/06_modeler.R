@@ -41,7 +41,6 @@
 #'   row = "Row",
 #'   range = "Range"
 #' )
-#' names(results)
 #' mat <- modeler_HTP(
 #'   x = results,
 #'   index = "GLI_2",
@@ -50,32 +49,17 @@
 #'   fn = "fn_lin_pl_lin",
 #' )
 #' plot(mat, plot_id = c(195))
-#' mat$param
-#'
-#' can <- modeler_HTP(
-#'   x = results,
-#'   index = "Canopy",
-#'   plot_id = c(195),
-#'   parameters = c(t1 = 45, t2 = 80, k = 0.9),
-#'   fn = "fn_piwise"
-#' )
-#' plot(can, plot_id = c(195))
-#' can$param
-#'
-#' fixed_params <- results$dt_long |>
-#'   filter(trait %in% "Canopy") |>
-#'   group_by(plot, genotype) |>
-#'   summarise(k = max(value, na.rm = TRUE), .groups = "drop")
+#' print(mat)
 #' can <- modeler_HTP(
 #'   x = results,
 #'   index = "Canopy",
 #'   plot_id = c(195),
 #'   parameters = c(t1 = 45, t2 = 80, k = 0.9),
 #'   fn = "fn_piwise",
-#'   fixed_params = fixed_params
+#'   max_as_last = TRUE
 #' )
 #' plot(can, plot_id = c(195))
-#' can$param
+#' print(can)
 #' @import optimx
 #' @import tibble
 #' @import dplyr
@@ -244,7 +228,7 @@ modeler_HTP <- function(x,
     group_by(plot) |>
     mutate(trapezoid_area = (lead(hat) + hat) / 2 * (lead(time) - time)) |>
     filter(!is.na(trapezoid_area)) |>
-    summarise(total_area = sum(trapezoid_area))
+    summarise(auc = sum(trapezoid_area))
   param_mat <- full_join(param_mat, auc, by = "plot")
 
   if (!return_method) {

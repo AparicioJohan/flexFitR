@@ -50,7 +50,8 @@ results <- read_HTP(
   range = "Range"
 )
 names(results)
-
 head(results$summ_traits)
 plot(results, label_size = 4, signif = TRUE, n_row = 2)
+# New data format
+head(results$dt_long)
 }

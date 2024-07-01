@@ -4,70 +4,24 @@
 \alias{maturity_HTP}
 \title{Maturity Modelling}
 \usage{
-maturity_HTP(
-  results,
-  canopy,
-  index = "GLI",
-  plot_id = NULL,
-  add_zero = TRUE,
-  check_negative = TRUE,
-  method = c("subplex", "pracmanm", "anms"),
-  return_method = FALSE,
-  parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
-  lower = -Inf,
-  upper = Inf,
-  initial_vals = FALSE,
-  fn_sse = sse_lin_pl_lin,
-  fn = quote(fn_lin_pl_lin(time, t1, t2, t3, k, beta)),
-  n_points = 1000,
-  max_time = NULL
-)
+maturity_HTP(x, index = "GLI", canopy = "Canopy", plot_id = NULL, ...)
 }
 \arguments{
-\item{results}{An object of class \code{read_HTP}, containing the results of the \code{read_HTP()} function.}
+\item{x}{An object of class \code{read_HTP}, containing the results of the \code{read_HTP()} function.}
 
-\item{canopy}{An object of class \code{canopy_HTP}, containing the results of the \code{canopy_HTP()} function.}
+\item{index}{A string specifying the canopy trait to be modeled. Default is \code{"GLI"}.}
 
-\item{index}{A string specifying the trait to be modeled. Default is \code{"GLI"}.}
+\item{canopy}{A string specifying the canopy trait to be modeled. Default is \code{"Canopy"}.}
 
 \item{plot_id}{An optional vector of plot IDs to filter the data. Default is \code{NULL}, meaning all plots are used.}
 
-\item{add_zero}{\code{TRUE} or \code{FALSE}. Add zero to the time series.\code{TRUE} by default.}
-
-\item{check_negative}{Logical. Convert negative values to zero. \code{TRUE} by default.}
-
-\item{method}{A vector of the methods to be used, each as a character string.
-See optimx package. c("subplex", "pracmanm", "anms") by default.}
-
-\item{return_method}{\code{TRUE} or \code{FALSE}. To return the method selected for the
-optimization in the table. \code{FALSE} by default.}
-
-\item{parameters}{(Optional)    Initial values for the parameters to be
-optimized over. c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01) by default.}
-
-\item{lower}{Bounds on the variables for methods such as "L-BFGS-B" that can handle box (or bounds) constraints.}
-
-\item{upper}{Bounds on the variables for methods such as "L-BFGS-B" that can handle box (or bounds) constraints.}
-
-\item{initial_vals}{\code{TRUE} or \code{FALSE}. Whether the user wants to use t1 and t2 from the
-Canopy model as initial values or not. Only works if the function \code{fn} uses t1 and t2 as parameters.
-\code{FALSE} by default.}
-
-\item{fn_sse}{A function to be minimized (or maximized), with first argument the
-vector of parameters over which minimization is to take place.
-It should return a scalar result. Default is \link{sse_lin_pl_lin}.}
-
-\item{fn}{Object of class call. e.g. \code{quote(fn_lin_pl_lin(time, t1, t2, t3, k, beta))} to calculate the area under the curve (AUC). Always use time as first argument.}
-
-\item{n_points}{Number of time points to approximate the AUC. 1000 by default.}
-
-\item{max_time}{Maximum time value for calculating the AUC. \code{NULL} by default takes the last time point.}
+\item{...}{Additional arguments passed to the \code{modeler_HTP()} function.}
 }
 \value{
-An object of class \code{maturity_HTP}, which is a list containing the following elements:
+An object of class \code{modeler_HTP}, which is a list containing the following elements:
 \describe{
   \item{\code{param}}{A data frame containing the optimized parameters and related information.}
-  \item{\code{dt}}{A data frame with data used.}
+  \item{\code{dt}}{A data frame with the corrected and possibly zero-augmented canopy data.}
   \item{\code{fn}}{The call used to calculate the AUC.}
   \item{\code{max_time}}{Maximum time value used for calculating the AUC.}
 }
@@ -78,7 +32,6 @@ Maturity Modelling
 \examples{
 library(exploreHTP)
 data(dt_potato)
-dt_potato <- dt_potato
 results <- read_HTP(
   data = dt_potato,
   genotype = "Gen",
@@ -88,22 +41,12 @@ results <- read_HTP(
   row = "Row",
   range = "Range"
 )
-names(results)
-out <- canopy_HTP(
-  results = results,
-  canopy = "Canopy",
-  plot_id = c(195, 40),
-  correct_max = TRUE,
-  add_zero = TRUE
-)
 mat <- maturity_HTP(
-  results = results,
-  canopy = out,
+  x = results,
   index = "GLI_2",
-  parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
-  fn_sse = sse_lin_pl_lin,
-  fn = quote(fn_lin_pl_lin(time, t1, t2, t3, k, beta))
+  canopy = "Canopy",
+  plot_id = c(195, 40)
 )
 plot(mat, plot_id = c(195, 40))
-mat$param
+print(mat)
 }

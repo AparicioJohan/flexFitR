@@ -43,37 +43,21 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
-  <a class="nav-link" href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
-     
-    Home
-  </a>
+  <a class="nav-link" href="../index.html">Home</a>
 </li>
 <li class="nav-item">
-  <a class="nav-link" href="../reference/index.html">
-    <span class="fa fa-code"></span>
-     
-    Reference
-  </a>
+  <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
 <li class="active nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown--articles">
-    <span class="fa fa-book"></span>
-     
-    Articles
-  </a>
-  <div class="dropdown-menu" aria-labelledby="dropdown--articles">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/canopy-model.html">Modeling Emergence</a>
     <a class="dropdown-item" href="../articles/height-model.html">Modeling Plant Height</a>
     <a class="dropdown-item" href="../articles/maturity-model.html">Modeling Maturity</a>
   </div>
 </li>
 <li class="nav-item">
-  <a class="nav-link" href="../news/index.html">
-    <span class="fa fa-newspaper"></span>
-     
-    News
-  </a>
+  <a class="nav-link" href="../news/index.html">News</a>
 </li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
@@ -190,7 +174,7 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <col width="10%">
 <col width="11%">
 <col width="10%">
-<col width="11%">
+<col width="9%">
 </colgroup>
 <thead><tr class="header">
 <th align="right">plot</th>
@@ -203,7 +187,7 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <th align="right">k</th>
 <th align="right">beta</th>
 <th align="right">sse</th>
-<th align="right">total_area</th>
+<th align="right">auc</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -259,17 +243,17 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <p><img src="maturity-model_files/figure-html/unnamed-chunk-11-1.png" width="768"></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">mod_2</span><span class="op">$</span><span class="va">param</span><span class="op">)</span></span></code></pre></div>
-<table class="table">
+<table style="width:100%;" class="table">
 <colgroup>
 <col width="7%">
-<col width="14%">
-<col width="5%">
-<col width="8%">
+<col width="15%">
+<col width="6%">
+<col width="9%">
 <col width="13%">
 <col width="13%">
-<col width="14%">
-<col width="5%">
-<col width="16%">
+<col width="15%">
+<col width="6%">
+<col width="13%">
 </colgroup>
 <thead><tr class="header">
 <th align="right">plot</th>
@@ -280,7 +264,7 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <th align="right">t2</th>
 <th align="right">sse</th>
 <th align="right">k</th>
-<th align="right">total_area</th>
+<th align="right">auc</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -373,7 +357,7 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <col width="10%">
 <col width="11%">
 <col width="10%">
-<col width="11%">
+<col width="9%">
 </colgroup>
 <thead><tr class="header">
 <th align="right">plot</th>
@@ -386,7 +370,7 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <th align="right">k</th>
 <th align="right">beta</th>
 <th align="right">sse</th>
-<th align="right">total_area</th>
+<th align="right">auc</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -427,7 +411,7 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <span>  index <span class="op">=</span> <span class="st">"GLI_2"</span>,</span>
 <span>  plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span>,</span>
 <span>  parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">38.7</span>, t2 <span class="op">=</span> <span class="fl">62</span>, dt <span class="op">=</span> <span class="fl">28</span>, k <span class="op">=</span> <span class="fl">0.32</span>, beta <span class="op">=</span> <span class="op">-</span><span class="fl">0.01</span><span class="op">)</span>,</span>
-<span>  fn <span class="op">=</span> <span class="st">"fn_lin_pl_lin3"</span>,</span>
+<span>  fn <span class="op">=</span> <span class="st">"fn_lin_pl_lin2"</span>,</span>
 <span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"nlminb"</span>, <span class="st">"L-BFGS-B"</span><span class="op">)</span>,</span>
 <span>  lower <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="cn">Inf</span>, <span class="op">-</span><span class="cn">Inf</span>, <span class="fl">0</span>, <span class="op">-</span><span class="cn">Inf</span>, <span class="op">-</span><span class="cn">Inf</span><span class="op">)</span>,</span>
 <span>  upper <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">Inf</span>, <span class="cn">Inf</span>, <span class="cn">Inf</span>, <span class="cn">Inf</span>, <span class="fl">0</span><span class="op">)</span>,</span>
@@ -449,7 +433,7 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <col width="10%">
 <col width="11%">
 <col width="10%">
-<col width="11%">
+<col width="9%">
 </colgroup>
 <thead><tr class="header">
 <th align="right">plot</th>
@@ -462,7 +446,7 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <th align="right">k</th>
 <th align="right">beta</th>
 <th align="right">sse</th>
-<th align="right">total_area</th>
+<th align="right">auc</th>
 </tr></thead>
 <tbody>
 <tr class="odd">

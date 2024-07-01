@@ -10,13 +10,13 @@ navbar:
   type: default
   bg: secondary
   left:
-  - icon: fa-home fa-lg
+  - icon:
     text: Home
     href: index.html
-  - icon: fa-code
+  - icon:
     text: Reference
     href: reference/index.html
-  - icon: fa-book
+  - icon:
     text: Articles
     menu:
       - text: Modeling Emergence
@@ -25,7 +25,7 @@ navbar:
         href: articles/height-model.html
       - text: Modeling Maturity
         href: articles/maturity-model.html
-  - icon: fa-newspaper
+  - icon:
     text: News
     href: news/index.html
   right:
@@ -37,10 +37,10 @@ reference:
   desc: Read and fit models
 - contents:
   - read_HTP
+  - modeler_HTP
   - canopy_HTP
   - height_HTP
   - maturity_HTP
-  - modeler_HTP
 - title: Data
   desc: Example Datasets
 - contents:
@@ -50,10 +50,8 @@ reference:
   desc: S3 methods
 - contents:
   - plot.read_HTP
-  - plot.canopy_HTP
-  - plot.height_HTP
-  - plot.maturity_HTP
   - plot.modeler_HTP
+  - print.modeler_HTP
 - title: Growth Modelling
   desc: Collection of functions
 - contents:
@@ -65,14 +63,3 @@ reference:
   - fn_lin_pl_lin
   - fn_lin_pl_lin2
   - fn_lin_pl_lin3
-- title: SSE Functions
-  desc: Functions to optimize
-- contents:
-  - sse_piwise
-  - sse_exp1_lin
-  - sse_exp2_lin
-  - sse_exp1_exp
-  - sse_exp2_exp
-  - sse_lin_pl_lin
-  - sse_lin_pl_lin2
-  - sse_lin_pl_lin3

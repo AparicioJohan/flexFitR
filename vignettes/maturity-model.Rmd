@@ -156,7 +156,7 @@ mod_4 <- modeler_HTP(
   index = "GLI_2",
   plot_id = c(195, 40),
   parameters = c(t1 = 38.7, t2 = 62, dt = 28, k = 0.32, beta = -0.01),
-  fn = "fn_lin_pl_lin3",
+  fn = "fn_lin_pl_lin2",
   method = c("nlminb", "L-BFGS-B"),
   lower = c(-Inf, -Inf, 0, -Inf, -Inf),
   upper = c(Inf, Inf, Inf, Inf, 0),
