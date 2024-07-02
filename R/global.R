@@ -44,6 +44,7 @@ utils::globalVariables(
     "fx_params",
     "loc_max_at",
     "fevals",
-    "xtime"
+    "xtime",
+    '.fitted'
   )
 )

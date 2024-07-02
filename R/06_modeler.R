@@ -231,6 +231,17 @@ modeler_HTP <- function(x,
     summarise(auc = sum(trapezoid_area))
   param_mat <- full_join(param_mat, auc, by = "plot")
 
+  # Fitted values
+  fitted_vals <- dt |>
+    select(time, plot) |>
+    full_join(param_mat, by = "plot") |>
+    group_by(time, plot) |>
+    mutate(.fitted = !!density) |>
+    ungroup() |>
+    select(time, plot, .fitted)
+
+  dt <- full_join(dt, fitted_vals, by = c("time", "plot"))
+
   if (!return_method) {
     param_mat <- select(param_mat, -method)
   }
