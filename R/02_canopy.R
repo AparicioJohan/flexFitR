@@ -68,8 +68,8 @@ canopy_HTP <- function(x, index = "Canopy", plot_id = NULL, ...) {
     max_as_last = TRUE,
     ...
   )
-  out$param$deltaT <- out$param$t2 - out$param$t1
-  out$param$slope <- out$param$k / out$param$deltaT
+  out$param$dt <- out$param$t2 - out$param$t1
+  out$param$slope <- out$param$k / out$param$dt
   return(out)
 }
 

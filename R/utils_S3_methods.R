@@ -16,7 +16,6 @@
 #' library(exploreHTP)
 #' suppressMessages(library(dplyr))
 #' data(dt_potato)
-#' dt_potato <- dt_potato
 #' results <- read_HTP(
 #'   data = dt_potato,
 #'   genotype = "Gen",
@@ -35,7 +34,7 @@
 #'   fn = "fn_lin_pl_lin",
 #' )
 #' plot(mat, plot_id = c(195, 40))
-#' mat$param
+#' mat
 #'
 #' can <- modeler_HTP(
 #'   x = results,
@@ -45,7 +44,7 @@
 #'   fn = "fn_piwise"
 #' )
 #' plot(can, plot_id = c(195, 40))
-#' can$param
+#' can
 #'
 #' fixed_params <- results$dt_long |>
 #'   filter(trait %in% "Canopy") |>
@@ -60,7 +59,7 @@
 #'   fixed_params = fixed_params
 #' )
 #' plot(can, plot_id = c(195, 40))
-#' can$param
+#' can
 #' @import ggplot2
 #' @import dplyr
 #' @importFrom stats quantile
@@ -74,6 +73,10 @@ plot.modeler_HTP <- function(x,
   dt <- full_join(data, y = param, by = c("plot", "row", "range", "genotype"))
   if (is.null(plot_id)) {
     plot_id <- dt$plot[1]
+  } else {
+    if (!all(plot_id %in% unique(dt$plot))) {
+      stop("plot_ids not found in x.")
+    }
   }
   dt <- dt |>
     filter(plot %in% plot_id) |>

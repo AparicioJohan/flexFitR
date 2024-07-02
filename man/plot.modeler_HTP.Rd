@@ -28,7 +28,6 @@ Create several plots for an object of class \code{modeler_HTP}
 library(exploreHTP)
 suppressMessages(library(dplyr))
 data(dt_potato)
-dt_potato <- dt_potato
 results <- read_HTP(
   data = dt_potato,
   genotype = "Gen",
@@ -47,7 +46,7 @@ mat <- modeler_HTP(
   fn = "fn_lin_pl_lin",
 )
 plot(mat, plot_id = c(195, 40))
-mat$param
+mat
 
 can <- modeler_HTP(
   x = results,
@@ -57,7 +56,7 @@ can <- modeler_HTP(
   fn = "fn_piwise"
 )
 plot(can, plot_id = c(195, 40))
-can$param
+can
 
 fixed_params <- results$dt_long |>
   filter(trait \%in\% "Canopy") |>
@@ -72,7 +71,7 @@ can <- modeler_HTP(
   fixed_params = fixed_params
 )
 plot(can, plot_id = c(195, 40))
-can$param
+can
 }
 \author{
 Johan Aparicio [aut]

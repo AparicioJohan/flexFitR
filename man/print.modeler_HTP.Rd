@@ -19,10 +19,8 @@ an object inheriting from class \code{modeler_HTP}.
 Prints information about \code{modeler_HTP} function.
 }
 \examples{
-\donttest{
 library(exploreHTP)
 data(dt_potato)
-dt_potato <- dt_potato
 results <- read_HTP(
   data = dt_potato,
   genotype = "Gen",
@@ -33,9 +31,8 @@ results <- read_HTP(
   range = "Range"
 )
 out <- canopy_HTP(x = results, index = "Canopy", plot_id = c(22, 40))
-plot(out, c(22, 40))
+plot(out, plot_id = c(22, 40))
 print(out)
-}
 }
 \author{
 Johan Aparicio [aut]

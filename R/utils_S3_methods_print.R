@@ -13,10 +13,8 @@
 #' @importFrom utils head
 #' @export
 #' @examples
-#' \donttest{
 #' library(exploreHTP)
 #' data(dt_potato)
-#' dt_potato <- dt_potato
 #' results <- read_HTP(
 #'   data = dt_potato,
 #'   genotype = "Gen",
@@ -27,19 +25,40 @@
 #'   range = "Range"
 #' )
 #' out <- canopy_HTP(x = results, index = "Canopy", plot_id = c(22, 40))
-#' plot(out, c(22, 40))
+#' plot(out, plot_id = c(22, 40))
 #' print(out)
-#' }
 print.modeler_HTP <- function(x, ...) {
-  cat("-------------------------------------------------------------------------\n")
-  cat("Optimization Results:\n")
-  cat("-------------------------------------------------------------------------\n")
-  print(head(x$param))
-  cat(
-    "\n-------------------------------------------------------------------------\n"
-  )
-  cat("Target Function:\n")
-  cat("-------------------------------------------------------------------------\n")
+  param <- select(x$param, -c(row, range))
+  cat("Call:\n")
   print(x$fn)
   cat("\n")
+  cat("Sum of Squares Error:\n")
+  print(summary(param$sse))
+  cat("\n")
+  cat("Optimization Results `head()`:\n")
+  print(as.data.frame(head(param, 4)), digits = 3, row.names = FALSE)
+  cat("\n")
+  cat("Metrics:\n")
+  total_time <- sum(x$metrics$xtime)
+  dt <- x$metrics |>
+    group_by(plot, genotype) |>
+    arrange(sse) |>
+    slice(1) |>
+    ungroup()
+  conv <- dt |>
+    summarise(conv = round(sum(convergence %in% 0) / n() * 100, 2)) |>
+    mutate(conv = paste0(conv, "%")) |>
+    pull(conv)
+  ite <- dt |>
+    summarise(ite = mean(fevals, na.rm = TRUE)) |>
+    mutate(ite = paste0(ite, " (plot)")) |>
+    pull(ite)
+  info <- data.frame(
+    Plots = nrow(dt),
+    `Timing` = paste0(round(total_time, 4), " (min)"),
+    Convergence = conv,
+    `Iterations` = ite,
+    check.names = FALSE
+  )
+  print(info, row.names = FALSE)
 }

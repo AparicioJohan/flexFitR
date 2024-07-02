@@ -15,7 +15,7 @@ correlation analysis, data manipulation, and flexible data modeling.
 ## Installation
 
 You can install the development version of exploreHTP from
-[GitHub](https://github.com/) with:
+[GitHub](https://github.com/AparicioJohan/exploreHTP) with:
 
 ``` r
 # install.packages("devtools")
@@ -119,19 +119,21 @@ out <- canopy_HTP(x = results, index = "Canopy", plot_id = c(60, 150))
 
 ``` r
 print(out)
--------------------------------------------------------------------------
-Optimization Results:
--------------------------------------------------------------------------
-# A tibble: 2 × 11
-   plot genotype    row range    t1    t2   sse     k   auc deltaT slope
-  <dbl> <chr>     <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>  <dbl> <dbl>
-1    60 W19026-15     4     5  38.0  68.7  4.89  100. 5162.   30.6  3.26
-2   150 W19023-21    10    11  33.8  68.5 40.4   100  5386.   34.7  2.88
-
--------------------------------------------------------------------------
-Target Function:
--------------------------------------------------------------------------
+Call:
 fn_piwise(time, t1, t2, k)
+
+Sum of Squares Error:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  4.894  13.772  22.650  22.650  31.528  40.406 
+
+Optimization Results `head()`:
+ plot  genotype   t1   t2   sse   k  auc   dt slope
+   60 W19026-15 38.0 68.7  4.89 100 5162 30.6  3.26
+  150 W19023-21 33.8 68.5 40.41 100 5386 34.7  2.88
+
+Metrics:
+ Plots     Timing Convergence   Iterations
+     2 0.18 (min)        100% 273.5 (plot)
 ```
 
 ``` r
@@ -140,7 +142,7 @@ plot(out, plot_id = c(60, 150))
 
 <img src="man/figures/README-unnamed-chunk-13-1.png" width="100%" />
 
-| plot | genotype  | row | range |     t1 |     t2 |    sse |       k |      auc | deltaT | slope |
+| plot | genotype  | row | range |     t1 |     t2 |    sse |       k |      auc |     dt | slope |
 |-----:|:----------|----:|------:|-------:|-------:|-------:|--------:|---------:|-------:|------:|
 |   60 | W19026-15 |   4 |     5 | 38.045 | 68.662 |  4.894 |  99.956 | 5162.344 | 30.617 | 3.265 |
 |  150 | W19023-21 |  10 |    11 | 33.791 | 68.496 | 40.406 | 100.000 | 5385.674 | 34.705 | 2.881 |
@@ -159,19 +161,21 @@ ph_1 <- height_HTP(
 
 ``` r
 print(ph_1)
--------------------------------------------------------------------------
-Optimization Results:
--------------------------------------------------------------------------
-# A tibble: 2 × 10
-   plot genotype    row range    t2    alpha    beta     sse    t1   auc
-  <dbl> <chr>     <dbl> <dbl> <dbl>    <dbl>   <dbl>   <dbl> <dbl> <dbl>
-1    60 W19026-15     4     5  62.0 0.00117  -0.0346 0.00925  38.0  28.0
-2   150 W19023-21    10    11  62   0.000783 -0.0183 0.00143  33.8  32.9
-
--------------------------------------------------------------------------
-Target Function:
--------------------------------------------------------------------------
+Call:
 fn_exp2_exp(time, t1, t2, alpha, beta)
+
+Sum of Squares Error:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+0.001433 0.003388 0.005343 0.005343 0.007298 0.009253 
+
+Optimization Results `head()`:
+ plot  genotype t2    alpha    beta     sse   t1  auc
+   60 W19026-15 62 0.001168 -0.0346 0.00925 38.0 28.0
+  150 W19023-21 62 0.000783 -0.0183 0.00143 33.8 32.9
+
+Metrics:
+ Plots     Timing Convergence   Iterations
+     2 0.22 (min)        100% 964.5 (plot)
 ```
 
 ``` r
@@ -205,19 +209,21 @@ mat <- maturity_HTP(
   plot_id = c(195, 40)
 )
 print(mat)
--------------------------------------------------------------------------
-Optimization Results:
--------------------------------------------------------------------------
-# A tibble: 2 × 11
-   plot genotype    row range    t1    t2    dt     k    beta       sse   auc
-  <dbl> <chr>     <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>   <dbl>     <dbl> <dbl>
-1    40 W17043-37    12     3  36.9  66.4  13.4 0.369 -0.0106 0.000677   16.6
-2   195 W16219-8     13    14  39.6  68.3  25.1 0.323 -0.0100 0.0000102  16.4
-
--------------------------------------------------------------------------
-Target Function:
--------------------------------------------------------------------------
+Call:
 fn_lin_pl_lin2(time, t1, t2, dt, k, beta)
+
+Sum of Squares Error:
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+1.024e-05 1.768e-04 3.435e-04 3.435e-04 5.101e-04 6.767e-04 
+
+Optimization Results `head()`:
+ plot  genotype   t1   t2   dt     k    beta      sse  auc   t3
+   40 W17043-37 36.9 66.4 13.4 0.369 -0.0106 6.77e-04 16.6 79.9
+  195  W16219-8 39.6 68.3 25.1 0.323 -0.0100 1.02e-05 16.4 93.3
+
+Metrics:
+ Plots     Timing Convergence Iterations
+     2 0.18 (min)        100% 341 (plot)
 ```
 
 ``` r
@@ -226,7 +232,7 @@ plot(mat, plot_id = c(195, 40))
 
 <img src="man/figures/README-unnamed-chunk-18-1.png" width="100%" />
 
-| plot | genotype  | row | range |     t1 |     t2 |     dt |     k |   beta |   sse |    auc |
-|-----:|:----------|----:|------:|-------:|-------:|-------:|------:|-------:|------:|-------:|
-|   40 | W17043-37 |  12 |     3 | 36.880 | 66.416 | 13.438 | 0.369 | -0.011 | 0.001 | 16.615 |
-|  195 | W16219-8  |  13 |    14 | 39.591 | 68.279 | 25.058 | 0.323 | -0.010 | 0.000 | 16.376 |
+| plot | genotype  | row | range |     t1 |     t2 |     dt |     k |   beta |   sse |    auc |     t3 |
+|-----:|:----------|----:|------:|-------:|-------:|-------:|------:|-------:|------:|-------:|-------:|
+|   40 | W17043-37 |  12 |     3 | 36.880 | 66.416 | 13.438 | 0.369 | -0.011 | 0.001 | 16.615 | 79.854 |
+|  195 | W16219-8  |  13 |    14 | 39.591 | 68.279 | 25.058 | 0.323 | -0.010 | 0.000 | 16.376 | 93.336 |

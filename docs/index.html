@@ -423,19 +423,21 @@
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/canopy_HTP.html">canopy_HTP</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">results</span>, index <span class="op">=</span> <span class="st">"Canopy"</span>, plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">60</span>, <span class="fl">150</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">print</span>(out)</span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="sc">-------------------------------------------------------------------------</span></span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>Optimization Results<span class="sc">:</span></span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="sc">-------------------------------------------------------------------------</span></span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="co"># A tibble: 2 × 11</span></span>
-<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>   plot genotype    row range    t1    t2   sse     k   auc deltaT slope</span>
-<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>  <span class="sc">&lt;</span>dbl<span class="sc">&gt;</span> <span class="er">&lt;</span>chr<span class="sc">&gt;</span>     <span class="er">&lt;</span>dbl<span class="sc">&gt;</span> <span class="er">&lt;</span>dbl<span class="sc">&gt;</span> <span class="er">&lt;</span>dbl<span class="sc">&gt;</span> <span class="er">&lt;</span>dbl<span class="sc">&gt;</span> <span class="er">&lt;</span>dbl<span class="sc">&gt;</span> <span class="er">&lt;</span>dbl<span class="sc">&gt;</span> <span class="er">&lt;</span>dbl<span class="sc">&gt;</span>  <span class="er">&lt;</span>dbl<span class="sc">&gt;</span> <span class="er">&lt;</span>dbl<span class="sc">&gt;</span></span>
-<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="dv">1</span>    <span class="dv">60</span> W19026<span class="dv">-15</span>     <span class="dv">4</span>     <span class="dv">5</span>  <span class="fl">38.0</span>  <span class="fl">68.7</span>  <span class="fl">4.89</span>  <span class="fl">100.</span> <span class="fl">5162.</span>   <span class="fl">30.6</span>  <span class="fl">3.26</span></span>
-<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="dv">2</span>   <span class="dv">150</span> W19023<span class="dv">-21</span>    <span class="dv">10</span>    <span class="dv">11</span>  <span class="fl">33.8</span>  <span class="fl">68.5</span> <span class="fl">40.4</span>   <span class="dv">100</span>  <span class="fl">5386.</span>   <span class="fl">34.7</span>  <span class="fl">2.88</span></span>
-<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a></span>
-<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="sc">-------------------------------------------------------------------------</span></span>
-<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a>Target Function<span class="sc">:</span></span>
-<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="sc">-------------------------------------------------------------------------</span></span>
-<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="fu">fn_piwise</span>(time, t1, t2, k)</span></code></pre></div>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>Call<span class="sc">:</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="fu">fn_piwise</span>(time, t1, t2, k)</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>Sum of Squares Error<span class="sc">:</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>  <span class="fl">4.894</span>  <span class="fl">13.772</span>  <span class="fl">22.650</span>  <span class="fl">22.650</span>  <span class="fl">31.528</span>  <span class="fl">40.406</span> </span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a>Optimization Results <span class="st">`</span><span class="at">head()</span><span class="st">`</span><span class="sc">:</span></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a> plot  genotype   t1   t2   sse   k  auc   dt slope</span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a>   <span class="dv">60</span> W19026<span class="dv">-15</span> <span class="fl">38.0</span> <span class="fl">68.7</span>  <span class="fl">4.89</span> <span class="dv">100</span> <span class="dv">5162</span> <span class="fl">30.6</span>  <span class="fl">3.26</span></span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a>  <span class="dv">150</span> W19023<span class="dv">-21</span> <span class="fl">33.8</span> <span class="fl">68.5</span> <span class="fl">40.41</span> <span class="dv">100</span> <span class="dv">5386</span> <span class="fl">34.7</span>  <span class="fl">2.88</span></span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a>Metrics<span class="sc">:</span></span>
+<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a> Plots     Timing Convergence   Iterations</span>
+<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a>     <span class="dv">2</span> <span class="fl">0.12</span> (min)        <span class="dv">100</span>% <span class="fl">273.5</span> (plot)</span></code></pre></div>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">out</span>, plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">60</span>, <span class="fl">150</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-13-1.png" width="100%"></p>
@@ -463,7 +465,7 @@
 <th align="right">sse</th>
 <th align="right">k</th>
 <th align="right">auc</th>
-<th align="right">deltaT</th>
+<th align="right">dt</th>
 <th align="right">slope</th>
 </tr></thead>
 <tbody>
@@ -508,19 +510,21 @@
 <span>  fn <span class="op">=</span> <span class="st">"fn_exp2_exp"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">print</span>(ph_1)</span>
-<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="sc">-------------------------------------------------------------------------</span></span>
-<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>Optimization Results<span class="sc">:</span></span>
-<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="sc">-------------------------------------------------------------------------</span></span>
-<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a><span class="co"># A tibble: 2 × 10</span></span>
-<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>   plot genotype    row range    t2    alpha    beta     sse    t1   auc</span>
-<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>  <span class="sc">&lt;</span>dbl<span class="sc">&gt;</span> <span class="er">&lt;</span>chr<span class="sc">&gt;</span>     <span class="er">&lt;</span>dbl<span class="sc">&gt;</span> <span class="er">&lt;</span>dbl<span class="sc">&gt;</span> <span class="er">&lt;</span>dbl<span class="sc">&gt;</span>    <span class="er">&lt;</span>dbl<span class="sc">&gt;</span>   <span class="er">&lt;</span>dbl<span class="sc">&gt;</span>   <span class="er">&lt;</span>dbl<span class="sc">&gt;</span> <span class="er">&lt;</span>dbl<span class="sc">&gt;</span> <span class="er">&lt;</span>dbl<span class="sc">&gt;</span></span>
-<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a><span class="dv">1</span>    <span class="dv">60</span> W19026<span class="dv">-15</span>     <span class="dv">4</span>     <span class="dv">5</span>  <span class="fl">62.0</span> <span class="fl">0.00117</span>  <span class="sc">-</span><span class="fl">0.0346</span> <span class="fl">0.00925</span>  <span class="fl">38.0</span>  <span class="fl">28.0</span></span>
-<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a><span class="dv">2</span>   <span class="dv">150</span> W19023<span class="dv">-21</span>    <span class="dv">10</span>    <span class="dv">11</span>  <span class="dv">62</span>   <span class="fl">0.000783</span> <span class="sc">-</span><span class="fl">0.0183</span> <span class="fl">0.00143</span>  <span class="fl">33.8</span>  <span class="fl">32.9</span></span>
-<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a></span>
-<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a><span class="sc">-------------------------------------------------------------------------</span></span>
-<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a>Target Function<span class="sc">:</span></span>
-<span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a><span class="sc">-------------------------------------------------------------------------</span></span>
-<span id="cb13-14"><a href="#cb13-14" tabindex="-1"></a><span class="fu">fn_exp2_exp</span>(time, t1, t2, alpha, beta)</span></code></pre></div>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>Call<span class="sc">:</span></span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="fu">fn_exp2_exp</span>(time, t1, t2, alpha, beta)</span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>Sum of Squares Error<span class="sc">:</span></span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. </span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a><span class="fl">0.001433</span> <span class="fl">0.003388</span> <span class="fl">0.005343</span> <span class="fl">0.005343</span> <span class="fl">0.007298</span> <span class="fl">0.009253</span> </span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a>Optimization Results <span class="st">`</span><span class="at">head()</span><span class="st">`</span><span class="sc">:</span></span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a> plot  genotype t2    alpha    beta     sse   t1  auc</span>
+<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a>   <span class="dv">60</span> W19026<span class="dv">-15</span> <span class="dv">62</span> <span class="fl">0.001168</span> <span class="sc">-</span><span class="fl">0.0346</span> <span class="fl">0.00925</span> <span class="fl">38.0</span> <span class="fl">28.0</span></span>
+<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a>  <span class="dv">150</span> W19023<span class="dv">-21</span> <span class="dv">62</span> <span class="fl">0.000783</span> <span class="sc">-</span><span class="fl">0.0183</span> <span class="fl">0.00143</span> <span class="fl">33.8</span> <span class="fl">32.9</span></span>
+<span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" tabindex="-1"></a>Metrics<span class="sc">:</span></span>
+<span id="cb13-15"><a href="#cb13-15" tabindex="-1"></a> Plots     Timing Convergence   Iterations</span>
+<span id="cb13-16"><a href="#cb13-16" tabindex="-1"></a>     <span class="dv">2</span> <span class="fl">0.26</span> (min)        <span class="dv">100</span>% <span class="fl">964.5</span> (plot)</span></code></pre></div>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ph_1</span>, plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">60</span>, <span class="fl">150</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-16-1.png" width="100%"></p>
@@ -597,35 +601,38 @@
 <span id="cb15-15"><a href="#cb15-15" tabindex="-1"></a>  <span class="at">plot_id =</span> <span class="fu">c</span>(<span class="dv">195</span>, <span class="dv">40</span>)</span>
 <span id="cb15-16"><a href="#cb15-16" tabindex="-1"></a>)</span>
 <span id="cb15-17"><a href="#cb15-17" tabindex="-1"></a><span class="fu">print</span>(mat)</span>
-<span id="cb15-18"><a href="#cb15-18" tabindex="-1"></a><span class="sc">-------------------------------------------------------------------------</span></span>
-<span id="cb15-19"><a href="#cb15-19" tabindex="-1"></a>Optimization Results<span class="sc">:</span></span>
-<span id="cb15-20"><a href="#cb15-20" tabindex="-1"></a><span class="sc">-------------------------------------------------------------------------</span></span>
-<span id="cb15-21"><a href="#cb15-21" tabindex="-1"></a><span class="co"># A tibble: 2 × 11</span></span>
-<span id="cb15-22"><a href="#cb15-22" tabindex="-1"></a>   plot genotype    row range    t1    t2    dt     k    beta       sse   auc</span>
-<span id="cb15-23"><a href="#cb15-23" tabindex="-1"></a>  <span class="sc">&lt;</span>dbl<span class="sc">&gt;</span> <span class="er">&lt;</span>chr<span class="sc">&gt;</span>     <span class="er">&lt;</span>dbl<span class="sc">&gt;</span> <span class="er">&lt;</span>dbl<span class="sc">&gt;</span> <span class="er">&lt;</span>dbl<span class="sc">&gt;</span> <span class="er">&lt;</span>dbl<span class="sc">&gt;</span> <span class="er">&lt;</span>dbl<span class="sc">&gt;</span> <span class="er">&lt;</span>dbl<span class="sc">&gt;</span>   <span class="er">&lt;</span>dbl<span class="sc">&gt;</span>     <span class="er">&lt;</span>dbl<span class="sc">&gt;</span> <span class="er">&lt;</span>dbl<span class="sc">&gt;</span></span>
-<span id="cb15-24"><a href="#cb15-24" tabindex="-1"></a><span class="dv">1</span>    <span class="dv">40</span> W17043<span class="dv">-37</span>    <span class="dv">12</span>     <span class="dv">3</span>  <span class="fl">36.9</span>  <span class="fl">66.4</span>  <span class="fl">13.4</span> <span class="fl">0.369</span> <span class="sc">-</span><span class="fl">0.0106</span> <span class="fl">0.000677</span>   <span class="fl">16.6</span></span>
-<span id="cb15-25"><a href="#cb15-25" tabindex="-1"></a><span class="dv">2</span>   <span class="dv">195</span> W16219<span class="dv">-8</span>     <span class="dv">13</span>    <span class="dv">14</span>  <span class="fl">39.6</span>  <span class="fl">68.3</span>  <span class="fl">25.1</span> <span class="fl">0.323</span> <span class="sc">-</span><span class="fl">0.0100</span> <span class="fl">0.0000102</span>  <span class="fl">16.4</span></span>
-<span id="cb15-26"><a href="#cb15-26" tabindex="-1"></a></span>
-<span id="cb15-27"><a href="#cb15-27" tabindex="-1"></a><span class="sc">-------------------------------------------------------------------------</span></span>
-<span id="cb15-28"><a href="#cb15-28" tabindex="-1"></a>Target Function<span class="sc">:</span></span>
-<span id="cb15-29"><a href="#cb15-29" tabindex="-1"></a><span class="sc">-------------------------------------------------------------------------</span></span>
-<span id="cb15-30"><a href="#cb15-30" tabindex="-1"></a><span class="fu">fn_lin_pl_lin2</span>(time, t1, t2, dt, k, beta)</span></code></pre></div>
+<span id="cb15-18"><a href="#cb15-18" tabindex="-1"></a>Call<span class="sc">:</span></span>
+<span id="cb15-19"><a href="#cb15-19" tabindex="-1"></a><span class="fu">fn_lin_pl_lin2</span>(time, t1, t2, dt, k, beta)</span>
+<span id="cb15-20"><a href="#cb15-20" tabindex="-1"></a></span>
+<span id="cb15-21"><a href="#cb15-21" tabindex="-1"></a>Sum of Squares Error<span class="sc">:</span></span>
+<span id="cb15-22"><a href="#cb15-22" tabindex="-1"></a>     Min.   1st Qu.    Median      Mean   3rd Qu.      Max. </span>
+<span id="cb15-23"><a href="#cb15-23" tabindex="-1"></a><span class="fl">1.024e-05</span> <span class="fl">1.768e-04</span> <span class="fl">3.435e-04</span> <span class="fl">3.435e-04</span> <span class="fl">5.101e-04</span> <span class="fl">6.767e-04</span> </span>
+<span id="cb15-24"><a href="#cb15-24" tabindex="-1"></a></span>
+<span id="cb15-25"><a href="#cb15-25" tabindex="-1"></a>Optimization Results <span class="st">`</span><span class="at">head()</span><span class="st">`</span><span class="sc">:</span></span>
+<span id="cb15-26"><a href="#cb15-26" tabindex="-1"></a> plot  genotype   t1   t2   dt     k    beta      sse  auc   t3</span>
+<span id="cb15-27"><a href="#cb15-27" tabindex="-1"></a>   <span class="dv">40</span> W17043<span class="dv">-37</span> <span class="fl">36.9</span> <span class="fl">66.4</span> <span class="fl">13.4</span> <span class="fl">0.369</span> <span class="sc">-</span><span class="fl">0.0106</span> <span class="fl">6.77e-04</span> <span class="fl">16.6</span> <span class="fl">79.9</span></span>
+<span id="cb15-28"><a href="#cb15-28" tabindex="-1"></a>  <span class="dv">195</span>  W16219<span class="dv">-8</span> <span class="fl">39.6</span> <span class="fl">68.3</span> <span class="fl">25.1</span> <span class="fl">0.323</span> <span class="sc">-</span><span class="fl">0.0100</span> <span class="fl">1.02e-05</span> <span class="fl">16.4</span> <span class="fl">93.3</span></span>
+<span id="cb15-29"><a href="#cb15-29" tabindex="-1"></a></span>
+<span id="cb15-30"><a href="#cb15-30" tabindex="-1"></a>Metrics<span class="sc">:</span></span>
+<span id="cb15-31"><a href="#cb15-31" tabindex="-1"></a> Plots     Timing Convergence Iterations</span>
+<span id="cb15-32"><a href="#cb15-32" tabindex="-1"></a>     <span class="dv">2</span> <span class="fl">0.24</span> (min)        <span class="dv">100</span>% <span class="dv">341</span> (plot)</span></code></pre></div>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mat</span>, plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-18-1.png" width="100%"></p>
 <table style="width:100%;" class="table">
 <colgroup>
-<col width="7%">
-<col width="13%">
 <col width="6%">
+<col width="12%">
+<col width="5%">
+<col width="7%">
 <col width="8%">
-<col width="9%">
-<col width="9%">
-<col width="9%">
 <col width="8%">
-<col width="9%">
 <col width="8%">
-<col width="9%">
+<col width="7%">
+<col width="8%">
+<col width="7%">
+<col width="8%">
+<col width="8%">
 </colgroup>
 <thead><tr class="header">
 <th align="right">plot</th>
@@ -639,6 +646,7 @@
 <th align="right">beta</th>
 <th align="right">sse</th>
 <th align="right">auc</th>
+<th align="right">t3</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -653,6 +661,7 @@
 <td align="right">-0.011</td>
 <td align="right">0.001</td>
 <td align="right">16.615</td>
+<td align="right">79.854</td>
 </tr>
 <tr class="even">
 <td align="right">195</td>
@@ -666,6 +675,7 @@
 <td align="right">-0.010</td>
 <td align="right">0.000</td>
 <td align="right">16.376</td>
+<td align="right">93.336</td>
 </tr>
 </tbody>
 </table>

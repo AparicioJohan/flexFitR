@@ -88,7 +88,7 @@ modeler_HTP <- function(x,
   }
   args <- try(expr = names(formals(fn))[-1], silent = TRUE)
   if (inherits(args, "try-error")) {
-    stop("Please verify the function you provide: '", fn, "'. It was not found.")
+    stop("Please verify the function: '", fn, "'. It was not found.")
   }
   if (!is.null(initial_vals)) {
     nam_ini_vals <- colnames(initial_vals)
@@ -198,9 +198,7 @@ modeler_HTP <- function(x,
           upper = upper
         ) |>
           rownames_to_column(var = "method") |>
-          arrange(value) |>
           rename(sse = value) |>
-          slice(1) |>
           cbind(t(fx_params))
       ),
       .groups = "drop"
@@ -208,8 +206,15 @@ modeler_HTP <- function(x,
     unnest(cols = res)
 
   # Metrics
-  metrics <- select(param_mat, c(plot, genotype, fevals:xtime))
-  param_mat <- select(param_mat, -c(fevals:xtime))
+  metrics <- select(param_mat, c(plot, genotype, method, sse, fevals:xtime))
+
+  # Selecting the best
+  param_mat <- param_mat |>
+    select(-c(fevals:xtime)) |>
+    group_by(plot, genotype, row, range) |>
+    arrange(sse) |>
+    slice(1) |>
+    ungroup()
 
   if (is.null(fixed_params)) {
     param_mat <- param_mat |> select(-`t(fx_params)`)

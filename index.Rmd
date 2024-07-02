@@ -23,7 +23,7 @@ exploreHTP is designed to assist researchers and plant breeders in efficiently e
 
 ## Installation
 
-You can install the development version of exploreHTP from [GitHub](https://github.com/) with:
+You can install the development version of exploreHTP from [GitHub](https://github.com/AparicioJohan/exploreHTP) with:
 
 ``` r
 # install.packages("devtools")

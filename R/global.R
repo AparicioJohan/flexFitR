@@ -45,6 +45,7 @@ utils::globalVariables(
     "loc_max_at",
     "fevals",
     "xtime",
-    '.fitted'
+    '.fitted',
+    "convergence"
   )
 )
