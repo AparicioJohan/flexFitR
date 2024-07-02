@@ -1,10 +1,10 @@
 #' Print an object of class \code{modeler_HTP}
 #'
-#' @description Prints information about \code{single_trial_analysis} function.
+#' @description Prints information about \code{modeler_HTP} function.
 #'
 #' @aliases print.modeler_HTP
 #' @usage \method{print}{modeler_HTP}(x, ...)
-#' @param x An object fitted with the function \code{single_trial_analysis()}.
+#' @param x An object fitted with the function \code{modeler_HTP()}.
 #' @param ... Options used by the tibble package to format the output. See
 #' `tibble::print()` for more details.
 #' @author Johan Aparicio [aut]

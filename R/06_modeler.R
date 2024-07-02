@@ -200,13 +200,16 @@ modeler_HTP <- function(x,
           rownames_to_column(var = "method") |>
           arrange(value) |>
           rename(sse = value) |>
-          select(-c(fevals:xtime)) |>
           slice(1) |>
           cbind(t(fx_params))
       ),
       .groups = "drop"
     ) |>
     unnest(cols = res)
+
+  # Metrics
+  metrics <- select(param_mat, c(plot, genotype, fevals:xtime))
+  param_mat <- select(param_mat, -c(fevals:xtime))
 
   if (is.null(fixed_params)) {
     param_mat <- param_mat |> select(-`t(fx_params)`)
@@ -239,13 +242,18 @@ modeler_HTP <- function(x,
     mutate(.fitted = !!density) |>
     ungroup() |>
     select(time, plot, .fitted)
-
   dt <- full_join(dt, fitted_vals, by = c("time", "plot"))
 
   if (!return_method) {
     param_mat <- select(param_mat, -method)
   }
-  out <- list(param = param_mat, dt = dt, fn = density, max_time = max_time)
+  out <- list(
+    param = param_mat,
+    dt = dt,
+    fn = density,
+    metrics = metrics,
+    max_time = max_time
+  )
   class(out) <- "modeler_HTP"
   return(invisible(out))
 }

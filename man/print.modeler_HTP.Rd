@@ -7,7 +7,7 @@
 \method{print}{modeler_HTP}(x, ...)
 }
 \arguments{
-\item{x}{An object fitted with the function \code{single_trial_analysis()}.}
+\item{x}{An object fitted with the function \code{modeler_HTP()}.}
 
 \item{...}{Options used by the tibble package to format the output. See
 `tibble::print()` for more details.}
@@ -16,7 +16,7 @@
 an object inheriting from class \code{modeler_HTP}.
 }
 \description{
-Prints information about \code{single_trial_analysis} function.
+Prints information about \code{modeler_HTP} function.
 }
 \examples{
 \donttest{
