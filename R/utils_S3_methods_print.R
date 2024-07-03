@@ -39,7 +39,7 @@ print.modeler_HTP <- function(x, ...) {
   print(as.data.frame(head(param, 4)), digits = 3, row.names = FALSE)
   cat("\n")
   cat("Metrics:\n")
-  total_time <- sum(x$metrics$xtime)
+  total_time <- x$execution
   dt <- x$metrics |>
     group_by(plot, genotype) |>
     arrange(sse) |>
@@ -50,15 +50,48 @@ print.modeler_HTP <- function(x, ...) {
     mutate(conv = paste0(conv, "%")) |>
     pull(conv)
   ite <- dt |>
-    summarise(ite = mean(fevals, na.rm = TRUE)) |>
+    summarise(ite = round(mean(fevals, na.rm = TRUE), 2)) |>
     mutate(ite = paste0(ite, " (plot)")) |>
     pull(ite)
   info <- data.frame(
     Plots = nrow(dt),
-    `Timing` = paste0(round(total_time, 4), " (min)"),
+    `Timing` = round(total_time, 4),
     Convergence = conv,
     `Iterations` = ite,
     check.names = FALSE
   )
   print(info, row.names = FALSE)
+}
+
+#' @noRd
+comparison_HTP <- function(x, y, value = 5) {
+  x <- x$param
+  y <- y$param
+  xy <- full_join(
+    x = select(x, c(plot, sse)),
+    y = select(y, c(plot, sse)),
+    by = "plot"
+  ) |>
+    mutate_if(is.numeric, round, value) |>
+    mutate(table = sse.x > sse.y)
+  plots_to_check <- xy |>
+    filter(table %in% TRUE) |>
+    pull(plot)
+  summ <- xy |>
+    mutate(table = sse.x > sse.y) |>
+    summarise(
+      `y_better_than_x` = round(sum(table %in% TRUE) / n(), 3),
+      `y_worse_than_x` = round(sum(table %in% FALSE) / n(), 3)
+    )
+  res <- data.frame(
+    `mean(sse_x) > mean(sse_y)` = mean(x$sse) > mean(y$sse),
+    check.names = FALSE
+  ) |>
+    cbind(summ)
+  objt <- list(
+    summ = res,
+    join = filter(xy, table %in% TRUE),
+    plots_to_check = plots_to_check
+  )
+  return(objt)
 }

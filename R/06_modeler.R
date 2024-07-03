@@ -24,6 +24,8 @@
 #'   \item{\code{dt}}{A data frame with data used.}
 #'   \item{\code{fn}}{The call used to calculate the AUC.}
 #'   \item{\code{max_time}}{Maximum time value used for calculating the AUC.}
+#'   \item{\code{metrics}}{Metrics and summary of the models.}
+#'   \item{\code{execution}}{Execution time.}
 #' }
 #' @export
 #'
@@ -182,7 +184,7 @@ modeler_HTP <- function(x,
        Check the argument 'plot_id'"
     )
   }
-
+  w_1 <- Sys.time()
   param_mat <- dt_nest |>
     summarise(
       res = list(
@@ -204,6 +206,7 @@ modeler_HTP <- function(x,
       .groups = "drop"
     ) |>
     unnest(cols = res)
+  w_2 <- Sys.time()
 
   # Metrics
   metrics <- select(param_mat, c(plot, genotype, method, sse, fevals:xtime))
@@ -257,7 +260,8 @@ modeler_HTP <- function(x,
     dt = dt,
     fn = density,
     metrics = metrics,
-    max_time = max_time
+    max_time = max_time,
+    execution = w_2 - w_1
   )
   class(out) <- "modeler_HTP"
   return(invisible(out))

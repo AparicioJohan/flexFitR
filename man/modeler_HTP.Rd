@@ -65,6 +65,8 @@ An object of class \code{modeler_HTP}, which is a list containing the following 
   \item{\code{dt}}{A data frame with data used.}
   \item{\code{fn}}{The call used to calculate the AUC.}
   \item{\code{max_time}}{Maximum time value used for calculating the AUC.}
+  \item{\code{metrics}}{Metrics and summary of the models.}
+  \item{\code{execution}}{Execution time.}
 }
 }
 \description{

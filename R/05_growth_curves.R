@@ -476,6 +476,61 @@ fn_lin_pl_lin3 <- function(t, t1, dt, t3, k, beta) {
   return(y)
 }
 
+#' Linear Plateau Linear Constrains
+#'
+#' @param t Numeric. The time value.
+#' @param t1 Numeric. The lower threshold time. Default is 45.
+#' @param t2 Numeric. The upper threshold time before plateau. Default is 80.
+#' @param t3 Numeric. The lower threshold time after plateau. Default is 45.
+#' @param k Numeric. The maximum value of the function. Default is 0.9.
+#' @param beta Numeric. Slope of the linear decay.
+#'
+#' @return A numeric value based on the linear plateau linear model.
+#' @export
+#'
+#' @details
+#' \if{html}{
+#' \deqn{
+#' f(t; t_1, t_2, t_3, k, \beta) =
+#' \begin{cases}
+#' 0 & \text{if } t < t_1 \\
+#' \dfrac{k}{t_2 - t_1} \cdot (t - t_1) & \text{if } t_1 \leq t \leq t_2 \\
+#' k & \text{if } t_2 \leq t \leq t_3 \\
+#' k + \beta \cdot (t - t_3) & \text{if } t > t_3
+#' \end{cases}
+#' }
+#' }
+#'
+#' @examples
+#' library(exploreHTP)
+#' t <- seq(0, 108, 0.1)
+#' y_hat <- sapply(
+#'   X = t,
+#'   FUN = fn_lin_pl_lin,
+#'   t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01
+#' )
+#' plot(t, y_hat, type = "l")
+#' lines(t, y_hat, col = "red")
+#' abline(v = c(38.7, 62), lty = 2)
+fn_lin_pl_lin4 <- function(t, t1, t2, t3, k, beta) {
+  if (t < t1) {
+    y <- 0
+  }
+  if (t >= t1 & t <= t2) {
+    y <- k / (t2 - t1) * (t - t1)
+  }
+  if (t >= t2 & t <= t3) {
+    y <- k
+  }
+  if (t >= t3) {
+    y <- k + beta * (t - t3)
+  }
+  if (t3 - t2 < 0) {
+    y <- 1e+200
+  }
+  return(y)
+}
+
 
 
 #' @examples
