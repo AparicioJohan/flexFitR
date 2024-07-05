@@ -46,6 +46,8 @@ utils::globalVariables(
     "fevals",
     "xtime",
     '.fitted',
-    "convergence"
+    "convergence",
+    "sse.x",
+    "sse.y"
   )
 )

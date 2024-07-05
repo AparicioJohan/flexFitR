@@ -127,6 +127,7 @@ executing the function <code><a href="modeler_HTP.html">modeler_HTP()</a></code>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mat</span>, plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot.modeler_HTP-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="va">mat</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> fn_lin_pl_lin(time, t1, t2, t3, k, beta)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -140,8 +141,8 @@ executing the function <code><a href="modeler_HTP.html">modeler_HTP()</a></code>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   195  W16219-8 39.6 68.3 93.3 0.323 -0.0100 1.02e-05 16.4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Plots     Timing Convergence    Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      2 1.11 (min)        100% 1122.5 (plot)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Plots      Timing Convergence    Iterations</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      2 1.6424 secs        100% 1122.5 (plot)</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">can</span> <span class="op">&lt;-</span> <span class="fu"><a href="modeler_HTP.html">modeler_HTP</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  x <span class="op">=</span> <span class="va">results</span>,</span></span>
@@ -153,6 +154,7 @@ executing the function <code><a href="modeler_HTP.html">modeler_HTP()</a></code>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">can</span>, plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot.modeler_HTP-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="va">can</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> fn_piwise(time, t1, t2, k)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -166,8 +168,8 @@ executing the function <code><a href="modeler_HTP.html">modeler_HTP()</a></code>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   195  W16219-8 38.7 60.0 91.7  390 5377</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Plots    Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      2 0.3 (min)        100% 547 (plot)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Plots      Timing Convergence Iterations</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      2 0.8007 secs        100% 547 (plot)</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">fixed_params</span> <span class="op">&lt;-</span> <span class="va">results</span><span class="op">$</span><span class="va">dt_long</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">trait</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="st">"Canopy"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
@@ -184,6 +186,7 @@ executing the function <code><a href="modeler_HTP.html">modeler_HTP()</a></code>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">can</span>, plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot.modeler_HTP-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="va">can</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> fn_piwise(time, t1, t2, k)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -197,8 +200,8 @@ executing the function <code><a href="modeler_HTP.html">modeler_HTP()</a></code>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   195  W16219-8 38.7 62.0  663 100 5765</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Plots     Timing Convergence   Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      2 0.11 (min)        100% 312.5 (plot)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Plots      Timing Convergence   Iterations</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      2 0.8352 secs        100% 312.5 (plot)</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

@@ -74,13 +74,14 @@ canopy_HTP <- function(x, index = "Canopy", plot_id = NULL, ...) {
 }
 
 #' @noRd
-max_as_last <- function(data, index = "Canopy") {
+max_as_last <- function(data) {
   dt_can <- data |>
     group_by(plot, genotype, row, range) |>
     mutate(
       loc_max_at = paste(local_min_max(value, time)$days_max, collapse = "_"),
       loc_max = as.numeric(local_min_max(value, time)$days_max[1])
     ) |>
+    mutate(loc_max = ifelse(is.na(loc_max), max(time, na.rm = TRUE), loc_max)) |>
     mutate(
       value = ifelse(time <= loc_max, value, value[time == loc_max])
     ) |>
@@ -89,6 +90,20 @@ max_as_last <- function(data, index = "Canopy") {
   return(dt_can)
 }
 
+#' @noRd
+local_min_max <- function(x, days) {
+  up <- c(x[-1], NA)
+  down <- c(NA, x[-length(x)])
+  a <- cbind(x, up, down)
+  minima <- which(apply(a, 1, min) == a[, 1])
+  maxima <- which(apply(a, 1, max) == a[, 1])
+  list(
+    minima = minima,
+    days_min = days[minima],
+    maxima = maxima,
+    days_max = days[maxima]
+  )
+}
 
 # correct_maximun <- function(results,
 #                            var = "Canopy",

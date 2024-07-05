@@ -30,8 +30,8 @@ results <- read_HTP(
   row = "Row",
   range = "Range"
 )
-out <- canopy_HTP(x = results, index = "Canopy", plot_id = c(22, 40))
-plot(out, plot_id = c(22, 40))
+out <- canopy_HTP(x = results, index = "Canopy", plot_id = c(1:11))
+plot(out, plot_id = c(1:11))
 print(out)
 }
 \author{

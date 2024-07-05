@@ -582,3 +582,8 @@ create_call <- function(fn = "fn_piwise") {
   out <- rlang::parse_expr(string)
   return(out)
 }
+
+#' @noRd
+fn_logis <- function(t, t0, t1, t2) {
+  t0 / (1 + exp((t1 - t) / t2))
+}

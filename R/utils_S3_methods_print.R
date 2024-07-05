@@ -24,16 +24,22 @@
 #'   row = "Row",
 #'   range = "Range"
 #' )
-#' out <- canopy_HTP(x = results, index = "Canopy", plot_id = c(22, 40))
-#' plot(out, plot_id = c(22, 40))
+#' out <- canopy_HTP(x = results, index = "Canopy", plot_id = c(1:11))
+#' plot(out, plot_id = c(1:11))
 #' print(out)
 print.modeler_HTP <- function(x, ...) {
   param <- select(x$param, -c(row, range))
-  cat("Call:\n")
+  cat("\nCall:\n")
   print(x$fn)
   cat("\n")
-  cat("Sum of Squares Error:\n")
-  print(summary(param$sse))
+  if (nrow(param) < 10) {
+    cat("Sum of Squares Error:\n")
+    resum <- summary(param$sse)
+  } else {
+    cat("Sum of Squares Error `scale()`:\n")
+    resum <- summary(as.numeric(scale(param$sse)))
+  }
+  print(resum)
   cat("\n")
   cat("Optimization Results `head()`:\n")
   print(as.data.frame(head(param, 4)), digits = 3, row.names = FALSE)

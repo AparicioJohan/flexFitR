@@ -125,7 +125,7 @@ modeler_HTP <- function(x,
     filter(!is.na(value)) |>
     droplevels()
   if (max_as_last) {
-    dt <- max_as_last(dt, index = index)
+    dt <- max_as_last(dt)
   }
   if (check_negative) {
     dt <- mutate(dt, value = ifelse(value < 0, 0, value))

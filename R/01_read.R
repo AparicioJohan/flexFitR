@@ -159,19 +159,3 @@ read_HTP <- function(data, genotype, time, plot, traits, row, range) {
   class(out) <- "read_HTP"
   return(out)
 }
-
-
-#' @noRd
-local_min_max <- function(x, days) {
-  up <- c(x[-1], NA)
-  down <- c(NA, x[-length(x)])
-  a <- cbind(x, up, down)
-  minima <- which(apply(a, 1, min) == a[, 1])
-  maxima <- which(apply(a, 1, max) == a[, 1])
-  list(
-    minima = minima,
-    days_min = days[minima],
-    maxima = maxima,
-    days_max = days[maxima]
-  )
-}

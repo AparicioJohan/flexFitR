@@ -102,25 +102,28 @@
 <span class="r-in"><span>  row <span class="op">=</span> <span class="st">"Row"</span>,</span></span>
 <span class="r-in"><span>  range <span class="op">=</span> <span class="st">"Range"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="canopy_HTP.html">canopy_HTP</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">results</span>, index <span class="op">=</span> <span class="st">"Canopy"</span>, plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">22</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">out</span>, plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">22</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="canopy_HTP.html">canopy_HTP</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">results</span>, index <span class="op">=</span> <span class="st">"Canopy"</span>, plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">11</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">out</span>, plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">11</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="print.modeler_HTP-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> fn_piwise(time, t1, t2, k)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Sum of Squares Error:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.001477 0.075360 0.149243 0.149243 0.223126 0.297009 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Sum of Squares Error `scale()`:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -0.6387 -0.6232 -0.5200  0.0000  0.3479  2.5892 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Optimization Results `head()`:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  plot  genotype   t1   t2     sse     k  auc   dt slope</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    22  W17047-5 39.5 74.6 0.29701  98.8 5034 35.1  2.81</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    40 W17043-37 34.8 60.8 0.00148 100.0 6017 26.0  3.84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  plot  genotype   t1   t2      sse     k  auc   dt slope</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     1 W17037-24 38.6 61.0 4.49e-01  99.8 5807 22.4  4.45</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     2 W17066-22 35.2 60.7 7.01e+00 100.0 6004 25.6  3.91</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     3  W16091-5 33.8 59.9 4.26e+00 100.0 6119 26.1  3.83</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     4 W17037-26 39.3 65.5 2.58e-26  99.8 5551 26.1  3.82</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Plots     Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      2 0.15 (min)        100% 286 (plot)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Plots      Timing Convergence    Iterations</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     11 4.6981 secs        100% 315.09 (plot)</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
