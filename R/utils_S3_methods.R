@@ -1,3 +1,45 @@
+#' plot_fn(
+#'   fn = "fn_lin_pl_lin",
+#'   params <- c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
+#'   interval = c(0, 100),
+#'   n_points = 1000,
+#'   base_size = 12
+#' )
+#' @noRd
+plot_fn <- function(fn = "fn_piwise",
+                    params = c(t1 = 34.9, t2 = 61.8, k = 100),
+                    interval = c(0, 100),
+                    n_points = 1000,
+                    base_size = 12) {
+  t <- seq(interval[1], interval[2], length.out = n_points)
+  arg <- names(formals(fn))[-1]
+  values <- paste(params, collapse = ", ")
+  string <- paste("sapply(t, FUN = ", fn, ", ", values, ")", sep = "")
+  y_hat <- eval(parse(text = string))
+  dt <- data.frame(time = t, hat = y_hat)
+  auc <- dt |>
+    mutate(trapezoid_area = (lead(hat) + hat) / 2 * (lead(time) - time)) |>
+    filter(!is.na(trapezoid_area)) |>
+    summarise(auc = round(sum(trapezoid_area), 2)) |>
+    pull(auc)
+  title <- create_call(fn)
+  density <- paste(fn, "(time, ", values, ")", sep = "")
+  p0 <- dt |>
+    ggplot(aes(x = time, y = hat)) +
+    geom_text(
+      label = paste0("AUC = ", auc),
+      x = quantile(dt$time, 0.8),
+      y = quantile(dt$hat, 0.5),
+      stat = "unique"
+    ) +
+    geom_area(fill = "red", alpha = 0.05) +
+    geom_line(color = "red") +
+    theme_classic(base_size = base_size) +
+    labs(y = "y", title = title)
+  return(p0)
+}
+
+
 #' Plot an object of class \code{modeler_HTP}
 #'
 #' @description Create several plots for an object of class \code{modeler_HTP}

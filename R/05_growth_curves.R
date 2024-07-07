@@ -275,9 +275,6 @@ fn_exp2_exp <- function(t, t1, t2, alpha, beta) {
 #' lines(t, y_hat, col = "red")
 #' abline(v = c(34.9, 61.8), lty = 2)
 fn_piwise <- function(t, t1 = 45, t2 = 80, k = 0.9) {
-  if (is.na(t)) {
-    stop("Missing values not allowed for t.")
-  }
   if (t < t1) {
     y <- 0
   } else if (t >= t1 && t <= t2) {
@@ -586,4 +583,48 @@ create_call <- function(fn = "fn_piwise") {
 #' @noRd
 fn_logis <- function(t, t0, t1, t2) {
   t0 / (1 + exp((t1 - t) / t2))
+}
+
+# library(exploreHTP)
+# t <- seq(0, 108, 0.1)
+# y_hat <- sapply(
+#   X = t,
+#   FUN = fn_logistic,
+#   t1 = 38.7, t2 = 62, L = 0.1, k = 0.9
+# )
+# plot(t, y_hat, type = "l")
+# lines(t, y_hat, col = "red")
+# abline(v = c(38.7, 62), lty = 2)
+#' @noRd
+fn_logistic <- function(t, t1, t2, L, k) {
+  # L is the maximum plant height
+  # k is the growth rate
+  if (t < t1) {
+    return(0)
+  }
+  return(L / (1 + exp(-k * (t - (t1 + t2) / 2))))
+}
+
+# t <- seq(0, 108, 0.1)
+# y_hat <- sapply(
+#   X = t,
+#   FUN = fn_linexp,
+#   t1 = 38.7, t2 = 62, a = 0.1, b = 2, c = 0.1
+# )
+# plot(t, y_hat, type = "l")
+# lines(t, y_hat, col = "red")
+# abline(v = c(38.7, 62), lty = 2)
+#' @noRd
+fn_linexp <- function(t, t1, t2, a, b, c) {
+  # a, b, c are model parameters
+  if (t < t1) {
+    return(0)
+  }
+  if (t >= t1 & t <= t2) {
+    return(a + b * (t - t1))
+  }
+  if (t > t2) {
+    y2 <- a + b * (t2 - t1)
+    return(y2 * exp(-c * (t - t2)))
+  }
 }
