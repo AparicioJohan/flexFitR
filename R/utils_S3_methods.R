@@ -1,3 +1,13 @@
+# fn = "fn_piwise"
+# params = c(t1 = 34.9, t2 = 61.8, k = 100)
+# interval = c(0, 100)
+# n_points = 1000
+# x_label = NA
+# y_label = NA
+# size_auc = 3
+# base_size = 12
+# color = "red"
+
 #' plot_fn(
 #'   fn = "fn_lin_pl_lin",
 #'   params <- c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
@@ -10,7 +20,12 @@ plot_fn <- function(fn = "fn_piwise",
                     params = c(t1 = 34.9, t2 = 61.8, k = 100),
                     interval = c(0, 100),
                     n_points = 1000,
-                    base_size = 12) {
+                    x_label = NULL,
+                    y_label = NULL,
+                    size_auc = 3,
+                    size_params = 3,
+                    base_size = 12,
+                    color = "red") {
   t <- seq(interval[1], interval[2], length.out = n_points)
   arg <- names(formals(fn))[-1]
   values <- paste(params, collapse = ", ")
@@ -23,17 +38,34 @@ plot_fn <- function(fn = "fn_piwise",
     summarise(auc = round(sum(trapezoid_area), 2)) |>
     pull(auc)
   title <- create_call(fn)
-  density <- paste(fn, "(time, ", values, ")", sep = "")
+  density <- paste(fn, "(t, ", values, ")", sep = "")
+  info <- paste(paste(arg, round(params, 3), sep = " = "), collapse = "\n")
+
+  x.label_params <- interval[1] + (interval[2] - interval[1]) * 0.15
+  y.label_params <- min(dt$hat) + (max(dt$hat) - min(dt$hat)) * 0.8
+  x.label_auc <- interval[1] + (interval[2] - interval[1]) * 0.8
+  y.label_auc <- min(dt$hat) + (max(dt$hat) - min(dt$hat)) * 0.3
+
   p0 <- dt |>
     ggplot(aes(x = time, y = hat)) +
     geom_text(
       label = paste0("AUC = ", auc),
-      x = quantile(dt$time, 0.8),
-      y = quantile(dt$hat, 0.5),
-      stat = "unique"
+      x = ifelse(is.null(x_label), x.label_auc, x_label),
+      y = ifelse(is.null(y_label), y.label_auc, y_label),
+      size = size_auc,
+      stat = "unique",
+      color = "grey30"
     ) +
-    geom_area(fill = "red", alpha = 0.05) +
-    geom_line(color = "red") +
+    geom_text(
+      label = info,
+      x = x.label_params,
+      y = y.label_params,
+      stat = "unique",
+      size = size_params,
+      color = "grey30"
+    ) +
+    geom_area(fill = color, alpha = 0.05) +
+    geom_line(color = color) +
     theme_classic(base_size = base_size) +
     labs(y = "y", title = title)
   return(p0)
