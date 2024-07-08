@@ -16,6 +16,7 @@
 #' @param initial_vals A data.frame with columns <plot, genotype, t1, t2, ... , and all the initial parameters>. Specific initial values per plot.
 #' @param fixed_params A data.frame with columns <plot, genotype, t1, t2, ... , and all the fixed parameters>.
 #' @param fn String character with the name of the function "fn_lin_pl_lin".
+#' @param metric A character string specifying the metric to minimize. Can be "sse", "mae", "mse" or "rmse". Default is "sse".
 #' @param n_points Number of time points to approximate the Area Under the Curve (AUC). 1000 by default.
 #' @param max_time Maximum time value for calculating the AUC. \code{NULL} by default takes the last time point.
 #' @return An object of class \code{modeler_HTP}, which is a list containing the following elements:
@@ -79,6 +80,7 @@ modeler_HTP <- function(x,
                         initial_vals = NULL,
                         fixed_params = NULL,
                         fn = "fn_piwise",
+                        metric = "sse",
                         n_points = 1000,
                         max_time = NULL) {
   if (!inherits(x, "read_HTP")) {
@@ -190,11 +192,12 @@ modeler_HTP <- function(x,
       res = list(
         opm(
           par = initials,
-          fn = sse_generic,
+          fn = minimizer,
           t = data$time,
           y = data$value,
           curve = fn,
           fixed_params = fx_params,
+          metric = metric,
           method = method,
           lower = lower,
           upper = upper

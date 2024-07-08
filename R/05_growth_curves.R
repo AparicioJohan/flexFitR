@@ -536,21 +536,27 @@ fn_lin_pl_lin4 <- function(t, t1, t2, t3, k, beta) {
 #' t <- c(0, 29, 36, 42, 56, 76, 92, 100, 108)
 #' y <- c(0, 0, 4.379, 26.138, 78.593, 100, 100, 100, 100)
 #' fn <- "fn_piwise"
-#' sse_generic(params, t, y, fn, fixed = fixed)
+#' minimizer(params, t, y, fn, fixed_params = fixed, metric = "rmse")
 #' res <- opm(
 #'   par = params,
-#'   fn = sse_generic,
+#'   fn = minimizer,
 #'   t = t,
 #'   y = y,
 #'   curve = fn,
-#'   fixed = fixed,
+#'   fixed_params = fixed,
+#'   metric = "rmse",
 #'   method = c("subplex"),
 #'   lower = -Inf,
 #'   upper = Inf
 #' ) |>
 #'   cbind(t(fixed))
 #' @noRd
-sse_generic <- function(params, t, y, curve, fixed_params = NA) {
+minimizer <- function(params,
+                      t,
+                      y,
+                      curve,
+                      fixed_params = NA,
+                      metric = "sse") {
   arg <- names(formals(curve))[-1]
   values <- paste(params, collapse = ", ")
   if (!any(is.na(fixed_params))) {
@@ -567,7 +573,7 @@ sse_generic <- function(params, t, y, curve, fixed_params = NA) {
   }
   string <- paste("sapply(t, FUN = ", curve, ", ", values, ")", sep = "")
   y_hat <- eval(parse(text = string))
-  sse <- sum((y - y_hat)^2)
+  sse <- eval(parse(text = paste0(metric, "(y, y_hat)"))) # sum((y - y_hat)^2)
   return(sse)
 }
 

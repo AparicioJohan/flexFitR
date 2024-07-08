@@ -78,6 +78,7 @@
 <span>  initial_vals <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  fixed_params <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  fn <span class="op">=</span> <span class="st">"fn_piwise"</span>,</span>
+<span>  metric <span class="op">=</span> <span class="st">"sse"</span>,</span>
 <span>  n_points <span class="op">=</span> <span class="fl">1000</span>,</span>
 <span>  max_time <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -141,6 +142,10 @@ optimization in the table. <code>FALSE</code> by default.</p></dd>
 
 <dt>fn</dt>
 <dd><p>String character with the name of the function "fn_lin_pl_lin".</p></dd>
+
+
+<dt>metric</dt>
+<dd><p>A character string specifying the metric to minimize. Can be "sse", "mae", "mse" or "rmse". Default is "sse".</p></dd>
 
 
 <dt>n_points</dt>
@@ -215,7 +220,7 @@ optimization in the table. <code>FALSE</code> by default.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Plots      Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      1 0.8444 secs        100% 896 (plot)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      1 0.8003 secs        100% 896 (plot)</span>
 <span class="r-in"><span><span class="va">can</span> <span class="op">&lt;-</span> <span class="fu">modeler_HTP</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  x <span class="op">=</span> <span class="va">results</span>,</span></span>
 <span class="r-in"><span>  index <span class="op">=</span> <span class="st">"Canopy"</span>,</span></span>
@@ -241,7 +246,7 @@ optimization in the table. <code>FALSE</code> by default.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Plots      Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      1 0.5536 secs        100% 349 (plot)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      1 0.5268 secs        100% 349 (plot)</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

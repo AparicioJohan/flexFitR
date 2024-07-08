@@ -41,6 +41,7 @@ reference:
   - canopy_HTP
   - height_HTP
   - maturity_HTP
+  - metrics_HTP
 - title: Data
   desc: Example Datasets
 - contents:

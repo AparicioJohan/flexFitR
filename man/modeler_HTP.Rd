@@ -19,6 +19,7 @@ modeler_HTP(
   initial_vals = NULL,
   fixed_params = NULL,
   fn = "fn_piwise",
+  metric = "sse",
   n_points = 1000,
   max_time = NULL
 )
@@ -53,6 +54,8 @@ optimization in the table. \code{FALSE} by default.}
 \item{fixed_params}{A data.frame with columns <plot, genotype, t1, t2, ... , and all the fixed parameters>.}
 
 \item{fn}{String character with the name of the function "fn_lin_pl_lin".}
+
+\item{metric}{A character string specifying the metric to minimize. Can be "sse", "mae", "mse" or "rmse". Default is "sse".}
 
 \item{n_points}{Number of time points to approximate the Area Under the Curve (AUC). 1000 by default.}
 

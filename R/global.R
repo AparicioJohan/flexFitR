@@ -48,6 +48,7 @@ utils::globalVariables(
     '.fitted',
     "convergence",
     "sse.x",
-    "sse.y"
+    "sse.y",
+    "MSE"
   )
 )
