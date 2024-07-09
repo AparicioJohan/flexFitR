@@ -40,13 +40,11 @@ k + \beta \cdot (t - (t_2 + dt)) & \text{if } t > (t_2 + dt)
 }
 \examples{
 library(exploreHTP)
-t <- seq(0, 108, 0.1)
-y_hat <- sapply(
-  X = t,
-  FUN = fn_lin_pl_lin2,
-  t1 = 38.7, t2 = 62, dt = 28, k = 0.32, beta = -0.01
+plot_fn(
+  fn = "fn_lin_pl_lin2",
+  params = c(t1 = 38.7, t2 = 62, dt = 28, k = 0.32, beta = -0.01),
+  interval = c(0, 108),
+  n_points = 2000,
+  auc_label_size = 3
 )
-plot(t, y_hat, type = "l")
-lines(t, y_hat, col = "red")
-abline(v = c(38.7, 62), lty = 2)
 }

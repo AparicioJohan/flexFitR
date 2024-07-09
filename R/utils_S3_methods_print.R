@@ -67,6 +67,7 @@ print.modeler_HTP <- function(x, ...) {
     check.names = FALSE
   )
   print(info, row.names = FALSE)
+  cat("\n")
 }
 
 #' @noRd

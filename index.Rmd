@@ -166,9 +166,13 @@ mat <- maturity_HTP(
   canopy = "Canopy",
   plot_id = c(195, 40)
 )
+```
+
+```{r, fig.width= 8, fig.height=4,fig.dpi=600}
 print(mat)
 plot(mat, plot_id = c(195, 40))
 ```
+
 
 ```{r, echo =FALSE}
 mat$param |>

@@ -119,6 +119,7 @@ out <- canopy_HTP(x = results, index = "Canopy", plot_id = c(60, 150))
 
 ``` r
 print(out)
+
 Call:
 fn_piwise(time, t1, t2, k)
 
@@ -132,8 +133,8 @@ Optimization Results `head()`:
   150 W19023-21 33.8 68.5 40.41 100 5386 34.7  2.88
 
 Metrics:
- Plots     Timing Convergence   Iterations
-     2 0.11 (min)        100% 273.5 (plot)
+ Plots      Timing Convergence   Iterations
+     2 0.6873 secs        100% 273.5 (plot)
 ```
 
 ``` r
@@ -161,6 +162,7 @@ ph_1 <- height_HTP(
 
 ``` r
 print(ph_1)
+
 Call:
 fn_exp2_exp(time, t1, t2, alpha, beta)
 
@@ -174,8 +176,8 @@ Optimization Results `head()`:
   150 W19023-21 62 0.000783 -0.0183 0.00143 33.8 32.9
 
 Metrics:
- Plots     Timing Convergence   Iterations
-     2 0.29 (min)        100% 964.5 (plot)
+ Plots      Timing Convergence   Iterations
+     2 0.7988 secs        100% 964.5 (plot)
 ```
 
 ``` r
@@ -208,7 +210,11 @@ mat <- maturity_HTP(
   canopy = "Canopy",
   plot_id = c(195, 40)
 )
+```
+
+``` r
 print(mat)
+
 Call:
 fn_lin_pl_lin2(time, t1, t2, dt, k, beta)
 
@@ -222,15 +228,15 @@ Optimization Results `head()`:
   195  W16219-8 39.6 68.3 25.1 0.323 -0.0100 1.02e-05 16.4 93.3
 
 Metrics:
- Plots     Timing Convergence Iterations
-     2 0.32 (min)        100% 341 (plot)
+ Plots      Timing Convergence Iterations
+     2 0.5909 secs        100% 341 (plot)
 ```
 
 ``` r
 plot(mat, plot_id = c(195, 40))
 ```
 
-<img src="man/figures/README-unnamed-chunk-18-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-19-1.png" width="100%" />
 
 | plot | genotype  | row | range |     t1 |     t2 |     dt |     k |   beta |   sse |    auc |     t3 |
 |-----:|:----------|----:|------:|-------:|-------:|-------:|------:|-------:|------:|-------:|-------:|

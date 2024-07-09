@@ -39,9 +39,11 @@ k & \text{if } t > t_2
 }
 \examples{
 library(exploreHTP)
-t <- seq(0, 108, 0.1)
-y_hat <- sapply(t, FUN = fn_piwise, t1 = 34.9, t2 = 61.8, k = 100)
-plot(t, y_hat, type = "l")
-lines(t, y_hat, col = "red")
-abline(v = c(34.9, 61.8), lty = 2)
+plot_fn(
+  fn = "fn_piwise",
+  params = c(t1 = 34.9, t2 = 61.8, k = 100),
+  interval = c(0, 108),
+  n_points = 2000,
+  auc_label_size = 3
+)
 }

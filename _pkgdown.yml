@@ -53,6 +53,7 @@ reference:
   - plot.read_HTP
   - plot.modeler_HTP
   - print.modeler_HTP
+  - plot_fn
 - title: Growth Modelling
   desc: Collection of functions
 - contents:
@@ -64,4 +65,3 @@ reference:
   - fn_lin_pl_lin
   - fn_lin_pl_lin2
   - fn_lin_pl_lin3
-  - fn_lin_pl_lin4

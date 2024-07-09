@@ -49,6 +49,8 @@ utils::globalVariables(
     "convergence",
     "sse.x",
     "sse.y",
-    "MSE"
+    "MSE",
+    "SSE",
+    "metric"
   )
 )

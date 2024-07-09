@@ -44,16 +44,12 @@ e^{\alpha \cdot (t - t_1)^2} - 1 & \text{if } t_1 \leq t \leq t_2 \\
 }
 \examples{
 library(exploreHTP)
-t <- seq(0, 108, 0.1)
-y_hat <- sapply(
-  X = t,
-  FUN = fn_exp2_exp,
-  t1 = 35,
-  t2 = 55,
-  alpha = 1 / 600,
-  beta = -1 / 30
+plot_fn(
+  fn = "fn_exp2_exp",
+  params = c(t1 = 35, t2 = 55, alpha = 1 / 600, beta = -1 / 30),
+  interval = c(0, 108),
+  n_points = 2000,
+  auc_label_size = 3,
+  y_auc_label = 0.15
 )
-plot(t, y_hat, type = "l")
-lines(t, y_hat, col = "red")
-abline(v = c(35, 55), lty = 2)
 }

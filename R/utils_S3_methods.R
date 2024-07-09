@@ -2,12 +2,40 @@
 # params = c(t1 = 34.9, t2 = 61.8, k = 100)
 # interval = c(0, 100)
 # n_points = 1000
-# x_label = NA
-# y_label = NA
-# size_auc = 3
+# x_auc_label = NA
+# y_auc_label = NA
+# auc_label_size = 3
 # base_size = 12
 # color = "red"
 
+
+#' Plot Function
+#'
+#' This function plots a user-defined function over a specified interval and annotates the plot with
+#' the calculated Area Under the Curve (AUC) and parameter values.
+#'
+#' @param fn A character string representing the name of the function to be plotted. Default is "fn_piwise".
+#' @param params A named numeric vector of parameters to be passed to the function. Default is \code{c(t1 = 34.9, t2 = 61.8, k = 100)}.
+#' @param interval A numeric vector of length 2 specifying the interval over which the function is to be plotted. Default is \code{c(0, 100)}.
+#' @param n_points An integer specifying the number of points to be used for plotting. Default is 1000.
+#' @param x_auc_label A numeric value specifying the x-coordinate for the AUC label. Default is \code{NULL}.
+#' @param y_auc_label A numeric value specifying the y-coordinate for the AUC label. Default is \code{NULL}.
+#' @param auc_label_size A numeric value specifying the size of the AUC label text. Default is 3.
+#' @param param_label_size A numeric value specifying the size of the parameter label text. Default is 3.
+#' @param base_size A numeric value specifying the base size for the plot's theme. Default is 12.
+#' @param color A character string specifying the color for the plot lines and area fill. Default is "red".
+#'
+#' @return A ggplot object representing the plot.
+#' @export
+#'
+#' @examples
+#' # Example usage
+#' plot_fn(
+#'   fn = "fn_piwise",
+#'   params = c(t1 = 34.9, t2 = 61.8, k = 100),
+#'   interval = c(0, 100),
+#'   n_points = 1000
+#' )
 #' plot_fn(
 #'   fn = "fn_lin_pl_lin",
 #'   params <- c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
@@ -15,15 +43,14 @@
 #'   n_points = 1000,
 #'   base_size = 12
 #' )
-#' @noRd
 plot_fn <- function(fn = "fn_piwise",
                     params = c(t1 = 34.9, t2 = 61.8, k = 100),
                     interval = c(0, 100),
                     n_points = 1000,
-                    x_label = NULL,
-                    y_label = NULL,
-                    size_auc = 3,
-                    size_params = 3,
+                    x_auc_label = NULL,
+                    y_auc_label = NULL,
+                    auc_label_size = 4,
+                    param_label_size = 4,
                     base_size = 12,
                     color = "red") {
   t <- seq(interval[1], interval[2], length.out = n_points)
@@ -43,16 +70,16 @@ plot_fn <- function(fn = "fn_piwise",
 
   x.label_params <- interval[1] + (interval[2] - interval[1]) * 0.15
   y.label_params <- min(dt$hat) + (max(dt$hat) - min(dt$hat)) * 0.8
-  x.label_auc <- interval[1] + (interval[2] - interval[1]) * 0.8
+  x.label_auc <- interval[1] + (interval[2] - interval[1]) * 0.7
   y.label_auc <- min(dt$hat) + (max(dt$hat) - min(dt$hat)) * 0.3
 
   p0 <- dt |>
     ggplot(aes(x = time, y = hat)) +
     geom_text(
       label = paste0("AUC = ", auc),
-      x = ifelse(is.null(x_label), x.label_auc, x_label),
-      y = ifelse(is.null(y_label), y.label_auc, y_label),
-      size = size_auc,
+      x = ifelse(is.null(x_auc_label), x.label_auc, x_auc_label),
+      y = ifelse(is.null(y_auc_label), y.label_auc, y_auc_label),
+      size = auc_label_size,
       stat = "unique",
       color = "grey30"
     ) +
@@ -61,7 +88,7 @@ plot_fn <- function(fn = "fn_piwise",
       x = x.label_params,
       y = y.label_params,
       stat = "unique",
-      size = size_params,
+      size = param_label_size,
       color = "grey30"
     ) +
     geom_area(fill = color, alpha = 0.05) +
@@ -70,6 +97,7 @@ plot_fn <- function(fn = "fn_piwise",
     labs(y = "y", title = title)
   return(p0)
 }
+
 
 
 #' Plot an object of class \code{modeler_HTP}

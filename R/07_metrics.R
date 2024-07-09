@@ -39,6 +39,7 @@ r_squared <- function(actual, predicted) {
 #' of Determination (R-squared).
 #'
 #' @param x An object of class `modeler_HTP` containing the necessary data to compute the metrics.
+#' @param .by_plot Return the metrics by plot? TRUE by default.
 #'
 #' @return A data frame containing the calculated metrics grouped by plot, row, range, genotype, and trait.
 #'
@@ -78,7 +79,8 @@ r_squared <- function(actual, predicted) {
 #' x <- canopy_HTP(x = results, index = "Canopy", plot_id = c(1:2))
 #' plot(x, c(1:2))
 #' print(x)
-metrics_HTP <- function(x) {
+#' metrics_HTP(x)
+metrics_HTP <- function(x, .by_plot = TRUE) {
   if (!inherits(x, "modeler_HTP")) {
     stop("The object should be of modeler_HTP class")
   }
@@ -93,5 +95,23 @@ metrics_HTP <- function(x) {
       n = n(),
       .groups = "drop"
     )
-  return(val_metrics)
+  n_plots <- nrow(val_metrics)
+  if (!.by_plot & n_plots > 1) {
+    summ_metrics <- val_metrics |>
+      select(trait:r_squared) |>
+      pivot_longer(cols = SSE:r_squared, names_to = "metric") |>
+      group_by(trait, metric) |>
+      summarise(
+        Min = suppressWarnings(min(value, na.rm = TRUE)),
+        Mean = mean(value, na.rm = TRUE),
+        Median = median(value, na.rm = TRUE),
+        Max = suppressWarnings(max(value, na.rm = TRUE)),
+        SD = sd(value, na.rm = TRUE),
+        CV = SD / Mean,
+        .groups = "drop"
+      )
+    return(summ_metrics)
+  } else {
+    return(val_metrics)
+  }
 }
