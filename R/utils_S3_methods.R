@@ -24,6 +24,7 @@
 #' @param param_label_size A numeric value specifying the size of the parameter label text. Default is 3.
 #' @param base_size A numeric value specifying the base size for the plot's theme. Default is 12.
 #' @param color A character string specifying the color for the plot lines and area fill. Default is "red".
+#' @param label_color A character string specifying the color for the labels. Default is "grey30".
 #'
 #' @return A ggplot object representing the plot.
 #' @export
@@ -52,7 +53,8 @@ plot_fn <- function(fn = "fn_piwise",
                     auc_label_size = 4,
                     param_label_size = 4,
                     base_size = 12,
-                    color = "red") {
+                    color = "red",
+                    label_color = "grey30") {
   t <- seq(interval[1], interval[2], length.out = n_points)
   arg <- names(formals(fn))[-1]
   values <- paste(params, collapse = ", ")
@@ -81,7 +83,7 @@ plot_fn <- function(fn = "fn_piwise",
       y = ifelse(is.null(y_auc_label), y.label_auc, y_auc_label),
       size = auc_label_size,
       stat = "unique",
-      color = "grey30"
+      color = label_color
     ) +
     geom_text(
       label = info,
@@ -89,7 +91,7 @@ plot_fn <- function(fn = "fn_piwise",
       y = y.label_params,
       stat = "unique",
       size = param_label_size,
-      color = "grey30"
+      color = label_color
     ) +
     geom_area(fill = color, alpha = 0.05) +
     geom_line(color = color) +

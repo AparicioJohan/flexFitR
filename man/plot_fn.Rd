@@ -14,7 +14,8 @@ plot_fn(
   auc_label_size = 4,
   param_label_size = 4,
   base_size = 12,
-  color = "red"
+  color = "red",
+  label_color = "grey30"
 )
 }
 \arguments{
@@ -37,6 +38,8 @@ plot_fn(
 \item{base_size}{A numeric value specifying the base size for the plot's theme. Default is 12.}
 
 \item{color}{A character string specifying the color for the plot lines and area fill. Default is "red".}
+
+\item{label_color}{A character string specifying the color for the labels. Default is "grey30".}
 }
 \value{
 A ggplot object representing the plot.
