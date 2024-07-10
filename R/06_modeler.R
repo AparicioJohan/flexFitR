@@ -19,6 +19,7 @@
 #' @param metric A character string specifying the metric to minimize. Can be "sse", "mae", "mse" or "rmse". Default is "sse".
 #' @param n_points Number of time points to approximate the Area Under the Curve (AUC). 1000 by default.
 #' @param max_time Maximum time value for calculating the AUC. \code{NULL} by default takes the last time point.
+#' @param control A list of control parameters to be passed to the optimization function. e.g. list(maxit = 500)
 #' @return An object of class \code{modeler_HTP}, which is a list containing the following elements:
 #' \describe{
 #'   \item{\code{param}}{A data frame containing the optimized parameters and related information.}
@@ -82,7 +83,8 @@ modeler_HTP <- function(x,
                         fn = "fn_piwise",
                         metric = "sse",
                         n_points = 1000,
-                        max_time = NULL) {
+                        max_time = NULL,
+                        control = list()) {
   if (!inherits(x, "read_HTP")) {
     stop("The object should be of read_HTP class")
   }
@@ -200,7 +202,8 @@ modeler_HTP <- function(x,
           metric = metric,
           method = method,
           lower = lower,
-          upper = upper
+          upper = upper,
+          control = control
         ) |>
           rownames_to_column(var = "method") |>
           rename(sse = value) |>

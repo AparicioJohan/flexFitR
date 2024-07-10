@@ -21,7 +21,8 @@ modeler_HTP(
   fn = "fn_piwise",
   metric = "sse",
   n_points = 1000,
-  max_time = NULL
+  max_time = NULL,
+  control = list()
 )
 }
 \arguments{
@@ -60,6 +61,8 @@ optimization in the table. \code{FALSE} by default.}
 \item{n_points}{Number of time points to approximate the Area Under the Curve (AUC). 1000 by default.}
 
 \item{max_time}{Maximum time value for calculating the AUC. \code{NULL} by default takes the last time point.}
+
+\item{control}{A list of control parameters to be passed to the optimization function. e.g. list(maxit = 500)}
 }
 \value{
 An object of class \code{modeler_HTP}, which is a list containing the following elements:

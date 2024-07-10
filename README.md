@@ -121,7 +121,7 @@ out <- canopy_HTP(x = results, index = "Canopy", plot_id = c(60, 150))
 print(out)
 
 Call:
-fn_piwise(time, t1, t2, k)
+Canopy ~ fn_piwise(time, t1, t2, k) 
 
 Sum of Squares Error:
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
@@ -134,7 +134,7 @@ Optimization Results `head()`:
 
 Metrics:
  Plots      Timing Convergence   Iterations
-     2 0.7071 secs        100% 273.5 (plot)
+     2 0.6357 secs        100% 273.5 (plot)
 ```
 
 ``` r
@@ -164,7 +164,7 @@ ph_1 <- height_HTP(
 print(ph_1)
 
 Call:
-fn_exp2_exp(time, t1, t2, alpha, beta)
+PH ~ fn_exp2_exp(time, t1, t2, alpha, beta) 
 
 Sum of Squares Error:
     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
@@ -176,8 +176,8 @@ Optimization Results `head()`:
   150 W19023-21 62 0.000783 -0.0183 0.00143 33.8 32.9
 
 Metrics:
- Plots     Timing Convergence   Iterations
-     2 0.826 secs        100% 964.5 (plot)
+ Plots      Timing Convergence   Iterations
+     2 0.8743 secs        100% 964.5 (plot)
 ```
 
 ``` r
@@ -208,7 +208,7 @@ mat <- maturity_HTP(
   x = results,
   index = "GLI_2",
   canopy = "Canopy",
-  plot_id = c(195, 40)
+  plot_id = c(195, 40, 20)
 )
 ```
 
@@ -216,20 +216,21 @@ mat <- maturity_HTP(
 print(mat)
 
 Call:
-fn_lin_pl_lin2(time, t1, t2, dt, k, beta)
+GLI_2 ~ fn_lin_pl_lin2(time, t1, t2, dt, k, beta) 
 
 Sum of Squares Error:
      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
-1.024e-05 1.768e-04 3.435e-04 3.435e-04 5.101e-04 6.767e-04 
+6.229e-06 8.233e-06 1.024e-05 2.310e-04 3.435e-04 6.767e-04 
 
 Optimization Results `head()`:
- plot  genotype   t1   t2   dt     k    beta      sse  auc   t3
-   40 W17043-37 36.9 66.4 13.4 0.369 -0.0106 6.77e-04 16.6 79.9
-  195  W16219-8 39.6 68.3 25.1 0.323 -0.0100 1.02e-05 16.4 93.3
+ plot  genotype   t1   t2   dt     k     beta      sse  auc   t3
+   20  W17067-7 35.8 68.5 14.5 0.362 -0.00405 6.23e-06 19.0 83.1
+   40 W17043-37 36.9 66.4 13.4 0.369 -0.01057 6.77e-04 16.6 79.9
+  195  W16219-8 39.6 68.3 25.1 0.323 -0.01005 1.02e-05 16.4 93.3
 
 Metrics:
- Plots      Timing Convergence Iterations
-     2 0.6512 secs        100% 341 (plot)
+ Plots      Timing Convergence    Iterations
+     3 0.9528 secs        100% 444.33 (plot)
 ```
 
 ``` r
@@ -240,5 +241,6 @@ plot(mat, plot_id = c(195, 40))
 
 | plot | genotype  | row | range |     t1 |     t2 |     dt |     k |   beta |   sse |    auc |     t3 |
 |-----:|:----------|----:|------:|-------:|-------:|-------:|------:|-------:|------:|-------:|-------:|
+|   20 | W17067-7  |   6 |     2 | 35.818 | 68.529 | 14.540 | 0.362 | -0.004 | 0.000 | 18.977 | 83.069 |
 |   40 | W17043-37 |  12 |     3 | 36.880 | 66.416 | 13.438 | 0.369 | -0.011 | 0.001 | 16.615 | 79.854 |
 |  195 | W16219-8  |  13 |    14 | 39.591 | 68.279 | 25.058 | 0.323 | -0.010 | 0.000 | 16.376 | 93.336 |

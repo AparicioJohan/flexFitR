@@ -80,7 +80,8 @@
 <span>  fn <span class="op">=</span> <span class="st">"fn_piwise"</span>,</span>
 <span>  metric <span class="op">=</span> <span class="st">"sse"</span>,</span>
 <span>  n_points <span class="op">=</span> <span class="fl">1000</span>,</span>
-<span>  max_time <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  max_time <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  control <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -155,6 +156,10 @@ optimization in the table. <code>FALSE</code> by default.</p></dd>
 <dt>max_time</dt>
 <dd><p>Maximum time value for calculating the AUC. <code>NULL</code> by default takes the last time point.</p></dd>
 
+
+<dt>control</dt>
+<dd><p>A list of control parameters to be passed to the optimization function. e.g. list(maxit = 500)</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -208,7 +213,7 @@ optimization in the table. <code>FALSE</code> by default.</p></dd>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">mat</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> fn_lin_pl_lin(time, t1, t2, t3, k, beta)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> GLI_2 ~ fn_lin_pl_lin(time, t1, t2, t3, k, beta) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Sum of Squares Error:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. </span>
@@ -220,7 +225,7 @@ optimization in the table. <code>FALSE</code> by default.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Plots      Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      1 0.8491 secs        100% 896 (plot)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      1 0.8224 secs        100% 896 (plot)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="va">can</span> <span class="op">&lt;-</span> <span class="fu">modeler_HTP</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  x <span class="op">=</span> <span class="va">results</span>,</span></span>
@@ -235,7 +240,7 @@ optimization in the table. <code>FALSE</code> by default.</p></dd>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">can</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> fn_piwise(time, t1, t2, k)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Canopy ~ fn_piwise(time, t1, t2, k) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Sum of Squares Error:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. </span>
@@ -247,7 +252,7 @@ optimization in the table. <code>FALSE</code> by default.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Plots      Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      1 0.5214 secs        100% 349 (plot)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      1 0.5223 secs        100% 349 (plot)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>

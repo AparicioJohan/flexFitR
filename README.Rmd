@@ -164,7 +164,7 @@ mat <- maturity_HTP(
   x = results,
   index = "GLI_2",
   canopy = "Canopy",
-  plot_id = c(195, 40)
+  plot_id = c(195, 40, 20)
 )
 ```
 
