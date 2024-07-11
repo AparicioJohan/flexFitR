@@ -1,29 +1,27 @@
 #' Modeler HTP
 #'
 #' @param x An object of class \code{read_HTP}, containing the results of the \code{read_HTP()} function.
-#' @param index A string specifying the trait to be modeled. Default is \code{"GLI"}.
+#' @param index A string specifying the trait to be modeled. Default is \code{"GLI"}. Must match a trait in the data.
 #' @param plot_id An optional vector of plot IDs to filter the data. Default is \code{NULL}, meaning all plots are used.
-#' @param add_zero \code{TRUE} or \code{FALSE}. Add zero to the time series.\code{TRUE} by default.
-#' @param check_negative Logical. Convert negative values to zero. \code{TRUE} by default.
-#' @param max_as_last Logical. If \code{TRUE}, adds the maximum value after reaching the local maximum. Default is \code{FALSE}.
-#' @param method A vector of the methods to be used, each as a character string.
-#' See optimx package. c("subplex", "pracmanm", "anms") by default.
-#' @param return_method \code{TRUE} or \code{FALSE}. To return the method selected for the
-#' optimization in the table. \code{FALSE} by default.
-#' @param parameters A named vector specifying the initial values for the parameters to be optimized. c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01) by default which is the same for all the plots.
-#' @param lower Bounds on the variables for methods such as "L-BFGS-B" that can handle box (or bounds) constraints.
-#' @param upper Bounds on the variables for methods such as "L-BFGS-B" that can handle box (or bounds) constraints.
-#' @param initial_vals A data.frame with columns <plot, genotype, t1, t2, ... , and all the initial parameters>. Specific initial values per plot.
-#' @param fixed_params A data.frame with columns <plot, genotype, t1, t2, ... , and all the fixed parameters>.
-#' @param fn String character with the name of the function "fn_lin_pl_lin".
-#' @param metric A character string specifying the metric to minimize. Can be "sse", "mae", "mse" or "rmse". Default is "sse".
-#' @param n_points Number of time points to approximate the Area Under the Curve (AUC). 1000 by default.
-#' @param max_time Maximum time value for calculating the AUC. \code{NULL} by default takes the last time point.
-#' @param control A list of control parameters to be passed to the optimization function. e.g. list(maxit = 500)
+#' @param add_zero Logical. If \code{TRUE}, adds a zero value to the time series at the start. Default is \code{TRUE}.
+#' @param check_negative Logical. If \code{TRUE}, converts negative values in the data to zero. Default is \code{TRUE}.
+#' @param max_as_last Logical. If \code{TRUE}, appends the maximum value after reaching the maximum. Default is \code{FALSE}.
+#' @param method A character vector specifying the optimization methods to be used. See \code{optimx} package for available methods. Default is \code{c("subplex", "pracmanm", "anms")}.
+#' @param return_method Logical. If \code{TRUE}, includes the optimization method used in the result. Default is \code{FALSE}.
+#' @param parameters A named numeric vector specifying the initial values for the parameters to be optimized. Default is \code{NULL}.
+#' @param lower Numeric vector specifying the lower bounds for the parameters. Default is \code{-Inf} for all parameters.
+#' @param upper Numeric vector specifying the upper bounds for the parameters. Default is \code{Inf} for all parameters.
+#' @param initial_vals A data frame with columns \code{plot}, \code{genotype}, and the initial parameter values for each plot. Used for providing specific initial values per plot.
+#' @param fixed_params A data frame with columns \code{plot}, \code{genotype}, and the fixed parameter values for each plot. Used for fixing certain parameters during optimization.
+#' @param fn A string specifying the name of the function to be used for the curve fitting. Default is \code{"fn_piwise"}.
+#' @param metric A string specifying the metric to minimize during optimization. Options are \code{"sse"}, \code{"mae"}, \code{"mse"}, and \code{"rmse"}. Default is \code{"sse"}.
+#' @param n_points An integer specifying the number of time points to use for approximating the Area Under the Curve (AUC). Default is \code{1000}.
+#' @param max_time Numeric. The maximum time value to use for calculating the AUC. Default is \code{NULL}, which uses the last time point in the data.
+#' @param control A list of control parameters to be passed to the optimization function. For example, \code{list(maxit = 500)}.
 #' @return An object of class \code{modeler_HTP}, which is a list containing the following elements:
 #' \describe{
 #'   \item{\code{param}}{A data frame containing the optimized parameters and related information.}
-#'   \item{\code{dt}}{A data frame with data used.}
+#'   \item{\code{dt}}{A data frame with data used and fitted values.}
 #'   \item{\code{fn}}{The call used to calculate the AUC.}
 #'   \item{\code{max_time}}{Maximum time value used for calculating the AUC.}
 #'   \item{\code{metrics}}{Metrics and summary of the models.}
@@ -85,38 +83,59 @@ modeler_HTP <- function(x,
                         n_points = 1000,
                         max_time = NULL,
                         control = list()) {
+  # Check the class of x
   if (!inherits(x, "read_HTP")) {
-    stop("The object should be of read_HTP class")
+    stop("The object should be of class 'read_HTP'.")
   }
+  # Validate index
   traits <- unique(x$dt_long$trait)
   if (!index %in% traits) {
     stop("Index not found in x. Please verify the spelling.")
   }
+  # Validate and extract argument names for the function
   args <- try(expr = names(formals(fn))[-1], silent = TRUE)
   if (inherits(args, "try-error")) {
     stop("Please verify the function: '", fn, "'. It was not found.")
   }
+  # Validate initial_vals
   if (!is.null(initial_vals)) {
     nam_ini_vals <- colnames(initial_vals)
-    if (!all(nam_ini_vals[1:2] %in% c("plot", "genotype"))) {
-      stop("initial_vals should contain c('plot', 'genotype')")
+    if (!all(c("plot", "genotype") %in% colnames(initial_vals))) {
+      stop("initial_vals should contain columns 'plot' and 'genotype'.")
     }
     if (!sum(nam_ini_vals[-c(1:2)] %in% args) == length(args)) {
       stop("initial_vals should have the same parameters as the function: ", fn)
     }
   }
+  # Validate parameters
+  if (!is.null(parameters) && !is.numeric(parameters)) {
+    stop("Parameters should be a named numeric vector.")
+  }
+  # Validate lower and upper
+  if (!is.numeric(lower) || !is.numeric(upper)) {
+    stop("Lower and upper bounds should be numeric.")
+  }
+  # Validate fixed_params
   if (!is.null(fixed_params)) {
     nam_fix_params <- colnames(fixed_params)
-    if (!all(nam_fix_params[1:2] %in% c("plot", "genotype"))) {
-      stop("fixed_params should contain c('plot', 'genotype')")
+    if (!all(c("plot", "genotype") %in% colnames(fixed_params))) {
+      stop("fixed_params should contain columns 'plot' and 'genotype'.")
     }
     if (!any(nam_fix_params[-c(1:2)] %in% args)) {
       stop("fixed_params should have at least one parameter of: ", fn)
     }
     if (sum(nam_fix_params[-c(1:2)] %in% args) == length(args)) {
-      stop("fixed_params can not have all parameters of the function: ", fn)
+      stop("fixed_params cannot contain all parameters of the function: ", fn)
     }
   }
+  # Validate n_points and max_time
+  if (!is.numeric(n_points) || n_points <= 0) {
+    stop("n_points should be a positive numeric value.")
+  }
+  if (!is.null(max_time) && (!is.numeric(max_time) || max_time <= 0)) {
+    stop("max_time should be a positive numeric value if specified.")
+  }
+  # Validate parameters and initial_vals
   if (is.null(parameters) & is.null(initial_vals)) {
     stop("You have to provide initial values for the optimization procedure")
   } else if (!is.null(parameters)) {

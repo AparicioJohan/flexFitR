@@ -28,47 +28,45 @@ modeler_HTP(
 \arguments{
 \item{x}{An object of class \code{read_HTP}, containing the results of the \code{read_HTP()} function.}
 
-\item{index}{A string specifying the trait to be modeled. Default is \code{"GLI"}.}
+\item{index}{A string specifying the trait to be modeled. Default is \code{"GLI"}. Must match a trait in the data.}
 
 \item{plot_id}{An optional vector of plot IDs to filter the data. Default is \code{NULL}, meaning all plots are used.}
 
-\item{check_negative}{Logical. Convert negative values to zero. \code{TRUE} by default.}
+\item{check_negative}{Logical. If \code{TRUE}, converts negative values in the data to zero. Default is \code{TRUE}.}
 
-\item{add_zero}{\code{TRUE} or \code{FALSE}. Add zero to the time series.\code{TRUE} by default.}
+\item{add_zero}{Logical. If \code{TRUE}, adds a zero value to the time series at the start. Default is \code{TRUE}.}
 
-\item{max_as_last}{Logical. If \code{TRUE}, adds the maximum value after reaching the local maximum. Default is \code{FALSE}.}
+\item{max_as_last}{Logical. If \code{TRUE}, appends the maximum value after reaching the maximum. Default is \code{FALSE}.}
 
-\item{method}{A vector of the methods to be used, each as a character string.
-See optimx package. c("subplex", "pracmanm", "anms") by default.}
+\item{method}{A character vector specifying the optimization methods to be used. See \code{optimx} package for available methods. Default is \code{c("subplex", "pracmanm", "anms")}.}
 
-\item{return_method}{\code{TRUE} or \code{FALSE}. To return the method selected for the
-optimization in the table. \code{FALSE} by default.}
+\item{return_method}{Logical. If \code{TRUE}, includes the optimization method used in the result. Default is \code{FALSE}.}
 
-\item{parameters}{A named vector specifying the initial values for the parameters to be optimized. c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01) by default which is the same for all the plots.}
+\item{parameters}{A named numeric vector specifying the initial values for the parameters to be optimized. Default is \code{NULL}.}
 
-\item{lower}{Bounds on the variables for methods such as "L-BFGS-B" that can handle box (or bounds) constraints.}
+\item{lower}{Numeric vector specifying the lower bounds for the parameters. Default is \code{-Inf} for all parameters.}
 
-\item{upper}{Bounds on the variables for methods such as "L-BFGS-B" that can handle box (or bounds) constraints.}
+\item{upper}{Numeric vector specifying the upper bounds for the parameters. Default is \code{Inf} for all parameters.}
 
-\item{initial_vals}{A data.frame with columns <plot, genotype, t1, t2, ... , and all the initial parameters>. Specific initial values per plot.}
+\item{initial_vals}{A data frame with columns \code{plot}, \code{genotype}, and the initial parameter values for each plot. Used for providing specific initial values per plot.}
 
-\item{fixed_params}{A data.frame with columns <plot, genotype, t1, t2, ... , and all the fixed parameters>.}
+\item{fixed_params}{A data frame with columns \code{plot}, \code{genotype}, and the fixed parameter values for each plot. Used for fixing certain parameters during optimization.}
 
-\item{fn}{String character with the name of the function "fn_lin_pl_lin".}
+\item{fn}{A string specifying the name of the function to be used for the curve fitting. Default is \code{"fn_piwise"}.}
 
-\item{metric}{A character string specifying the metric to minimize. Can be "sse", "mae", "mse" or "rmse". Default is "sse".}
+\item{metric}{A string specifying the metric to minimize during optimization. Options are \code{"sse"}, \code{"mae"}, \code{"mse"}, and \code{"rmse"}. Default is \code{"sse"}.}
 
-\item{n_points}{Number of time points to approximate the Area Under the Curve (AUC). 1000 by default.}
+\item{n_points}{An integer specifying the number of time points to use for approximating the Area Under the Curve (AUC). Default is \code{1000}.}
 
-\item{max_time}{Maximum time value for calculating the AUC. \code{NULL} by default takes the last time point.}
+\item{max_time}{Numeric. The maximum time value to use for calculating the AUC. Default is \code{NULL}, which uses the last time point in the data.}
 
-\item{control}{A list of control parameters to be passed to the optimization function. e.g. list(maxit = 500)}
+\item{control}{A list of control parameters to be passed to the optimization function. For example, \code{list(maxit = 500)}.}
 }
 \value{
 An object of class \code{modeler_HTP}, which is a list containing the following elements:
 \describe{
   \item{\code{param}}{A data frame containing the optimized parameters and related information.}
-  \item{\code{dt}}{A data frame with data used.}
+  \item{\code{dt}}{A data frame with data used and fitted values.}
   \item{\code{fn}}{The call used to calculate the AUC.}
   \item{\code{max_time}}{Maximum time value used for calculating the AUC.}
   \item{\code{metrics}}{Metrics and summary of the models.}

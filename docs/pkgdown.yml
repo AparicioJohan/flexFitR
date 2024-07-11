@@ -1,11 +1,11 @@
-pandoc: 3.1.1
+pandoc: 3.1.11
 pkgdown: 2.0.9
 pkgdown_sha: ~
 articles:
   canopy-model: canopy-model.html
   height-model: height-model.html
   maturity-model: maturity-model.html
-last_built: 2024-07-10T02:33Z
+last_built: 2024-07-11T14:14Z
 urls:
   reference: https://apariciojohan.github.io/exploreHTP/reference
   article: https://apariciojohan.github.io/exploreHTP/articles

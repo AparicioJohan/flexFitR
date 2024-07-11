@@ -92,7 +92,7 @@
 
 
 <dt>index</dt>
-<dd><p>A string specifying the trait to be modeled. Default is <code>"GLI"</code>.</p></dd>
+<dd><p>A string specifying the trait to be modeled. Default is <code>"GLI"</code>. Must match a trait in the data.</p></dd>
 
 
 <dt>plot_id</dt>
@@ -100,65 +100,63 @@
 
 
 <dt>check_negative</dt>
-<dd><p>Logical. Convert negative values to zero. <code>TRUE</code> by default.</p></dd>
+<dd><p>Logical. If <code>TRUE</code>, converts negative values in the data to zero. Default is <code>TRUE</code>.</p></dd>
 
 
 <dt>add_zero</dt>
-<dd><p><code>TRUE</code> or <code>FALSE</code>. Add zero to the time series.<code>TRUE</code> by default.</p></dd>
+<dd><p>Logical. If <code>TRUE</code>, adds a zero value to the time series at the start. Default is <code>TRUE</code>.</p></dd>
 
 
 <dt>max_as_last</dt>
-<dd><p>Logical. If <code>TRUE</code>, adds the maximum value after reaching the local maximum. Default is <code>FALSE</code>.</p></dd>
+<dd><p>Logical. If <code>TRUE</code>, appends the maximum value after reaching the maximum. Default is <code>FALSE</code>.</p></dd>
 
 
 <dt>method</dt>
-<dd><p>A vector of the methods to be used, each as a character string.
-See optimx package. c("subplex", "pracmanm", "anms") by default.</p></dd>
+<dd><p>A character vector specifying the optimization methods to be used. See <code>optimx</code> package for available methods. Default is <code>c("subplex", "pracmanm", "anms")</code>.</p></dd>
 
 
 <dt>return_method</dt>
-<dd><p><code>TRUE</code> or <code>FALSE</code>. To return the method selected for the
-optimization in the table. <code>FALSE</code> by default.</p></dd>
+<dd><p>Logical. If <code>TRUE</code>, includes the optimization method used in the result. Default is <code>FALSE</code>.</p></dd>
 
 
 <dt>parameters</dt>
-<dd><p>A named vector specifying the initial values for the parameters to be optimized. c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01) by default which is the same for all the plots.</p></dd>
+<dd><p>A named numeric vector specifying the initial values for the parameters to be optimized. Default is <code>NULL</code>.</p></dd>
 
 
 <dt>lower</dt>
-<dd><p>Bounds on the variables for methods such as "L-BFGS-B" that can handle box (or bounds) constraints.</p></dd>
+<dd><p>Numeric vector specifying the lower bounds for the parameters. Default is <code>-Inf</code> for all parameters.</p></dd>
 
 
 <dt>upper</dt>
-<dd><p>Bounds on the variables for methods such as "L-BFGS-B" that can handle box (or bounds) constraints.</p></dd>
+<dd><p>Numeric vector specifying the upper bounds for the parameters. Default is <code>Inf</code> for all parameters.</p></dd>
 
 
 <dt>initial_vals</dt>
-<dd><p>A data.frame with columns &lt;plot, genotype, t1, t2, ... , and all the initial parameters&gt;. Specific initial values per plot.</p></dd>
+<dd><p>A data frame with columns <code>plot</code>, <code>genotype</code>, and the initial parameter values for each plot. Used for providing specific initial values per plot.</p></dd>
 
 
 <dt>fixed_params</dt>
-<dd><p>A data.frame with columns &lt;plot, genotype, t1, t2, ... , and all the fixed parameters&gt;.</p></dd>
+<dd><p>A data frame with columns <code>plot</code>, <code>genotype</code>, and the fixed parameter values for each plot. Used for fixing certain parameters during optimization.</p></dd>
 
 
 <dt>fn</dt>
-<dd><p>String character with the name of the function "fn_lin_pl_lin".</p></dd>
+<dd><p>A string specifying the name of the function to be used for the curve fitting. Default is <code>"fn_piwise"</code>.</p></dd>
 
 
 <dt>metric</dt>
-<dd><p>A character string specifying the metric to minimize. Can be "sse", "mae", "mse" or "rmse". Default is "sse".</p></dd>
+<dd><p>A string specifying the metric to minimize during optimization. Options are <code>"sse"</code>, <code>"mae"</code>, <code>"mse"</code>, and <code>"rmse"</code>. Default is <code>"sse"</code>.</p></dd>
 
 
 <dt>n_points</dt>
-<dd><p>Number of time points to approximate the Area Under the Curve (AUC). 1000 by default.</p></dd>
+<dd><p>An integer specifying the number of time points to use for approximating the Area Under the Curve (AUC). Default is <code>1000</code>.</p></dd>
 
 
 <dt>max_time</dt>
-<dd><p>Maximum time value for calculating the AUC. <code>NULL</code> by default takes the last time point.</p></dd>
+<dd><p>Numeric. The maximum time value to use for calculating the AUC. Default is <code>NULL</code>, which uses the last time point in the data.</p></dd>
 
 
 <dt>control</dt>
-<dd><p>A list of control parameters to be passed to the optimization function. e.g. list(maxit = 500)</p></dd>
+<dd><p>A list of control parameters to be passed to the optimization function. For example, <code>list(maxit = 500)</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -169,7 +167,7 @@ optimization in the table. <code>FALSE</code> by default.</p></dd>
 <dd><p>A data frame containing the optimized parameters and related information.</p></dd>
 
   <dt><code>dt</code></dt>
-<dd><p>A data frame with data used.</p></dd>
+<dd><p>A data frame with data used and fitted values.</p></dd>
 
   <dt><code>fn</code></dt>
 <dd><p>The call used to calculate the AUC.</p></dd>
@@ -225,7 +223,7 @@ optimization in the table. <code>FALSE</code> by default.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Plots      Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      1 0.8224 secs        100% 896 (plot)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      1 0.7589 secs        100% 896 (plot)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="va">can</span> <span class="op">&lt;-</span> <span class="fu">modeler_HTP</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  x <span class="op">=</span> <span class="va">results</span>,</span></span>
@@ -252,7 +250,7 @@ optimization in the table. <code>FALSE</code> by default.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Plots      Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      1 0.5223 secs        100% 349 (plot)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      1 0.4596 secs        100% 349 (plot)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>
