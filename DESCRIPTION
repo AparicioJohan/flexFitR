@@ -14,8 +14,7 @@ Authors@R:
       person(given = "University of Wisconsin Madison",
              role = "cph"))
 Maintainer: Johan Aparicio <aparicioarce@wisc.edu> 
-Description: Utilities designed to explore high-throughput phenotypic (HTP) data
-    for field trials in plant breeding.
+Description: Implements general-purpose optimization techniques for modeling high-throughput phenotypic (HTP) data in plant breeding experimental trials.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
