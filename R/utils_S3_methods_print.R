@@ -31,7 +31,7 @@ print.modeler_HTP <- function(x, ...) {
   param <- select(x$param, -c(row, range))
   trait <- unique(x$dt$trait)
   cat("\nCall:\n")
-  cat(paste(trait, "~",deparse(x$fn)), "\n")
+  cat(paste(trait, "~", deparse(x$fn)), "\n")
   cat("\n")
   if (nrow(param) < 10) {
     cat("Sum of Squares Error:\n")
