@@ -208,18 +208,19 @@ plot.modeler_HTP <- function(x,
 #' Creates various plots for an object of class \code{read_HTP}. Depending on the specified type, the function can generate plots that show correlations between traits over time, correlations between time points for each trait, or the evolution of traits over time.
 #'
 #' @param x An object inheriting from class \code{read_HTP}, resulting from executing the function \code{read_HTP()}.
-#' @param type Character string specifying the type of plot to generate. Available options are:
+#' @param type Character string or number specifying the type of plot to generate. Available options are:
 #' \describe{
-#'   \item{\code{"trait_by_time"}}{Plots correlations between traits over time (default).}
-#'   \item{\code{"time_by_trait"}}{Plots correlations between time points for each trait.}
-#'   \item{\code{"evolution"}}{Plots the evolution of traits over time.}
+#'   \item{\code{"trait_by_time" or 1}}{Plots correlations between traits over time (default).}
+#'   \item{\code{"time_by_trait" or 2}}{Plots correlations between time points for each trait.}
+#'   \item{\code{"evolution" or 3}}{Plots the evolution of traits over time.}
 #' }
-#' @param signif Logical. If \code{TRUE}, adds p-values to the correlation plot labels. Default is \code{FALSE}.
-#' @param label_size Numeric. Size of the labels in the plot. Default is 4.
-#' @param method Character string specifying the method for correlation calculation. Available options are \code{"pearson"} (default), \code{"spearman"}, and \code{"kendall"}.
+#' @param signif Logical. If \code{TRUE}, adds p-values to the correlation plot labels. Default is \code{FALSE}. Only works with type 1 and 2.
+#' @param label_size Numeric. Size of the labels in the plot. Default is 4. Only works with type 1 and 2.
+#' @param method Character string specifying the method for correlation calculation. Available options are \code{"pearson"} (default), \code{"spearman"}, and \code{"kendall"}. Only works with type 1 and 2.
 #' @param filter_trait Character vector specifying the traits to exclude from the plot.
-#' @param n_row Integer specifying the number of rows to use in \code{facet_wrap()}. Default is \code{NULL}.
-#' @param n_col Integer specifying the number of columns to use in \code{facet_wrap()}. Default is \code{NULL}.
+#' @param plot_id Optional plot_id to filter the evolution type of plot. Default is \code{NULL}. Only works with type 3.
+#' @param n_row Integer specifying the number of rows to use in \code{facet_wrap()}. Default is \code{NULL}. Only works with type 1 and 2.
+#' @param n_col Integer specifying the number of columns to use in \code{facet_wrap()}. Default is \code{NULL}. Only works with type 1 and 2.
 #' @param base_size Numeric. Base font size for the plot. Default is 13.
 #' @param return_gg Logical. If \code{TRUE}, returns the ggplot object instead of printing it. Default is \code{FALSE}.
 #' @param ... Further graphical parameters for future improvements.
@@ -251,6 +252,7 @@ plot.read_HTP <- function(x,
                           signif = FALSE,
                           method = "pearson",
                           filter_trait = NULL,
+                          plot_id = NULL,
                           n_row = NULL,
                           n_col = NULL,
                           base_size = 13,
@@ -273,7 +275,7 @@ plot.read_HTP <- function(x,
   }
 
   # Correlation between traits by time
-  if (type == "trait_by_time") {
+  if (type == "trait_by_time" | type == 1) {
     traits <- unique(data$trait)
     if (length(traits) <= 1) {
       stop("Only one trait available. 'trait_by_time' plot not informative.")
@@ -335,7 +337,7 @@ plot.read_HTP <- function(x,
   }
 
   # Correlation between time-points by trait
-  if (type == "time_by_trait") {
+  if (type == "time_by_trait" | type == 2) {
     time_by_trait <- data |>
       pivot_wider(names_from = time, values_from = value) |>
       select(-c(plot:genotype)) |>
@@ -390,10 +392,18 @@ plot.read_HTP <- function(x,
       select(-label, -txtCol)
   }
 
-  if (type == "evolution") {
+  if (type == "evolution" | type == 3) {
     dt_avg <- data |>
       group_by(time, trait) |>
       summarise(value = mean(value, na.rm = TRUE), .groups = "drop")
+
+    if (!is.null(plot_id)) {
+      if (!all(plot_id %in% unique(data$plot))) {
+        stop("plot_ids not found in data")
+      }
+      data <- filter(data, plot %in% plot_id)
+    }
+
     p1 <- data |>
       ggplot(
         aes(x = time, y = value)

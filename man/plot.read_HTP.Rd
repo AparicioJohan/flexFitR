@@ -11,6 +11,7 @@
   signif = FALSE,
   method = "pearson",
   filter_trait = NULL,
+  plot_id = NULL,
   n_row = NULL,
   n_col = NULL,
   base_size = 13,
@@ -21,24 +22,26 @@
 \arguments{
 \item{x}{An object inheriting from class \code{read_HTP}, resulting from executing the function \code{read_HTP()}.}
 
-\item{type}{Character string specifying the type of plot to generate. Available options are:
+\item{type}{Character string or number specifying the type of plot to generate. Available options are:
 \describe{
-  \item{\code{"trait_by_time"}}{Plots correlations between traits over time (default).}
-  \item{\code{"time_by_trait"}}{Plots correlations between time points for each trait.}
-  \item{\code{"evolution"}}{Plots the evolution of traits over time.}
+  \item{\code{"trait_by_time" or 1}}{Plots correlations between traits over time (default).}
+  \item{\code{"time_by_trait" or 2}}{Plots correlations between time points for each trait.}
+  \item{\code{"evolution" or 3}}{Plots the evolution of traits over time.}
 }}
 
-\item{label_size}{Numeric. Size of the labels in the plot. Default is 4.}
+\item{label_size}{Numeric. Size of the labels in the plot. Default is 4. Only works with type 1 and 2.}
 
-\item{signif}{Logical. If \code{TRUE}, adds p-values to the correlation plot labels. Default is \code{FALSE}.}
+\item{signif}{Logical. If \code{TRUE}, adds p-values to the correlation plot labels. Default is \code{FALSE}. Only works with type 1 and 2.}
 
-\item{method}{Character string specifying the method for correlation calculation. Available options are \code{"pearson"} (default), \code{"spearman"}, and \code{"kendall"}.}
+\item{method}{Character string specifying the method for correlation calculation. Available options are \code{"pearson"} (default), \code{"spearman"}, and \code{"kendall"}. Only works with type 1 and 2.}
 
 \item{filter_trait}{Character vector specifying the traits to exclude from the plot.}
 
-\item{n_row}{Integer specifying the number of rows to use in \code{facet_wrap()}. Default is \code{NULL}.}
+\item{plot_id}{Optional plot_id to filter the evolution type of plot. Default is \code{NULL}. Only works with type 3.}
 
-\item{n_col}{Integer specifying the number of columns to use in \code{facet_wrap()}. Default is \code{NULL}.}
+\item{n_row}{Integer specifying the number of rows to use in \code{facet_wrap()}. Default is \code{NULL}. Only works with type 1 and 2.}
+
+\item{n_col}{Integer specifying the number of columns to use in \code{facet_wrap()}. Default is \code{NULL}. Only works with type 1 and 2.}
 
 \item{base_size}{Numeric. Base font size for the plot. Default is 13.}
 
