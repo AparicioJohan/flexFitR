@@ -6,10 +6,10 @@ Authors@R:
     c(person(given = "Johan",
              family = "Aparicio",
              role = c("aut", "cre"),
-             email = "johanstevenapa@gmail.com"),
+             email = "aparicioarce@wisc.edu"),
       person(given = "Jeffrey",
              family = "Endelman",
-             role = "ctb",
+             role = "aut",
              email = "endelman@wisc.edu"),
       person(given = "University of Wisconsin Madison",
              role = "cph"))
@@ -21,7 +21,7 @@ LazyData: true
 Depends: 
     R (>= 2.10)
 RoxygenNote: 7.3.1
-Author: Johan Aparicio [cre, aut], Jeffrey Endelman [ctb],
+Author: Johan Aparicio [aut, cre], Jeffrey Endelman [aut],
  University of Wisconsin Madison [cph]
 Imports: 
     agriutilities,

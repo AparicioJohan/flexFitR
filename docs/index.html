@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="Utilities designed to explore high-throughput phenotypic (HTP) data for field trials in plant breeding.">
+<meta name="description" content="Implements general-purpose optimization techniques for modeling high-throughput phenotypic (HTP) data in plant breeding experimental trials.">
 <title>Explore High-Throughput Phenotypic (HTP) Data • exploreHTP</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -18,7 +18,7 @@
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js" integrity="sha512-7O5pXpc0oCRrxk8RUfDYFgn0nO1t+jLuIOQdOMRp4APB7uZ4vSjspzp5y6YDtDs4VzUSTbWzBFZ/LKJhnyFOKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Explore High-Throughput Phenotypic (HTP) Data">
-<meta property="og:description" content="Utilities designed to explore high-throughput phenotypic (HTP) data for field trials in plant breeding.">
+<meta property="og:description" content="Implements general-purpose optimization techniques for modeling high-throughput phenotypic (HTP) data in plant breeding experimental trials.">
 <meta property="og:image" content="https://apariciojohan.github.io/exploreHTP/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -428,7 +428,7 @@
 <span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>Canopy <span class="sc">~</span> <span class="fu">fn_piwise</span>(time, t1, t2, k) </span>
 <span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a></span>
 <span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>Sum of Squares Error<span class="sc">:</span></span>
-<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>   Min. <span class="dv">1</span>st Qu.  Median    Mean <span class="dv">3</span>rd Qu.    Max. </span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
 <span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a>  <span class="fl">4.894</span>  <span class="fl">13.772</span>  <span class="fl">22.650</span>  <span class="fl">22.650</span>  <span class="fl">31.528</span>  <span class="fl">40.406</span> </span>
 <span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a></span>
 <span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a>Optimization Results <span class="st">`</span><span class="at">head()</span><span class="st">`</span><span class="sc">:</span></span>
@@ -516,7 +516,7 @@
 <span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>PH <span class="sc">~</span> <span class="fu">fn_exp2_exp</span>(time, t1, t2, alpha, beta) </span>
 <span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a></span>
 <span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>Sum of Squares Error<span class="sc">:</span></span>
-<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>    Min.  <span class="dv">1</span>st Qu.   Median     Mean  <span class="dv">3</span>rd Qu.     Max. </span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. </span>
 <span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a><span class="fl">0.001433</span> <span class="fl">0.003388</span> <span class="fl">0.005343</span> <span class="fl">0.005343</span> <span class="fl">0.007298</span> <span class="fl">0.009253</span> </span>
 <span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a></span>
 <span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a>Optimization Results <span class="st">`</span><span class="at">head()</span><span class="st">`</span><span class="sc">:</span></span>
@@ -609,7 +609,7 @@
 <span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>GLI_2 <span class="sc">~</span> <span class="fu">fn_lin_pl_lin2</span>(time, t1, t2, dt, k, beta) </span>
 <span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a></span>
 <span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a>Sum of Squares Error<span class="sc">:</span></span>
-<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a>     Min.   <span class="dv">1</span>st Qu.    Median      Mean   <span class="dv">3</span>rd Qu.      Max. </span>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a>     Min.   1st Qu.    Median      Mean   3rd Qu.      Max. </span>
 <span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a><span class="fl">6.229e-06</span> <span class="fl">8.233e-06</span> <span class="fl">1.024e-05</span> <span class="fl">2.310e-04</span> <span class="fl">3.435e-04</span> <span class="fl">6.767e-04</span> </span>
 <span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a></span>
 <span id="cb16-10"><a href="#cb16-10" tabindex="-1"></a>Optimization Results <span class="st">`</span><span class="at">head()</span><span class="st">`</span><span class="sc">:</span></span>
@@ -728,6 +728,7 @@
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Johan Aparicio <br><small class="roles"> Author, maintainer </small>  </li>
+<li>Jeffrey Endelman <br><small class="roles"> Author </small>  </li>
 <li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
@@ -739,7 +740,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Johan Aparicio.</p>
+  <p>Developed by Johan Aparicio, Jeffrey Endelman.</p>
 </div>
 
 <div class="pkgdown-footer-right">

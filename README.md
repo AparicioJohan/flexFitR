@@ -133,11 +133,8 @@ Optimization Results `head()`:
   150 W19023-21 33.8 68.5 40.41 100 5386 34.7  2.88
 
 Metrics:
- Plots      Timing Convergence   Iterations
-     2 0.6357 secs        100% 273.5 (plot)
-```
-
-``` r
+ Plots     Timing Convergence   Iterations
+     2 0.681 secs        100% 273.5 (plot)
 plot(out, plot_id = c(60, 150))
 ```
 
@@ -177,10 +174,7 @@ Optimization Results `head()`:
 
 Metrics:
  Plots      Timing Convergence   Iterations
-     2 0.8743 secs        100% 964.5 (plot)
-```
-
-``` r
+     2 0.7988 secs        100% 964.5 (plot)
 plot(ph_1, plot_id = c(60, 150))
 ```
 
@@ -229,11 +223,8 @@ Optimization Results `head()`:
   195  W16219-8 39.6 68.3 25.1 0.323 -0.01005 1.02e-05 16.4 93.3
 
 Metrics:
- Plots      Timing Convergence    Iterations
-     3 0.9528 secs        100% 444.33 (plot)
-```
-
-``` r
+ Plots     Timing Convergence    Iterations
+     3 0.944 secs        100% 444.33 (plot)
 plot(mat, plot_id = c(195, 40))
 ```
 

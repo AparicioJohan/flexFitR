@@ -136,7 +136,7 @@ ph_1 <- height_HTP(
 )
 ```
 
-```{r,  fig.width= 8, fig.height=4,fig.dpi=600}
+```{r,  fig.width= 8, fig.height=4, fig.dpi=600}
 print(ph_1)
 plot(ph_1, plot_id = c(60, 150))
 ```
@@ -149,7 +149,7 @@ ph_1$param |>
 
 ## 6. Modelling Maturity
 
-```{r, fig.width= 8, fig.height=4,fig.dpi=600}
+```{r, fig.width= 8, fig.height = 4,fig.dpi=600}
 data(dt_potato)
 results <- read_HTP(
   data = dt_potato,

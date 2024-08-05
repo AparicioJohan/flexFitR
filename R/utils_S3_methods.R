@@ -1,14 +1,3 @@
-# fn = "fn_piwise"
-# params = c(t1 = 34.9, t2 = 61.8, k = 100)
-# interval = c(0, 100)
-# n_points = 1000
-# x_auc_label = NA
-# y_auc_label = NA
-# auc_label_size = 3
-# base_size = 12
-# color = "red"
-
-
 #' Plot Function
 #'
 #' This function plots a user-defined function over a specified interval and annotates the plot with

@@ -4,12 +4,6 @@
     <loc>https://apariciojohan.github.io/exploreHTP/404.html</loc>
   </url>
   <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/LICENSE.html</loc>
-  </url>
-  <url>
     <loc>https://apariciojohan.github.io/exploreHTP/articles/canopy-model.html</loc>
   </url>
   <url>
@@ -28,10 +22,13 @@
     <loc>https://apariciojohan.github.io/exploreHTP/index.html</loc>
   </url>
   <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/news/index.html</loc>
+    <loc>https://apariciojohan.github.io/exploreHTP/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/SSE.html</loc>
+    <loc>https://apariciojohan.github.io/exploreHTP/LICENSE.html</loc>
+  </url>
+  <url>
+    <loc>https://apariciojohan.github.io/exploreHTP/news/index.html</loc>
   </url>
   <url>
     <loc>https://apariciojohan.github.io/exploreHTP/reference/canopy_HTP.html</loc>
@@ -140,6 +137,9 @@
   </url>
   <url>
     <loc>https://apariciojohan.github.io/exploreHTP/reference/read_HTP.html</loc>
+  </url>
+  <url>
+    <loc>https://apariciojohan.github.io/exploreHTP/reference/SSE.html</loc>
   </url>
   <url>
     <loc>https://apariciojohan.github.io/exploreHTP/reference/sse_exp1_exp.html</loc>
