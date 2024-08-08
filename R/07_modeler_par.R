@@ -1,7 +1,7 @@
-#' Modeler HTP (Parallel Implementation)
+#' Modeler HTP
 #'
 #' @description
-#' Parallel implementation of \code{modeler_HTP()}.
+#' General-purpose optimization for HTP data.
 #'
 #' @param x An object of class \code{read_HTP}, containing the results of the \code{read_HTP()} function.
 #' @param index A string specifying the trait to be modeled. Default is \code{"GLI"}. Must match a trait in the data.
@@ -21,7 +21,9 @@
 #' @param n_points An integer specifying the number of time points to use for approximating the Area Under the Curve (AUC). Default is \code{1000}.
 #' @param max_time Numeric. The maximum time value to use for calculating the AUC. Default is \code{NULL}, which uses the last time point in the data.
 #' @param control A list of control parameters to be passed to the optimization function. For example, \code{list(maxit = 500)}.
-#' @param workers The number of parallel processes to use.
+#' @param progress Logical. If \code{TRUE} a progress bar is displayed. Default is \code{FALSE}. Try this before running the function: \code{progressr::handlers("progress", "beepr")}.
+#' @param parallel Logical. If \code{TRUE} the model fit is performed in parallel. Default is \code{TRUE}.
+#' @param workers The number of parallel processes to use. `parallel::detectCores()`
 #' @return An object of class \code{modeler_HTP}, which is a list containing the following elements:
 #' \describe{
 #'   \item{\code{param}}{A data frame containing the optimized parameters and related information.}
@@ -46,7 +48,7 @@
 #'   row = "Row",
 #'   range = "Range"
 #' )
-#' mat <- modeler_HTP2(
+#' mat <- modeler_HTP(
 #'   x = results,
 #'   index = "GLI_2",
 #'   plot_id = c(195),
@@ -55,7 +57,7 @@
 #' )
 #' plot(mat, plot_id = c(195))
 #' print(mat)
-#' can <- modeler_HTP2(
+#' can <- modeler_HTP(
 #'   x = results,
 #'   index = "Canopy",
 #'   plot_id = c(195),
@@ -71,25 +73,27 @@
 #' @import foreach
 #' @import doFuture
 #' @import future
-modeler_HTP2 <- function(x,
-                         index = "GLI",
-                         plot_id = NULL,
-                         check_negative = TRUE,
-                         add_zero = TRUE,
-                         max_as_last = FALSE,
-                         method = c("subplex", "pracmanm", "anms"),
-                         return_method = FALSE,
-                         parameters = NULL,
-                         lower = -Inf,
-                         upper = Inf,
-                         initial_vals = NULL,
-                         fixed_params = NULL,
-                         fn = "fn_piwise",
-                         metric = "sse",
-                         n_points = 1000,
-                         max_time = NULL,
-                         control = list(),
-                         workers = parallel::detectCores()) {
+modeler_HTP <- function(x,
+                        index = "GLI",
+                        plot_id = NULL,
+                        check_negative = TRUE,
+                        add_zero = TRUE,
+                        max_as_last = FALSE,
+                        method = c("subplex", "pracmanm", "anms"),
+                        return_method = FALSE,
+                        parameters = NULL,
+                        lower = -Inf,
+                        upper = Inf,
+                        initial_vals = NULL,
+                        fixed_params = NULL,
+                        fn = "fn_piwise",
+                        metric = "sse",
+                        n_points = 1000,
+                        max_time = NULL,
+                        control = list(),
+                        progress = FALSE,
+                        parallel = FALSE,
+                        workers = parallel::detectCores()) {
   # Check the class of x
   if (!inherits(x, "read_HTP")) {
     stop("The object should be of class 'read_HTP'.")
@@ -97,16 +101,26 @@ modeler_HTP2 <- function(x,
   if (is.null(plot_id)) {
     plot_id <- unique(x$dt_long$plot)
   }
-  plan(multisession)
-  on.exit(plan(sequential), add = TRUE)
-  workers <- ifelse(
-    test = is.null(workers),
-    yes = round(parallel::detectCores() * .5),
-    no = workers
-  )
-  w_1 <- Sys.time()
+  if (parallel) {
+    workers <- ifelse(
+      test = is.null(workers),
+      yes = round(parallel::detectCores() * .5),
+      no = workers
+    )
+    plan(multisession, workers = workers)
+    on.exit(plan(sequential), add = TRUE)
+  } else {
+    plan(sequential)
+  }
+  if (progress) {
+    progressr::handlers(global = TRUE)
+    on.exit(progressr::handlers(global = FALSE), add = TRUE)
+  }
+  p <- progressr::progressor(along = plot_id)
+  init_time <- Sys.time()
   out <- foreach(i = plot_id) %dofuture% {
-    modeler_HTP(
+    p(sprintf("plot_id = %g", i))
+    modeler(
       x = x,
       index = index,
       plot_id = i,
@@ -127,14 +141,14 @@ modeler_HTP2 <- function(x,
       control = control
     )
   }
-  w_2 <- Sys.time()
+  end_time <- Sys.time()
   res <- list()
   res$param <- do.call(rbind, lapply(out, function(x) x$param))
   res$dt <- do.call(rbind, lapply(out, function(x) x$dt))
   res$fn <- out[[1]]$fn
   res$metrics <- do.call(rbind, lapply(out, function(x) x$metrics))
   res$max_time <- max(do.call(c, lapply(out, function(x) x$max_time)))
-  res$execution <- w_2 - w_1
+  res$execution <- end_time - init_time
   class(res) <- "modeler_HTP"
   return(invisible(res))
 }

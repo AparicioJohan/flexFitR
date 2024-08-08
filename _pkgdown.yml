@@ -38,7 +38,6 @@ reference:
 - contents:
   - read_HTP
   - modeler_HTP
-  - modeler_HTP2
   - canopy_HTP
   - height_HTP
   - maturity_HTP

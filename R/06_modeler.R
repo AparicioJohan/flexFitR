@@ -27,6 +27,7 @@
 #'   \item{\code{metrics}}{Metrics and summary of the models.}
 #'   \item{\code{execution}}{Execution time.}
 #' }
+#' @keywords internal
 #' @export
 #'
 #' @examples
@@ -66,24 +67,24 @@
 #' @import tibble
 #' @import dplyr
 #' @import subplex
-modeler_HTP <- function(x,
-                        index = "GLI",
-                        plot_id = NULL,
-                        check_negative = TRUE,
-                        add_zero = TRUE,
-                        max_as_last = FALSE,
-                        method = c("subplex", "pracmanm", "anms"),
-                        return_method = FALSE,
-                        parameters = NULL,
-                        lower = -Inf,
-                        upper = Inf,
-                        initial_vals = NULL,
-                        fixed_params = NULL,
-                        fn = "fn_piwise",
-                        metric = "sse",
-                        n_points = 1000,
-                        max_time = NULL,
-                        control = list()) {
+modeler <- function(x,
+                    index = "GLI",
+                    plot_id = NULL,
+                    check_negative = TRUE,
+                    add_zero = TRUE,
+                    max_as_last = FALSE,
+                    method = c("subplex", "pracmanm", "anms"),
+                    return_method = FALSE,
+                    parameters = NULL,
+                    lower = -Inf,
+                    upper = Inf,
+                    initial_vals = NULL,
+                    fixed_params = NULL,
+                    fn = "fn_piwise",
+                    metric = "sse",
+                    n_points = 1000,
+                    max_time = NULL,
+                    control = list()) {
   # Check the class of x
   if (!inherits(x, "read_HTP")) {
     stop("The object should be of class 'read_HTP'.")

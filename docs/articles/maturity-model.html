@@ -156,7 +156,14 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <span>  plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span>,</span>
 <span>  parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">38.7</span>, t2 <span class="op">=</span> <span class="fl">62</span>, t3 <span class="op">=</span> <span class="fl">90</span>, k <span class="op">=</span> <span class="fl">0.32</span>, beta <span class="op">=</span> <span class="op">-</span><span class="fl">0.01</span><span class="op">)</span>,</span>
 <span>  fn <span class="op">=</span> <span class="st">"fn_lin_pl_lin"</span>,</span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; Loading required package: foreach</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'foreach'</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:purrr':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     accumulate, when</span></span>
+<span><span class="co">#&gt; Loading required package: future</span></span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span>, plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="maturity-model_files/figure-html/unnamed-chunk-8-1.png" width="768"></p>
@@ -191,19 +198,6 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="right">40</td>
-<td align="left">W17043-37</td>
-<td align="right">12</td>
-<td align="right">3</td>
-<td align="right">36.88016</td>
-<td align="right">66.41594</td>
-<td align="right">79.85413</td>
-<td align="right">0.3691396</td>
-<td align="right">-0.0105694</td>
-<td align="right">0.0006767</td>
-<td align="right">16.61523</td>
-</tr>
-<tr class="even">
 <td align="right">195</td>
 <td align="left">W16219-8</td>
 <td align="right">13</td>
@@ -215,6 +209,19 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <td align="right">-0.0100491</td>
 <td align="right">0.0000102</td>
 <td align="right">16.37637</td>
+</tr>
+<tr class="even">
+<td align="right">40</td>
+<td align="left">W17043-37</td>
+<td align="right">12</td>
+<td align="right">3</td>
+<td align="right">36.88016</td>
+<td align="right">66.41594</td>
+<td align="right">79.85413</td>
+<td align="right">0.3691396</td>
+<td align="right">-0.0105694</td>
+<td align="right">0.0006767</td>
+<td align="right">16.61523</td>
 </tr>
 </tbody>
 </table>
@@ -268,17 +275,6 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="right">40</td>
-<td align="left">W17043-37</td>
-<td align="right">12</td>
-<td align="right">3</td>
-<td align="right">34.80771</td>
-<td align="right">60.84828</td>
-<td align="right">0.0014765</td>
-<td align="right">100</td>
-<td align="right">6017.198</td>
-</tr>
-<tr class="even">
 <td align="right">195</td>
 <td align="left">W16219-8</td>
 <td align="right">13</td>
@@ -288,6 +284,17 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <td align="right">0.0000000</td>
 <td align="right">100</td>
 <td align="right">5765.332</td>
+</tr>
+<tr class="even">
+<td align="right">40</td>
+<td align="left">W17043-37</td>
+<td align="right">12</td>
+<td align="right">3</td>
+<td align="right">34.80771</td>
+<td align="right">60.84828</td>
+<td align="right">0.0014765</td>
+<td align="right">100</td>
+<td align="right">6017.198</td>
 </tr>
 </tbody>
 </table>
@@ -313,19 +320,19 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="right">40</td>
-<td align="left">W17043-37</td>
-<td align="right">34.80771</td>
-<td align="right">60.84828</td>
+<td align="right">195</td>
+<td align="left">W16219-8</td>
+<td align="right">38.72534</td>
+<td align="right">61.96802</td>
 <td align="right">100</td>
 <td align="right">0.32</td>
 <td align="right">-0.01</td>
 </tr>
 <tr class="even">
-<td align="right">195</td>
-<td align="left">W16219-8</td>
-<td align="right">38.72534</td>
-<td align="right">61.96802</td>
+<td align="right">40</td>
+<td align="left">W17043-37</td>
+<td align="right">34.80771</td>
+<td align="right">60.84828</td>
 <td align="right">100</td>
 <td align="right">0.32</td>
 <td align="right">-0.01</td>
@@ -374,19 +381,6 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="right">40</td>
-<td align="left">W17043-37</td>
-<td align="right">12</td>
-<td align="right">3</td>
-<td align="right">36.88014</td>
-<td align="right">66.41597</td>
-<td align="right">79.85411</td>
-<td align="right">0.3691395</td>
-<td align="right">-0.0105694</td>
-<td align="right">0.0006767</td>
-<td align="right">16.61522</td>
-</tr>
-<tr class="even">
 <td align="right">195</td>
 <td align="left">W16219-8</td>
 <td align="right">13</td>
@@ -398,6 +392,19 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <td align="right">-0.0100491</td>
 <td align="right">0.0000102</td>
 <td align="right">16.37637</td>
+</tr>
+<tr class="even">
+<td align="right">40</td>
+<td align="left">W17043-37</td>
+<td align="right">12</td>
+<td align="right">3</td>
+<td align="right">36.88014</td>
+<td align="right">66.41597</td>
+<td align="right">79.85411</td>
+<td align="right">0.3691395</td>
+<td align="right">-0.0105694</td>
+<td align="right">0.0006767</td>
+<td align="right">16.61522</td>
 </tr>
 </tbody>
 </table>
@@ -450,19 +457,6 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="right">40</td>
-<td align="left">W17043-37</td>
-<td align="right">12</td>
-<td align="right">3</td>
-<td align="right">36.88016</td>
-<td align="right">66.41594</td>
-<td align="right">13.43819</td>
-<td align="right">0.3691396</td>
-<td align="right">-0.0105694</td>
-<td align="right">0.0006767</td>
-<td align="right">16.61523</td>
-</tr>
-<tr class="even">
 <td align="right">195</td>
 <td align="left">W16219-8</td>
 <td align="right">13</td>
@@ -474,6 +468,19 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <td align="right">-0.0100491</td>
 <td align="right">0.0000102</td>
 <td align="right">16.37637</td>
+</tr>
+<tr class="even">
+<td align="right">40</td>
+<td align="left">W17043-37</td>
+<td align="right">12</td>
+<td align="right">3</td>
+<td align="right">36.88016</td>
+<td align="right">66.41594</td>
+<td align="right">13.43819</td>
+<td align="right">0.3691396</td>
+<td align="right">-0.0105694</td>
+<td align="right">0.0006767</td>
+<td align="right">16.61523</td>
 </tr>
 </tbody>
 </table>

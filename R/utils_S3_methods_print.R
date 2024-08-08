@@ -24,8 +24,13 @@
 #'   row = "Row",
 #'   range = "Range"
 #' )
-#' out <- canopy_HTP(x = results, index = "Canopy", plot_id = c(1:11))
-#' plot(out, plot_id = c(1:11))
+#' out <- canopy_HTP(
+#'   x = results,
+#'   index = "Canopy",
+#'   plot_id = c(1:10),
+#'   parallel = TRUE
+#' )
+#' plot(out, plot_id = c(1:10))
 #' print(out)
 print.modeler_HTP <- function(x, ...) {
   param <- select(x$param, -c(row, range))
