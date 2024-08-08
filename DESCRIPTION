@@ -25,7 +25,10 @@ Author: Johan Aparicio [aut, cre], Jeffrey Endelman [aut],
  University of Wisconsin Madison [cph]
 Imports: 
     agriutilities,
+    doFuture,
     dplyr,
+    foreach,
+    future,
     ggplot2,
     optimx,
     rlang,

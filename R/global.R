@@ -51,6 +51,10 @@ utils::globalVariables(
     "sse.y",
     "MSE",
     "SSE",
-    "metric"
+    "metric",
+    "plan",
+    "multisession",
+    "sequential",
+    "i"
   )
 )

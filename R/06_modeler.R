@@ -65,6 +65,7 @@
 #' @import optimx
 #' @import tibble
 #' @import dplyr
+#' @import subplex
 modeler_HTP <- function(x,
                         index = "GLI",
                         plot_id = NULL,
