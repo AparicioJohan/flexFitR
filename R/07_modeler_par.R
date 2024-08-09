@@ -33,7 +33,7 @@
 #'   \item{\code{metrics}}{Metrics and summary of the models.}
 #'   \item{\code{execution}}{Execution time.}
 #' }
-#' @export
+#' @noRd
 #'
 #' @examples
 #' library(exploreHTP)
@@ -73,7 +73,7 @@
 #' @import foreach
 #' @import doFuture
 #' @import future
-modeler_HTP <- function(x,
+modeler_HTP2 <- function(x,
                         index = "GLI",
                         plot_id = NULL,
                         check_negative = TRUE,

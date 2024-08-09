@@ -1,5 +1,8 @@
 #' Modeler HTP
 #'
+#' @description
+#' General-purpose optimization for HTP data.
+#'
 #' @param x An object of class \code{read_HTP}, containing the results of the \code{read_HTP()} function.
 #' @param index A string specifying the trait to be modeled. Default is \code{"GLI"}. Must match a trait in the data.
 #' @param plot_id An optional vector of plot IDs to filter the data. Default is \code{NULL}, meaning all plots are used.
@@ -18,6 +21,9 @@
 #' @param n_points An integer specifying the number of time points to use for approximating the Area Under the Curve (AUC). Default is \code{1000}.
 #' @param max_time Numeric. The maximum time value to use for calculating the AUC. Default is \code{NULL}, which uses the last time point in the data.
 #' @param control A list of control parameters to be passed to the optimization function. For example, \code{list(maxit = 500)}.
+#' @param progress Logical. If \code{TRUE} a progress bar is displayed. Default is \code{FALSE}. Try this before running the function: \code{progressr::handlers("progress", "beepr")}.
+#' @param parallel Logical. If \code{TRUE} the model fit is performed in parallel. Default is \code{TRUE}.
+#' @param workers The number of parallel processes to use. `parallel::detectCores()`
 #' @return An object of class \code{modeler_HTP}, which is a list containing the following elements:
 #' \describe{
 #'   \item{\code{param}}{A data frame containing the optimized parameters and related information.}
@@ -27,14 +33,12 @@
 #'   \item{\code{metrics}}{Metrics and summary of the models.}
 #'   \item{\code{execution}}{Execution time.}
 #' }
-#' @keywords internal
-#' @noRd
+#' @export
 #'
 #' @examples
 #' library(exploreHTP)
 #' suppressMessages(library(dplyr))
 #' data(dt_potato)
-#' dt_potato <- dt_potato
 #' results <- read_HTP(
 #'   data = dt_potato,
 #'   genotype = "Gen",
@@ -66,25 +70,28 @@
 #' @import optimx
 #' @import tibble
 #' @import dplyr
-#' @import subplex
-modeler <- function(x,
-                    index = "GLI",
-                    plot_id = NULL,
-                    check_negative = TRUE,
-                    add_zero = TRUE,
-                    max_as_last = FALSE,
-                    method = c("subplex", "pracmanm", "anms"),
-                    return_method = FALSE,
-                    parameters = NULL,
-                    lower = -Inf,
-                    upper = Inf,
-                    initial_vals = NULL,
-                    fixed_params = NULL,
-                    fn = "fn_piwise",
-                    metric = "sse",
-                    n_points = 1000,
-                    max_time = NULL,
-                    control = list()) {
+#' @import foreach
+modeler_HTP <- function(x,
+                        index = "GLI",
+                        plot_id = NULL,
+                        check_negative = TRUE,
+                        add_zero = TRUE,
+                        max_as_last = FALSE,
+                        method = c("subplex", "pracmanm", "anms"),
+                        return_method = FALSE,
+                        parameters = NULL,
+                        lower = -Inf,
+                        upper = Inf,
+                        initial_vals = NULL,
+                        fixed_params = NULL,
+                        fn = "fn_piwise",
+                        metric = "sse",
+                        n_points = 1000,
+                        max_time = NULL,
+                        control = list(),
+                        progress = FALSE,
+                        parallel = FALSE,
+                        workers = parallel::detectCores()) {
   # Check the class of x
   if (!inherits(x, "read_HTP")) {
     stop("The object should be of class 'read_HTP'.")
@@ -202,42 +209,48 @@ modeler <- function(x,
   dt_nest <- dt |>
     nest_by(plot, genotype, row, range) |>
     full_join(init, by = c("plot", "genotype"))
-
   if (any(unlist(lapply(dt_nest$fx_params, is.null)))) {
     stop(
       "Fitting models for all plots but 'fixed_params' has only a few.
        Check the argument 'plot_id'"
     )
   }
-  w_1 <- Sys.time()
-  param_mat <- dt_nest |>
-    summarise(
-      res = list(
-        opm(
-          par = initials,
-          fn = minimizer,
-          t = data$time,
-          y = data$value,
-          curve = fn,
-          fixed_params = fx_params,
-          metric = metric,
-          method = method,
-          lower = lower,
-          upper = upper,
-          control = control
-        ) |>
-          rownames_to_column(var = "method") |>
-          rename(sse = value) |>
-          cbind(t(fx_params))
-      ),
-      .groups = "drop"
-    ) |>
-    unnest(cols = res)
-  w_2 <- Sys.time()
-
+  # Parallel
+  `%dofu%` <- doFuture::`%dofuture%`
+  plot_id <- unique(dt_nest$plot)
+  if (parallel) {
+    workers <- ifelse(
+      test = is.null(workers),
+      yes = round(parallel::detectCores() * .5),
+      no = workers
+    )
+    future::plan(future::multisession, workers = workers)
+    on.exit(future::plan(future::sequential), add = TRUE)
+  } else {
+    future::plan(future::sequential)
+  }
+  if (progress) {
+    progressr::handlers(global = TRUE)
+    on.exit(progressr::handlers(global = FALSE), add = TRUE)
+  }
+  p <- progressr::progressor(along = plot_id)
+  init_time <- Sys.time()
+  param_mat <- foreach(i = plot_id, .combine = rbind) %dofu% {
+    p(sprintf("plot_id = %g", i))
+    fitter(
+      data = dt_nest,
+      plot_id = i,
+      fn = fn,
+      metric = metric,
+      method = method,
+      lower = lower,
+      upper = upper,
+      control = control
+    )
+  }
+  end_time <- Sys.time()
   # Metrics
   metrics <- select(param_mat, c(plot, genotype, method, sse, fevals:xtime))
-
   # Selecting the best
   param_mat <- param_mat |>
     select(-c(fevals:xtime)) |>
@@ -252,7 +265,6 @@ modeler <- function(x,
   if (is.null(max_time)) {
     max_time <- max(dt$time, na.rm = TRUE)
   }
-
   # AUC
   density <- create_call(fn)
   sq <- seq(0, max_time, length.out = n_points)
@@ -268,7 +280,6 @@ modeler <- function(x,
     filter(!is.na(trapezoid_area)) |>
     summarise(auc = sum(trapezoid_area))
   param_mat <- full_join(param_mat, auc, by = "plot")
-
   # Fitted values
   fitted_vals <- dt |>
     select(time, plot) |>
@@ -278,7 +289,7 @@ modeler <- function(x,
     ungroup() |>
     select(time, plot, .fitted)
   dt <- full_join(dt, fitted_vals, by = c("time", "plot"))
-
+  # Output
   if (!return_method) {
     param_mat <- select(param_mat, -method)
   }
@@ -288,8 +299,84 @@ modeler <- function(x,
     fn = density,
     metrics = metrics,
     max_time = max_time,
-    execution = w_2 - w_1
+    execution = end_time - init_time
   )
   class(out) <- "modeler_HTP"
   return(invisible(out))
+}
+
+
+#' General-purpose optimization
+#'
+#' @description
+#' The function fitter is used internally to find the parameters requested.
+#'
+#' @param data A nested data.frame with columns <plot, genotype, row, range, data, initials, fx_params>.
+#' @param plot_id An optional vector of plot IDs to filter the data. Default is \code{NULL}, meaning all plots are used.
+#' @param fn A string specifying the name of the function to be used for the curve fitting. Default is \code{"fn_piwise"}.
+#' @param metric A string specifying the metric to minimize during optimization. Options are \code{"sse"}, \code{"mae"}, \code{"mse"}, and \code{"rmse"}. Default is \code{"sse"}.
+#' @param method A character vector specifying the optimization methods to be used. See \code{optimx} package for available methods. Default is \code{c("subplex", "pracmanm", "anms")}.
+#' @param lower Numeric vector specifying the lower bounds for the parameters. Default is \code{-Inf} for all parameters.
+#' @param upper Numeric vector specifying the upper bounds for the parameters. Default is \code{Inf} for all parameters.
+#' @param control A list of control parameters to be passed to the optimization function. For example, \code{list(maxit = 500)}.
+#' @export
+#' @keywords internal
+#'
+#' @examples
+#' library(exploreHTP)
+#' suppressMessages(library(dplyr))
+#' data(dt_potato)
+#' dt_potato <- dt_potato
+#' results <- read_HTP(
+#'   data = dt_potato,
+#'   genotype = "Gen",
+#'   time = "DAP",
+#'   plot = "Plot",
+#'   traits = c("Canopy", "GLI_2"),
+#'   row = "Row",
+#'   range = "Range"
+#' )
+#' mod <- modeler_HTP(
+#'   x = results,
+#'   index = "GLI_2",
+#'   plot_id = c(195),
+#'   parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
+#'   fn = "fn_lin_pl_lin",
+#' )
+#' @import optimx
+#' @import tibble
+#' @import tidyr
+#' @import dplyr
+#' @import subplex
+fitter <- function(data,
+                   plot_id,
+                   fn,
+                   metric,
+                   method,
+                   lower,
+                   upper,
+                   control) {
+  dt <- data[data$plot == plot_id, ]
+  initials <- unlist(dt$initials)
+  fx_params <- unlist(dt$fx_params)
+  t <- unnest(dt, data)$time
+  y <- unnest(dt, data)$value
+  rr <- opm(
+    par = initials,
+    fn = minimizer,
+    t = t,
+    y = y,
+    curve = fn,
+    fixed_params = fx_params,
+    metric = metric,
+    method = method,
+    lower = lower,
+    upper = upper,
+    control = control
+  ) |>
+    tibble::rownames_to_column(var = "method") |>
+    dplyr::rename(sse = value) |>
+    cbind(t(fx_params))
+  rr <- cbind(select(dt, plot, genotype, row, range), rr)
+  return(rr)
 }

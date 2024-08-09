@@ -80,7 +80,7 @@ abline(v = c(34.9, 61.8), lty = 2)
 
 ## Fitting Models
 
-```{r}
+```{r, warning=FALSE, message=FALSE }
 mod_1 <- modeler_HTP(
   x = results,
   index = "Canopy",
