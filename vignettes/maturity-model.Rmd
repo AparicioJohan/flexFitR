@@ -79,7 +79,7 @@ abline(v = c(38.7, 62), lty = 2)
 
 ## Fitting models for maturity
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 mod_1 <- modeler_HTP(
   x = results,
   index = "GLI_2",

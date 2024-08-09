@@ -120,11 +120,11 @@ executing the function <code><a href="modeler_HTP.html">modeler_HTP()</a></code>
 <span class="r-in"><span><span class="va">mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="modeler_HTP.html">modeler_HTP</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  x <span class="op">=</span> <span class="va">results</span>,</span></span>
 <span class="r-in"><span>  index <span class="op">=</span> <span class="st">"GLI_2"</span>,</span></span>
-<span class="r-in"><span>  plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">38.7</span>, t2 <span class="op">=</span> <span class="fl">62</span>, t3 <span class="op">=</span> <span class="fl">90</span>, k <span class="op">=</span> <span class="fl">0.32</span>, beta <span class="op">=</span> <span class="op">-</span><span class="fl">0.01</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  fn <span class="op">=</span> <span class="st">"fn_lin_pl_lin"</span>,</span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mat</span>, plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mat</span>, plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot.modeler_HTP-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="va">mat</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -133,26 +133,25 @@ executing the function <code><a href="modeler_HTP.html">modeler_HTP()</a></code>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Sum of Squares Error:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.024e-05 1.768e-04 3.435e-04 3.435e-04 5.101e-04 6.767e-04 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.024e-05 1.024e-05 1.024e-05 1.024e-05 1.024e-05 1.024e-05 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Optimization Results `head()`:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  plot  genotype   t1   t2   t3     k    beta      sse  auc</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   195  W16219-8 39.6 68.3 93.3 0.323 -0.0100 1.02e-05 16.4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    40 W17043-37 36.9 66.4 79.9 0.369 -0.0106 6.77e-04 16.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  plot genotype   t1   t2   t3     k  beta      sse  auc</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   195 W16219-8 39.6 68.3 93.3 0.323 -0.01 1.02e-05 16.4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Plots      Timing Convergence    Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      2 1.9882 secs        100% 1122.5 (plot)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Plots      Timing Convergence Iterations</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      1 0.8729 secs        100% 896 (plot)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">can</span> <span class="op">&lt;-</span> <span class="fu"><a href="modeler_HTP.html">modeler_HTP</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  x <span class="op">=</span> <span class="va">results</span>,</span></span>
 <span class="r-in"><span>  index <span class="op">=</span> <span class="st">"Canopy"</span>,</span></span>
-<span class="r-in"><span>  plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">45</span>, t2 <span class="op">=</span> <span class="fl">80</span>, k <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  fn <span class="op">=</span> <span class="st">"fn_piwise"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">can</span>, plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">can</span>, plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot.modeler_HTP-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="va">can</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -161,16 +160,15 @@ executing the function <code><a href="modeler_HTP.html">modeler_HTP()</a></code>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Sum of Squares Error:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   390.5  1004.2  1618.0  1618.0  2231.8  2845.5 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   390.5   390.5   390.5   390.5   390.5   390.5 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Optimization Results `head()`:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  plot  genotype   t1   t2    k  sse  auc</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   195  W16219-8 38.7 60.0 91.7  390 5377</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    40 W17043-37 34.8 53.7 72.5 2846 4623</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  plot genotype   t1 t2    k sse  auc</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   195 W16219-8 38.7 60 91.7 390 5377</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Plots      Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      2 1.2222 secs        100% 547 (plot)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      1 0.4598 secs        100% 506 (plot)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">fixed_params</span> <span class="op">&lt;-</span> <span class="va">results</span><span class="op">$</span><span class="va">dt_long</span> <span class="op">|&gt;</span></span></span>
@@ -180,12 +178,12 @@ executing the function <code><a href="modeler_HTP.html">modeler_HTP()</a></code>
 <span class="r-in"><span><span class="va">can</span> <span class="op">&lt;-</span> <span class="fu"><a href="modeler_HTP.html">modeler_HTP</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  x <span class="op">=</span> <span class="va">results</span>,</span></span>
 <span class="r-in"><span>  index <span class="op">=</span> <span class="st">"Canopy"</span>,</span></span>
-<span class="r-in"><span>  plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">45</span>, t2 <span class="op">=</span> <span class="fl">80</span>, k <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  fn <span class="op">=</span> <span class="st">"fn_piwise"</span>,</span></span>
 <span class="r-in"><span>  fixed_params <span class="op">=</span> <span class="va">fixed_params</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">can</span>, plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">can</span>, plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot.modeler_HTP-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="va">can</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -194,16 +192,15 @@ executing the function <code><a href="modeler_HTP.html">modeler_HTP()</a></code>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Sum of Squares Error:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     663    2064    3466    3466    4867    6268 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     663     663     663     663     663     663 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Optimization Results `head()`:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  plot  genotype   t1   t2  sse   k  auc</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   195  W16219-8 38.7 62.0  663 100 5765</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    40 W17043-37 34.8 60.8 6268 100 6017</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  plot genotype   t1 t2 sse   k  auc</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   195 W16219-8 38.7 62 663 100 5765</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Plots      Timing Convergence   Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      2 1.1778 secs        100% 312.5 (plot)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Plots      Timing Convergence Iterations</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      1 0.4333 secs        100% 316 (plot)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>

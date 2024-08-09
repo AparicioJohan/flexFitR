@@ -32,6 +32,7 @@
 #'   \item{\code{max_time}}{Maximum time value used for calculating the AUC.}
 #'   \item{\code{metrics}}{Metrics and summary of the models.}
 #'   \item{\code{execution}}{Execution time.}
+#'   \item{\code{response}}{Response variable.}
 #' }
 #' @export
 #'
@@ -237,7 +238,7 @@ modeler_HTP <- function(x,
   init_time <- Sys.time()
   param_mat <- foreach(i = plot_id, .combine = rbind) %dofu% {
     p(sprintf("plot_id = %g", i))
-    fitter(
+    .fitter_curve(
       data = dt_nest,
       plot_id = i,
       fn = fn,
@@ -250,7 +251,9 @@ modeler_HTP <- function(x,
   }
   end_time <- Sys.time()
   # Metrics
-  metrics <- select(param_mat, c(plot, genotype, method, sse, fevals:xtime))
+  metrics <- param_mat |>
+    select(c(plot, genotype, method, sse, fevals:xtime)) |>
+    as_tibble()
   # Selecting the best
   param_mat <- param_mat |>
     select(-c(fevals:xtime)) |>
@@ -258,7 +261,6 @@ modeler_HTP <- function(x,
     arrange(sse) |>
     slice(1) |>
     ungroup()
-
   if (is.null(fixed_params)) {
     param_mat <- param_mat |> select(-`t(fx_params)`)
   }
@@ -299,7 +301,8 @@ modeler_HTP <- function(x,
     fn = density,
     metrics = metrics,
     max_time = max_time,
-    execution = end_time - init_time
+    execution = end_time - init_time,
+    response = index
   )
   class(out) <- "modeler_HTP"
   return(invisible(out))
@@ -309,7 +312,7 @@ modeler_HTP <- function(x,
 #' General-purpose optimization
 #'
 #' @description
-#' The function fitter is used internally to find the parameters requested.
+#' The function .fitter_curve is used internally to find the parameters requested.
 #'
 #' @param data A nested data.frame with columns <plot, genotype, row, range, data, initials, fx_params>.
 #' @param plot_id An optional vector of plot IDs to filter the data. Default is \code{NULL}, meaning all plots are used.
@@ -348,14 +351,14 @@ modeler_HTP <- function(x,
 #' @import tidyr
 #' @import dplyr
 #' @import subplex
-fitter <- function(data,
-                   plot_id,
-                   fn,
-                   metric,
-                   method,
-                   lower,
-                   upper,
-                   control) {
+.fitter_curve <- function(data,
+                          plot_id,
+                          fn,
+                          metric,
+                          method,
+                          lower,
+                          upper,
+                          control) {
   dt <- data[data$plot == plot_id, ]
   initials <- unlist(dt$initials)
   fx_params <- unlist(dt$fx_params)

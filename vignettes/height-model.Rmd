@@ -81,7 +81,7 @@ fixed_params <- results |>
   summarise(k = max(value), .groups = "drop")
 ```
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 mod_1 <- modeler_HTP(
   x = results,
   index = "Canopy",
