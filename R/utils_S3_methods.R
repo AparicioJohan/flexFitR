@@ -259,7 +259,7 @@ plot.read_HTP <- function(x,
                           return_gg = FALSE, ...) {
   colours <- c("#db4437", "white", "#4285f4")
   flt <- x$summ_traits |>
-    filter(`miss%` <= 0.2 & SD > 0) |>
+    filter(`miss%` <= 0.2) |> #  & SD > 0
     droplevels() |>
     mutate(id = paste(trait, time, sep = "_")) |>
     pull(id)
