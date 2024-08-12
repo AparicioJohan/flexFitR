@@ -1,3 +1,90 @@
+#' Predict an object of class \code{modeler_HTP}
+#'
+#' @description Model predictions for an object of class \code{modeler_HTP}
+#' @aliases predict.modeler_HTP
+#' @param x An object inheriting from class \code{modeler_HTP} resulting of
+#' executing the function \code{modeler_HTP()}
+#' @param time A numeric time point to make the prediction. Can be more than one.
+#' @param plot_id A numeric to filter by Plot Id.
+#' @param ... Further parameters. For future improvements.
+#' @author Johan Aparicio [aut]
+#' @method predict modeler_HTP
+#' @return A data.frame object with predicted values.
+#' @export
+#' @examples
+#' \dontrun{
+#' library(exploreHTP)
+#' data(dt_potato)
+#' results <- read_HTP(
+#'   data = dt_potato,
+#'   genotype = "Gen",
+#'   time = "DAP",
+#'   plot = "Plot",
+#'   traits = c("Canopy", "GLI_2"),
+#'   row = "Row",
+#'   range = "Range"
+#' )
+#' mod <- modeler_HTP(
+#'   x = results,
+#'   index = "Canopy",
+#'   plot_id = NULL,
+#'   parameters = c(t1 = 45, t2 = 80, k = 0.9),
+#'   fn = "fn_piwise",
+#'   parallel = TRUE
+#' )
+#' mod
+#' predict(mod, time = c(35, 45), plot_id = 2)
+#' }
+#' @import ggplot2
+#' @import dplyr
+predict.modeler_HTP <- function(x,
+                                time = NULL,
+                                plot_id = NULL, ...) {
+  # Check the class of x
+  if (!inherits(x, "modeler_HTP")) {
+    stop("The object should be of class 'modeler_HTP'.")
+  }
+  if (is.null(time)) {
+    stop("Argument time is required for predictions.")
+  }
+  data <- x$dt
+  param <- x$param
+  dt <- full_join(data, y = param, by = c("plot", "row", "range", "genotype"))
+  if (!all(param$plot %in% dt$plot)) {
+    stop("All plots are required to calculate standard errors.")
+  }
+  if (!is.null(plot_id)) {
+    if (!all(plot_id %in% unique(dt$plot))) {
+      stop("plot_ids not found in x.")
+    }
+  } else {
+    plot_id <- unique(dt$plot)
+  }
+  fn <- x$fn
+  limit_inf <- min(data$time, na.rm = TRUE)
+  limit_sup <- x$max_time
+  if (!all(limit_inf <= time & time <= limit_sup)) {
+    stop("time needs to be in the interval <", limit_inf, ", ", limit_sup, ">")
+  }
+  pvals <- full_join(
+    x = expand.grid(time = time, plot = unique(dt$plot)),
+    y = param,
+    by = "plot"
+  ) |>
+    group_by(time, plot) |>
+    mutate(predicted.value = !!fn) |>
+    ungroup()
+  se_vals <- pvals |>
+    group_by(time) |>
+    summarise(standard.error = sd(predicted.value) / sqrt(n()))
+  pvals <- pvals |>
+    filter(plot %in% plot_id) |>
+    select(plot, genotype, row, range, time, predicted.value) |>
+    left_join(se_vals, by = "time")
+  return(pvals)
+}
+
+
 #' Plot Function
 #'
 #' This function plots a user-defined function over a specified interval and annotates the plot with

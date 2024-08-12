@@ -236,7 +236,11 @@ modeler_HTP <- function(x,
   }
   p <- progressr::progressor(along = plot_id)
   init_time <- Sys.time()
-  param_mat <- foreach(i = plot_id, .combine = rbind) %dofu% {
+  param_mat <- foreach(
+    i = plot_id,
+    .combine = rbind,
+    .options.future = list(seed = TRUE)
+  ) %dofu% {
     p(sprintf("plot_id = %g", i))
     .fitter_curve(
       data = dt_nest,

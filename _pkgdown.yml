@@ -53,6 +53,7 @@ reference:
   - plot.read_HTP
   - plot.modeler_HTP
   - print.modeler_HTP
+  - predict.modeler_HTP
   - plot_fn
 - title: Growth Modelling
   desc: Collection of functions

@@ -45,7 +45,7 @@ utils::globalVariables(
     "loc_max_at",
     "fevals",
     "xtime",
-    '.fitted',
+    ".fitted",
     "convergence",
     "sse.x",
     "sse.y",
@@ -55,6 +55,7 @@ utils::globalVariables(
     "plan",
     "multisession",
     "sequential",
-    "i"
+    "i",
+    "predicted.value"
   )
 )
