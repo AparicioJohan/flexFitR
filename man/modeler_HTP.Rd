@@ -19,7 +19,7 @@ modeler_HTP(
   initial_vals = NULL,
   fixed_params = NULL,
   fn = "fn_piwise",
-  metric = "sse",
+  metric = "mse",
   n_points = 1000,
   max_time = NULL,
   control = list(),
@@ -57,7 +57,7 @@ modeler_HTP(
 
 \item{fn}{A string specifying the name of the function to be used for the curve fitting. Default is \code{"fn_piwise"}.}
 
-\item{metric}{A string specifying the metric to minimize during optimization. Options are \code{"sse"}, \code{"mae"}, \code{"mse"}, and \code{"rmse"}. Default is \code{"sse"}.}
+\item{metric}{A string specifying the metric to minimize during optimization. Options are \code{"mse"}, \code{"mae"}, and \code{"rmse"}. Default is \code{"mse"}.}
 
 \item{n_points}{An integer specifying the number of time points to use for approximating the Area Under the Curve (AUC). Default is \code{1000}.}
 

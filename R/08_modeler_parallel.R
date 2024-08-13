@@ -17,7 +17,7 @@
 #' @param initial_vals A data frame with columns \code{plot}, \code{genotype}, and the initial parameter values for each plot. Used for providing specific initial values per plot.
 #' @param fixed_params A data frame with columns \code{plot}, \code{genotype}, and the fixed parameter values for each plot. Used for fixing certain parameters during optimization.
 #' @param fn A string specifying the name of the function to be used for the curve fitting. Default is \code{"fn_piwise"}.
-#' @param metric A string specifying the metric to minimize during optimization. Options are \code{"sse"}, \code{"mae"}, \code{"mse"}, and \code{"rmse"}. Default is \code{"sse"}.
+#' @param metric A string specifying the metric to minimize during optimization. Options are \code{"mse"}, \code{"mae"}, and \code{"rmse"}. Default is \code{"mse"}.
 #' @param n_points An integer specifying the number of time points to use for approximating the Area Under the Curve (AUC). Default is \code{1000}.
 #' @param max_time Numeric. The maximum time value to use for calculating the AUC. Default is \code{NULL}, which uses the last time point in the data.
 #' @param control A list of control parameters to be passed to the optimization function. For example, \code{list(maxit = 500)}.
