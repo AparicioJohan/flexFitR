@@ -279,13 +279,29 @@ plot.modeler_HTP <- function(x,
     ungroup()
 
   label <- unique(dt$trait)
-  p0 <- dt |>
-    ggplot() +
-    geom_point(aes(x = time, y = value)) +
-    geom_line(data = func_dt, aes(x = time, y = dens), color = "red") +
-    theme_classic(base_size = base_size) +
-    facet_wrap(~plot) +
-    labs(y = label)
+
+  type <- 1
+  if (type == 1) {
+    p0 <- dt |>
+      ggplot() +
+      geom_point(aes(x = time, y = value)) +
+      geom_line(data = func_dt, aes(x = time, y = dens), color = "red") +
+      theme_classic(base_size = base_size) +
+      facet_wrap(~plot) +
+      labs(y = label)
+  }
+  if (type == 2) {
+    p0 <- dt |>
+      ggplot() +
+      geom_point(aes(x = time, y = value)) +
+      geom_line(
+        data = func_dt,
+        mapping = aes(x = time, y = dens, group = plot),
+        color = "red"
+      ) +
+      theme_classic(base_size = base_size) +
+      labs(y = label)
+  }
   return(p0)
 }
 
