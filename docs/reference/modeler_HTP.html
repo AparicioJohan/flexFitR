@@ -78,7 +78,7 @@
 <span>  initial_vals <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  fixed_params <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  fn <span class="op">=</span> <span class="st">"fn_piwise"</span>,</span>
-<span>  metric <span class="op">=</span> <span class="st">"sse"</span>,</span>
+<span>  metric <span class="op">=</span> <span class="st">"mse"</span>,</span>
 <span>  n_points <span class="op">=</span> <span class="fl">1000</span>,</span>
 <span>  max_time <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  control <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
@@ -147,7 +147,7 @@
 
 
 <dt>metric</dt>
-<dd><p>A string specifying the metric to minimize during optimization. Options are <code>"sse"</code>, <code>"mae"</code>, <code>"mse"</code>, and <code>"rmse"</code>. Default is <code>"sse"</code>.</p></dd>
+<dd><p>A string specifying the metric to minimize during optimization. Options are <code>"mse"</code>, <code>"mae"</code>, and <code>"rmse"</code>. Default is <code>"mse"</code>.</p></dd>
 
 
 <dt>n_points</dt>
@@ -232,15 +232,15 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Sum of Squares Error:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.024e-05 1.024e-05 1.024e-05 1.024e-05 1.024e-05 1.024e-05 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.138e-06 1.138e-06 1.138e-06 1.138e-06 1.138e-06 1.138e-06 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Optimization Results `head()`:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  plot genotype   t1   t2   t3     k  beta      sse  auc</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   195 W16219-8 39.6 68.3 93.3 0.323 -0.01 1.02e-05 16.4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   195 W16219-8 39.6 68.3 93.3 0.323 -0.01 1.14e-06 16.4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Plots      Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      1 0.8655 secs        100% 896 (plot)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      1 0.8922 secs        100% 888 (plot)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="va">can</span> <span class="op">&lt;-</span> <span class="fu">modeler_HTP</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  x <span class="op">=</span> <span class="va">results</span>,</span></span>
@@ -259,15 +259,15 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Sum of Squares Error:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.877e-18 1.877e-18 1.877e-18 1.877e-18 1.877e-18 1.877e-18 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2.086e-19 2.086e-19 2.086e-19 2.086e-19 2.086e-19 2.086e-19 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Optimization Results `head()`:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  plot genotype   t1 t2   k      sse  auc</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   195 W16219-8 38.7 62 100 1.88e-18 5765</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   195 W16219-8 38.7 62 100 2.09e-19 5765</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Plots      Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      1 0.5923 secs        100% 349 (plot)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      1 0.5116 secs        100% 349 (plot)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>
