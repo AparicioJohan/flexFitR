@@ -236,9 +236,9 @@ modeler_HTP <- function(x,
   }
   p <- progressr::progressor(along = plot_id)
   init_time <- Sys.time()
-  param_mat <- foreach(
+  modeler <- foreach(
     i = plot_id,
-    .combine = rbind,
+    # .combine = rbind,
     .options.future = list(seed = TRUE)
   ) %dofu% {
     p(sprintf("plot_id = %g", i))
@@ -255,16 +255,16 @@ modeler_HTP <- function(x,
   }
   end_time <- Sys.time()
   # Metrics
-  metrics <- param_mat |>
-    select(c(plot, genotype, method, sse, fevals:xtime)) |>
-    as_tibble()
+  metrics <- do.call(
+    what = rbind,
+    args = lapply(modeler, function(x) {
+      x$rr |>
+        select(c(plot, genotype, method, sse, fevals:xtime)) |>
+        as_tibble()
+    })
+  )
   # Selecting the best
-  param_mat <- param_mat |>
-    select(-c(fevals:xtime)) |>
-    group_by(plot, genotype, row, range) |>
-    arrange(sse) |>
-    slice(1) |>
-    ungroup()
+  param_mat <- do.call(rbind, lapply(modeler, function(x) as_tibble(x$param)))
   if (is.null(fixed_params)) {
     param_mat <- param_mat |> select(-`t(fx_params)`)
   }
@@ -306,7 +306,9 @@ modeler_HTP <- function(x,
     metrics = metrics,
     max_time = max_time,
     execution = end_time - init_time,
-    response = index
+    response = index,
+    fit = modeler,
+    fun = fn
   )
   class(out) <- "modeler_HTP"
   return(invisible(out))
@@ -355,6 +357,8 @@ modeler_HTP <- function(x,
 #' @import tidyr
 #' @import dplyr
 #' @import subplex
+#' @importFrom stats na.omit
+#' @importFrom stats qnorm
 .fitter_curve <- function(data,
                           plot_id,
                           fn,
@@ -368,7 +372,7 @@ modeler_HTP <- function(x,
   fx_params <- unlist(dt$fx_params)
   t <- unnest(dt, data)$time
   y <- unnest(dt, data)$value
-  rr <- opm(
+  kkopt <- opm(
     par = initials,
     fn = minimizer,
     t = t,
@@ -380,10 +384,89 @@ modeler_HTP <- function(x,
     lower = lower,
     upper = upper,
     control = control
-  ) |>
-    tibble::rownames_to_column(var = "method") |>
-    dplyr::rename(sse = value) |>
-    cbind(t(fx_params))
-  rr <- cbind(select(dt, plot, genotype, row, range), rr)
-  return(rr)
+  )
+  # metadata
+  rr <- cbind(
+    dt[, c("plot", "genotype", "row", "range")],
+    kkopt |>
+      tibble::rownames_to_column(var = "method") |>
+      dplyr::rename(sse = value) |>
+      cbind(t(fx_params))
+  )
+  best <- rr$method[which.min(rr$sse)]
+  param <- rr |>
+    dplyr::filter(method == best) |>
+    dplyr::select(-c(fevals:xtime))
+  # attributes
+  details <- attr(kkopt, "details")[best, ]
+  hessian <- details$nhatend
+  est_params <- colnames(coef(kkopt))
+  dimnames(hessian) <- list(est_params, est_params)
+  coef <- data.frame(
+    parameter = c(est_params, names(fx_params)),
+    value = na.omit(c(coef(kkopt)[best, ], fx_params)),
+    type = c(
+      rep("estimable", times = length(est_params)),
+      rep("fixed", times = length(names(fx_params)))
+    ),
+    row.names = NULL
+  )
+  # # coefficients + standard.errors
+  # mat_hess <- sqrt(diag(solve(details[best, ]$nhatend)))
+  # ccoef <- coef(kkopt) |>
+  #   as.data.frame() |>
+  #   tibble::rownames_to_column("method") |>
+  #   dplyr::filter(method == best) |>
+  #   tidyr::pivot_longer(
+  #     cols = -method,
+  #     names_to = "coefficient",
+  #     values_to = "solution"
+  #   ) |>
+  #   dplyr::mutate(standard.error = mat_hess)
+  # ccoef <- cbind(dplyr::select(dt, plot, genotype, row, range), ccoef)
+  # output
+  out <- list(
+    kkopt = kkopt,
+    param = param,
+    rr = rr,
+    details = details,
+    hessian = hessian,
+    type = coef,
+    plot_id = plot_id
+  )
+  return(out)
 }
+
+
+# .fitter_curve <- function(data,
+#                           plot_id,
+#                           fn,
+#                           metric,
+#                           method,
+#                           lower,
+#                           upper,
+#                           control) {
+#   dt <- data[data$plot == plot_id, ]
+#   initials <- unlist(dt$initials)
+#   fx_params <- unlist(dt$fx_params)
+#   t <- unnest(dt, data)$time
+#   y <- unnest(dt, data)$value
+#   rr <- opm(
+#     par = initials,
+#     fn = minimizer,
+#     t = t,
+#     y = y,
+#     curve = fn,
+#     fixed_params = fx_params,
+#     metric = metric,
+#     method = method,
+#     lower = lower,
+#     upper = upper,
+#     control = control
+#   ) |>
+#     tibble::rownames_to_column(var = "method") |>
+#     dplyr::rename(sse = value) |>
+#     cbind(t(fx_params))
+#   rr <- cbind(select(dt, plot, genotype, row, range), rr)
+#   return(rr)
+# }

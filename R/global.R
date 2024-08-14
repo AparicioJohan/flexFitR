@@ -56,6 +56,8 @@ utils::globalVariables(
     "multisession",
     "sequential",
     "i",
-    "predicted.value"
+    "predicted.value",
+    "type",
+    "parameter"
   )
 )

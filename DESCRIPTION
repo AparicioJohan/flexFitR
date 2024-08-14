@@ -30,6 +30,7 @@ Imports:
     foreach,
     future,
     ggplot2,
+    numDeriv,
     optimx,
     progressr,
     rlang,
