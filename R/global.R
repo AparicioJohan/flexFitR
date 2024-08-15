@@ -58,6 +58,8 @@ utils::globalVariables(
     "i",
     "predicted.value",
     "type",
-    "parameter"
+    "parameter",
+    "coefficient",
+    "method"
   )
 )

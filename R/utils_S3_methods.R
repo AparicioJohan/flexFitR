@@ -218,7 +218,7 @@ plot.modeler_HTP <- function(x,
   return(p0)
 }
 
-#' Plot an Object of Class \code{read_HTP}
+#' Plot an object of class \code{read_HTP}
 #'
 #' @description
 #' Creates various plots for an object of class \code{read_HTP}. Depending on the specified type, the function can generate plots that show correlations between traits over time, correlations between time points for each trait, or the evolution of traits over time.

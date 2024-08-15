@@ -28,8 +28,7 @@
 #'   index = "Canopy",
 #'   plot_id = 1:2,
 #'   parameters = c(t1 = 45, t2 = 80, k = 0.9),
-#'   fn = "fn_piwise",
-#'   parallel = TRUE
+#'   fn = "fn_piwise"
 #' )
 #' mod
 #' predict(mod, time = 45, plot_id = 2)
@@ -46,17 +45,12 @@ predict.modeler_HTP <- function(x,
     stop("Argument time is required for predictions.")
   }
   data <- x$dt
-  param <- x$param
-  dt <- full_join(data, y = param, by = c("plot", "row", "range", "genotype"))
-  if (!all(param$plot %in% dt$plot)) {
-    stop("All plots are required to calculate standard errors.")
-  }
   if (!is.null(plot_id)) {
-    if (!all(plot_id %in% unique(dt$plot))) {
+    if (!all(plot_id %in% unique(data$plot))) {
       stop("plot_ids not found in x.")
     }
   } else {
-    plot_id <- unique(dt$plot)
+    plot_id <- unique(data$plot)
   }
   fn <- x$fn
   limit_inf <- min(data$time, na.rm = TRUE)
@@ -98,9 +92,9 @@ predict.modeler_HTP <- function(x,
       plot = plot,
       time = time,
       predicted.value = predicted_values,
-      standard.error = pred_std_errors,
-      ci_lower = ci_lower,
-      ci_upper = ci_upper
+      std.error = pred_std_errors
+      # lower = ci_lower,
+      # upper = ci_upper
     )
     results <- full_join(
       x = select(fit$param, plot:range),
@@ -136,4 +130,82 @@ ff <- function(params, time, curve, fixed_params = NA) {
   string <- paste("sapply(time, FUN = ", curve, ", ", values, ")", sep = "")
   y_hat <- eval(parse(text = string))
   return(y_hat)
+}
+
+#' Coefficients of an object of class \code{modeler_HTP}
+#'
+#' @description Coefficients for an object of class \code{modeler_HTP}
+#' @aliases coef.modeler_HTP
+#' @param x An object inheriting from class \code{modeler_HTP} resulting of
+#' executing the function \code{modeler_HTP()}
+#' @param plot_id A numeric to filter by Plot Id.
+#' @param ... Further parameters. For future improvements.
+#' @author Johan Aparicio [aut]
+#' @method coef modeler_HTP
+#' @return A data.frame object with coefficients and standard errors.
+#' @export
+#' @examples
+#' library(exploreHTP)
+#' data(dt_potato)
+#' results <- read_HTP(
+#'   data = dt_potato,
+#'   genotype = "Gen",
+#'   time = "DAP",
+#'   plot = "Plot",
+#'   traits = c("Canopy", "GLI_2"),
+#'   row = "Row",
+#'   range = "Range"
+#' )
+#' mod <- modeler_HTP(
+#'   x = results,
+#'   index = "Canopy",
+#'   plot_id = 1:2,
+#'   parameters = c(t1 = 45, t2 = 80, k = 0.9),
+#'   fn = "fn_piwise"
+#' )
+#' mod
+#' coef(mod)
+#' @import dplyr
+coef.modeler_HTP <- function(x, plot_id = NULL, ...) {
+  # Check the class of x
+  if (!inherits(x, "modeler_HTP")) {
+    stop("The object should be of class 'modeler_HTP'.")
+  }
+  dt <- x$param
+  if (!is.null(plot_id)) {
+    if (!all(plot_id %in% unique(dt$plot))) {
+      stop("plot_ids not found in x.")
+    }
+  } else {
+    plot_id <- unique(dt$plot)
+  }
+  .get_coef <- function(fit) {
+    hessian <- fit$hessian
+    mat_hess <- sqrt(diag(solve(hessian)))
+    ccoef <- coef(fit$kkopt) |>
+      as.data.frame() |>
+      tibble::rownames_to_column("method") |>
+      dplyr::filter(method == fit$param$method) |>
+      tidyr::pivot_longer(
+        cols = -method,
+        names_to = "coefficient",
+        values_to = "solution"
+      ) |>
+      dplyr::mutate(std.error = mat_hess) |>
+      dplyr::select(-method) |>
+      dplyr::mutate(plot = fit$plot_id, .before = coefficient)
+    ccoef <- full_join(
+      x = select(fit$param, plot:range),
+      y = ccoef,
+      by = "plot"
+    )
+  }
+  fit_list <- x$fit
+  coeff <- do.call(
+    what = rbind,
+    args = lapply(fit_list, FUN = .get_coef)
+  ) |>
+    filter(plot %in% plot_id) |>
+    as_tibble()
+  return(coeff)
 }

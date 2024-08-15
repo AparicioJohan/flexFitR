@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_S3_methods.R
 \name{plot.read_HTP}
 \alias{plot.read_HTP}
-\title{Plot an Object of Class \code{read_HTP}}
+\title{Plot an object of class \code{read_HTP}}
 \usage{
 \method{plot}{read_HTP}(
   x,
