@@ -26,7 +26,7 @@
 #' mod <- modeler_HTP(
 #'   x = results,
 #'   index = "Canopy",
-#'   plot_id = 1:2,
+#'   plot_id = c(15, 2, 45),
 #'   parameters = c(t1 = 45, t2 = 80, k = 0.9),
 #'   fn = "fn_piwise"
 #' )
@@ -58,7 +58,6 @@ predict.modeler_HTP <- function(x,
   if (!all(limit_inf <= time & time <= limit_sup)) {
     stop("time needs to be in the interval <", limit_inf, ", ", limit_sup, ">")
   }
-  fit_list <- x$fit
   .delta_method <- function(fit, time, curve) {
     tt <- fit$hessian
     rdf <- (fit$n_obs - fit$p)
@@ -104,11 +103,13 @@ predict.modeler_HTP <- function(x,
       by = "plot"
     )
   }
+  fit_list <- x$fit
+  id <- which(unlist(lapply(fit_list, function(x) x$plot_id)) %in% plot_id)
+  fit_list <- fit_list[id]
   predictions <- do.call(
     what = rbind,
     args = lapply(fit_list, FUN = .delta_method, time = time, curve = x$fun)
   ) |>
-    filter(plot %in% plot_id) |>
     as_tibble()
   return(predictions)
 }
@@ -210,11 +211,12 @@ coef.modeler_HTP <- function(x, plot_id = NULL, ...) {
     )
   }
   fit_list <- x$fit
+  id <- which(unlist(lapply(fit_list, function(x) x$plot_id)) %in% plot_id)
+  fit_list <- fit_list[id]
   coeff <- do.call(
     what = rbind,
     args = lapply(fit_list, FUN = .get_coef)
   ) |>
-    filter(plot %in% plot_id) |>
     as_tibble()
   return(coeff)
 }

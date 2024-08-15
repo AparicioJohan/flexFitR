@@ -37,7 +37,7 @@ results <- read_HTP(
 mod <- modeler_HTP(
   x = results,
   index = "Canopy",
-  plot_id = 1:2,
+  plot_id = c(15, 2, 45),
   parameters = c(t1 = 45, t2 = 80, k = 0.9),
   fn = "fn_piwise"
 )

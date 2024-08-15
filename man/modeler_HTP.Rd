@@ -64,7 +64,7 @@ modeler_HTP(
 
 \item{progress}{Logical. If \code{TRUE} a progress bar is displayed. Default is \code{FALSE}. Try this before running the function: \code{progressr::handlers("progress", "beepr")}.}
 
-\item{parallel}{Logical. If \code{TRUE} the model fit is performed in parallel. Default is \code{TRUE}.}
+\item{parallel}{Logical. If \code{TRUE} the model fit is performed in parallel. Default is \code{FALSE}.}
 
 \item{workers}{The number of parallel processes to use. `parallel::detectCores()`}
 }
