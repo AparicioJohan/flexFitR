@@ -120,27 +120,27 @@ executing the function <code><a href="modeler_HTP.html">modeler_HTP()</a></code>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Sum of Squares Error:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   3.249  14.008  24.767  24.767  35.526  46.285 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   29.24  126.07  222.91  222.91  319.74  416.57 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Optimization Results `head()`:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  plot  genotype   t1   t2    k   sse  auc</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     1 W17037-24 38.6 58.7 89.2 46.29 5295</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     2 W17066-22 35.2 60.1 97.4  3.25 5883</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     1 W17037-24 38.6 58.7 89.2 416.6 5295</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     2 W17066-22 35.2 60.1 97.4  29.2 5883</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Plots      Timing Convergence   Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      2 2.3725 secs        100% 454.5 (plot)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Plots      Timing Convergence Iterations</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      2 0.8927 secs        100% 440 (plot)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 7</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    plot genotype    row range coefficient solution std.error</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     1 W17037-24     1     1 t1              38.6     0.604</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     1 W17037-24     1     1 t2              58.7     0.623</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>     1 W17037-24     1     1 k               89.2     1.06 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>     2 W17066-22     2     1 t1              35.2     0.468</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>     2 W17066-22     2     1 t2              60.1     0.709</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>     2 W17066-22     2     1 k               97.4     1.06 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    plot genotype  coefficient solution std.error `t value` `Pr(&gt;|t|)`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     1 W17037-24 t1              38.6     2.37       16.3   1.72<span style="color: #949494;">e</span><span style="color: #BB0000;">- 6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     1 W17037-24 t2              58.7     2.45       24.0   1.74<span style="color: #949494;">e</span><span style="color: #BB0000;">- 7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>     1 W17037-24 k               89.2     4.17       21.4   3.39<span style="color: #949494;">e</span><span style="color: #BB0000;">- 7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>     2 W17066-22 t1              35.2     0.487      72.2   2.38<span style="color: #949494;">e</span><span style="color: #BB0000;">-10</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>     2 W17066-22 t2              60.1     0.738      81.5   1.15<span style="color: #949494;">e</span><span style="color: #BB0000;">-10</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>     2 W17066-22 k               97.4     1.10       88.3   7.12<span style="color: #949494;">e</span><span style="color: #BB0000;">-11</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
