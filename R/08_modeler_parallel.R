@@ -17,12 +17,11 @@
 #' @param initial_vals A data frame with columns \code{plot}, \code{genotype}, and the initial parameter values for each plot. Used for providing specific initial values per plot.
 #' @param fixed_params A data frame with columns \code{plot}, \code{genotype}, and the fixed parameter values for each plot. Used for fixing certain parameters during optimization.
 #' @param fn A string specifying the name of the function to be used for the curve fitting. Default is \code{"fn_piwise"}.
-#' @param metric A string specifying the metric to minimize during optimization. Options are \code{"mse"}, \code{"mae"}, and \code{"rmse"}. Default is \code{"mse"}.
 #' @param n_points An integer specifying the number of time points to use for approximating the Area Under the Curve (AUC). Default is \code{1000}.
 #' @param max_time Numeric. The maximum time value to use for calculating the AUC. Default is \code{NULL}, which uses the last time point in the data.
 #' @param control A list of control parameters to be passed to the optimization function. For example, \code{list(maxit = 500)}.
 #' @param progress Logical. If \code{TRUE} a progress bar is displayed. Default is \code{FALSE}. Try this before running the function: \code{progressr::handlers("progress", "beepr")}.
-#' @param parallel Logical. If \code{TRUE} the model fit is performed in parallel. Default is \code{TRUE}.
+#' @param parallel Logical. If \code{TRUE} the model fit is performed in parallel. Default is \code{FALSE}.
 #' @param workers The number of parallel processes to use. `parallel::detectCores()`
 #' @return An object of class \code{modeler_HTP}, which is a list containing the following elements:
 #' \describe{
@@ -86,7 +85,6 @@ modeler_HTP <- function(x,
                         initial_vals = NULL,
                         fixed_params = NULL,
                         fn = "fn_piwise",
-                        metric = "mse",
                         n_points = 1000,
                         max_time = NULL,
                         control = list(),
@@ -307,8 +305,8 @@ modeler_HTP <- function(x,
     max_time = max_time,
     execution = end_time - init_time,
     response = index,
-    fit = modeler,
-    fun = fn
+    fun = fn,
+    fit = modeler
   )
   class(out) <- "modeler_HTP"
   return(invisible(out))
@@ -379,7 +377,7 @@ modeler_HTP <- function(x,
     y = y,
     curve = fn,
     fixed_params = fx_params,
-    metric = metric,
+    metric = "sse",
     method = method,
     lower = lower,
     upper = upper,
@@ -411,20 +409,6 @@ modeler_HTP <- function(x,
     ),
     row.names = NULL
   )
-  # # coefficients + standard.errors
-  # mat_hess <- sqrt(diag(solve(details[best, ]$nhatend)))
-  # ccoef <- coef(kkopt) |>
-  #   as.data.frame() |>
-  #   tibble::rownames_to_column("method") |>
-  #   dplyr::filter(method == best) |>
-  #   tidyr::pivot_longer(
-  #     cols = -method,
-  #     names_to = "coefficient",
-  #     values_to = "solution"
-  #   ) |>
-  #   dplyr::mutate(standard.error = mat_hess)
-  # ccoef <- cbind(dplyr::select(dt, plot, genotype, row, range), ccoef)
-  # output
   out <- list(
     kkopt = kkopt,
     param = param,
@@ -432,6 +416,8 @@ modeler_HTP <- function(x,
     details = details,
     hessian = hessian,
     type = coef,
+    p = length(est_params),
+    n_obs = length(t),
     plot_id = plot_id
   )
   return(out)

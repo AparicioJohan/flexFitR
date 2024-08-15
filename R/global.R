@@ -57,9 +57,12 @@ utils::globalVariables(
     "sequential",
     "i",
     "predicted.value",
+    "std.error",
+    "t value",
     "type",
     "parameter",
     "coefficient",
-    "method"
+    "method",
+    "solution"
   )
 )

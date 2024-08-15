@@ -61,7 +61,9 @@ predict.modeler_HTP <- function(x,
   fit_list <- x$fit
   .delta_method <- function(fit, time, curve) {
     tt <- fit$hessian
-    vcov_mat <- solve(tt)
+    rdf <- (fit$n_obs - fit$p)
+    varerr <- fit$param$sse / rdf
+    vcov_mat <- solve(tt) * 2 * varerr
     best <- fit$details$method
     estimated_params <- coef(fit$kkopt)[best, ]
     plot <- fit$plot_id
@@ -166,6 +168,7 @@ ff <- function(params, time, curve, fixed_params = NA) {
 #' mod
 #' coef(mod)
 #' @import dplyr
+#' @importFrom stats pt
 coef.modeler_HTP <- function(x, plot_id = NULL, ...) {
   # Check the class of x
   if (!inherits(x, "modeler_HTP")) {
@@ -181,7 +184,9 @@ coef.modeler_HTP <- function(x, plot_id = NULL, ...) {
   }
   .get_coef <- function(fit) {
     hessian <- fit$hessian
-    mat_hess <- sqrt(diag(solve(hessian)))
+    rdf <- (fit$n_obs - fit$p)
+    varerr <- fit$param$sse / rdf
+    mat_hess <- sqrt(diag(solve(hessian)) * 2 * varerr )
     ccoef <- coef(fit$kkopt) |>
       as.data.frame() |>
       tibble::rownames_to_column("method") |>
@@ -193,9 +198,13 @@ coef.modeler_HTP <- function(x, plot_id = NULL, ...) {
       ) |>
       dplyr::mutate(std.error = mat_hess) |>
       dplyr::select(-method) |>
-      dplyr::mutate(plot = fit$plot_id, .before = coefficient)
+      dplyr::mutate(plot = fit$plot_id, .before = coefficient) |>
+      dplyr::mutate(
+        `t value` = solution / std.error,
+        `Pr(>|t|)` =  pt(abs(`t value`), rdf, lower.tail = FALSE)
+      )
     ccoef <- full_join(
-      x = select(fit$param, plot:range),
+      x = select(fit$param, plot:genotype),
       y = ccoef,
       by = "plot"
     )
