@@ -215,6 +215,18 @@ plot.modeler_HTP <- function(x,
       theme_classic(base_size = base_size) +
       labs(y = label)
   }
+
+  # We can enable the prediction to be plotted
+  # pp <- predict(mod_1, time = 50, plot_id = 2)
+  # geom_errorbar(
+  #   data = pp,
+  #   mapping = aes(
+  #     x = 50,
+  #     ymin = predicted.value - 1.96 * std.error,
+  #     ymax = predicted.value + 1.96 * std.error
+  #   )
+  # )
+
   return(p0)
 }
 

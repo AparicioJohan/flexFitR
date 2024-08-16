@@ -62,7 +62,7 @@ predict.modeler_HTP <- function(x,
     tt <- fit$hessian
     rdf <- (fit$n_obs - fit$p)
     varerr <- fit$param$sse / rdf
-    vcov_mat <- solve(tt) * 2 * varerr
+    vcov_mat <- try(solve(tt) * 2 * varerr, silent = TRUE)
     best <- fit$details$method
     estimated_params <- coef(fit$kkopt)[best, ]
     plot <- fit$plot_id
@@ -77,7 +77,11 @@ predict.modeler_HTP <- function(x,
       curve = curve,
       fixed_params = fix_params
     )
-    pred_std_errors <- sqrt(diag(jac_matrix %*% vcov_mat %*% t(jac_matrix)))
+    if (!inherits(vcov_mat, "try-error")) {
+      std_errors <- sqrt(diag(jac_matrix %*% vcov_mat %*% t(jac_matrix)))
+    } else {
+      std_errors <- NA
+    }
     # Confidence intervals for predictions
     z_value <- qnorm(0.975)
     predicted_values <- ff(
@@ -86,16 +90,14 @@ predict.modeler_HTP <- function(x,
       curve = curve,
       fixed_params = fix_params
     )
-    ci_lower <- predicted_values - z_value * pred_std_errors
-    ci_upper <- predicted_values + z_value * pred_std_errors
+    ci_lower <- predicted_values - z_value * std_errors
+    ci_upper <- predicted_values + z_value * std_errors
     # Combine results
     results <- data.frame(
       plot = plot,
       time = time,
       predicted.value = predicted_values,
-      std.error = pred_std_errors
-      # lower = ci_lower,
-      # upper = ci_upper
+      std.error = std_errors
     )
     results <- full_join(
       x = select(fit$param, plot:range),
@@ -108,7 +110,9 @@ predict.modeler_HTP <- function(x,
   fit_list <- fit_list[id]
   predictions <- do.call(
     what = rbind,
-    args = lapply(fit_list, FUN = .delta_method, time = time, curve = x$fun)
+    args = suppressWarnings(
+      lapply(fit_list, FUN = .delta_method, time = time, curve = x$fun)
+    )
   ) |>
     as_tibble()
   return(predictions)
@@ -187,7 +191,8 @@ coef.modeler_HTP <- function(x, plot_id = NULL, ...) {
     hessian <- fit$hessian
     rdf <- (fit$n_obs - fit$p)
     varerr <- fit$param$sse / rdf
-    mat_hess <- sqrt(diag(solve(hessian)) * 2 * varerr )
+    mat_hess <- try(sqrt(diag(solve(hessian)) * 2 * varerr), silent = TRUE)
+    if (inherits(mat_hess, "try-error")) mat_hess <- NA
     ccoef <- coef(fit$kkopt) |>
       as.data.frame() |>
       tibble::rownames_to_column("method") |>
@@ -202,20 +207,21 @@ coef.modeler_HTP <- function(x, plot_id = NULL, ...) {
       dplyr::mutate(plot = fit$plot_id, .before = coefficient) |>
       dplyr::mutate(
         `t value` = solution / std.error,
-        `Pr(>|t|)` =  pt(abs(`t value`), rdf, lower.tail = FALSE)
+        `Pr(>|t|)` = pt(abs(`t value`), rdf, lower.tail = FALSE)
       )
     ccoef <- full_join(
       x = select(fit$param, plot:genotype),
       y = ccoef,
       by = "plot"
     )
+    return(ccoef)
   }
   fit_list <- x$fit
   id <- which(unlist(lapply(fit_list, function(x) x$plot_id)) %in% plot_id)
   fit_list <- fit_list[id]
   coeff <- do.call(
     what = rbind,
-    args = lapply(fit_list, FUN = .get_coef)
+    args = suppressWarnings(lapply(fit_list, FUN = .get_coef))
   ) |>
     as_tibble()
   return(coeff)

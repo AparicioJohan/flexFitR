@@ -4,7 +4,7 @@
 \alias{.fitter_curve}
 \title{General-purpose optimization}
 \usage{
-.fitter_curve(data, plot_id, fn, metric, method, lower, upper, control)
+.fitter_curve(data, plot_id, fn, method, lower, upper, control)
 }
 \arguments{
 \item{data}{A nested data.frame with columns <plot, genotype, row, range, data, initials, fx_params>.}
@@ -12,8 +12,6 @@
 \item{plot_id}{An optional vector of plot IDs to filter the data. Default is \code{NULL}, meaning all plots are used.}
 
 \item{fn}{A string specifying the name of the function to be used for the curve fitting. Default is \code{"fn_piwise"}.}
-
-\item{metric}{A string specifying the metric to minimize during optimization. Options are \code{"sse"}, \code{"mae"}, \code{"mse"}, and \code{"rmse"}. Default is \code{"sse"}.}
 
 \item{method}{A character vector specifying the optimization methods to be used. See \code{optimx} package for available methods. Default is \code{c("subplex", "pracmanm", "anms")}.}
 

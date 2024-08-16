@@ -113,7 +113,7 @@ executing the function <code><a href="modeler_HTP.html">modeler_HTP()</a></code>
 <span class="r-in"><span><span class="va">mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="modeler_HTP.html">modeler_HTP</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  x <span class="op">=</span> <span class="va">results</span>,</span></span>
 <span class="r-in"><span>  index <span class="op">=</span> <span class="st">"Canopy"</span>,</span></span>
-<span class="r-in"><span>  plot_id <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>,</span></span>
+<span class="r-in"><span>  plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">15</span>, <span class="fl">2</span>, <span class="fl">45</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">45</span>, t2 <span class="op">=</span> <span class="fl">80</span>, k <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  fn <span class="op">=</span> <span class="st">"fn_piwise"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
@@ -124,16 +124,17 @@ executing the function <code><a href="modeler_HTP.html">modeler_HTP()</a></code>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Sum of Squares Error:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   29.24  126.07  222.91  222.91  319.74  416.57 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   29.24  285.04  540.84 1006.77 1495.54 2450.24 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Optimization Results `head()`:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  plot  genotype   t1   t2    k   sse  auc</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     1 W17037-24 38.6 58.7 89.2 416.6 5295</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     2 W17066-22 35.2 60.1 97.4  29.2 5883</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  plot  genotype   t1   t2    k    sse  auc</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     2 W17066-22 35.2 60.1 97.4   29.2 5883</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    15 W17062-11 38.5 66.4 90.1  540.8 5008</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    45 W17037-40 38.3 58.5 77.2 2450.2 4600</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Plots      Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      2 0.9277 secs        100% 440 (plot)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Plots      Timing Convergence    Iterations</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      3 2.0963 secs        100% 466.67 (plot)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">mod</span>, time <span class="op">=</span> <span class="fl">45</span>, plot_id <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 7</span></span>

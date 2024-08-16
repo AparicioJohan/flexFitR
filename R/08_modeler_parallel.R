@@ -244,7 +244,6 @@ modeler_HTP <- function(x,
       data = dt_nest,
       plot_id = i,
       fn = fn,
-      metric = metric,
       method = method,
       lower = lower,
       upper = upper,
@@ -321,7 +320,6 @@ modeler_HTP <- function(x,
 #' @param data A nested data.frame with columns <plot, genotype, row, range, data, initials, fx_params>.
 #' @param plot_id An optional vector of plot IDs to filter the data. Default is \code{NULL}, meaning all plots are used.
 #' @param fn A string specifying the name of the function to be used for the curve fitting. Default is \code{"fn_piwise"}.
-#' @param metric A string specifying the metric to minimize during optimization. Options are \code{"sse"}, \code{"mae"}, \code{"mse"}, and \code{"rmse"}. Default is \code{"sse"}.
 #' @param method A character vector specifying the optimization methods to be used. See \code{optimx} package for available methods. Default is \code{c("subplex", "pracmanm", "anms")}.
 #' @param lower Numeric vector specifying the lower bounds for the parameters. Default is \code{-Inf} for all parameters.
 #' @param upper Numeric vector specifying the upper bounds for the parameters. Default is \code{Inf} for all parameters.
@@ -360,7 +358,6 @@ modeler_HTP <- function(x,
 .fitter_curve <- function(data,
                           plot_id,
                           fn,
-                          metric,
                           method,
                           lower,
                           upper,
@@ -398,11 +395,15 @@ modeler_HTP <- function(x,
   # attributes
   details <- attr(kkopt, "details")[best, ]
   hessian <- details$nhatend
-  est_params <- colnames(coef(kkopt))
+  coeff <- coef(kkopt)
+  if(all(is.na(details$hev))) {
+    hessian <- matrix(NA, nrow = ncol(coeff), ncol = ncol(coeff))
+  }
+  est_params <- colnames(coeff)
   dimnames(hessian) <- list(est_params, est_params)
   coef <- data.frame(
     parameter = c(est_params, names(fx_params)),
-    value = na.omit(c(coef(kkopt)[best, ], fx_params)),
+    value = na.omit(c(coeff[best, ], fx_params)),
     type = c(
       rep("estimable", times = length(est_params)),
       rep("fixed", times = length(names(fx_params)))
@@ -416,6 +417,7 @@ modeler_HTP <- function(x,
     details = details,
     hessian = hessian,
     type = coef,
+    conv = rr[rr$method == best, "convergence"],
     p = length(est_params),
     n_obs = length(t),
     plot_id = plot_id
