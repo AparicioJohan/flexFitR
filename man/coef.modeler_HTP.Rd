@@ -4,13 +4,15 @@
 \alias{coef.modeler_HTP}
 \title{Coefficients of an object of class \code{modeler_HTP}}
 \usage{
-\method{coef}{modeler_HTP}(x, plot_id = NULL, ...)
+\method{coef}{modeler_HTP}(x, id = NULL, metadata = FALSE, ...)
 }
 \arguments{
 \item{x}{An object inheriting from class \code{modeler_HTP} resulting of
 executing the function \code{modeler_HTP()}}
 
-\item{plot_id}{A numeric to filter by Plot Id.}
+\item{id}{A numeric to filter by Plot Id.}
+
+\item{metadata}{TRUE or FALSE. Whether to bring the metadata or not when calculating the coefficients.}
 
 \item{...}{Further parameters. For future improvements.}
 }
@@ -25,17 +27,15 @@ library(exploreHTP)
 data(dt_potato)
 results <- read_HTP(
   data = dt_potato,
-  genotype = "Gen",
-  time = "DAP",
-  plot = "Plot",
-  traits = c("Canopy", "GLI_2"),
-  row = "Row",
-  range = "Range"
+  x = "DAP",
+  y = c("Canopy", "GLI_2"),
+  id = "Plot",
+  .keep = c("Gen","Row", "Range")
 )
 mod <- modeler_HTP(
   x = results,
   index = "Canopy",
-  plot_id = 1:2,
+  id = 1:2,
   parameters = c(t1 = 45, t2 = 80, k = 0.9),
   fn = "fn_piwise"
 )

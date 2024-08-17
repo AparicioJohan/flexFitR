@@ -90,14 +90,13 @@ plot_fn <- function(fn = "fn_piwise",
 }
 
 
-
 #' Plot an object of class \code{modeler_HTP}
 #'
 #' @description Create several plots for an object of class \code{modeler_HTP}
 #' @aliases plot.modeler_HTP
 #' @param x An object inheriting from class \code{modeler_HTP} resulting of
 #' executing the function \code{modeler_HTP()}
-#' @param plot_id To avoid too many plots in one figure. Filter by Plot Id.
+#' @param id To avoid too many plots in one figure. Filter by Id.
 #' @param label_size Label size. 3 by default.
 #' @param base_size Base font size, given in pts.
 #' @param ... Further graphical parameters. For future improvements.
@@ -111,18 +110,16 @@ plot_fn <- function(fn = "fn_piwise",
 #' data(dt_potato)
 #' results <- read_HTP(
 #'   data = dt_potato,
-#'   genotype = "Gen",
-#'   time = "DAP",
-#'   plot = "Plot",
-#'   traits = c("Canopy", "GLI_2"),
-#'   row = "Row",
-#'   range = "Range"
+#'   x = "DAP",
+#'   y = c("Canopy", "GLI_2"),
+#'   id = "Plot",
+#'   .keep = c("Gen", "Row", "Range")
 #' )
 #' names(results)
 #' mat <- modeler_HTP(
 #'   x = results,
 #'   index = "GLI_2",
-#'   plot_id = c(195),
+#'   id = c(195),
 #'   parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
 #'   fn = "fn_lin_pl_lin",
 #' )
@@ -132,7 +129,7 @@ plot_fn <- function(fn = "fn_piwise",
 #' can <- modeler_HTP(
 #'   x = results,
 #'   index = "Canopy",
-#'   plot_id = c(195),
+#'   id = c(195),
 #'   parameters = c(t1 = 45, t2 = 80, k = 0.9),
 #'   fn = "fn_piwise"
 #' )
@@ -140,76 +137,76 @@ plot_fn <- function(fn = "fn_piwise",
 #' can
 #'
 #' fixed_params <- results$dt_long |>
-#'   filter(trait %in% "Canopy") |>
-#'   group_by(plot, genotype) |>
-#'   summarise(k = max(value, na.rm = TRUE), .groups = "drop")
+#'   filter(var %in% "Canopy") |>
+#'   group_by(uid) |>
+#'   summarise(k = max(y, na.rm = TRUE), .groups = "drop")
 #' can <- modeler_HTP(
 #'   x = results,
 #'   index = "Canopy",
-#'   plot_id = c(195),
+#'   id = c(195),
 #'   parameters = c(t1 = 45, t2 = 80, k = 0.9),
 #'   fn = "fn_piwise",
 #'   fixed_params = fixed_params
 #' )
-#' plot(can, plot_id = c(195))
+#' plot(can, id = c(195))
 #' can
 #' @import ggplot2
 #' @import dplyr
 #' @importFrom stats quantile
 plot.modeler_HTP <- function(x,
-                             plot_id = NULL,
+                             id = NULL,
                              label_size = 4,
                              base_size = 14, ...) {
-  data <- x$dt
+  data <- x$dt |> select(uid, var, x, y, .fitted)
   param <- x$param
   fn <- x$fn
-  dt <- full_join(data, y = param, by = c("plot", "row", "range", "genotype"))
-  if (is.null(plot_id)) {
-    plot_id <- dt$plot[1]
+  dt <- full_join(data, y = param, by = c("uid"))
+  if (is.null(id)) {
+    id <- dt$uid[1]
   } else {
-    if (!all(plot_id %in% unique(dt$plot))) {
-      stop("plot_ids not found in x.")
+    if (!all(id %in% unique(dt$uid))) {
+      stop("ids not found in x.")
     }
   }
   dt <- dt |>
-    filter(plot %in% plot_id) |>
+    filter(uid %in% id) |>
     droplevels()
   param <- param |>
-    filter(plot %in% plot_id) |>
+    filter(uid %in% id) |>
     droplevels()
 
-  max_x <- max(dt$time, na.rm = TRUE)
-  min_x <- min(dt$time, na.rm = TRUE)
+  max_x <- max(dt$x, na.rm = TRUE)
+  min_x <- min(dt$x, na.rm = TRUE)
   sq <- seq(min_x, max_x, by = 0.05)
 
   func_dt <- full_join(
-    x = expand.grid(time = sq, plot = unique(dt$plot)),
+    x = expand.grid(x = sq, uid = unique(dt$uid)),
     y = param,
-    by = "plot"
+    by = "uid"
   ) |>
-    group_by(time, plot) |>
+    group_by(x, uid) |>
     mutate(dens = !!fn) |>
     ungroup()
 
-  label <- unique(dt$trait)
+  label <- unique(dt$var)
 
   type <- 1
   if (type == 1) {
     p0 <- dt |>
       ggplot() +
-      geom_point(aes(x = time, y = value)) +
-      geom_line(data = func_dt, aes(x = time, y = dens), color = "red") +
+      geom_point(aes(x = x, y = y)) +
+      geom_line(data = func_dt, aes(x = x, y = dens), color = "red") +
       theme_classic(base_size = base_size) +
-      facet_wrap(~plot) +
+      facet_wrap(~uid) +
       labs(y = label)
   }
   if (type == 2) {
     p0 <- dt |>
       ggplot() +
-      geom_point(aes(x = time, y = value)) +
+      geom_point(aes(x = x, y = y)) +
       geom_line(
         data = func_dt,
-        mapping = aes(x = time, y = dens, group = plot),
+        mapping = aes(x = x, y = dens, group = uid),
         color = "red"
       ) +
       theme_classic(base_size = base_size) +
@@ -246,7 +243,7 @@ plot.modeler_HTP <- function(x,
 #' @param label_size Numeric. Size of the labels in the plot. Default is 4. Only works with type 1 and 2.
 #' @param method Character string specifying the method for correlation calculation. Available options are \code{"pearson"} (default), \code{"spearman"}, and \code{"kendall"}. Only works with type 1 and 2.
 #' @param filter_trait Character vector specifying the traits to exclude from the plot.
-#' @param plot_id Optional plot_id to filter the evolution type of plot. Default is \code{NULL}. Only works with type 3.
+#' @param id Optional unique identifier to filter the evolution type of plot. Default is \code{NULL}. Only works with type 3.
 #' @param n_row Integer specifying the number of rows to use in \code{facet_wrap()}. Default is \code{NULL}. Only works with type 1 and 2.
 #' @param n_col Integer specifying the number of columns to use in \code{facet_wrap()}. Default is \code{NULL}. Only works with type 1 and 2.
 #' @param base_size Numeric. Base font size for the plot. Default is 13.
@@ -255,6 +252,7 @@ plot.modeler_HTP <- function(x,
 #'
 #' @return A ggplot object and an invisible data.frame containing the correlation table when \code{type} is \code{"trait_by_time"} or \code{"time_by_trait"}.
 #'
+#' @noRd
 #' @export
 #' @examples
 #' library(exploreHTP)
@@ -262,12 +260,10 @@ plot.modeler_HTP <- function(x,
 #' dt_potato <- dt_potato
 #' results <- read_HTP(
 #'   data = dt_potato,
-#'   genotype = "Gen",
-#'   time = "DAP",
-#'   plot = "Plot",
-#'   traits = c("Canopy", "PH"),
-#'   row = "Row",
-#'   range = "Range"
+#'   x = "DAP",
+#'   y = c("Canopy", "PH"),
+#'   id = "Plot",
+#'   .keep = c("Gen", "Row", "Range")
 #' )
 #' table <- plot(results, label_size = 4, signif = TRUE, n_row = 2)
 #' table
@@ -280,39 +276,39 @@ plot.read_HTP <- function(x,
                           signif = FALSE,
                           method = "pearson",
                           filter_trait = NULL,
-                          plot_id = NULL,
+                          id = NULL,
                           n_row = NULL,
                           n_col = NULL,
                           base_size = 13,
                           return_gg = FALSE, ...) {
+  .keep <- x$.keep
   colours <- c("#db4437", "white", "#4285f4")
   flt <- x$summ_traits |>
     filter(`miss%` <= 0.2) |> #  & SD > 0
     droplevels() |>
-    mutate(id = paste(trait, time, sep = "_")) |>
+    mutate(id = paste(var, x, sep = "_")) |>
     pull(id)
 
   data <- x$dt_long |>
-    mutate(id = paste(trait, time, sep = "_")) |>
+    mutate(id = paste(var, x, sep = "_")) |>
     filter(id %in% flt) |>
     select(-id) |>
     droplevels()
 
   if (length(filter_trait) >= 1) {
-    data <- filter(data, !trait %in% filter_trait)
+    data <- filter(data, !var %in% filter_trait)
   }
 
   # Correlation between traits by time
   if (type == "trait_by_time" | type == 1) {
-    traits <- unique(data$trait)
+    traits <- unique(data$var)
     if (length(traits) <= 1) {
       stop("Only one trait available. 'trait_by_time' plot not informative.")
     }
-
     trait_by_time <- data |>
-      pivot_wider(names_from = trait, values_from = value) |>
-      select(-c(plot:genotype)) |>
-      nest_by(time) |>
+      pivot_wider(names_from = var, values_from = y) |>
+      select(-c(uid, all_of(.keep))) |>
+      nest_by(x) |>
       mutate(
         mat = list(
           suppressWarnings(
@@ -322,9 +318,7 @@ plot.read_HTP <- function(x,
       ) |>
       reframe(mat)
     p1 <- trait_by_time |>
-      ggplot(
-        aes(x = col, y = row, fill = name.x)
-      ) +
+      ggplot(aes(x = col, y = row, fill = name.x)) +
       geom_tile(color = "gray") +
       labs(x = NULL, y = NULL) +
       theme_minimal(base_size = base_size) +
@@ -357,8 +351,7 @@ plot.read_HTP <- function(x,
         panel.grid.minor.x = element_blank(),
         panel.grid.major = element_blank()
       ) +
-      facet_wrap(~time, nrow = n_row, ncol = n_col)
-
+      facet_wrap(~x, nrow = n_row, ncol = n_col)
     table <- trait_by_time |>
       rename(corr = name.x, p.value = value.y, n = value) |>
       select(-label, -txtCol)
@@ -367,9 +360,9 @@ plot.read_HTP <- function(x,
   # Correlation between time-points by trait
   if (type == "time_by_trait" | type == 2) {
     time_by_trait <- data |>
-      pivot_wider(names_from = time, values_from = value) |>
-      select(-c(plot:genotype)) |>
-      nest_by(trait) |>
+      pivot_wider(names_from = x, values_from = y) |>
+      select(-c(uid, all_of(.keep))) |>
+      nest_by(var) |>
       mutate(
         mat = list(
           suppressWarnings(
@@ -379,9 +372,7 @@ plot.read_HTP <- function(x,
       ) |>
       reframe(mat)
     p1 <- time_by_trait |>
-      ggplot(
-        aes(x = col, y = row, fill = name.x)
-      ) +
+      ggplot(aes(x = col, y = row, fill = name.x)) +
       geom_tile(color = "gray") +
       labs(x = NULL, y = NULL) +
       theme_minimal(base_size = base_size) +
@@ -414,7 +405,7 @@ plot.read_HTP <- function(x,
         panel.grid.minor.x = element_blank(),
         panel.grid.major = element_blank()
       ) +
-      facet_wrap(~trait, nrow = n_row, ncol = n_col)
+      facet_wrap(~var, nrow = n_row, ncol = n_col)
     table <- time_by_trait |>
       rename(corr = name.x, p.value = value.y, n = value) |>
       select(-label, -txtCol)
@@ -422,42 +413,44 @@ plot.read_HTP <- function(x,
 
   if (type == "evolution" | type == 3) {
     dt_avg <- data |>
-      group_by(time, trait) |>
-      summarise(value = mean(value, na.rm = TRUE), .groups = "drop")
+      group_by(x, var) |>
+      summarise(y = mean(y, na.rm = TRUE), .groups = "drop")
 
-    if (!is.null(plot_id)) {
-      if (!all(plot_id %in% unique(data$plot))) {
-        stop("plot_ids not found in data")
+    if (!is.null(id)) {
+      if (!all(id %in% unique(data$uid))) {
+        stop("ids not found in data")
       }
-      data <- filter(data, plot %in% plot_id)
+      data <- filter(data, uid %in% id)
     }
 
     p1 <- data |>
-      ggplot(
-        aes(x = time, y = value)
-      ) +
+      ggplot(aes(x = x, y = y)) +
       geom_vline(
         data = dt_avg,
-        mapping = aes(xintercept = time),
+        mapping = aes(xintercept = x),
         linetype = 2, color = "grey90"
       ) +
-      geom_line(color = "grey", aes(group = plot)) +
+      geom_line(color = "grey", aes(group = uid)) +
       geom_line(data = dt_avg, color = "red") +
       geom_point(data = dt_avg, color = "red") +
-      facet_wrap(~trait, scales = "free_y") +
+      facet_wrap(~var, scales = "free_y") +
       theme_classic(base_size = base_size) +
       labs(x = "Time", y = NULL, nrow = n_row, ncol = n_col)
   }
-
   if (return_gg) {
     return(p1)
   }
-
   print(p1)
   if (type %in% c("time_by_trait", "trait_by_time")) {
     invisible(table)
   }
 }
+
+
+
+# -------------------------------------------------------------------------
+
+
 
 # #' Plot an object of class \code{canopy_HTP}
 # #'

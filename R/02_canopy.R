@@ -5,7 +5,7 @@
 #'
 #' @param x An object of class \code{read_HTP}, containing the results of the \code{read_HTP()} function.
 #' @param index A string specifying the canopy trait to be modeled. Default is \code{"Canopy"}.
-#' @param plot_id An optional vector of plot IDs to filter the data. Default is \code{NULL}, meaning all plots are used.
+#' @param id An optional vector of plot IDs to filter the data. Default is \code{NULL}, meaning all plots are used.
 #' @param ... Additional arguments passed to the \code{modeler_HTP()} function.
 #' @return An object of class \code{modeler_HTP}, which is a list containing the following elements:
 #' \describe{
@@ -22,46 +22,44 @@
 #' dt_potato <- dt_potato
 #' results <- read_HTP(
 #'   data = dt_potato,
-#'   genotype = "Gen",
-#'   time = "DAP",
-#'   plot = "Plot",
-#'   traits = c("Canopy", "PH"),
-#'   row = "Row",
-#'   range = "Range"
+#'   x = "DAP",
+#'   y = c("Canopy", "PH"),
+#'   id = "Plot",
+#'   .keep = c("Gen", "Row", "Range")
 #' )
-#' out <- canopy_HTP(x = results, index = "Canopy", plot_id = c(22, 40))
+#' out <- canopy_HTP(x = results, index = "Canopy", id = c(22, 40))
 #' plot(out, c(22, 40))
 #' print(out)
 #' @import optimx
 #' @import tibble
-canopy_HTP <- function(x, index = "Canopy", plot_id = NULL, ...) {
+canopy_HTP <- function(x, index = "Canopy", id = NULL, ...) {
   if (!inherits(x, "read_HTP")) {
     stop("The object should be of read_HTP class")
   }
-  traits <- unique(x$dt_long$trait)
+  traits <- unique(x$dt_long$var)
   if (!index %in% traits) {
     stop("Index not found in x. Please verify the spelling.")
   }
-  plots <- unique(x$dt_long$plot)
-  if (!is.null(plot_id)) {
-    if (!all(plot_id %in% plots)) {
+  plots <- unique(x$dt_long$uid)
+  if (!is.null(id)) {
+    if (!all(id %in% plots)) {
       stop("plot_id not found in data.")
     } else {
-      plots <- plot_id
+      plots <- id
     }
   }
   fixed_params <- x$dt_long |>
-    filter(trait %in% index & plot %in% plots) |>
-    group_by(plot, genotype) |>
-    summarise(k = max(value, na.rm = TRUE), .groups = "drop")
-  time <- unique(x$dt_long$time)
+    filter(var %in% index & uid %in% plots) |>
+    group_by(uid) |>
+    summarise(k = max(y, na.rm = TRUE), .groups = "drop")
+  time <- unique(x$dt_long$x)
   t1 <- as.numeric(quantile(time, 0.3))
   t2 <- as.numeric(quantile(time, 0.6))
   k <- mean(fixed_params$k, na.rm = TRUE)
   out <- modeler_HTP(
     x = x,
     index = index,
-    plot_id = plots,
+    id = plots,
     parameters = c(t1 = t1, t2 = t2, k = k),
     fn = "fn_piwise",
     fixed_params = fixed_params,
@@ -74,16 +72,16 @@ canopy_HTP <- function(x, index = "Canopy", plot_id = NULL, ...) {
 }
 
 #' @noRd
-max_as_last <- function(data) {
+max_as_last <- function(data, .keep) {
   dt_can <- data |>
-    group_by(plot, genotype, row, range) |>
+    group_by(uid, across(all_of(.keep))) |>
     mutate(
-      loc_max_at = paste(local_min_max(value, time)$days_max, collapse = "_"),
-      loc_max = as.numeric(local_min_max(value, time)$days_max[1])
+      loc_max_at = paste(local_min_max(y, x)$days_max, collapse = "_"),
+      loc_max = as.numeric(local_min_max(y, x)$days_max[1])
     ) |>
-    mutate(loc_max = ifelse(is.na(loc_max), max(time, na.rm = TRUE), loc_max)) |>
+    mutate(loc_max = ifelse(is.na(loc_max), max(x, na.rm = TRUE), loc_max)) |>
     mutate(
-      value = ifelse(time <= loc_max, value, value[time == loc_max])
+      y = ifelse(x <= loc_max, y, y[x == loc_max])
     ) |>
     select(-loc_max_at, -loc_max) |>
     ungroup()
@@ -104,6 +102,23 @@ local_min_max <- function(x, days) {
     days_max = days[maxima]
   )
 }
+
+#' #' @noRd
+#' max_as_last <- function(data) {
+#'   dt_can <- data |>
+#'     group_by(plot, genotype, row, range) |>
+#'     mutate(
+#'       loc_max_at = paste(local_min_max(value, time)$days_max, collapse = "_"),
+#'       loc_max = as.numeric(local_min_max(value, time)$days_max[1])
+#'     ) |>
+#'     mutate(loc_max = ifelse(is.na(loc_max), max(time, na.rm = TRUE), loc_max)) |>
+#'     mutate(
+#'       value = ifelse(time <= loc_max, value, value[time == loc_max])
+#'     ) |>
+#'     select(-loc_max_at, -loc_max) |>
+#'     ungroup()
+#'   return(dt_can)
+#' }
 
 # correct_maximun <- function(results,
 #                            var = "Canopy",

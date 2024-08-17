@@ -63,6 +63,10 @@ utils::globalVariables(
     "parameter",
     "coefficient",
     "method",
-    "solution"
+    "solution",
+    "var",
+    "uid",
+    "y",
+    "x"
   )
 )

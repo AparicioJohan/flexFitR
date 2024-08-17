@@ -5,7 +5,7 @@
 #'
 #' @param x An object of class \code{read_HTP}, containing the results of the \code{read_HTP()} function.
 #' @param index A string specifying the trait to be modeled. Default is \code{"GLI"}. Must match a trait in the data.
-#' @param plot_id An optional vector of plot IDs to filter the data. Default is \code{NULL}, meaning all plots are used.
+#' @param id An optional vector of plot IDs to filter the data. Default is \code{NULL}, meaning all plots are used.
 #' @param add_zero Logical. If \code{TRUE}, adds a zero value to the time series at the start. Default is \code{TRUE}.
 #' @param check_negative Logical. If \code{TRUE}, converts negative values in the data to zero. Default is \code{TRUE}.
 #' @param max_as_last Logical. If \code{TRUE}, appends the maximum value after reaching the maximum. Default is \code{FALSE}.
@@ -28,10 +28,13 @@
 #'   \item{\code{param}}{A data frame containing the optimized parameters and related information.}
 #'   \item{\code{dt}}{A data frame with data used and fitted values.}
 #'   \item{\code{fn}}{The call used to calculate the AUC.}
-#'   \item{\code{max_time}}{Maximum time value used for calculating the AUC.}
 #'   \item{\code{metrics}}{Metrics and summary of the models.}
+#'   \item{\code{max_time}}{Maximum time value used for calculating the AUC.}
 #'   \item{\code{execution}}{Execution time.}
 #'   \item{\code{response}}{Response variable.}
+#'   \item{\code{.keep}}{Metadata to keep across.}
+#'   \item{\code{fun}}{Function being optimized}
+#'   \item{\code{fit}}{List with the fitted models.}
 #' }
 #' @export
 #'
@@ -41,17 +44,15 @@
 #' data(dt_potato)
 #' results <- read_HTP(
 #'   data = dt_potato,
-#'   genotype = "Gen",
-#'   time = "DAP",
-#'   plot = "Plot",
-#'   traits = c("Canopy", "GLI_2"),
-#'   row = "Row",
-#'   range = "Range"
+#'   x = "DAP",
+#'   y = c("Canopy", "GLI_2"),
+#'   id = "Plot",
+#'   .keep = c("Gen", "Row", "Range")
 #' )
 #' mat <- modeler_HTP(
 #'   x = results,
 #'   index = "GLI_2",
-#'   plot_id = c(195),
+#'   id = c(195),
 #'   parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
 #'   fn = "fn_lin_pl_lin",
 #' )
@@ -60,12 +61,12 @@
 #' can <- modeler_HTP(
 #'   x = results,
 #'   index = "Canopy",
-#'   plot_id = c(195),
+#'   id = c(195),
 #'   parameters = c(t1 = 45, t2 = 80, k = 0.9),
 #'   fn = "fn_piwise",
 #'   max_as_last = TRUE
 #' )
-#' plot(can, plot_id = c(195))
+#' plot(can, id = c(195))
 #' print(can)
 #' @import optimx
 #' @import tibble
@@ -73,7 +74,7 @@
 #' @import foreach
 modeler_HTP <- function(x,
                         index = "GLI",
-                        plot_id = NULL,
+                        id = NULL,
                         check_negative = TRUE,
                         add_zero = TRUE,
                         max_as_last = FALSE,
@@ -95,8 +96,9 @@ modeler_HTP <- function(x,
   if (!inherits(x, "read_HTP")) {
     stop("The object should be of class 'read_HTP'.")
   }
+  .keep <- x$.keep
   # Validate index
-  traits <- unique(x$dt_long$trait)
+  traits <- unique(x$dt_long$var)
   if (!index %in% traits) {
     stop("Index not found in x. Please verify the spelling.")
   }
@@ -108,10 +110,10 @@ modeler_HTP <- function(x,
   # Validate initial_vals
   if (!is.null(initial_vals)) {
     nam_ini_vals <- colnames(initial_vals)
-    if (!all(c("plot", "genotype") %in% colnames(initial_vals))) {
-      stop("initial_vals should contain columns 'plot' and 'genotype'.")
+    if (!all(c("uid") %in% colnames(initial_vals))) {
+      stop("initial_vals should contain columns 'uid'.")
     }
-    if (!sum(nam_ini_vals[-c(1:2)] %in% args) == length(args)) {
+    if (!sum(nam_ini_vals[-c(1)] %in% args) == length(args)) {
       stop("initial_vals should have the same parameters as the function: ", fn)
     }
   }
@@ -126,13 +128,13 @@ modeler_HTP <- function(x,
   # Validate fixed_params
   if (!is.null(fixed_params)) {
     nam_fix_params <- colnames(fixed_params)
-    if (!all(c("plot", "genotype") %in% colnames(fixed_params))) {
-      stop("fixed_params should contain columns 'plot' and 'genotype'.")
+    if (!all(c("uid") %in% colnames(fixed_params))) {
+      stop("fixed_params should contain columns 'uid'.")
     }
-    if (!any(nam_fix_params[-c(1:2)] %in% args)) {
+    if (!any(nam_fix_params[-c(1)] %in% args)) {
       stop("fixed_params should have at least one parameter of: ", fn)
     }
-    if (sum(nam_fix_params[-c(1:2)] %in% args) == length(args)) {
+    if (sum(nam_fix_params[-c(1)] %in% args) == length(args)) {
       stop("fixed_params cannot contain all parameters of the function: ", fn)
     }
   }
@@ -152,71 +154,71 @@ modeler_HTP <- function(x,
     }
   }
   dt <- x$dt_long |>
-    filter(trait %in% index) |>
-    filter(!is.na(value)) |>
+    filter(var %in% index) |>
+    filter(!is.na(y)) |>
     droplevels()
   if (max_as_last) {
-    dt <- max_as_last(dt)
+    dt <- max_as_last(dt, .keep = .keep)
   }
   if (check_negative) {
-    dt <- mutate(dt, value = ifelse(value < 0, 0, value))
+    dt <- mutate(dt, y = ifelse(y < 0, 0, y))
   }
   if (add_zero) {
     dt <- dt |>
-      mutate(time = 0, value = 0) |>
+      mutate(x = 0, y = 0) |>
       unique.data.frame() |>
       rbind.data.frame(dt) |>
-      arrange(plot, time)
+      arrange(uid, x)
   }
   if (!is.null(initial_vals)) {
     init <- initial_vals |>
-      pivot_longer(cols = -c(plot, genotype), names_to = "coef") |>
-      nest_by(plot, genotype, .key = "initials") |>
+      pivot_longer(cols = -c(uid), names_to = "coef") |>
+      nest_by(uid, .key = "initials") |>
       mutate(initials = list(pull(initials, value, coef)))
   } else {
     init <- dt |>
-      select(plot, genotype) |>
+      select(uid) |>
       unique.data.frame() |>
       cbind(data.frame(t(parameters))) |>
-      pivot_longer(cols = -c(plot, genotype), names_to = "coef") |>
-      nest_by(plot, genotype, .key = "initials") |>
+      pivot_longer(cols = -c(uid), names_to = "coef") |>
+      nest_by(uid, .key = "initials") |>
       mutate(initials = list(pull(initials, value, coef)))
   }
   if (!is.null(fixed_params)) {
     fixed <- fixed_params |>
-      pivot_longer(cols = -c(plot, genotype), names_to = "coef") |>
-      nest_by(plot, genotype, .key = "fx_params") |>
+      pivot_longer(cols = -c(uid), names_to = "coef") |>
+      nest_by(uid, .key = "fx_params") |>
       mutate(fx_params = list(pull(fx_params, value, coef)))
     init <- init |>
-      full_join(fixed, by = c("plot", "genotype")) |>
+      full_join(fixed, by = c("uid")) |>
       mutate(
         initials = list(initials[!names(initials) %in% names(fixed_params)])
       )
   } else {
     fixed <- dt |>
-      select(plot, genotype) |>
+      select(uid) |>
       unique.data.frame() |>
-      nest_by(plot, genotype, .key = "fx_params") |>
+      nest_by(uid, .key = "fx_params") |>
       mutate(fx_params = list(NA))
-    init <- full_join(init, fixed, by = c("plot", "genotype"))
+    init <- full_join(init, fixed, by = c("uid"))
   }
-  if (!is.null(plot_id)) {
-    dt <- droplevels(filter(dt, plot %in% plot_id))
-    init <- droplevels(filter(init, plot %in% plot_id))
-    fixed <- droplevels(filter(fixed, plot %in% plot_id))
+  if (!is.null(id)) {
+    dt <- droplevels(filter(dt, uid %in% id))
+    init <- droplevels(filter(init, uid %in% id))
+    fixed <- droplevels(filter(fixed, uid %in% id))
   }
   dt_nest <- dt |>
-    nest_by(plot, genotype, row, range) |>
-    full_join(init, by = c("plot", "genotype"))
+    nest_by(uid, across(all_of(.keep))) |>
+    full_join(init, by = c("uid"))
   if (any(unlist(lapply(dt_nest$fx_params, is.null)))) {
     stop(
       "Fitting models for all plots but 'fixed_params' has only a few.
-       Check the argument 'plot_id'"
+       Check the argument 'id'"
     )
   }
   # Parallel
   `%dofu%` <- doFuture::`%dofuture%`
-  plot_id <- unique(dt_nest$plot)
+  plot_id <- unique(dt_nest$uid)
   if (parallel) {
     workers <- ifelse(
       test = is.null(workers),
@@ -236,18 +238,18 @@ modeler_HTP <- function(x,
   init_time <- Sys.time()
   modeler <- foreach(
     i = plot_id,
-    # .combine = rbind,
     .options.future = list(seed = TRUE)
   ) %dofu% {
-    p(sprintf("plot_id = %g", i))
+    p(sprintf("uid = %g", i))
     .fitter_curve(
       data = dt_nest,
-      plot_id = i,
+      id = i,
       fn = fn,
       method = method,
       lower = lower,
       upper = upper,
-      control = control
+      control = control,
+      .keep = .keep
     )
   }
   end_time <- Sys.time()
@@ -256,7 +258,7 @@ modeler_HTP <- function(x,
     what = rbind,
     args = lapply(modeler, function(x) {
       x$rr |>
-        select(c(plot, genotype, method, sse, fevals:xtime)) |>
+        select(c(uid, method, sse, fevals:xtime)) |>
         as_tibble()
     })
   )
@@ -266,32 +268,32 @@ modeler_HTP <- function(x,
     param_mat <- param_mat |> select(-`t(fx_params)`)
   }
   if (is.null(max_time)) {
-    max_time <- max(dt$time, na.rm = TRUE)
+    max_time <- max(dt$x, na.rm = TRUE)
   }
   # AUC
   density <- create_call(fn)
   sq <- seq(0, max_time, length.out = n_points)
   auc <- full_join(
-    x = expand.grid(time = sq, plot = unique(dt$plot)),
+    x = expand.grid(x = sq, uid = unique(dt$uid)),
     y = param_mat,
-    by = "plot"
+    by = "uid"
   ) |>
-    group_by(time, plot) |>
+    group_by(x, uid) |>
     mutate(hat = !!density) |>
-    group_by(plot) |>
-    mutate(trapezoid_area = (lead(hat) + hat) / 2 * (lead(time) - time)) |>
+    group_by(uid) |>
+    mutate(trapezoid_area = (lead(hat) + hat) / 2 * (lead(x) - x)) |>
     filter(!is.na(trapezoid_area)) |>
     summarise(auc = sum(trapezoid_area))
-  param_mat <- full_join(param_mat, auc, by = "plot")
+  param_mat <- full_join(param_mat, auc, by = "uid")
   # Fitted values
   fitted_vals <- dt |>
-    select(time, plot) |>
-    full_join(param_mat, by = "plot") |>
-    group_by(time, plot) |>
+    select(x, uid) |>
+    full_join(param_mat, by = "uid") |>
+    group_by(x, uid) |>
     mutate(.fitted = !!density) |>
     ungroup() |>
-    select(time, plot, .fitted)
-  dt <- full_join(dt, fitted_vals, by = c("time", "plot"))
+    select(x, uid, .fitted)
+  dt <- full_join(dt, fitted_vals, by = c("x", "uid"))
   # Output
   if (!return_method) {
     param_mat <- select(param_mat, -method)
@@ -304,6 +306,7 @@ modeler_HTP <- function(x,
     max_time = max_time,
     execution = end_time - init_time,
     response = index,
+    .keep = .keep,
     fun = fn,
     fit = modeler
   )
@@ -318,7 +321,7 @@ modeler_HTP <- function(x,
 #' The function .fitter_curve is used internally to find the parameters requested.
 #'
 #' @param data A nested data.frame with columns <plot, genotype, row, range, data, initials, fx_params>.
-#' @param plot_id An optional vector of plot IDs to filter the data. Default is \code{NULL}, meaning all plots are used.
+#' @param id An optional vector of plot IDs to filter the data. Default is \code{NULL}, meaning all plots are used.
 #' @param fn A string specifying the name of the function to be used for the curve fitting. Default is \code{"fn_piwise"}.
 #' @param method A character vector specifying the optimization methods to be used. See \code{optimx} package for available methods. Default is \code{c("subplex", "pracmanm", "anms")}.
 #' @param lower Numeric vector specifying the lower bounds for the parameters. Default is \code{-Inf} for all parameters.
@@ -334,17 +337,15 @@ modeler_HTP <- function(x,
 #' dt_potato <- dt_potato
 #' results <- read_HTP(
 #'   data = dt_potato,
-#'   genotype = "Gen",
-#'   time = "DAP",
-#'   plot = "Plot",
-#'   traits = c("Canopy", "GLI_2"),
-#'   row = "Row",
-#'   range = "Range"
+#'   x = "DAP",
+#'   y = c("Canopy", "GLI_2"),
+#'   id = "Plot",
+#'   .keep = c("Gen", "Row", "Range")
 #' )
 #' mod <- modeler_HTP(
 #'   x = results,
 #'   index = "GLI_2",
-#'   plot_id = c(195),
+#'   id = c(195),
 #'   parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
 #'   fn = "fn_lin_pl_lin",
 #' )
@@ -356,17 +357,18 @@ modeler_HTP <- function(x,
 #' @importFrom stats na.omit
 #' @importFrom stats qnorm
 .fitter_curve <- function(data,
-                          plot_id,
+                          id,
                           fn,
                           method,
                           lower,
                           upper,
-                          control) {
-  dt <- data[data$plot == plot_id, ]
+                          control,
+                          .keep) {
+  dt <- data[data$uid == id, ]
   initials <- unlist(dt$initials)
   fx_params <- unlist(dt$fx_params)
-  t <- unnest(dt, data)$time
-  y <- unnest(dt, data)$value
+  t <- unnest(dt, data)$x
+  y <- unnest(dt, data)$y
   kkopt <- opm(
     par = initials,
     fn = minimizer,
@@ -382,7 +384,7 @@ modeler_HTP <- function(x,
   )
   # metadata
   rr <- cbind(
-    dt[, c("plot", "genotype", "row", "range")],
+    dt[, c("uid", .keep)],
     kkopt |>
       tibble::rownames_to_column(var = "method") |>
       dplyr::rename(sse = value) |>
@@ -396,7 +398,7 @@ modeler_HTP <- function(x,
   details <- attr(kkopt, "details")[best, ]
   hessian <- details$nhatend
   coeff <- coef(kkopt)
-  if(all(is.na(details$hev))) {
+  if (all(is.na(details$hev))) {
     hessian <- matrix(NA, nrow = ncol(coeff), ncol = ncol(coeff))
   }
   est_params <- colnames(coeff)
@@ -420,41 +422,7 @@ modeler_HTP <- function(x,
     conv = rr[rr$method == best, "convergence"],
     p = length(est_params),
     n_obs = length(t),
-    plot_id = plot_id
+    uid = id
   )
   return(out)
 }
-
-
-# .fitter_curve <- function(data,
-#                           plot_id,
-#                           fn,
-#                           metric,
-#                           method,
-#                           lower,
-#                           upper,
-#                           control) {
-#   dt <- data[data$plot == plot_id, ]
-#   initials <- unlist(dt$initials)
-#   fx_params <- unlist(dt$fx_params)
-#   t <- unnest(dt, data)$time
-#   y <- unnest(dt, data)$value
-#   rr <- opm(
-#     par = initials,
-#     fn = minimizer,
-#     t = t,
-#     y = y,
-#     curve = fn,
-#     fixed_params = fx_params,
-#     metric = metric,
-#     method = method,
-#     lower = lower,
-#     upper = upper,
-#     control = control
-#   ) |>
-#     tibble::rownames_to_column(var = "method") |>
-#     dplyr::rename(sse = value) |>
-#     cbind(t(fx_params))
-#   rr <- cbind(select(dt, plot, genotype, row, range), rr)
-#   return(rr)
-# }

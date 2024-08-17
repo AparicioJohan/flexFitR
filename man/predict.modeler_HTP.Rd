@@ -4,15 +4,17 @@
 \alias{predict.modeler_HTP}
 \title{Predict an object of class \code{modeler_HTP}}
 \usage{
-\method{predict}{modeler_HTP}(x, time = NULL, plot_id = NULL, ...)
+\method{predict}{modeler_HTP}(object, x = NULL, id = NULL, metadata = FALSE, ...)
 }
 \arguments{
-\item{x}{An object inheriting from class \code{modeler_HTP} resulting of
+\item{object}{An object inheriting from class \code{modeler_HTP} resulting of
 executing the function \code{modeler_HTP()}}
 
-\item{time}{A numeric time point to make the prediction. Can be more than one.}
+\item{x}{A numeric time point to make the prediction. Can be more than one.}
 
-\item{plot_id}{A numeric to filter by Plot Id.}
+\item{id}{A numeric to filter by unique identifier. NULL by default.}
+
+\item{metadata}{TRUE or FALSE. Whether to bring the metadata or not when calculating the coefficients.}
 
 \item{...}{Further parameters. For future improvements.}
 }
@@ -27,22 +29,20 @@ library(exploreHTP)
 data(dt_potato)
 results <- read_HTP(
   data = dt_potato,
-  genotype = "Gen",
-  time = "DAP",
-  plot = "Plot",
-  traits = c("Canopy", "GLI_2"),
-  row = "Row",
-  range = "Range"
+  x = "DAP",
+  y = c("Canopy", "GLI_2"),
+  id = "Plot",
+  .keep = c("Gen","Row", "Range")
 )
 mod <- modeler_HTP(
   x = results,
   index = "Canopy",
-  plot_id = c(15, 2, 45),
+  id = c(15, 2, 45),
   parameters = c(t1 = 45, t2 = 80, k = 0.9),
   fn = "fn_piwise"
 )
 mod
-predict(mod, time = 45, plot_id = 2)
+predict(mod, x = 45, id = 2)
 }
 \author{
 Johan Aparicio [aut]

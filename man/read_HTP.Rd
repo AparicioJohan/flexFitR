@@ -4,30 +4,27 @@
 \alias{read_HTP}
 \title{Read HTP Data}
 \usage{
-read_HTP(data, genotype, time, plot, traits, row, range)
+read_HTP(data, x = NULL, y = NULL, id = NULL, .keep = NULL)
 }
 \arguments{
 \item{data}{A data.frame in a wide format containing HTP data.}
 
-\item{genotype}{A character string indicating the column in `data` that contains genotype information.}
+\item{x}{A character string indicating the column in `data` that contains time points.}
 
-\item{time}{A character string indicating the column in `data` that contains time points.}
+\item{y}{A character vector specifying the columns in `data` that contain the traits to be analyzed.}
 
-\item{plot}{A character string indicating the column in `data` that contains plot IDs.}
+\item{id}{A character string indicating the column in `data` that contains plot IDs or unique identifiers.}
 
-\item{traits}{A character vector specifying the columns in `data` that contain the traits to be analyzed.}
-
-\item{row}{A character string indicating the column in `data` that contains row coordinates.}
-
-\item{range}{A character string indicating the column in `data` that contains range coordinates.}
+\item{.keep}{A character string indicating the columns in `data` to keep across.}
 }
 \value{
 An object of class \code{read_HTP}, which is a list containing the following elements:
 \describe{
   \item{\code{summ_traits}}{A data.frame containing summary statistics for each trait at each time point, including minimum, mean, median, maximum, standard deviation, coefficient of variation, number of non-missing values, percentage of missing values, and percentage of negative values.}
-  \item{\code{exp_design_resum}}{A data.frame summarizing the experimental design, including the number of unique genotypes, rows, ranges, and the replication structure.}
+  \item{\code{metadata}}{A data.frame summarizing the metadata.}
   \item{\code{locals_min_max}}{A data.frame containing the local minima and maxima of the mean trait values over time.}
   \item{\code{dt_long}}{A data.frame in long format, with columns for time, plot, row, range, genotype, trait, and value.}
+  \item{\code{.keep}}{A character vector with the names of the variables to keep across.}
 }
 }
 \description{
@@ -42,12 +39,10 @@ data(dt_potato)
 dt_potato <- dt_potato
 results <- read_HTP(
   data = dt_potato,
-  genotype = "Gen",
-  time = "DAP",
-  plot = "Plot",
-  traits = c("Canopy", "PH"),
-  row = "Row",
-  range = "Range"
+  x = "DAP",
+  y = c("Canopy", "PH"),
+  id = "Plot",
+  .keep = c("Gen", "Row", "Range")
 )
 names(results)
 head(results$summ_traits)

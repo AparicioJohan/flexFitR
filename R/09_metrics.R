@@ -69,14 +69,12 @@ r_squared <- function(actual, predicted) {
 #' dt_potato <- dt_potato
 #' results <- read_HTP(
 #'   data = dt_potato,
-#'   genotype = "Gen",
-#'   time = "DAP",
-#'   plot = "Plot",
-#'   traits = c("Canopy", "PH"),
-#'   row = "Row",
-#'   range = "Range"
+#'   x = "DAP",
+#'   y = c("Canopy", "PH"),
+#'   id = "Plot",
+#'   .keep = c("Gen", "Row", "Range")
 #' )
-#' x <- canopy_HTP(x = results, index = "Canopy", plot_id = c(1:2))
+#' x <- canopy_HTP(x = results, index = "Canopy", id = c(1:2))
 #' plot(x, c(1:2))
 #' print(x)
 #' metrics_HTP(x)
@@ -85,22 +83,22 @@ metrics_HTP <- function(x, .by_plot = TRUE) {
     stop("The object should be of modeler_HTP class")
   }
   val_metrics <- x$dt |>
-    group_by(plot, row, range, genotype, trait) |>
+    group_by(uid, var) |>
     summarise(
-      SSE = sse(value, .fitted),
-      MAE = mae(value, .fitted),
-      MSE = mse(value, .fitted),
+      SSE = sse(y, .fitted),
+      MAE = mae(y, .fitted),
+      MSE = mse(y, .fitted),
       RMSE = sqrt(MSE),
-      r_squared = r_squared(value, .fitted),
+      r_squared = r_squared(y, .fitted),
       n = n(),
       .groups = "drop"
     )
   n_plots <- nrow(val_metrics)
   if (!.by_plot & n_plots > 1) {
     summ_metrics <- val_metrics |>
-      select(trait:r_squared) |>
+      select(var:r_squared) |>
       pivot_longer(cols = SSE:r_squared, names_to = "metric") |>
-      group_by(trait, metric) |>
+      group_by(var, metric) |>
       summarise(
         Min = suppressWarnings(min(value, na.rm = TRUE)),
         Mean = mean(value, na.rm = TRUE),

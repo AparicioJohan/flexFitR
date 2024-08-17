@@ -17,19 +17,17 @@
 #' data(dt_potato)
 #' results <- read_HTP(
 #'   data = dt_potato,
-#'   genotype = "Gen",
-#'   time = "DAP",
-#'   plot = "Plot",
-#'   traits = c("Canopy", "PH"),
-#'   row = "Row",
-#'   range = "Range"
+#'   x = "DAP",
+#'   y = c("Canopy", "PH"),
+#'   id = "Plot",
+#'   .keep = c("Gen", "Row", "Range")
 #' )
-#' out <- canopy_HTP(x = results, index = "Canopy", plot_id = c(1:5))
-#' plot(out, plot_id = c(1:5))
+#' out <- canopy_HTP(x = results, index = "Canopy", id = c(1:5))
+#' plot(out, id = c(1:5))
 #' print(out)
 print.modeler_HTP <- function(x, ...) {
-  param <- select(x$param, -c(row, range))
-  trait <- unique(x$dt$trait)
+  param <- select(x$param, -all_of(x$.keep))
+  trait <- unique(x$dt$var)
   cat("\nCall:\n")
   cat(paste(trait, "~", deparse(x$fn)), "\n")
   cat("\n")
@@ -48,7 +46,7 @@ print.modeler_HTP <- function(x, ...) {
   cat("Metrics:\n")
   total_time <- x$execution
   dt <- x$metrics |>
-    group_by(plot, genotype) |>
+    group_by(uid) |>
     arrange(sse) |>
     slice(1) |>
     ungroup()
@@ -58,10 +56,10 @@ print.modeler_HTP <- function(x, ...) {
     pull(conv)
   ite <- dt |>
     summarise(ite = round(mean(fevals, na.rm = TRUE), 2)) |>
-    mutate(ite = paste0(ite, " (plot)")) |>
+    mutate(ite = paste0(ite, " (id)")) |>
     pull(ite)
   info <- data.frame(
-    Plots = nrow(dt),
+    Ids = nrow(dt),
     `Timing` = round(total_time, 4),
     Convergence = conv,
     `Iterations` = ite,

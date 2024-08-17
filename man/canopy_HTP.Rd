@@ -4,14 +4,14 @@
 \alias{canopy_HTP}
 \title{Canopy Modelling}
 \usage{
-canopy_HTP(x, index = "Canopy", plot_id = NULL, ...)
+canopy_HTP(x, index = "Canopy", id = NULL, ...)
 }
 \arguments{
 \item{x}{An object of class \code{read_HTP}, containing the results of the \code{read_HTP()} function.}
 
 \item{index}{A string specifying the canopy trait to be modeled. Default is \code{"Canopy"}.}
 
-\item{plot_id}{An optional vector of plot IDs to filter the data. Default is \code{NULL}, meaning all plots are used.}
+\item{id}{An optional vector of plot IDs to filter the data. Default is \code{NULL}, meaning all plots are used.}
 
 \item{...}{Additional arguments passed to the \code{modeler_HTP()} function.}
 }
@@ -33,14 +33,12 @@ data(dt_potato)
 dt_potato <- dt_potato
 results <- read_HTP(
   data = dt_potato,
-  genotype = "Gen",
-  time = "DAP",
-  plot = "Plot",
-  traits = c("Canopy", "PH"),
-  row = "Row",
-  range = "Range"
+  x = "DAP",
+  y = c("Canopy", "PH"),
+  id = "Plot",
+  .keep = c("Gen", "Row", "Range")
 )
-out <- canopy_HTP(x = results, index = "Canopy", plot_id = c(22, 40))
+out <- canopy_HTP(x = results, index = "Canopy", id = c(22, 40))
 plot(out, c(22, 40))
 print(out)
 }

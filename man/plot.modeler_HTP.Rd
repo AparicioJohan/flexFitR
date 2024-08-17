@@ -4,13 +4,13 @@
 \alias{plot.modeler_HTP}
 \title{Plot an object of class \code{modeler_HTP}}
 \usage{
-\method{plot}{modeler_HTP}(x, plot_id = NULL, label_size = 4, base_size = 14, ...)
+\method{plot}{modeler_HTP}(x, id = NULL, label_size = 4, base_size = 14, ...)
 }
 \arguments{
 \item{x}{An object inheriting from class \code{modeler_HTP} resulting of
 executing the function \code{modeler_HTP()}}
 
-\item{plot_id}{To avoid too many plots in one figure. Filter by Plot Id.}
+\item{id}{To avoid too many plots in one figure. Filter by Id.}
 
 \item{label_size}{Label size. 3 by default.}
 
@@ -30,18 +30,16 @@ suppressMessages(library(dplyr))
 data(dt_potato)
 results <- read_HTP(
   data = dt_potato,
-  genotype = "Gen",
-  time = "DAP",
-  plot = "Plot",
-  traits = c("Canopy", "GLI_2"),
-  row = "Row",
-  range = "Range"
+  x = "DAP",
+  y = c("Canopy", "GLI_2"),
+  id = "Plot",
+  .keep = c("Gen", "Row", "Range")
 )
 names(results)
 mat <- modeler_HTP(
   x = results,
   index = "GLI_2",
-  plot_id = c(195),
+  id = c(195),
   parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
   fn = "fn_lin_pl_lin",
 )
@@ -51,7 +49,7 @@ mat
 can <- modeler_HTP(
   x = results,
   index = "Canopy",
-  plot_id = c(195),
+  id = c(195),
   parameters = c(t1 = 45, t2 = 80, k = 0.9),
   fn = "fn_piwise"
 )
@@ -59,18 +57,18 @@ plot(can, plot_id = c(195))
 can
 
 fixed_params <- results$dt_long |>
-  filter(trait \%in\% "Canopy") |>
-  group_by(plot, genotype) |>
-  summarise(k = max(value, na.rm = TRUE), .groups = "drop")
+  filter(var \%in\% "Canopy") |>
+  group_by(uid) |>
+  summarise(k = max(y, na.rm = TRUE), .groups = "drop")
 can <- modeler_HTP(
   x = results,
   index = "Canopy",
-  plot_id = c(195),
+  id = c(195),
   parameters = c(t1 = 45, t2 = 80, k = 0.9),
   fn = "fn_piwise",
   fixed_params = fixed_params
 )
-plot(can, plot_id = c(195))
+plot(can, id = c(195))
 can
 }
 \author{

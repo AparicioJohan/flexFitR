@@ -3,7 +3,7 @@
 #' @param x An object of class \code{read_HTP}, containing the results of the \code{read_HTP()} function.
 #' @param height A string specifying the plant height trait to be modeled. Default is \code{"PH"}.
 #' @param canopy A string specifying the canopy trait to be modeled. Default is \code{"Canopy"}.
-#' @param plot_id An optional vector of plot IDs to filter the data. Default is \code{NULL}, meaning all plots are used.
+#' @param id An optional vector of plot IDs to filter the data. Default is \code{NULL}, meaning all plots are used.
 #' @param fn One of the following options: "fn_exp1_exp", "fn_exp1_lin", "fn_exp2_exp", "fn_exp2_lin".
 #' @param ... Additional arguments passed to the \code{modeler_HTP()} function.
 #' @return An object of class \code{modeler_HTP}, which is a list containing the following elements:
@@ -20,84 +20,82 @@
 #' data(dt_chips)
 #' results <- read_HTP(
 #'   data = dt_chips,
-#'   genotype = "Gen",
-#'   time = "DAP",
-#'   plot = "Plot",
-#'   traits = c("Canopy", "PH"),
-#'   row = "Row",
-#'   range = "Range"
+#'   x = "DAP",
+#'   y = c("Canopy", "PH"),
+#'   id = "Plot",
+#'   .keep = c("Gen", "Row", "Range")
 #' )
 #' ph_1 <- height_HTP(
 #'   x = results,
 #'   height = "PH",
 #'   canopy = "Canopy",
-#'   plot_id = 60,
+#'   id = 60,
 #'   fn = "fn_exp2_lin"
 #' )
 #' print(ph_1)
-#' plot(x = ph_1, plot_id = 60)
+#' plot(x = ph_1, id = 60)
 #' ph_2 <- height_HTP(
 #'   x = results,
 #'   height = "PH",
 #'   canopy = "Canopy",
-#'   plot_id = 60,
+#'   id = 60,
 #'   fn = "fn_exp2_exp"
 #' )
-#' plot(x = ph_2, plot_id = 60)
+#' plot(x = ph_2, id = 60)
 #' print(ph_2)
 #' @import optimx
 #' @import tibble
 height_HTP <- function(x,
                        height = "PH",
                        canopy = "Canopy",
-                       plot_id = NULL,
+                       id = NULL,
                        fn = c("fn_exp1_exp", "fn_exp1_lin", "fn_exp2_exp", "fn_exp2_lin"),
                        ...) {
   fn <- match.arg(fn)
   if (!inherits(x, "read_HTP")) {
     stop("The object should be of read_HTP class")
   }
-  traits <- unique(x$dt_long$trait)
+  traits <- unique(x$dt_long$var)
   if (!canopy %in% traits) {
     stop(canopy, " not found in x. Please verify the spelling.")
   }
   if (!height %in% traits) {
     stop(height, " not found in x. Please verify the spelling.")
   }
-  plots <- unique(x$dt_long$plot)
-  if (!is.null(plot_id)) {
-    if (!all(plot_id %in% plots)) {
-      stop("plot_id not found in data.")
+  plots <- unique(x$dt_long$uid)
+  if (!is.null(id)) {
+    if (!all(id %in% plots)) {
+      stop("Id not found in data.")
     } else {
-      plots <- plot_id
+      plots <- id
     }
   }
   fixed_params <- x$dt_long |>
-    filter(trait %in% canopy & plot %in% plots) |>
-    group_by(plot, genotype) |>
-    summarise(k = max(value), .groups = "drop")
-  time <- unique(x$dt_long$time)
+    filter(var %in% canopy & uid %in% plots) |>
+    group_by(uid) |>
+    summarise(k = max(y), .groups = "drop")
+  time <- unique(x$dt_long$x)
   t1 <- as.numeric(quantile(time, 0.3))
   t2 <- as.numeric(quantile(time, 0.6))
   k <- mean(fixed_params$k, na.rm = TRUE)
   mod_1 <- modeler_HTP(
     x = x,
     index = canopy,
-    plot_id = plots,
+    id = plots,
     parameters = c(t1 = t1, t2 = t2, k = k),
     fn = "fn_piwise",
     fixed_params = fixed_params,
     max_as_last = TRUE
   )
   fixed_params <- mod_1$param |>
-    select(plot, genotype, t1)
+    select(uid, t1)
   initials <- mod_1$param |>
-    select(plot, genotype, t1, t2) |>
+    select(uid, t1, t2) |>
     mutate(alpha = 1 / 600, beta = -1 / 30)
   out <- modeler_HTP(
     x = x,
     index = height,
-    plot_id = plots,
+    id = plots,
     fn = fn,
     initial_vals = initials,
     fixed_params = fixed_params,

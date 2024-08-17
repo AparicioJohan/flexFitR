@@ -2,10 +2,11 @@
 #'
 #' @description Model predictions for an object of class \code{modeler_HTP}
 #' @aliases predict.modeler_HTP
-#' @param x An object inheriting from class \code{modeler_HTP} resulting of
+#' @param object An object inheriting from class \code{modeler_HTP} resulting of
 #' executing the function \code{modeler_HTP()}
-#' @param time A numeric time point to make the prediction. Can be more than one.
-#' @param plot_id A numeric to filter by Plot Id.
+#' @param x A numeric time point to make the prediction. Can be more than one.
+#' @param id A numeric to filter by unique identifier. NULL by default.
+#' @param metadata TRUE or FALSE. Whether to bring the metadata or not when calculating the coefficients.
 #' @param ... Further parameters. For future improvements.
 #' @author Johan Aparicio [aut]
 #' @method predict modeler_HTP
@@ -16,56 +17,58 @@
 #' data(dt_potato)
 #' results <- read_HTP(
 #'   data = dt_potato,
-#'   genotype = "Gen",
-#'   time = "DAP",
-#'   plot = "Plot",
-#'   traits = c("Canopy", "GLI_2"),
-#'   row = "Row",
-#'   range = "Range"
+#'   x = "DAP",
+#'   y = c("Canopy", "GLI_2"),
+#'   id = "Plot",
+#'   .keep = c("Gen","Row", "Range")
 #' )
 #' mod <- modeler_HTP(
 #'   x = results,
 #'   index = "Canopy",
-#'   plot_id = c(15, 2, 45),
+#'   id = c(15, 2, 45),
 #'   parameters = c(t1 = 45, t2 = 80, k = 0.9),
 #'   fn = "fn_piwise"
 #' )
 #' mod
-#' predict(mod, time = 45, plot_id = 2)
+#' predict(mod, x = 45, id = 2)
 #' @import ggplot2
 #' @import dplyr
-predict.modeler_HTP <- function(x,
-                                time = NULL,
-                                plot_id = NULL, ...) {
-  # Check the class of x
-  if (!inherits(x, "modeler_HTP")) {
+predict.modeler_HTP <- function(object,
+                                x = NULL,
+                                id = NULL,
+                                metadata = FALSE, ...) {
+  # Check the class of object
+  if (!inherits(object, "modeler_HTP")) {
     stop("The object should be of class 'modeler_HTP'.")
   }
-  if (is.null(time)) {
-    stop("Argument time is required for predictions.")
+  if (is.null(x)) {
+    stop("Argument x is required for predictions.")
   }
-  data <- x$dt
-  if (!is.null(plot_id)) {
-    if (!all(plot_id %in% unique(data$plot))) {
-      stop("plot_ids not found in x.")
+  keep <- object$.keep
+  data <- object$dt
+  dt <- object$param
+  if (!is.null(id)) {
+    if (!all(id %in% unique(data$uid))) {
+      stop("plot_ids not found in object.")
     }
+    uid <- id
   } else {
-    plot_id <- unique(data$plot)
+    uid <- unique(data$uid)
   }
-  fn <- x$fn
-  limit_inf <- min(data$time, na.rm = TRUE)
-  limit_sup <- x$max_time
-  if (!all(limit_inf <= time & time <= limit_sup)) {
-    stop("time needs to be in the interval <", limit_inf, ", ", limit_sup, ">")
+  fn <- object$fn
+  limit_inf <- min(data$x, na.rm = TRUE)
+  limit_sup <- object$max_time
+  if (!all(limit_inf <= x & x <= limit_sup)) {
+    stop("x needs to be in the interval <", limit_inf, ", ", limit_sup, ">")
   }
-  .delta_method <- function(fit, time, curve) {
+  .delta_method <- function(fit, x_new, curve) {
     tt <- fit$hessian
     rdf <- (fit$n_obs - fit$p)
     varerr <- fit$param$sse / rdf
     vcov_mat <- try(solve(tt) * 2 * varerr, silent = TRUE)
     best <- fit$details$method
     estimated_params <- coef(fit$kkopt)[best, ]
-    plot <- fit$plot_id
+    uid <- fit$uid
     fix_params <- fit$type |>
       filter(type == "fixed") |>
       pull(value, name = parameter)
@@ -73,7 +76,7 @@ predict.modeler_HTP <- function(x,
     jac_matrix <- numDeriv::jacobian(
       func = ff,
       x = estimated_params,
-      time = time,
+      x_new = x_new,
       curve = curve,
       fixed_params = fix_params
     )
@@ -86,7 +89,7 @@ predict.modeler_HTP <- function(x,
     z_value <- qnorm(0.975)
     predicted_values <- ff(
       params = estimated_params,
-      time = time,
+      x_new = x_new,
       curve = curve,
       fixed_params = fix_params
     )
@@ -94,32 +97,40 @@ predict.modeler_HTP <- function(x,
     ci_upper <- predicted_values + z_value * std_errors
     # Combine results
     results <- data.frame(
-      plot = plot,
-      time = time,
+      uid = uid,
+      x_new = x_new,
       predicted.value = predicted_values,
       std.error = std_errors
     )
     results <- full_join(
-      x = select(fit$param, plot:range),
+      x = select(fit$param, uid),
       y = results,
-      by = "plot"
+      by = "uid"
     )
   }
-  fit_list <- x$fit
-  id <- which(unlist(lapply(fit_list, function(x) x$plot_id)) %in% plot_id)
+  fit_list <- object$fit
+  id <- which(unlist(lapply(fit_list, function(x) x$uid)) %in% uid)
   fit_list <- fit_list[id]
   predictions <- do.call(
     what = rbind,
     args = suppressWarnings(
-      lapply(fit_list, FUN = .delta_method, time = time, curve = x$fun)
+      lapply(fit_list, FUN = .delta_method, x_new = x, curve = object$fun)
     )
   ) |>
     as_tibble()
-  return(predictions)
+  if (metadata) {
+    predictions |>
+      left_join(
+        y = select(dt, uid, all_of(keep)),
+        by = "uid"
+      ) |>
+      relocate(all_of(keep), .after = uid)
+  } else {
+    return(predictions)
+  }
 }
 
-
-ff <- function(params, time, curve, fixed_params = NA) {
+ff <- function(params, x_new, curve, fixed_params = NA) {
   arg <- names(formals(curve))[-1]
   values <- paste(params, collapse = ", ")
   if (!any(is.na(fixed_params))) {
@@ -134,7 +145,7 @@ ff <- function(params, time, curve, fixed_params = NA) {
     )
     values <- paste(values, fix, sep = ", ")
   }
-  string <- paste("sapply(time, FUN = ", curve, ", ", values, ")", sep = "")
+  string <- paste("sapply(x_new, FUN = ", curve, ", ", values, ")", sep = "")
   y_hat <- eval(parse(text = string))
   return(y_hat)
 }
@@ -145,7 +156,8 @@ ff <- function(params, time, curve, fixed_params = NA) {
 #' @aliases coef.modeler_HTP
 #' @param x An object inheriting from class \code{modeler_HTP} resulting of
 #' executing the function \code{modeler_HTP()}
-#' @param plot_id A numeric to filter by Plot Id.
+#' @param id A numeric to filter by Plot Id.
+#' @param metadata TRUE or FALSE. Whether to bring the metadata or not when calculating the coefficients.
 #' @param ... Further parameters. For future improvements.
 #' @author Johan Aparicio [aut]
 #' @method coef modeler_HTP
@@ -156,17 +168,15 @@ ff <- function(params, time, curve, fixed_params = NA) {
 #' data(dt_potato)
 #' results <- read_HTP(
 #'   data = dt_potato,
-#'   genotype = "Gen",
-#'   time = "DAP",
-#'   plot = "Plot",
-#'   traits = c("Canopy", "GLI_2"),
-#'   row = "Row",
-#'   range = "Range"
+#'   x = "DAP",
+#'   y = c("Canopy", "GLI_2"),
+#'   id = "Plot",
+#'   .keep = c("Gen","Row", "Range")
 #' )
 #' mod <- modeler_HTP(
 #'   x = results,
 #'   index = "Canopy",
-#'   plot_id = 1:2,
+#'   id = 1:2,
 #'   parameters = c(t1 = 45, t2 = 80, k = 0.9),
 #'   fn = "fn_piwise"
 #' )
@@ -174,18 +184,19 @@ ff <- function(params, time, curve, fixed_params = NA) {
 #' coef(mod)
 #' @import dplyr
 #' @importFrom stats pt
-coef.modeler_HTP <- function(x, plot_id = NULL, ...) {
+coef.modeler_HTP <- function(x, id = NULL, metadata = FALSE, ...) {
   # Check the class of x
   if (!inherits(x, "modeler_HTP")) {
     stop("The object should be of class 'modeler_HTP'.")
   }
+  keep <- x$.keep
   dt <- x$param
-  if (!is.null(plot_id)) {
-    if (!all(plot_id %in% unique(dt$plot))) {
+  if (!is.null(id)) {
+    if (!all(id %in% unique(dt$uid))) {
       stop("plot_ids not found in x.")
     }
   } else {
-    plot_id <- unique(dt$plot)
+    uid <- unique(dt$uid)
   }
   .get_coef <- function(fit) {
     hessian <- fit$hessian
@@ -204,25 +215,34 @@ coef.modeler_HTP <- function(x, plot_id = NULL, ...) {
       ) |>
       dplyr::mutate(std.error = mat_hess) |>
       dplyr::select(-method) |>
-      dplyr::mutate(plot = fit$plot_id, .before = coefficient) |>
+      dplyr::mutate(uid = fit$uid, .before = coefficient) |>
       dplyr::mutate(
         `t value` = solution / std.error,
         `Pr(>|t|)` = pt(abs(`t value`), rdf, lower.tail = FALSE)
       )
     ccoef <- full_join(
-      x = select(fit$param, plot:genotype),
+      x = select(fit$param, uid),
       y = ccoef,
-      by = "plot"
+      by = "uid"
     )
     return(ccoef)
   }
   fit_list <- x$fit
-  id <- which(unlist(lapply(fit_list, function(x) x$plot_id)) %in% plot_id)
+  id <- which(unlist(lapply(fit_list, function(x) x$uid)) %in% uid)
   fit_list <- fit_list[id]
   coeff <- do.call(
     what = rbind,
     args = suppressWarnings(lapply(fit_list, FUN = .get_coef))
   ) |>
     as_tibble()
-  return(coeff)
+  if (metadata) {
+    coeff |>
+      left_join(
+        y = select(dt, uid, all_of(keep)),
+        by = "uid"
+      ) |>
+      relocate(all_of(keep), .after = uid)
+  } else {
+    return(coeff)
+  }
 }

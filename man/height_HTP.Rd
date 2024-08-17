@@ -8,7 +8,7 @@ height_HTP(
   x,
   height = "PH",
   canopy = "Canopy",
-  plot_id = NULL,
+  id = NULL,
   fn = c("fn_exp1_exp", "fn_exp1_lin", "fn_exp2_exp", "fn_exp2_lin"),
   ...
 )
@@ -20,7 +20,7 @@ height_HTP(
 
 \item{canopy}{A string specifying the canopy trait to be modeled. Default is \code{"Canopy"}.}
 
-\item{plot_id}{An optional vector of plot IDs to filter the data. Default is \code{NULL}, meaning all plots are used.}
+\item{id}{An optional vector of plot IDs to filter the data. Default is \code{NULL}, meaning all plots are used.}
 
 \item{fn}{One of the following options: "fn_exp1_exp", "fn_exp1_lin", "fn_exp2_exp", "fn_exp2_lin".}
 
@@ -43,29 +43,27 @@ library(exploreHTP)
 data(dt_chips)
 results <- read_HTP(
   data = dt_chips,
-  genotype = "Gen",
-  time = "DAP",
-  plot = "Plot",
-  traits = c("Canopy", "PH"),
-  row = "Row",
-  range = "Range"
+  x = "DAP",
+  y = c("Canopy", "PH"),
+  id = "Plot",
+  .keep = c("Gen", "Row", "Range")
 )
 ph_1 <- height_HTP(
   x = results,
   height = "PH",
   canopy = "Canopy",
-  plot_id = 60,
+  id = 60,
   fn = "fn_exp2_lin"
 )
 print(ph_1)
-plot(x = ph_1, plot_id = 60)
+plot(x = ph_1, id = 60)
 ph_2 <- height_HTP(
   x = results,
   height = "PH",
   canopy = "Canopy",
-  plot_id = 60,
+  id = 60,
   fn = "fn_exp2_exp"
 )
-plot(x = ph_2, plot_id = 60)
+plot(x = ph_2, id = 60)
 print(ph_2)
 }

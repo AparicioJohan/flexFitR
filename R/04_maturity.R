@@ -3,7 +3,7 @@
 #' @param x An object of class \code{read_HTP}, containing the results of the \code{read_HTP()} function.
 #' @param index A string specifying the canopy trait to be modeled. Default is \code{"GLI"}.
 #' @param canopy A string specifying the canopy trait to be modeled. Default is \code{"Canopy"}.
-#' @param plot_id An optional vector of plot IDs to filter the data. Default is \code{NULL}, meaning all plots are used.
+#' @param id An optional vector of plot IDs to filter the data. Default is \code{NULL}, meaning all plots are used.
 #' @param ... Additional arguments passed to the \code{modeler_HTP()} function.
 #' @return An object of class \code{modeler_HTP}, which is a list containing the following elements:
 #' \describe{
@@ -19,18 +19,16 @@
 #' data(dt_potato)
 #' results <- read_HTP(
 #'   data = dt_potato,
-#'   genotype = "Gen",
-#'   time = "DAP",
-#'   plot = "Plot",
-#'   traits = c("Canopy", "GLI_2"),
-#'   row = "Row",
-#'   range = "Range"
+#'   x = "DAP",
+#'   y = c("Canopy", "GLI_2"),
+#'   id = "Plot",
+#'   .keep = c("Gen", "Row", "Range")
 #' )
 #' mat <- maturity_HTP(
 #'   x = results,
 #'   index = "GLI_2",
 #'   canopy = "Canopy",
-#'   plot_id = c(195, 40)
+#'   id = c(195, 40)
 #' )
 #' plot(mat, plot_id = c(195, 40))
 #' print(mat)
@@ -40,31 +38,31 @@
 maturity_HTP <- function(x,
                          index = "GLI",
                          canopy = "Canopy",
-                         plot_id = NULL,
+                         id = NULL,
                          ...) {
   if (!inherits(x, "read_HTP")) {
     stop("The object should be of read_HTP class")
   }
-  traits <- unique(x$dt_long$trait)
+  traits <- unique(x$dt_long$var)
   if (!canopy %in% traits) {
     stop(canopy, " not found in x. Please verify the spelling.")
   }
   if (!index %in% traits) {
     stop(index, " not found in x. Please verify the spelling.")
   }
-  plots <- unique(x$dt_long$plot)
-  if (!is.null(plot_id)) {
-    if (!all(plot_id %in% plots)) {
+  plots <- unique(x$dt_long$uid)
+  if (!is.null(id)) {
+    if (!all(id %in% plots)) {
       stop("plot_id not found in data.")
     } else {
-      plots <- plot_id
+      plots <- id
     }
   }
   fixed_params <- x$dt_long |>
-    filter(trait %in% canopy & plot %in% plots) |>
-    group_by(plot, genotype) |>
-    summarise(k = max(value), .groups = "drop")
-  time <- unique(x$dt_long$time)
+    filter(var %in% canopy & uid %in% plots) |>
+    group_by(uid) |>
+    summarise(k = max(y), .groups = "drop")
+  time <- unique(x$dt_long$x)
   t1 <- as.numeric(quantile(time, 0.3))
   t2 <- as.numeric(quantile(time, 0.6))
   t3 <- as.numeric(quantile(time, 0.8))
@@ -72,19 +70,19 @@ maturity_HTP <- function(x,
   mod_1 <- modeler_HTP(
     x = x,
     index = canopy,
-    plot_id = plots,
+    id = plots,
     parameters = c(t1 = t1, t2 = t2, k = k),
     fn = "fn_piwise",
     fixed_params = fixed_params,
     max_as_last = TRUE
   )
   initials <- mod_1$param |>
-    select(plot, genotype, t1, t2) |>
+    select(uid, t1, t2) |>
     mutate(dt = t3 - t2, k = 0.32, beta = -0.01)
   out <- modeler_HTP(
     x = x,
     index = index,
-    plot_id = plots,
+    id = plots,
     initial_vals = initials,
     fn = "fn_lin_pl_lin2",
     method = c("nlminb", "L-BFGS-B"),

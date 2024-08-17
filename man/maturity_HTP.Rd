@@ -4,7 +4,7 @@
 \alias{maturity_HTP}
 \title{Maturity Modelling}
 \usage{
-maturity_HTP(x, index = "GLI", canopy = "Canopy", plot_id = NULL, ...)
+maturity_HTP(x, index = "GLI", canopy = "Canopy", id = NULL, ...)
 }
 \arguments{
 \item{x}{An object of class \code{read_HTP}, containing the results of the \code{read_HTP()} function.}
@@ -13,7 +13,7 @@ maturity_HTP(x, index = "GLI", canopy = "Canopy", plot_id = NULL, ...)
 
 \item{canopy}{A string specifying the canopy trait to be modeled. Default is \code{"Canopy"}.}
 
-\item{plot_id}{An optional vector of plot IDs to filter the data. Default is \code{NULL}, meaning all plots are used.}
+\item{id}{An optional vector of plot IDs to filter the data. Default is \code{NULL}, meaning all plots are used.}
 
 \item{...}{Additional arguments passed to the \code{modeler_HTP()} function.}
 }
@@ -34,18 +34,16 @@ library(exploreHTP)
 data(dt_potato)
 results <- read_HTP(
   data = dt_potato,
-  genotype = "Gen",
-  time = "DAP",
-  plot = "Plot",
-  traits = c("Canopy", "GLI_2"),
-  row = "Row",
-  range = "Range"
+  x = "DAP",
+  y = c("Canopy", "GLI_2"),
+  id = "Plot",
+  .keep = c("Gen", "Row", "Range")
 )
 mat <- maturity_HTP(
   x = results,
   index = "GLI_2",
   canopy = "Canopy",
-  plot_id = c(195, 40)
+  id = c(195, 40)
 )
 plot(mat, plot_id = c(195, 40))
 print(mat)
