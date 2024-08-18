@@ -59,13 +59,13 @@ Creates various plots for an object of class \code{read_HTP}. Depending on the s
 library(exploreHTP)
 data(dt_potato)
 dt_potato <- dt_potato
-results <- read_HTP(
-  data = dt_potato,
-  x = "DAP",
-  y = c("Canopy", "PH"),
-  id = "Plot",
-  .keep = c("Gen", "Row", "Range")
-)
+results <- dt_potato |>
+  read_HTP(
+    x = DAP,
+    y = c(Canopy, PH),
+    id = Plot,
+    .keep = c(Gen, Row, Range)
+  )
 table <- plot(results, label_size = 4, signif = TRUE, n_row = 2)
 table
 plot(results, type = "time_by_trait", label_size = 4, signif = TRUE)
