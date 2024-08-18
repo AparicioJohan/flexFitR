@@ -67,23 +67,23 @@
 <span>  <span class="va">x</span>,</span>
 <span>  index <span class="op">=</span> <span class="st">"GLI"</span>,</span>
 <span>  id <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  check_negative <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  add_zero <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  max_as_last <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"subplex"</span>, <span class="st">"pracmanm"</span>, <span class="st">"anms"</span><span class="op">)</span>,</span>
-<span>  return_method <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  fn <span class="op">=</span> <span class="st">"fn_piwise"</span>,</span>
 <span>  parameters <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  lower <span class="op">=</span> <span class="op">-</span><span class="cn">Inf</span>,</span>
 <span>  upper <span class="op">=</span> <span class="cn">Inf</span>,</span>
 <span>  initial_vals <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  fixed_params <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  fn <span class="op">=</span> <span class="st">"fn_piwise"</span>,</span>
+<span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"subplex"</span>, <span class="st">"pracmanm"</span>, <span class="st">"anms"</span><span class="op">)</span>,</span>
+<span>  return_method <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  add_zero <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  check_negative <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  max_as_last <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  n_points <span class="op">=</span> <span class="fl">1000</span>,</span>
 <span>  max_time <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  control <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  progress <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  parallel <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  workers <span class="op">=</span> <span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  workers <span class="op">=</span> <span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  control <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -101,24 +101,8 @@
 <dd><p>An optional vector of plot IDs to filter the data. Default is <code>NULL</code>, meaning all plots are used.</p></dd>
 
 
-<dt>check_negative</dt>
-<dd><p>Logical. If <code>TRUE</code>, converts negative values in the data to zero. Default is <code>TRUE</code>.</p></dd>
-
-
-<dt>add_zero</dt>
-<dd><p>Logical. If <code>TRUE</code>, adds a zero value to the time series at the start. Default is <code>TRUE</code>.</p></dd>
-
-
-<dt>max_as_last</dt>
-<dd><p>Logical. If <code>TRUE</code>, appends the maximum value after reaching the maximum. Default is <code>FALSE</code>.</p></dd>
-
-
-<dt>method</dt>
-<dd><p>A character vector specifying the optimization methods to be used. See <code>optimx</code> package for available methods. Default is <code>c("subplex", "pracmanm", "anms")</code>.</p></dd>
-
-
-<dt>return_method</dt>
-<dd><p>Logical. If <code>TRUE</code>, includes the optimization method used in the result. Default is <code>FALSE</code>.</p></dd>
+<dt>fn</dt>
+<dd><p>A string specifying the name of the function to be used for the curve fitting. Default is <code>"fn_piwise"</code>.</p></dd>
 
 
 <dt>parameters</dt>
@@ -134,15 +118,31 @@
 
 
 <dt>initial_vals</dt>
-<dd><p>A data frame with columns <code>plot</code>, <code>genotype</code>, and the initial parameter values for each plot. Used for providing specific initial values per plot.</p></dd>
+<dd><p>A data frame with columns <code>uid</code>, and the initial parameter values for each plot. Used for providing specific initial values per plot.</p></dd>
 
 
 <dt>fixed_params</dt>
-<dd><p>A data frame with columns <code>plot</code>, <code>genotype</code>, and the fixed parameter values for each plot. Used for fixing certain parameters during optimization.</p></dd>
+<dd><p>A data frame with columns <code>uid</code>, and the fixed parameter values for each id. Used for fixing certain parameters during optimization.</p></dd>
 
 
-<dt>fn</dt>
-<dd><p>A string specifying the name of the function to be used for the curve fitting. Default is <code>"fn_piwise"</code>.</p></dd>
+<dt>method</dt>
+<dd><p>A character vector specifying the optimization methods to be used. See <code>optimx</code> package for available methods. Default is <code>c("subplex", "pracmanm", "anms")</code>.</p></dd>
+
+
+<dt>return_method</dt>
+<dd><p>Logical. If <code>TRUE</code>, includes the optimization method used in the result. Default is <code>FALSE</code>.</p></dd>
+
+
+<dt>add_zero</dt>
+<dd><p>Logical. If <code>TRUE</code>, adds a zero value to the time series at the start. Default is <code>TRUE</code>.</p></dd>
+
+
+<dt>check_negative</dt>
+<dd><p>Logical. If <code>TRUE</code>, converts negative values in the data to zero. Default is <code>TRUE</code>.</p></dd>
+
+
+<dt>max_as_last</dt>
+<dd><p>Logical. If <code>TRUE</code>, appends the maximum value after reaching the maximum. Default is <code>FALSE</code>.</p></dd>
 
 
 <dt>n_points</dt>
@@ -151,10 +151,6 @@
 
 <dt>max_time</dt>
 <dd><p>Numeric. The maximum time value to use for calculating the AUC. Default is <code>NULL</code>, which uses the last time point in the data.</p></dd>
-
-
-<dt>control</dt>
-<dd><p>A list of control parameters to be passed to the optimization function. For example, <code>list(maxit = 500)</code>.</p></dd>
 
 
 <dt>progress</dt>
@@ -167,6 +163,10 @@
 
 <dt>workers</dt>
 <dd><p>The number of parallel processes to use. `parallel::detectCores()`</p></dd>
+
+
+<dt>control</dt>
+<dd><p>A list of control parameters to be passed to the optimization function. For example: <code>list(maxit = 500)</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -242,7 +242,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Ids      Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    1 0.8985 secs        100%   896 (id)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    1 1.3031 secs        100%   896 (id)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="co"># Example 2</span></span></span>
 <span class="r-in"><span><span class="va">mod_2</span> <span class="op">&lt;-</span> <span class="fu">modeler_HTP</span><span class="op">(</span></span></span>
@@ -270,7 +270,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Ids      Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    1 0.5226 secs        100%   349 (id)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    1 0.8094 secs        100%   349 (id)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>

@@ -38,15 +38,13 @@ This is a basic example which shows how to use exploreHTP:
 library(exploreHTP)
 data(dt_chips)
 
-results <- read_HTP(
-  data = dt_chips,
-  genotype = "Gen",
-  time = "DAP",
-  plot = "Plot",
-  traits = c("Canopy", "PH"),
-  row = "Row",
-  range = "Range"
-)
+results <- dt_chips |>
+  read_HTP(
+    x = DAP,
+    y = c(Canopy, PH),
+    id = Plot,
+    .keep = c(Gen, Row, Range)
+  )
 names(results)
 ```
 ```{r, fig.height=3, fig.dpi=600}
@@ -65,56 +63,20 @@ results$summ_traits |>
 ```
 
 
-
 ```{r, echo = FALSE}
-results$exp_design_resum |>
+results$metadata |>
   dplyr::mutate_if(is.numeric, round, 2) |>
   kableExtra::kable()
 ```
 
+## 2. Estimating days to emergence and days to full canopy
 
-## 2. Plotting correlations (1)
-
-```{r, fig.width=10, fig.height=2, fig.dpi=600}
-# Trait by Time
-table <- plot(results, label_size = 4, signif = TRUE, n_row = 1)
-```
-
-```{r, eval = FALSE}
-head(table)
-```
-
-
-```{r, echo = FALSE}
-table |> kableExtra::kable()
-```
-
-
-## 3. Plotting correlations (2)
-
-```{r, fig.width=10, fig.height=5, fig.dpi=600}
-# Time by Trait
-table <- plot(results, type = "time_by_trait", label_size = 4, signif = TRUE)
-```
-
-```{r, eval = FALSE}
-head(table)
-```
-
-
-```{r, echo = FALSE}
-head(table) |> kableExtra::kable()
-```
-
-
-## 4. Estimating days to emergence and days to full canopy
-
-```{r}
-out <- canopy_HTP(x = results, index = "Canopy", plot_id = c(60, 150))
+```{r, warning=FALSE, message=FALSE}
+out <- canopy_HTP(x = results, index = "Canopy", id = c(60, 150))
 ```
 ```{r, fig.width= 8, fig.height=4, fig.dpi=600}
 print(out)
-plot(out, plot_id = c(60, 150))
+plot(out, id = c(60, 150))
 ```
 
 
@@ -124,21 +86,21 @@ out$param |>
   kableExtra::kable()
 ```
 
-## 5. Modelling Plant Height
+## 3. Modelling Plant Height
 
 ```{r}
 ph_1 <- height_HTP(
   x = results,
   height = "PH",
   canopy = "Canopy",
-  plot_id = c(60, 150),
+  id = c(60, 150),
   fn = "fn_exp2_exp"
 )
 ```
 
-```{r,  fig.width= 8, fig.height=4,fig.dpi=600}
+```{r,  fig.width= 8, fig.height=4, fig.dpi=600}
 print(ph_1)
-plot(ph_1, plot_id = c(60, 150))
+plot(ph_1, id = c(60, 150))
 ```
 
 ```{r, echo =FALSE}
@@ -147,30 +109,28 @@ ph_1$param |>
   kableExtra::kable()
 ```
 
-## 6. Modelling Maturity
+## 4. Modelling Maturity
 
-```{r, fig.width= 8, fig.height=4,fig.dpi=600}
+```{r, fig.width= 8, fig.height = 4,fig.dpi=600}
 data(dt_potato)
-results <- read_HTP(
-  data = dt_potato,
-  genotype = "Gen",
-  time = "DAP",
-  plot = "Plot",
-  traits = c("Canopy", "GLI_2"),
-  row = "Row",
-  range = "Range"
-)
+results <- dt_potato |>
+  read_HTP(
+    x = DAP,
+    y = c(Canopy, GLI_2),
+    id = Plot,
+    .keep = c(Gen, Row, Range)
+  )
 mat <- maturity_HTP(
   x = results,
   index = "GLI_2",
   canopy = "Canopy",
-  plot_id = c(195, 40, 20)
+  id = c(195, 40, 20)
 )
 ```
 
 ```{r, fig.width= 8, fig.height=4,fig.dpi=600}
 print(mat)
-plot(mat, plot_id = c(195, 40))
+plot(mat, id = c(195, 40))
 ```
 
 

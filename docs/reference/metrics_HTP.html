@@ -72,7 +72,7 @@ of Determination (R-squared).</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">metrics_HTP</span><span class="op">(</span><span class="va">x</span>, .by_plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">metrics_HTP</span><span class="op">(</span><span class="va">x</span>, .by_id <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -81,8 +81,8 @@ of Determination (R-squared).</p>
 <dd><p>An object of class `modeler_HTP` containing the necessary data to compute the metrics.</p></dd>
 
 
-<dt>.by_plot</dt>
-<dd><p>Return the metrics by plot? TRUE by default.</p></dd>
+<dt>.by_id</dt>
+<dd><p>Return the metrics by id? TRUE by default.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -132,7 +132,7 @@ $$R^2 = 1 - \frac{\sum_{i=1}^{n} (y_i - \hat{y}_i)^2}{\sum_{i=1}^{n} (y_i - \bar
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Ids      Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    2 0.8045 secs        100% 290.5 (id)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    2 1.0966 secs        100% 290.5 (id)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu">metrics_HTP</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 8</span></span>

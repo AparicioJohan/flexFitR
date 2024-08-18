@@ -71,6 +71,7 @@ the calculated Area Under the Curve (AUC) and parameter values.</p>
 <span>  params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">34.9</span>, t2 <span class="op">=</span> <span class="fl">61.8</span>, k <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>,</span>
 <span>  interval <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">100</span><span class="op">)</span>,</span>
 <span>  n_points <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>  auc <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  x_auc_label <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  y_auc_label <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  auc_label_size <span class="op">=</span> <span class="fl">4</span>,</span>
@@ -97,6 +98,10 @@ the calculated Area Under the Curve (AUC) and parameter values.</p>
 
 <dt>n_points</dt>
 <dd><p>An integer specifying the number of points to be used for plotting. Default is 1000.</p></dd>
+
+
+<dt>auc</dt>
+<dd><p>Print AUC in the plot? Default is <code>FALSE</code>.</p></dd>
 
 
 <dt>x_auc_label</dt>
