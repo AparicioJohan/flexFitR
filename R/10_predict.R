@@ -15,13 +15,13 @@
 #' @examples
 #' library(exploreHTP)
 #' data(dt_potato)
-#' results <- read_HTP(
-#'   data = dt_potato,
-#'   x = "DAP",
-#'   y = c("Canopy", "GLI_2"),
-#'   id = "Plot",
-#'   .keep = c("Gen","Row", "Range")
-#' )
+#' results <- dt_potato |>
+#'   read_HTP(
+#'     x = DAP,
+#'     y = c(Canopy, GLI_2),
+#'     id = Plot,
+#'     .keep = c(Gen, Row, Range)
+#'   )
 #' mod <- modeler_HTP(
 #'   x = results,
 #'   index = "Canopy",
@@ -166,13 +166,13 @@ ff <- function(params, x_new, curve, fixed_params = NA) {
 #' @examples
 #' library(exploreHTP)
 #' data(dt_potato)
-#' results <- read_HTP(
-#'   data = dt_potato,
-#'   x = "DAP",
-#'   y = c("Canopy", "GLI_2"),
-#'   id = "Plot",
-#'   .keep = c("Gen","Row", "Range")
-#' )
+#' results <- dt_potato |>
+#'   read_HTP(
+#'     x = DAP,
+#'     y = c(Canopy, GLI_2),
+#'     id = Plot,
+#'     .keep = c(Gen, Row, Range)
+#'   )
 #' mod <- modeler_HTP(
 #'   x = results,
 #'   index = "Canopy",

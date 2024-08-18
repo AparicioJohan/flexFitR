@@ -64,22 +64,26 @@
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for modeler_HTP</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">x</span>, time <span class="op">=</span> <span class="cn">NULL</span>, plot_id <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">object</span>, x <span class="op">=</span> <span class="cn">NULL</span>, id <span class="op">=</span> <span class="cn">NULL</span>, metadata <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>x</dt>
+    <dl><dt>object</dt>
 <dd><p>An object inheriting from class <code>modeler_HTP</code> resulting of
 executing the function <code><a href="modeler_HTP.html">modeler_HTP()</a></code></p></dd>
 
 
-<dt>time</dt>
+<dt>x</dt>
 <dd><p>A numeric time point to make the prediction. Can be more than one.</p></dd>
 
 
-<dt>plot_id</dt>
-<dd><p>A numeric to filter by Plot Id.</p></dd>
+<dt>id</dt>
+<dd><p>A numeric to filter by unique identifier. NULL by default.</p></dd>
+
+
+<dt>metadata</dt>
+<dd><p>TRUE or FALSE. Whether to bring the metadata or not when calculating the coefficients.</p></dd>
 
 
 <dt>...</dt>
@@ -101,46 +105,44 @@ executing the function <code><a href="modeler_HTP.html">modeler_HTP()</a></code>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://apariciojohan.github.io/exploreHTP/">exploreHTP</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">dt_potato</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_HTP.html">read_HTP</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  data <span class="op">=</span> <span class="va">dt_potato</span>,</span></span>
-<span class="r-in"><span>  genotype <span class="op">=</span> <span class="st">"Gen"</span>,</span></span>
-<span class="r-in"><span>  time <span class="op">=</span> <span class="st">"DAP"</span>,</span></span>
-<span class="r-in"><span>  plot <span class="op">=</span> <span class="st">"Plot"</span>,</span></span>
-<span class="r-in"><span>  traits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Canopy"</span>, <span class="st">"GLI_2"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  row <span class="op">=</span> <span class="st">"Row"</span>,</span></span>
-<span class="r-in"><span>  range <span class="op">=</span> <span class="st">"Range"</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="va">dt_potato</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="read_HTP.html">read_HTP</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    x <span class="op">=</span> <span class="va">DAP</span>,</span></span>
+<span class="r-in"><span>    y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">Canopy</span>, <span class="va">GLI_2</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    id <span class="op">=</span> <span class="va">Plot</span>,</span></span>
+<span class="r-in"><span>    .keep <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">Gen</span>, <span class="va">Row</span>, <span class="va">Range</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="modeler_HTP.html">modeler_HTP</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  x <span class="op">=</span> <span class="va">results</span>,</span></span>
 <span class="r-in"><span>  index <span class="op">=</span> <span class="st">"Canopy"</span>,</span></span>
-<span class="r-in"><span>  plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">15</span>, <span class="fl">2</span>, <span class="fl">45</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">15</span>, <span class="fl">2</span>, <span class="fl">45</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">45</span>, t2 <span class="op">=</span> <span class="fl">80</span>, k <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  fn <span class="op">=</span> <span class="st">"fn_piwise"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">mod</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Canopy ~ fn_piwise(time, t1, t2, k) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Canopy ~ fn_piwise(x, t1, t2, k) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Sum of Squares Error:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   29.24  285.04  540.84 1006.77 1495.54 2450.24 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Optimization Results `head()`:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  plot  genotype   t1   t2    k    sse  auc</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     2 W17066-22 35.2 60.1 97.4   29.2 5883</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    15 W17062-11 38.5 66.4 90.1  540.8 5008</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    45 W17037-40 38.3 58.5 77.2 2450.2 4600</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  uid   t1   t2    k    sse  auc</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    2 35.2 60.1 97.4   29.2 5883</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   15 38.5 66.4 90.1  540.8 5008</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   45 38.3 58.5 77.2 2450.2 4600</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Plots      Timing Convergence    Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      3 2.0963 secs        100% 466.67 (plot)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Ids     Timing Convergence  Iterations</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    3 1.364 secs        100% 466.67 (id)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">mod</span>, time <span class="op">=</span> <span class="fl">45</span>, plot_id <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 7</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    plot genotype    row range  time predicted.value std.error</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     2 W17066-22     2     1    45            38.4      1.27</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">mod</span>, x <span class="op">=</span> <span class="fl">45</span>, id <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 4</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     uid x_new predicted.value std.error</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     2    45            38.4      1.27</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

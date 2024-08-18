@@ -71,7 +71,7 @@
 <span>  signif <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  method <span class="op">=</span> <span class="st">"pearson"</span>,</span>
 <span>  filter_trait <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  plot_id <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  id <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  n_row <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  n_col <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  base_size <span class="op">=</span> <span class="fl">13</span>,</span>
@@ -116,8 +116,8 @@
 <dd><p>Character vector specifying the traits to exclude from the plot.</p></dd>
 
 
-<dt>plot_id</dt>
-<dd><p>Optional plot_id to filter the evolution type of plot. Default is <code>NULL</code>. Only works with type 3.</p></dd>
+<dt>id</dt>
+<dd><p>Optional unique identifier to filter the evolution type of plot. Default is <code>NULL</code>. Only works with type 3.</p></dd>
 
 
 <dt>n_row</dt>
@@ -154,18 +154,16 @@
 <span class="r-in"><span><span class="va">dt_potato</span> <span class="op">&lt;-</span> <span class="va">dt_potato</span></span></span>
 <span class="r-in"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_HTP.html">read_HTP</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  data <span class="op">=</span> <span class="va">dt_potato</span>,</span></span>
-<span class="r-in"><span>  genotype <span class="op">=</span> <span class="st">"Gen"</span>,</span></span>
-<span class="r-in"><span>  time <span class="op">=</span> <span class="st">"DAP"</span>,</span></span>
-<span class="r-in"><span>  plot <span class="op">=</span> <span class="st">"Plot"</span>,</span></span>
-<span class="r-in"><span>  traits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Canopy"</span>, <span class="st">"PH"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  row <span class="op">=</span> <span class="st">"Row"</span>,</span></span>
-<span class="r-in"><span>  range <span class="op">=</span> <span class="st">"Range"</span></span></span>
+<span class="r-in"><span>  x <span class="op">=</span> <span class="st">"DAP"</span>,</span></span>
+<span class="r-in"><span>  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Canopy"</span>, <span class="st">"PH"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  id <span class="op">=</span> <span class="st">"Plot"</span>,</span></span>
+<span class="r-in"><span>  .keep <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Gen"</span>, <span class="st">"Row"</span>, <span class="st">"Range"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">table</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">results</span>, label_size <span class="op">=</span> <span class="fl">4</span>, signif <span class="op">=</span> <span class="cn">TRUE</span>, n_row <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot.read_HTP-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="va">table</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 7 × 7</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    time col    row    corr  p.value     n signi</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       x col    row    corr  p.value     n signi</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    36 Canopy PH     0.46 8.23<span style="color: #949494;">e</span><span style="color: #BB0000;">-11</span>   176 ***  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>    42 Canopy PH     0.67 8.55<span style="color: #949494;">e</span><span style="color: #BB0000;">-27</span>   196 ***  </span>

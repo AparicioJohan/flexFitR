@@ -28,15 +28,13 @@ library(purrr)
 
 ```{r}
 data(dt_chips)
-results <- read_HTP(
-  data = dt_chips,
-  genotype = "Gen",
-  time = "DAP",
-  plot = "Plot",
-  traits = c("PH", "Canopy"),
-  row = "Row",
-  range = "Range"
-)
+results <- dt_chips |>
+  read_HTP(
+    x = DAP,
+    y = c(PH, Canopy),
+    id = Plot,
+    .keep = c(Gen, Row, Range)
+  )
 ```
 
 ```{r}
@@ -63,11 +61,13 @@ k & \text{if } t > t_2
 \end{equation}
 
 ```{r, echo = FALSE, fig.width= 8}
-t <- seq(0, 108, 0.1)
-y_hat <- sapply(t, FUN = fn_piwise, t1 = 34.9, t2 = 61.8, k = 100)
-plot(t, y_hat, type = "l")
-lines(t, y_hat, col = "red")
-abline(v = c(34.9, 61.8), lty = 2)
+plot_fn(
+  fn = "fn_piwise",
+  params = c(t1 = 34.9, t2 = 61.8, k = 100),
+  interval = c(0, 108),
+  color = "black",
+  base_size = 15
+)
 ```
 
 
@@ -76,16 +76,16 @@ abline(v = c(34.9, 61.8), lty = 2)
 ```{r}
 fixed_params <- results |>
   pluck("dt_long") |>
-  filter(trait %in% "Canopy" & plot %in% c(195, 40)) |>
-  group_by(plot, genotype) |>
-  summarise(k = max(value), .groups = "drop")
+  filter(var %in% "Canopy" & uid %in% c(195, 40)) |>
+  group_by(uid) |>
+  summarise(k = max(y), .groups = "drop")
 ```
 
 ```{r, warning=FALSE, message=FALSE}
 mod_1 <- modeler_HTP(
   x = results,
   index = "Canopy",
-  plot_id = c(195, 40),
+  id = c(195, 40),
   parameters = c(t1 = 45, t2 = 80, k = 0.9),
   fn = "fn_piwise",
   fixed_params = fixed_params,
@@ -94,7 +94,7 @@ mod_1 <- modeler_HTP(
 ```
 
 ```{r, fig.width= 8, fig.height=4}
-plot(mod_1, plot_id = c(195, 40))
+plot(mod_1, id = c(195, 40))
 kable(mod_1$param)
 ```
 
@@ -112,18 +112,13 @@ e^{\alpha \cdot (t - t_1)^2} - 1 & \text{if } t_1 \leq t \leq t_2 \\
 \end{equation}
 
 ```{r, echo = FALSE, fig.width= 8}
-t <- seq(0, 108, 0.1)
-y_hat <- sapply(
-  X = t,
-  FUN = fn_exp2_exp,
-  t1 = 35,
-  t2 = 55,
-  alpha = 1 / 600,
-  beta = -1 / 30
+plot_fn(
+  fn = "fn_exp2_exp",
+  params = c(t1 = 35, t2 = 55, alpha = 1 / 600, beta = -1 / 30),
+  interval = c(0, 108),
+  color = "black",
+  base_size = 15
 )
-plot(t, y_hat, type = "l")
-lines(t, y_hat, col = "red")
-abline(v = c(35, 55), lty = 2)
 ```
 
 ## Fixing parameters and providing initial values
@@ -131,14 +126,14 @@ abline(v = c(35, 55), lty = 2)
 ```{r}
 fixed_params <- mod_1 |>
   pluck("param") |>
-  select(plot, genotype, t1)
+  select(uid, t1)
 kable(fixed_params)
 ```
 
 ```{r}
 initials <- mod_1 |>
   pluck("param") |>
-  select(plot, genotype, t1, t2) |>
+  select(uid, t1, t2) |>
   mutate(alpha = 1 / 600, beta = -1 / 30)
 kable(initials)
 ```
@@ -153,7 +148,7 @@ Using t1 from the previous model as a fixed parameter and using t2 as initial pa
 mod_2 <- modeler_HTP(
   x = results,
   index = "PH",
-  plot_id = c(195, 40),
+  id = c(195, 40),
   fn = "fn_exp2_exp",
   initial_vals = initials,
   fixed_params = fixed_params
@@ -162,7 +157,7 @@ mod_2 <- modeler_HTP(
 
 
 ```{r, fig.width= 8, fig.height=4}
-plot(mod_2, plot_id = c(195, 40))
+plot(mod_2, id = c(195, 40))
 kable(mod_2$param)
 ```
 
@@ -172,24 +167,22 @@ kable(mod_2$param)
 
 ```{r, eval = FALSE}
 data(dt_chips)
-results <- read_HTP(
-  data = dt_chips,
-  genotype = "Gen",
-  time = "DAP",
-  plot = "Plot",
-  traits = c("PH", "Canopy"),
-  row = "Row",
-  range = "Range"
-)
+results <- dt_chips |>
+  read_HTP(
+    x = DAP,
+    y = c(PH, Canopy),
+    id = Plot,
+    .keep = c(Gen, Row, Range)
+  )
 fixed_params <- results |>
   pluck("dt_long") |>
-  filter(trait %in% "Canopy" & plot %in% c(195, 40)) |>
-  group_by(plot, genotype) |>
-  summarise(k = max(value), .groups = "drop")
+  filter(var %in% "Canopy" & uid %in% c(195, 40)) |>
+  group_by(uid) |>
+  summarise(k = max(y), .groups = "drop")
 mod_1 <- modeler_HTP(
   x = results,
   index = "Canopy",
-  plot_id = c(195, 40),
+  id = c(195, 40),
   parameters = c(t1 = 45, t2 = 80, k = 0.9),
   fn = "fn_piwise",
   fixed_params = fixed_params,
@@ -197,15 +190,15 @@ mod_1 <- modeler_HTP(
 )
 fixed_params <- mod_1 |>
   pluck("param") |>
-  select(plot, genotype, t1)
+  select(uid, t1)
 initials <- mod_1 |>
   pluck("param") |>
-  select(plot, genotype, t1, t2) |>
+  select(uid, t1, t2) |>
   mutate(alpha = 1 / 600, beta = -1 / 30)
 mod_2 <- modeler_HTP(
   x = results,
   index = "PH",
-  plot_id = c(195, 40),
+  id = c(195, 40),
   fn = "fn_exp2_exp",
   initial_vals = initials,
   fixed_params = fixed_params

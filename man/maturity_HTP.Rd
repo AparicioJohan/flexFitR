@@ -21,9 +21,15 @@ maturity_HTP(x, index = "GLI", canopy = "Canopy", id = NULL, ...)
 An object of class \code{modeler_HTP}, which is a list containing the following elements:
 \describe{
   \item{\code{param}}{A data frame containing the optimized parameters and related information.}
-  \item{\code{dt}}{A data frame with the corrected and possibly zero-augmented canopy data.}
+  \item{\code{dt}}{A data frame with data used and fitted values.}
   \item{\code{fn}}{The call used to calculate the AUC.}
+  \item{\code{metrics}}{Metrics and summary of the models.}
   \item{\code{max_time}}{Maximum time value used for calculating the AUC.}
+  \item{\code{execution}}{Execution time.}
+  \item{\code{response}}{Response variable.}
+  \item{\code{.keep}}{Metadata to keep across.}
+  \item{\code{fun}}{Function being optimized}
+  \item{\code{fit}}{List with the fitted models.}
 }
 }
 \description{
@@ -32,13 +38,13 @@ Maturity Modelling
 \examples{
 library(exploreHTP)
 data(dt_potato)
-results <- read_HTP(
-  data = dt_potato,
-  x = "DAP",
-  y = c("Canopy", "GLI_2"),
-  id = "Plot",
-  .keep = c("Gen", "Row", "Range")
-)
+results <- dt_potato |>
+  read_HTP(
+    x = DAP,
+    y = c(Canopy, GLI_2),
+    id = Plot,
+    .keep = c(Gen, Row, Range)
+  )
 mat <- maturity_HTP(
   x = results,
   index = "GLI_2",

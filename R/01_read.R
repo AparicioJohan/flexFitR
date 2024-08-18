@@ -2,13 +2,13 @@
 #'
 #' Reads and processes high-throughput phenotyping (HTP) data from a data frame in wide format.
 #'
-#' This function processes and prepares HTP data to be analyzed.
+#' This function processes and prepares data to be analyzed with \code{modeler_HTP()}.
 #'
 #' @param data A data.frame in a wide format containing HTP data.
-#' @param x A character string indicating the column in `data` that contains time points.
-#' @param y A character vector specifying the columns in `data` that contain the traits to be analyzed.
-#' @param id A character string indicating the column in `data` that contains plot IDs or unique identifiers.
-#' @param .keep A character string indicating the columns in `data` to keep across.
+#' @param x The name of the column in `data` that contains time points.
+#' @param y The names of the columns in `data` that contain the variables to be analyzed.
+#' @param id The name of the column in `data` that contains plot IDs or unique identifiers.
+#' @param .keep The names of the columns in `data` to keep across the analysis.
 #'
 #' @return An object of class \code{read_HTP}, which is a list containing the following elements:
 #' \describe{
@@ -24,14 +24,13 @@
 #' @examples
 #' library(exploreHTP)
 #' data(dt_potato)
-#' dt_potato <- dt_potato
-#' results <- read_HTP(
-#'   data = dt_potato,
-#'   x = "DAP",
-#'   y = c("Canopy", "PH"),
-#'   id = "Plot",
-#'   .keep = c("Gen", "Row", "Range")
-#' )
+#' results <- dt_potato |>
+#'   read_HTP(
+#'     x = DAP,
+#'     y = c(Canopy, PH),
+#'     id = Plot,
+#'     .keep = c(Gen, Row, Range)
+#'   )
 #' names(results)
 #' head(results$summ_traits)
 #' plot(results, label_size = 4, signif = TRUE, n_row = 2)
@@ -40,29 +39,15 @@
 #' @import dplyr
 #' @import tidyr
 #' @importFrom stats sd median
-read_HTP <- function(data, x = NULL, y = NULL, id = NULL, .keep = NULL) {
+read_HTP <- function(data, x, y, id, .keep) {
   if (is.null(data)) {
     stop("Error: data not found")
   }
-  if (is.null(id)) {
-    stop("No 'id' argument provided")
-  }
-  if (is.null(y)) {
-    stop("No 'traits' argument provided")
-  }
-  if (is.null(x)) {
-    stop("No 'x' argument provided")
-  }
-  if (!id %in% names(data)) {
-    stop(paste("No '", id, "' found in the data"))
-  }
-  if (!x %in% names(data)) {
-    stop(paste("No '", x, "' found in the data"))
-  }
+  id <- names(select(data, {{ id }}))
+  x <- names(select(data, {{ x }}))
+  y <- names(select(data, {{ y }}))
+  .keep <- names(select(data, {{ .keep }}))
   for (i in y) {
-    if (!i %in% names(data)) {
-      stop(paste("No '", i, "' column found"))
-    }
     class_trait <- data[[i]] |> class()
     if (!class_trait %in% c("numeric", "integer")) {
       stop(

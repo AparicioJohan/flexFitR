@@ -28,15 +28,13 @@ library(purrr)
 
 ```{r}
 data(dt_potato)
-results <- read_HTP(
-  data = dt_potato,
-  genotype = "Gen",
-  time = "DAP",
-  plot = "Plot",
-  traits = c("Canopy", "GLI_2"),
-  row = "Row",
-  range = "Range"
-)
+results <- dt_potato |>
+  read_HTP(
+    x = DAP,
+    y = c(Canopy, GLI_2),
+    id = Plot,
+    .keep = c(Gen, Row, Range)
+  )
 ```
 
 ```{r}
@@ -66,15 +64,13 @@ k + \beta \cdot (t - t_3) & \text{if } t > t_3
 \end{equation}
 
 ```{r, echo = FALSE, fig.width= 8}
-t <- seq(0, 108, 0.1)
-y_hat <- sapply(
-  X = t,
-  FUN = fn_lin_pl_lin,
-  t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01
+plot_fn(
+  fn = "fn_lin_pl_lin",
+  params = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
+  interval = c(0, 108), 
+  color = "black", 
+  base_size = 15
 )
-plot(t, y_hat, type = "l")
-lines(t, y_hat, col = "red")
-abline(v = c(38.7, 62), lty = 2)
 ```
 
 ## Fitting models for maturity
@@ -83,7 +79,7 @@ abline(v = c(38.7, 62), lty = 2)
 mod_1 <- modeler_HTP(
   x = results,
   index = "GLI_2",
-  plot_id = c(195, 40),
+  id = c(195, 40),
   parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
   fn = "fn_lin_pl_lin",
 )
@@ -91,7 +87,7 @@ mod_1 <- modeler_HTP(
 
 
 ```{r, fig.width= 8, fig.height=4}
-plot(mod_1, plot_id = c(195, 40))
+plot(mod_1, id = c(195, 40))
 kable(mod_1$param)
 ```
 
@@ -100,16 +96,16 @@ kable(mod_1$param)
 ```{r}
 fixed_params <- results |>
   pluck("dt_long") |>
-  filter(trait %in% "Canopy" & plot %in% c(195, 40)) |>
-  group_by(plot, genotype) |>
-  summarise(k = max(value), .groups = "drop")
+  filter(var %in% "Canopy" & uid %in% c(195, 40)) |>
+  group_by(uid) |>
+  summarise(k = max(y), .groups = "drop")
 ```
 
 ```{r}
 mod_2 <- modeler_HTP(
   x = results,
   index = "Canopy",
-  plot_id = c(195, 40),
+  id = c(195, 40),
   parameters = c(t1 = 45, t2 = 80, k = 0.9),
   fn = "fn_piwise",
   fixed_params = fixed_params,
@@ -118,7 +114,7 @@ mod_2 <- modeler_HTP(
 ```
 
 ```{r, fig.width= 8, fig.height=4}
-plot(mod_2, plot_id = c(195, 40))
+plot(mod_2, id = c(195, 40))
 kable(mod_2$param)
 ```
 
@@ -127,7 +123,7 @@ kable(mod_2$param)
 ```{r}
 initials <- mod_2 |>
   pluck("param") |>
-  select(plot, genotype, t1, t2) |>
+  select(uid, t1, t2) |>
   mutate(t3 = 100, k = 0.32, beta = -0.01)
 kable(initials)
 ```
@@ -136,14 +132,14 @@ kable(initials)
 mod_3 <- modeler_HTP(
   x = results,
   index = "GLI_2",
-  plot_id = c(195, 40),
+  id = c(195, 40),
   initial_vals = initials,
   fn = "fn_lin_pl_lin",
 )
 ```
 
 ```{r, fig.width= 8, fig.height=4}
-plot(mod_3, plot_id = c(195, 40))
+plot(mod_3, id = c(195, 40))
 kable(mod_3$param)
 ```
 
@@ -154,7 +150,7 @@ kable(mod_3$param)
 mod_4 <- modeler_HTP(
   x = results,
   index = "GLI_2",
-  plot_id = c(195, 40),
+  id = c(195, 40),
   parameters = c(t1 = 38.7, t2 = 62, dt = 28, k = 0.32, beta = -0.01),
   fn = "fn_lin_pl_lin2",
   method = c("nlminb", "L-BFGS-B"),
@@ -164,7 +160,7 @@ mod_4 <- modeler_HTP(
 ```
 
 ```{r, fig.width= 8, fig.height=4}
-plot(mod_4, plot_id = c(195, 40))
+plot(mod_4, id = c(195, 40))
 kable(mod_4$param)
 ```
 

@@ -30,9 +30,15 @@ height_HTP(
 An object of class \code{modeler_HTP}, which is a list containing the following elements:
 \describe{
   \item{\code{param}}{A data frame containing the optimized parameters and related information.}
-  \item{\code{dt}}{A data frame with data used.}
+  \item{\code{dt}}{A data frame with data used and fitted values.}
   \item{\code{fn}}{The call used to calculate the AUC.}
+  \item{\code{metrics}}{Metrics and summary of the models.}
   \item{\code{max_time}}{Maximum time value used for calculating the AUC.}
+  \item{\code{execution}}{Execution time.}
+  \item{\code{response}}{Response variable.}
+  \item{\code{.keep}}{Metadata to keep across.}
+  \item{\code{fun}}{Function being optimized}
+  \item{\code{fit}}{List with the fitted models.}
 }
 }
 \description{
@@ -41,29 +47,29 @@ Plant Height Modelling
 \examples{
 library(exploreHTP)
 data(dt_chips)
-results <- read_HTP(
-  data = dt_chips,
-  x = "DAP",
-  y = c("Canopy", "PH"),
-  id = "Plot",
-  .keep = c("Gen", "Row", "Range")
-)
-ph_1 <- height_HTP(
+results <- dt_chips |>
+  read_HTP(
+    x = DAP,
+    y = c(Canopy, PH),
+    id = Plot,
+    .keep = c(Gen, Row, Range)
+  )
+mod_1 <- height_HTP(
   x = results,
   height = "PH",
   canopy = "Canopy",
   id = 60,
   fn = "fn_exp2_lin"
 )
-print(ph_1)
-plot(x = ph_1, id = 60)
-ph_2 <- height_HTP(
+print(mod_1)
+plot(x = mod_1, id = 60)
+mod_2 <- height_HTP(
   x = results,
   height = "PH",
   canopy = "Canopy",
   id = 60,
   fn = "fn_exp2_exp"
 )
-plot(x = ph_2, id = 60)
-print(ph_2)
+plot(x = mod_2, id = 60)
+print(mod_2)
 }

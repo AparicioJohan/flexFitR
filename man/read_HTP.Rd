@@ -4,18 +4,18 @@
 \alias{read_HTP}
 \title{Read HTP Data}
 \usage{
-read_HTP(data, x = NULL, y = NULL, id = NULL, .keep = NULL)
+read_HTP(data, x, y, id, .keep)
 }
 \arguments{
 \item{data}{A data.frame in a wide format containing HTP data.}
 
-\item{x}{A character string indicating the column in `data` that contains time points.}
+\item{x}{The name of the column in `data` that contains time points.}
 
-\item{y}{A character vector specifying the columns in `data` that contain the traits to be analyzed.}
+\item{y}{The names of the columns in `data` that contain the variables to be analyzed.}
 
-\item{id}{A character string indicating the column in `data` that contains plot IDs or unique identifiers.}
+\item{id}{The name of the column in `data` that contains plot IDs or unique identifiers.}
 
-\item{.keep}{A character string indicating the columns in `data` to keep across.}
+\item{.keep}{The names of the columns in `data` to keep across the analysis.}
 }
 \value{
 An object of class \code{read_HTP}, which is a list containing the following elements:
@@ -31,19 +31,18 @@ An object of class \code{read_HTP}, which is a list containing the following ele
 Reads and processes high-throughput phenotyping (HTP) data from a data frame in wide format.
 }
 \details{
-This function processes and prepares HTP data to be analyzed.
+This function processes and prepares data to be analyzed with \code{modeler_HTP()}.
 }
 \examples{
 library(exploreHTP)
 data(dt_potato)
-dt_potato <- dt_potato
-results <- read_HTP(
-  data = dt_potato,
-  x = "DAP",
-  y = c("Canopy", "PH"),
-  id = "Plot",
-  .keep = c("Gen", "Row", "Range")
-)
+results <- dt_potato |>
+  read_HTP(
+    x = DAP,
+    y = c(Canopy, PH),
+    id = Plot,
+    .keep = c(Gen, Row, Range)
+  )
 names(results)
 head(results$summ_traits)
 plot(results, label_size = 4, signif = TRUE, n_row = 2)

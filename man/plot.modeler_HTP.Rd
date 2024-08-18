@@ -28,39 +28,40 @@ Create several plots for an object of class \code{modeler_HTP}
 library(exploreHTP)
 suppressMessages(library(dplyr))
 data(dt_potato)
-results <- read_HTP(
-  data = dt_potato,
-  x = "DAP",
-  y = c("Canopy", "GLI_2"),
-  id = "Plot",
-  .keep = c("Gen", "Row", "Range")
-)
+results <- dt_potato |>
+  read_HTP(
+    x = DAP,
+    y = c(Canopy, GLI_2),
+    id = Plot,
+    .keep = c(Gen, Row, Range)
+  )
 names(results)
-mat <- modeler_HTP(
+# Example 1
+mod_1 <- modeler_HTP(
   x = results,
   index = "GLI_2",
   id = c(195),
   parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
   fn = "fn_lin_pl_lin",
 )
-plot(mat, plot_id = c(195))
-mat
-
-can <- modeler_HTP(
+plot(mod_1, plot_id = c(195))
+mod_1
+# Example 2
+mod_2 <- modeler_HTP(
   x = results,
   index = "Canopy",
   id = c(195),
   parameters = c(t1 = 45, t2 = 80, k = 0.9),
   fn = "fn_piwise"
 )
-plot(can, plot_id = c(195))
-can
-
+plot(mod_2, plot_id = c(195))
+mod_2
+# Example 3
 fixed_params <- results$dt_long |>
   filter(var \%in\% "Canopy") |>
   group_by(uid) |>
   summarise(k = max(y, na.rm = TRUE), .groups = "drop")
-can <- modeler_HTP(
+mod_3 <- modeler_HTP(
   x = results,
   index = "Canopy",
   id = c(195),
@@ -68,8 +69,8 @@ can <- modeler_HTP(
   fn = "fn_piwise",
   fixed_params = fixed_params
 )
-plot(can, id = c(195))
-can
+plot(mod_3, id = c(195))
+mod_3
 }
 \author{
 Johan Aparicio [aut]

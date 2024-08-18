@@ -108,18 +108,17 @@
 </h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">dt_potato</span><span class="op">)</span></span>
-<span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_HTP.html">read_HTP</a></span><span class="op">(</span></span>
-<span>  data <span class="op">=</span> <span class="va">dt_potato</span>,</span>
-<span>  genotype <span class="op">=</span> <span class="st">"Gen"</span>,</span>
-<span>  time <span class="op">=</span> <span class="st">"DAP"</span>,</span>
-<span>  plot <span class="op">=</span> <span class="st">"Plot"</span>,</span>
-<span>  traits <span class="op">=</span> <span class="st">"Canopy"</span>,</span>
-<span>  row <span class="op">=</span> <span class="st">"Row"</span>,</span>
-<span>  range <span class="op">=</span> <span class="st">"Range"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">results</span> <span class="op">&lt;-</span> <span class="va">dt_potato</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/read_HTP.html">read_HTP</a></span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="va">DAP</span>,</span>
+<span>    y <span class="op">=</span> <span class="va">Canopy</span>,</span>
+<span>    id <span class="op">=</span> <span class="va">Plot</span>,</span>
+<span>    .keep <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">Gen</span>, <span class="va">Row</span>, <span class="va">Range</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">results</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "summ_traits"      "exp_design_resum" "locals_min_max"   "dt_long"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "summ_traits"    "metadata"       "locals_min_max" "dt_long"       </span></span>
+<span><span class="co">#&gt; [5] ".keep"</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="data-exploration">Data exploration<a class="anchor" aria-label="anchor" href="#data-exploration"></a>
@@ -132,7 +131,7 @@
 <table style="width:100%;" class="table">
 <colgroup>
 <col width="10%">
-<col width="7%">
+<col width="5%">
 <col width="8%">
 <col width="8%">
 <col width="10%">
@@ -145,8 +144,8 @@
 <col width="7%">
 </colgroup>
 <thead><tr class="header">
-<th align="left">trait</th>
-<th align="right">time</th>
+<th align="left">var</th>
+<th align="right">x</th>
 <th align="right">Min</th>
 <th align="right">Mean</th>
 <th align="right">Median</th>
@@ -296,32 +295,49 @@ k &amp; \text{if } t &gt; t_2
 <code class="sourceCode R"><span><span class="va">mod_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/modeler_HTP.html">modeler_HTP</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="va">results</span>,</span>
 <span>  index <span class="op">=</span> <span class="st">"Canopy"</span>,</span>
-<span>  plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span>,</span>
+<span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span>,</span>
 <span>  parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">45</span>, t2 <span class="op">=</span> <span class="fl">80</span>, k <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>,</span>
 <span>  fn <span class="op">=</span> <span class="st">"fn_piwise"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="op">)</span></span>
+<span><span class="va">mod_1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; Canopy ~ fn_piwise(x, t1, t2, k) </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Sum of Squares Error:</span></span>
+<span><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
+<span><span class="co">#&gt;   390.5  1004.2  1618.0  1618.0  2231.8  2845.5 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Optimization Results `head()`:</span></span>
+<span><span class="co">#&gt;  uid   t1   t2    k  sse  auc</span></span>
+<span><span class="co">#&gt;   40 34.8 53.7 72.5 2846 4623</span></span>
+<span><span class="co">#&gt;  195 38.7 60.0 91.7  390 5377</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Metrics:</span></span>
+<span><span class="co">#&gt;  Ids      Timing Convergence Iterations</span></span>
+<span><span class="co">#&gt;    2 0.8731 secs        100%   547 (id)</span></span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span>, plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="canopy-model_files/figure-html/unnamed-chunk-9-1.png" width="768"></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">$</span><span class="va">param</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <colgroup>
-<col width="7%">
+<col width="5%">
 <col width="14%">
 <col width="5%">
 <col width="8%">
-<col width="12%">
-<col width="12%">
+<col width="13%">
+<col width="13%">
 <col width="11%">
 <col width="14%">
-<col width="12%">
+<col width="13%">
 </colgroup>
 <thead><tr class="header">
-<th align="right">plot</th>
-<th align="left">genotype</th>
-<th align="right">row</th>
-<th align="right">range</th>
+<th align="right">uid</th>
+<th align="left">Gen</th>
+<th align="right">Row</th>
+<th align="right">Range</th>
 <th align="right">t1</th>
 <th align="right">t2</th>
 <th align="right">k</th>
@@ -360,16 +376,15 @@ k &amp; \text{if } t &gt; t_2
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">initials</span> <span class="op">&lt;-</span> <span class="va">results</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html" class="external-link">pluck</a></span><span class="op">(</span><span class="st">"dt_long"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">trait</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="st">"Canopy"</span> <span class="op">&amp;</span> <span class="va">plot</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">plot</span>, <span class="va">genotype</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>k <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">value</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">var</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="st">"Canopy"</span> <span class="op">&amp;</span> <span class="va">uid</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">uid</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>k <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">40</span>, <span class="fl">60</span><span class="op">)</span>, t2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">70</span>, <span class="fl">80</span><span class="op">)</span>, .before <span class="op">=</span> <span class="va">k</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">initials</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
-<th align="right">plot</th>
-<th align="left">genotype</th>
+<th align="right">uid</th>
 <th align="right">t1</th>
 <th align="right">t2</th>
 <th align="right">k</th>
@@ -377,14 +392,12 @@ k &amp; \text{if } t &gt; t_2
 <tbody>
 <tr class="odd">
 <td align="right">40</td>
-<td align="left">W17043-37</td>
 <td align="right">40</td>
 <td align="right">70</td>
 <td align="right">100</td>
 </tr>
 <tr class="even">
 <td align="right">195</td>
-<td align="left">W16219-8</td>
 <td align="right">60</td>
 <td align="right">80</td>
 <td align="right">100</td>
@@ -395,33 +408,33 @@ k &amp; \text{if } t &gt; t_2
 <code class="sourceCode R"><span><span class="va">mod_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/modeler_HTP.html">modeler_HTP</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="va">results</span>,</span>
 <span>  index <span class="op">=</span> <span class="st">"Canopy"</span>,</span>
-<span>  plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span>,</span>
+<span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span>,</span>
 <span>  parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">45</span>, t2 <span class="op">=</span> <span class="fl">80</span>, k <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>,</span>
 <span>  fn <span class="op">=</span> <span class="st">"fn_piwise"</span>,</span>
 <span>  initial_vals <span class="op">=</span> <span class="va">initials</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_2</span>, plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_2</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="canopy-model_files/figure-html/unnamed-chunk-13-1.png" width="768"></p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">mod_2</span><span class="op">$</span><span class="va">param</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <colgroup>
-<col width="7%">
+<col width="5%">
 <col width="14%">
 <col width="5%">
 <col width="8%">
-<col width="12%">
-<col width="12%">
+<col width="13%">
+<col width="13%">
 <col width="11%">
 <col width="14%">
-<col width="12%">
+<col width="13%">
 </colgroup>
 <thead><tr class="header">
-<th align="right">plot</th>
-<th align="left">genotype</th>
-<th align="right">row</th>
-<th align="right">range</th>
+<th align="right">uid</th>
+<th align="left">Gen</th>
+<th align="right">Row</th>
+<th align="right">Range</th>
 <th align="right">t1</th>
 <th align="right">t2</th>
 <th align="right">k</th>
@@ -460,26 +473,23 @@ k &amp; \text{if } t &gt; t_2
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fixed_params</span> <span class="op">&lt;-</span> <span class="va">results</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html" class="external-link">pluck</a></span><span class="op">(</span><span class="st">"dt_long"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">trait</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="st">"Canopy"</span> <span class="op">&amp;</span> <span class="va">plot</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">plot</span>, <span class="va">genotype</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>k <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">value</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">var</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="st">"Canopy"</span> <span class="op">&amp;</span> <span class="va">uid</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">uid</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>k <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">fixed_params</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
-<th align="right">plot</th>
-<th align="left">genotype</th>
+<th align="right">uid</th>
 <th align="right">k</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td align="right">40</td>
-<td align="left">W17043-37</td>
 <td align="right">100</td>
 </tr>
 <tr class="even">
 <td align="right">195</td>
-<td align="left">W16219-8</td>
 <td align="right">100</td>
 </tr>
 </tbody>
@@ -488,19 +498,19 @@ k &amp; \text{if } t &gt; t_2
 <code class="sourceCode R"><span><span class="va">mod_3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/modeler_HTP.html">modeler_HTP</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="va">results</span>,</span>
 <span>  index <span class="op">=</span> <span class="st">"Canopy"</span>,</span>
-<span>  plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span>,</span>
+<span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span>,</span>
 <span>  parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">45</span>, t2 <span class="op">=</span> <span class="fl">80</span>, k <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>,</span>
 <span>  fn <span class="op">=</span> <span class="st">"fn_piwise"</span>,</span>
 <span>  fixed_params <span class="op">=</span> <span class="va">fixed_params</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_3</span>, plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_3</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="canopy-model_files/figure-html/unnamed-chunk-17-1.png" width="768"></p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">mod_3</span><span class="op">$</span><span class="va">param</span><span class="op">)</span></span></code></pre></div>
-<table style="width:100%;" class="table">
+<table class="table">
 <colgroup>
-<col width="7%">
+<col width="6%">
 <col width="15%">
 <col width="6%">
 <col width="9%">
@@ -511,10 +521,10 @@ k &amp; \text{if } t &gt; t_2
 <col width="13%">
 </colgroup>
 <thead><tr class="header">
-<th align="right">plot</th>
-<th align="left">genotype</th>
-<th align="right">row</th>
-<th align="right">range</th>
+<th align="right">uid</th>
+<th align="left">Gen</th>
+<th align="right">Row</th>
+<th align="right">Range</th>
 <th align="right">t1</th>
 <th align="right">t2</th>
 <th align="right">sse</th>
@@ -554,20 +564,20 @@ k &amp; \text{if } t &gt; t_2
 <code class="sourceCode R"><span><span class="va">mod_4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/modeler_HTP.html">modeler_HTP</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="va">results</span>,</span>
 <span>  index <span class="op">=</span> <span class="st">"Canopy"</span>,</span>
-<span>  plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span>,</span>
+<span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span>,</span>
 <span>  parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">45</span>, t2 <span class="op">=</span> <span class="fl">80</span>, k <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>,</span>
 <span>  fn <span class="op">=</span> <span class="st">"fn_piwise"</span>,</span>
 <span>  fixed_params <span class="op">=</span> <span class="va">fixed_params</span>,</span>
 <span>  max_as_last <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_4</span>, plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_4</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="canopy-model_files/figure-html/unnamed-chunk-19-1.png" width="768"></p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">mod_4</span><span class="op">$</span><span class="va">param</span><span class="op">)</span></span></code></pre></div>
-<table style="width:100%;" class="table">
+<table class="table">
 <colgroup>
-<col width="7%">
+<col width="6%">
 <col width="15%">
 <col width="6%">
 <col width="9%">
@@ -578,10 +588,10 @@ k &amp; \text{if } t &gt; t_2
 <col width="13%">
 </colgroup>
 <thead><tr class="header">
-<th align="right">plot</th>
-<th align="left">genotype</th>
-<th align="right">row</th>
-<th align="right">range</th>
+<th align="right">uid</th>
+<th align="left">Gen</th>
+<th align="right">Row</th>
+<th align="right">Range</th>
 <th align="right">t1</th>
 <th align="right">t2</th>
 <th align="right">sse</th>
@@ -624,11 +634,11 @@ k &amp; \text{if } t &gt; t_2
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="va">mod_3</span><span class="op">$</span><span class="va">param</span>, mod <span class="op">=</span> <span class="st">"3"</span><span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="va">mod_4</span><span class="op">$</span><span class="va">param</span>, mod <span class="op">=</span> <span class="st">"4"</span><span class="op">)</span></span>
 <span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">plot</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fl">40</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">uid</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fl">40</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <colgroup>
-<col width="6%">
+<col width="5%">
 <col width="12%">
 <col width="5%">
 <col width="7%">
@@ -640,10 +650,10 @@ k &amp; \text{if } t &gt; t_2
 <col width="5%">
 </colgroup>
 <thead><tr class="header">
-<th align="right">plot</th>
-<th align="left">genotype</th>
-<th align="right">row</th>
-<th align="right">range</th>
+<th align="right">uid</th>
+<th align="left">Gen</th>
+<th align="right">Row</th>
+<th align="right">Range</th>
 <th align="right">t1</th>
 <th align="right">t2</th>
 <th align="right">k</th>
@@ -708,23 +718,21 @@ k &amp; \text{if } t &gt; t_2
 <h2 id="code">Code<a class="anchor" aria-label="anchor" href="#code"></a>
 </h2>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_HTP.html">read_HTP</a></span><span class="op">(</span></span>
-<span>  data <span class="op">=</span> <span class="va">dt_potato</span>,</span>
-<span>  genotype <span class="op">=</span> <span class="st">"Gen"</span>,</span>
-<span>  time <span class="op">=</span> <span class="st">"DAP"</span>,</span>
-<span>  plot <span class="op">=</span> <span class="st">"Plot"</span>,</span>
-<span>  traits <span class="op">=</span> <span class="st">"Canopy"</span>,</span>
-<span>  row <span class="op">=</span> <span class="st">"Row"</span>,</span>
-<span>  range <span class="op">=</span> <span class="st">"Range"</span></span>
-<span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="va">dt_potato</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/read_HTP.html">read_HTP</a></span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="va">DAP</span>,</span>
+<span>    y <span class="op">=</span> <span class="va">Canopy</span>,</span>
+<span>    id <span class="op">=</span> <span class="va">Plot</span>,</span>
+<span>    .keep <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">Gen</span>, <span class="va">Row</span>, <span class="va">Range</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
 <span><span class="va">fixed_params</span> <span class="op">&lt;-</span> <span class="va">results</span><span class="op">$</span><span class="va">dt_long</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">trait</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="st">"Canopy"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">plot</span>, <span class="va">genotype</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>k <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">value</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">var</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="st">"Canopy"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">uid</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>k <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span></span>
 <span><span class="va">mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/modeler_HTP.html">modeler_HTP</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="va">results</span>,</span>
 <span>  index <span class="op">=</span> <span class="st">"Canopy"</span>,</span>
-<span>  plot_id <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  id <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">45</span>, t2 <span class="op">=</span> <span class="fl">80</span>, k <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>,</span>
 <span>  fn <span class="op">=</span> <span class="st">"fn_piwise"</span>,</span>
 <span>  fixed_params <span class="op">=</span> <span class="va">fixed_params</span>,</span>

@@ -15,13 +15,13 @@
 #' @examples
 #' library(exploreHTP)
 #' data(dt_potato)
-#' results <- read_HTP(
-#'   data = dt_potato,
-#'   x = "DAP",
-#'   y = c("Canopy", "PH"),
-#'   id = "Plot",
-#'   .keep = c("Gen", "Row", "Range")
-#' )
+#' results <- dt_potato |>
+#'   read_HTP(
+#'     x = DAP,
+#'     y = c(Canopy, PH),
+#'     id = Plot,
+#'     .keep = c(Gen, Row, Range)
+#'   )
 #' out <- canopy_HTP(x = results, index = "Canopy", id = c(1:5))
 #' plot(out, id = c(1:5))
 #' print(out)

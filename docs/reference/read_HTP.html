@@ -63,7 +63,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">read_HTP</span><span class="op">(</span><span class="va">data</span>, <span class="va">genotype</span>, <span class="va">time</span>, <span class="va">plot</span>, <span class="va">traits</span>, <span class="va">row</span>, <span class="va">range</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">read_HTP</span><span class="op">(</span><span class="va">data</span>, <span class="va">x</span>, <span class="va">y</span>, <span class="va">id</span>, <span class="va">.keep</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -72,28 +72,20 @@
 <dd><p>A data.frame in a wide format containing HTP data.</p></dd>
 
 
-<dt>genotype</dt>
-<dd><p>A character string indicating the column in `data` that contains genotype information.</p></dd>
+<dt>x</dt>
+<dd><p>The name of the column in `data` that contains time points.</p></dd>
 
 
-<dt>time</dt>
-<dd><p>A character string indicating the column in `data` that contains time points.</p></dd>
+<dt>y</dt>
+<dd><p>The names of the columns in `data` that contain the variables to be analyzed.</p></dd>
 
 
-<dt>plot</dt>
-<dd><p>A character string indicating the column in `data` that contains plot IDs.</p></dd>
+<dt>id</dt>
+<dd><p>The name of the column in `data` that contains plot IDs or unique identifiers.</p></dd>
 
 
-<dt>traits</dt>
-<dd><p>A character vector specifying the columns in `data` that contain the traits to be analyzed.</p></dd>
-
-
-<dt>row</dt>
-<dd><p>A character string indicating the column in `data` that contains row coordinates.</p></dd>
-
-
-<dt>range</dt>
-<dd><p>A character string indicating the column in `data` that contains range coordinates.</p></dd>
+<dt>.keep</dt>
+<dd><p>The names of the columns in `data` to keep across the analysis.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -103,8 +95,8 @@
 <p>An object of class <code>read_HTP</code>, which is a list containing the following elements:</p><dl><dt><code>summ_traits</code></dt>
 <dd><p>A data.frame containing summary statistics for each trait at each time point, including minimum, mean, median, maximum, standard deviation, coefficient of variation, number of non-missing values, percentage of missing values, and percentage of negative values.</p></dd>
 
-  <dt><code>exp_design_resum</code></dt>
-<dd><p>A data.frame summarizing the experimental design, including the number of unique genotypes, rows, ranges, and the replication structure.</p></dd>
+  <dt><code>metadata</code></dt>
+<dd><p>A data.frame summarizing the metadata.</p></dd>
 
   <dt><code>locals_min_max</code></dt>
 <dd><p>A data.frame containing the local minima and maxima of the mean trait values over time.</p></dd>
@@ -112,32 +104,33 @@
   <dt><code>dt_long</code></dt>
 <dd><p>A data.frame in long format, with columns for time, plot, row, range, genotype, trait, and value.</p></dd>
 
+  <dt><code>.keep</code></dt>
+<dd><p>A character vector with the names of the variables to keep across.</p></dd>
+
 
 </dl></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>This function processes and prepares HTP data to be analyzed.</p>
+    <p>This function processes and prepares data to be analyzed with <code><a href="modeler_HTP.html">modeler_HTP()</a></code>.</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://apariciojohan.github.io/exploreHTP/">exploreHTP</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">dt_potato</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">dt_potato</span> <span class="op">&lt;-</span> <span class="va">dt_potato</span></span></span>
-<span class="r-in"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu">read_HTP</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  data <span class="op">=</span> <span class="va">dt_potato</span>,</span></span>
-<span class="r-in"><span>  genotype <span class="op">=</span> <span class="st">"Gen"</span>,</span></span>
-<span class="r-in"><span>  time <span class="op">=</span> <span class="st">"DAP"</span>,</span></span>
-<span class="r-in"><span>  plot <span class="op">=</span> <span class="st">"Plot"</span>,</span></span>
-<span class="r-in"><span>  traits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Canopy"</span>, <span class="st">"PH"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  row <span class="op">=</span> <span class="st">"Row"</span>,</span></span>
-<span class="r-in"><span>  range <span class="op">=</span> <span class="st">"Range"</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="va">dt_potato</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">read_HTP</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    x <span class="op">=</span> <span class="va">DAP</span>,</span></span>
+<span class="r-in"><span>    y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">Canopy</span>, <span class="va">PH</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    id <span class="op">=</span> <span class="va">Plot</span>,</span></span>
+<span class="r-in"><span>    .keep <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">Gen</span>, <span class="va">Row</span>, <span class="va">Range</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">results</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "summ_traits"      "exp_design_resum" "locals_min_max"   "dt_long"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "summ_traits"    "metadata"       "locals_min_max" "dt_long"       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5] ".keep"         </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">summ_traits</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 12</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   trait   time    Min  Mean Median   Max    SD       CV     n  miss `miss%`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   var        x    Min  Mean Median   Max    SD       CV     n  miss `miss%`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Canopy    29  0      0      0      0    0    <span style="color: #BB0000;">NaN</span>        196     0       0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Canopy    36  0      2.95   1.84  15.1  3.22   1.09     196     0       0</span>
@@ -151,14 +144,14 @@
 <span class="r-in"><span><span class="co"># New data format</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">dt_long</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 7</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    time  plot   row range genotype  trait    value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    29     1     1     1 W17037-24 Canopy  0     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>    29     1     1     1 W17037-24 PH     <span style="color: #BB0000;">NA</span>     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>    36     1     1     1 W17037-24 Canopy  0.67  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>    36     1     1     1 W17037-24 PH      0.015<span style="text-decoration: underline;">4</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>    42     1     1     1 W17037-24 Canopy 15.1   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>    42     1     1     1 W17037-24 PH      0.017<span style="text-decoration: underline;">3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     uid Gen         Row Range var        x       y</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     1 W17037-24     1     1 Canopy    29  0     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     1 W17037-24     1     1 PH        29 <span style="color: #BB0000;">NA</span>     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>     1 W17037-24     1     1 Canopy    36  0.67  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>     1 W17037-24     1     1 PH        36  0.015<span style="text-decoration: underline;">4</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>     1 W17037-24     1     1 Canopy    42 15.1   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>     1 W17037-24     1     1 PH        42  0.017<span style="text-decoration: underline;">3</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

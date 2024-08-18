@@ -19,9 +19,15 @@ canopy_HTP(x, index = "Canopy", id = NULL, ...)
 An object of class \code{modeler_HTP}, which is a list containing the following elements:
 \describe{
   \item{\code{param}}{A data frame containing the optimized parameters and related information.}
-  \item{\code{dt}}{A data frame with the corrected and possibly zero-augmented canopy data.}
+  \item{\code{dt}}{A data frame with data used and fitted values.}
   \item{\code{fn}}{The call used to calculate the AUC.}
+  \item{\code{metrics}}{Metrics and summary of the models.}
   \item{\code{max_time}}{Maximum time value used for calculating the AUC.}
+  \item{\code{execution}}{Execution time.}
+  \item{\code{response}}{Response variable.}
+  \item{\code{.keep}}{Metadata to keep across.}
+  \item{\code{fun}}{Function being optimized}
+  \item{\code{fit}}{List with the fitted models.}
 }
 }
 \description{
@@ -30,15 +36,14 @@ This function performs canopy modelling based on time series data from high-thro
 \examples{
 library(exploreHTP)
 data(dt_potato)
-dt_potato <- dt_potato
-results <- read_HTP(
-  data = dt_potato,
-  x = "DAP",
-  y = c("Canopy", "PH"),
-  id = "Plot",
-  .keep = c("Gen", "Row", "Range")
-)
-out <- canopy_HTP(x = results, index = "Canopy", id = c(22, 40))
-plot(out, c(22, 40))
-print(out)
+results <- dt_potato |>
+  read_HTP(
+    x = DAP,
+    y = c(Canopy, PH),
+    id = Plot,
+    .keep = c(Gen, Row, Range)
+  )
+mod <- canopy_HTP(x = results, index = "Canopy", id = c(22, 40))
+plot(mod, c(22, 40))
+print(mod)
 }
