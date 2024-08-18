@@ -39,7 +39,7 @@ r_squared <- function(actual, predicted) {
 #' of Determination (R-squared).
 #'
 #' @param x An object of class `modeler_HTP` containing the necessary data to compute the metrics.
-#' @param .by_plot Return the metrics by plot? TRUE by default.
+#' @param .by_id Return the metrics by id? TRUE by default.
 #'
 #' @return A data frame containing the calculated metrics grouped by plot, row, range, genotype, and trait.
 #'
@@ -78,7 +78,7 @@ r_squared <- function(actual, predicted) {
 #' plot(x, c(1:2))
 #' print(x)
 #' metrics_HTP(x)
-metrics_HTP <- function(x, .by_plot = TRUE) {
+metrics_HTP <- function(x, .by_id = TRUE) {
   if (!inherits(x, "modeler_HTP")) {
     stop("The object should be of modeler_HTP class")
   }
@@ -94,7 +94,7 @@ metrics_HTP <- function(x, .by_plot = TRUE) {
       .groups = "drop"
     )
   n_plots <- nrow(val_metrics)
-  if (!.by_plot & n_plots > 1) {
+  if (!.by_id & n_plots > 1) {
     summ_metrics <- val_metrics |>
       select(var:r_squared) |>
       pivot_longer(cols = SSE:r_squared, names_to = "metric") |>

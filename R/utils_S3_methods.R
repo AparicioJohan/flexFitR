@@ -7,6 +7,7 @@
 #' @param params A named numeric vector of parameters to be passed to the function. Default is \code{c(t1 = 34.9, t2 = 61.8, k = 100)}.
 #' @param interval A numeric vector of length 2 specifying the interval over which the function is to be plotted. Default is \code{c(0, 100)}.
 #' @param n_points An integer specifying the number of points to be used for plotting. Default is 1000.
+#' @param auc Print AUC in the plot? Default is \code{FALSE}.
 #' @param x_auc_label A numeric value specifying the x-coordinate for the AUC label. Default is \code{NULL}.
 #' @param y_auc_label A numeric value specifying the y-coordinate for the AUC label. Default is \code{NULL}.
 #' @param auc_label_size A numeric value specifying the size of the AUC label text. Default is 3.
@@ -37,6 +38,7 @@ plot_fn <- function(fn = "fn_piwise",
                     params = c(t1 = 34.9, t2 = 61.8, k = 100),
                     interval = c(0, 100),
                     n_points = 1000,
+                    auc = FALSE,
                     x_auc_label = NULL,
                     y_auc_label = NULL,
                     auc_label_size = 4,
@@ -49,9 +51,9 @@ plot_fn <- function(fn = "fn_piwise",
   values <- paste(params, collapse = ", ")
   string <- paste("sapply(t, FUN = ", fn, ", ", values, ")", sep = "")
   y_hat <- eval(parse(text = string))
-  dt <- data.frame(time = t, hat = y_hat)
-  auc <- dt |>
-    mutate(trapezoid_area = (lead(hat) + hat) / 2 * (lead(time) - time)) |>
+  dt <- data.frame(x = t, hat = y_hat)
+  auc_val <- dt |>
+    mutate(trapezoid_area = (lead(hat) + hat) / 2 * (lead(x) - x)) |>
     filter(!is.na(trapezoid_area)) |>
     summarise(auc = round(sum(trapezoid_area), 2)) |>
     pull(auc)
@@ -65,15 +67,7 @@ plot_fn <- function(fn = "fn_piwise",
   y.label_auc <- min(dt$hat) + (max(dt$hat) - min(dt$hat)) * 0.3
 
   p0 <- dt |>
-    ggplot(aes(x = time, y = hat)) +
-    geom_text(
-      label = paste0("AUC = ", auc),
-      x = ifelse(is.null(x_auc_label), x.label_auc, x_auc_label),
-      y = ifelse(is.null(y_auc_label), y.label_auc, y_auc_label),
-      size = auc_label_size,
-      stat = "unique",
-      color = label_color
-    ) +
+    ggplot(aes(x = x, y = hat)) +
     geom_text(
       label = info,
       x = x.label_params,
@@ -82,10 +76,21 @@ plot_fn <- function(fn = "fn_piwise",
       size = param_label_size,
       color = label_color
     ) +
-    geom_area(fill = color, alpha = 0.05) +
     geom_line(color = color) +
     theme_classic(base_size = base_size) +
     labs(y = "y", title = title)
+  if (auc) {
+    p0 <- p0 +
+      geom_area(fill = color, alpha = 0.05) +
+      geom_text(
+        label = paste0("AUC = ", auc_val),
+        x = ifelse(is.null(x_auc_label), x.label_auc, x_auc_label),
+        y = ifelse(is.null(y_auc_label), y.label_auc, y_auc_label),
+        size = auc_label_size,
+        stat = "unique",
+        color = label_color
+      )
+  }
   return(p0)
 }
 
@@ -435,7 +440,7 @@ plot.read_HTP <- function(x,
       geom_point(data = dt_avg, color = "red") +
       facet_wrap(~var, scales = "free_y") +
       theme_classic(base_size = base_size) +
-      labs(x = "Time", y = NULL, nrow = n_row, ncol = n_col)
+      labs(x = "x", y = NULL, nrow = n_row, ncol = n_col)
   }
   if (return_gg) {
     return(p1)

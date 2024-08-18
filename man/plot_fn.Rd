@@ -9,6 +9,7 @@ plot_fn(
   params = c(t1 = 34.9, t2 = 61.8, k = 100),
   interval = c(0, 100),
   n_points = 1000,
+  auc = FALSE,
   x_auc_label = NULL,
   y_auc_label = NULL,
   auc_label_size = 4,
@@ -26,6 +27,8 @@ plot_fn(
 \item{interval}{A numeric vector of length 2 specifying the interval over which the function is to be plotted. Default is \code{c(0, 100)}.}
 
 \item{n_points}{An integer specifying the number of points to be used for plotting. Default is 1000.}
+
+\item{auc}{Print AUC in the plot? Default is \code{FALSE}.}
 
 \item{x_auc_label}{A numeric value specifying the x-coordinate for the AUC label. Default is \code{NULL}.}
 

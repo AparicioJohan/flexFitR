@@ -8,23 +8,23 @@ modeler_HTP(
   x,
   index = "GLI",
   id = NULL,
-  check_negative = TRUE,
-  add_zero = TRUE,
-  max_as_last = FALSE,
-  method = c("subplex", "pracmanm", "anms"),
-  return_method = FALSE,
+  fn = "fn_piwise",
   parameters = NULL,
   lower = -Inf,
   upper = Inf,
   initial_vals = NULL,
   fixed_params = NULL,
-  fn = "fn_piwise",
+  method = c("subplex", "pracmanm", "anms"),
+  return_method = FALSE,
+  add_zero = TRUE,
+  check_negative = TRUE,
+  max_as_last = FALSE,
   n_points = 1000,
   max_time = NULL,
-  control = list(),
   progress = FALSE,
   parallel = FALSE,
-  workers = parallel::detectCores()
+  workers = parallel::detectCores(),
+  control = list()
 )
 }
 \arguments{
@@ -34,15 +34,7 @@ modeler_HTP(
 
 \item{id}{An optional vector of plot IDs to filter the data. Default is \code{NULL}, meaning all plots are used.}
 
-\item{check_negative}{Logical. If \code{TRUE}, converts negative values in the data to zero. Default is \code{TRUE}.}
-
-\item{add_zero}{Logical. If \code{TRUE}, adds a zero value to the time series at the start. Default is \code{TRUE}.}
-
-\item{max_as_last}{Logical. If \code{TRUE}, appends the maximum value after reaching the maximum. Default is \code{FALSE}.}
-
-\item{method}{A character vector specifying the optimization methods to be used. See \code{optimx} package for available methods. Default is \code{c("subplex", "pracmanm", "anms")}.}
-
-\item{return_method}{Logical. If \code{TRUE}, includes the optimization method used in the result. Default is \code{FALSE}.}
+\item{fn}{A string specifying the name of the function to be used for the curve fitting. Default is \code{"fn_piwise"}.}
 
 \item{parameters}{A named numeric vector specifying the initial values for the parameters to be optimized. Default is \code{NULL}.}
 
@@ -50,23 +42,31 @@ modeler_HTP(
 
 \item{upper}{Numeric vector specifying the upper bounds for the parameters. Default is \code{Inf} for all parameters.}
 
-\item{initial_vals}{A data frame with columns \code{plot}, \code{genotype}, and the initial parameter values for each plot. Used for providing specific initial values per plot.}
+\item{initial_vals}{A data frame with columns \code{uid}, and the initial parameter values for each plot. Used for providing specific initial values per plot.}
 
-\item{fixed_params}{A data frame with columns \code{plot}, \code{genotype}, and the fixed parameter values for each plot. Used for fixing certain parameters during optimization.}
+\item{fixed_params}{A data frame with columns \code{uid}, and the fixed parameter values for each id. Used for fixing certain parameters during optimization.}
 
-\item{fn}{A string specifying the name of the function to be used for the curve fitting. Default is \code{"fn_piwise"}.}
+\item{method}{A character vector specifying the optimization methods to be used. See \code{optimx} package for available methods. Default is \code{c("subplex", "pracmanm", "anms")}.}
+
+\item{return_method}{Logical. If \code{TRUE}, includes the optimization method used in the result. Default is \code{FALSE}.}
+
+\item{add_zero}{Logical. If \code{TRUE}, adds a zero value to the time series at the start. Default is \code{TRUE}.}
+
+\item{check_negative}{Logical. If \code{TRUE}, converts negative values in the data to zero. Default is \code{TRUE}.}
+
+\item{max_as_last}{Logical. If \code{TRUE}, appends the maximum value after reaching the maximum. Default is \code{FALSE}.}
 
 \item{n_points}{An integer specifying the number of time points to use for approximating the Area Under the Curve (AUC). Default is \code{1000}.}
 
 \item{max_time}{Numeric. The maximum time value to use for calculating the AUC. Default is \code{NULL}, which uses the last time point in the data.}
-
-\item{control}{A list of control parameters to be passed to the optimization function. For example, \code{list(maxit = 500)}.}
 
 \item{progress}{Logical. If \code{TRUE} a progress bar is displayed. Default is \code{FALSE}. Try this before running the function: \code{progressr::handlers("progress", "beepr")}.}
 
 \item{parallel}{Logical. If \code{TRUE} the model fit is performed in parallel. Default is \code{FALSE}.}
 
 \item{workers}{The number of parallel processes to use. `parallel::detectCores()`}
+
+\item{control}{A list of control parameters to be passed to the optimization function. For example: \code{list(maxit = 500)}.}
 }
 \value{
 An object of class \code{modeler_HTP}, which is a list containing the following elements:

@@ -4,12 +4,12 @@
 \alias{metrics_HTP}
 \title{Metrics for modeler_HTP}
 \usage{
-metrics_HTP(x, .by_plot = TRUE)
+metrics_HTP(x, .by_id = TRUE)
 }
 \arguments{
 \item{x}{An object of class `modeler_HTP` containing the necessary data to compute the metrics.}
 
-\item{.by_plot}{Return the metrics by plot? TRUE by default.}
+\item{.by_id}{Return the metrics by id? TRUE by default.}
 }
 \value{
 A data frame containing the calculated metrics grouped by plot, row, range, genotype, and trait.
