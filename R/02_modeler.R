@@ -3,8 +3,11 @@
 #' @description
 #' General-purpose optimization for HTP data.
 #'
-#' @param x An object of class \code{read_HTP}, containing the results of the \code{read_HTP()} function.
-#' @param variable A string specifying the variable to be modeled. Default is \code{"GLI"}. Must match a var in the data.
+#' @param data A data.frame in a wide format.
+#' @param x The name of the column in `data` that contains x points.
+#' @param y The name of the column in `data` that contain the variable to be analyzed. Must match a var in the data.
+#' @param by The name of the column in `data` that contains the unique identifiers (id).
+#' @param .keep The names of the columns in `data` to keep across the analysis.
 #' @param id An optional vector of IDs to filter the data. Default is \code{NULL}, meaning all ids are used.
 #' @param fn A string specifying the name of the function to be used for the curve fitting. Default is \code{"fn_piwise"}.
 #' @param parameters A named numeric vector specifying the initial values for the parameters to be optimized. Default is \code{NULL}.
@@ -41,40 +44,41 @@
 #' @examples
 #' library(exploreHTP)
 #' data(dt_potato)
-#' results <- dt_potato |>
-#'   read_HTP(
-#'     x = DAP,
-#'     y = c(Canopy, GLI_2),
-#'     id = Plot,
-#'     .keep = c(Gen, Row, Range)
-#'   )
+#' explorer <- read_HTP(dt_potato, x = DAP, y = c(Canopy, GLI_2), id = Plot)
 #' # Example 1
-#' mod_1 <- modeler_HTP(
-#'   x = results,
-#'   variable = "GLI_2",
-#'   id = c(195),
-#'   parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
-#'   fn = "fn_lin_pl_lin",
-#' )
+#' mod_1 <- dt_potato |>
+#'   modeler_HTP(
+#'     x = DAP,
+#'     y = GLI_2,
+#'     by = Plot,
+#'     id = c(195),
+#'     parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
+#'     fn = "fn_lin_pl_lin",
+#'   )
 #' plot(mod_1, plot_id = c(195))
 #' print(mod_1)
 #' # Example 2
-#' mod_2 <- modeler_HTP(
-#'   x = results,
-#'   variable = "Canopy",
-#'   id = c(195),
-#'   parameters = c(t1 = 45, t2 = 80, k = 0.9),
-#'   fn = "fn_piwise",
-#'   max_as_last = TRUE
-#' )
+#' mod_2 <- dt_potato |>
+#'   modeler_HTP(
+#'     x = DAP,
+#'     y = Canopy,
+#'     by = Plot,
+#'     id = c(195),
+#'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
+#'     fn = "fn_piwise",
+#'     max_as_last = TRUE
+#'   )
 #' plot(mod_2, id = c(195))
 #' print(mod_2)
 #' @import optimx
 #' @import tibble
 #' @import dplyr
 #' @import foreach
-modeler_HTP <- function(x,
-                        variable = "GLI",
+modeler_HTP <- function(data,
+                        x,
+                        y,
+                        by,
+                        .keep,
                         id = NULL,
                         fn = "fn_piwise",
                         parameters = NULL,
@@ -93,11 +97,23 @@ modeler_HTP <- function(x,
                         parallel = FALSE,
                         workers = parallel::detectCores(),
                         control = list()) {
+  if (is.null(data)) {
+    stop("Error: data not found")
+  }
+  x <- read_HTP(
+    data = data,
+    x = {{ x }},
+    y = {{ y }},
+    id = {{ by }},
+    .keep = {{ .keep }}
+  )
   # Check the class of x
   if (!inherits(x, "read_HTP")) {
     stop("The object should be of class 'read_HTP'.")
   }
   .keep <- x$.keep
+  variable <- unique(x$summ_traits$var)
+  if (length(variable) != 1) stop("Only single response is allowed.")
   # Validate variable
   traits <- unique(x$dt_long$var)
   if (!variable %in% traits) {
@@ -333,23 +349,17 @@ modeler_HTP <- function(x,
 #'
 #' @examples
 #' library(exploreHTP)
-#' suppressMessages(library(dplyr))
 #' data(dt_potato)
-#' dt_potato <- dt_potato
-#' results <- read_HTP(
-#'   data = dt_potato,
-#'   x = "DAP",
-#'   y = c("Canopy", "GLI_2"),
-#'   id = "Plot",
-#'   .keep = c("Gen", "Row", "Range")
-#' )
-#' mod <- modeler_HTP(
-#'   x = results,
-#'   variable = "GLI_2",
-#'   id = c(195),
-#'   parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
-#'   fn = "fn_lin_pl_lin",
-#' )
+#' explorer <- read_HTP(dt_potato, x = DAP, y = c(Canopy, GLI_2), id = Plot)
+#' mod_1 <- dt_potato |>
+#'   modeler_HTP(
+#'     x = DAP,
+#'     y = GLI_2,
+#'     by = Plot,
+#'     id = 195,
+#'     parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
+#'     fn = "fn_lin_pl_lin"
+#'   )
 #' @import optimx
 #' @import tibble
 #' @import tidyr

@@ -108,13 +108,7 @@
 </h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">dt_potato</span><span class="op">)</span></span>
-<span><span class="va">results</span> <span class="op">&lt;-</span> <span class="va">dt_potato</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/read_HTP.html">read_HTP</a></span><span class="op">(</span></span>
-<span>    x <span class="op">=</span> <span class="va">DAP</span>,</span>
-<span>    y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">Canopy</span>, <span class="va">GLI_2</span><span class="op">)</span>,</span>
-<span>    id <span class="op">=</span> <span class="va">Plot</span>,</span>
-<span>    .keep <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">Gen</span>, <span class="va">Row</span>, <span class="va">Range</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span></code></pre></div>
+<span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_HTP.html">read_HTP</a></span><span class="op">(</span><span class="va">dt_potato</span>, x <span class="op">=</span> <span class="va">DAP</span>, y <span class="op">=</span> <span class="va">Canopy</span>, id <span class="op">=</span> <span class="va">Plot</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">results</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "summ_traits"    "metadata"       "locals_min_max" "dt_long"       </span></span>
@@ -149,9 +143,11 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <h2 id="fitting-models-for-maturity">Fitting models for maturity<a class="anchor" aria-label="anchor" href="#fitting-models-for-maturity"></a>
 </h2>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mod_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/modeler_HTP.html">modeler_HTP</a></span><span class="op">(</span></span>
-<span>  x <span class="op">=</span> <span class="va">results</span>,</span>
-<span>  variable <span class="op">=</span> <span class="st">"GLI_2"</span>,</span>
+<code class="sourceCode R"><span><span class="va">mod_1</span> <span class="op">&lt;-</span> <span class="va">dt_potato</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/modeler_HTP.html">modeler_HTP</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="va">DAP</span>,</span>
+<span>  y <span class="op">=</span> <span class="va">GLI_2</span>,</span>
+<span>  by <span class="op">=</span> <span class="va">Plot</span>,</span>
 <span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span>,</span>
 <span>  parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">38.7</span>, t2 <span class="op">=</span> <span class="fl">62</span>, t3 <span class="op">=</span> <span class="fl">90</span>, k <span class="op">=</span> <span class="fl">0.32</span>, beta <span class="op">=</span> <span class="op">-</span><span class="fl">0.01</span><span class="op">)</span>,</span>
 <span>  fn <span class="op">=</span> <span class="st">"fn_lin_pl_lin"</span>,</span>
@@ -161,25 +157,19 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <p><img src="maturity-model_files/figure-html/unnamed-chunk-8-1.png" width="768"></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">$</span><span class="va">param</span><span class="op">)</span></span></code></pre></div>
-<table style="width:100%;" class="table">
+<table class="table">
 <colgroup>
-<col width="4%">
-<col width="10%">
-<col width="4%">
-<col width="6%">
-<col width="9%">
-<col width="9%">
-<col width="9%">
-<col width="10%">
+<col width="5%">
 <col width="12%">
-<col width="10%">
-<col width="9%">
+<col width="12%">
+<col width="12%">
+<col width="14%">
+<col width="15%">
+<col width="14%">
+<col width="12%">
 </colgroup>
 <thead><tr class="header">
 <th align="right">uid</th>
-<th align="left">Gen</th>
-<th align="right">Row</th>
-<th align="right">Range</th>
 <th align="right">t1</th>
 <th align="right">t2</th>
 <th align="right">t3</th>
@@ -191,9 +181,6 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <tbody>
 <tr class="odd">
 <td align="right">40</td>
-<td align="left">W17043-37</td>
-<td align="right">12</td>
-<td align="right">3</td>
 <td align="right">36.88016</td>
 <td align="right">66.41594</td>
 <td align="right">79.85413</td>
@@ -204,9 +191,6 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 </tr>
 <tr class="even">
 <td align="right">195</td>
-<td align="left">W16219-8</td>
-<td align="right">13</td>
-<td align="right">14</td>
 <td align="right">39.59062</td>
 <td align="right">68.27877</td>
 <td align="right">93.33638</td>
@@ -228,9 +212,11 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">uid</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>k <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mod_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/modeler_HTP.html">modeler_HTP</a></span><span class="op">(</span></span>
-<span>  x <span class="op">=</span> <span class="va">results</span>,</span>
-<span>  variable <span class="op">=</span> <span class="st">"Canopy"</span>,</span>
+<code class="sourceCode R"><span><span class="va">mod_2</span> <span class="op">&lt;-</span> <span class="va">dt_potato</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/modeler_HTP.html">modeler_HTP</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="va">DAP</span>,</span>
+<span>  y <span class="op">=</span> <span class="va">Canopy</span>,</span>
+<span>  by <span class="op">=</span> <span class="va">Plot</span>,</span>
 <span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span>,</span>
 <span>  parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">45</span>, t2 <span class="op">=</span> <span class="fl">80</span>, k <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>,</span>
 <span>  fn <span class="op">=</span> <span class="st">"fn_piwise"</span>,</span>
@@ -243,22 +229,8 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">mod_2</span><span class="op">$</span><span class="va">param</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
-<colgroup>
-<col width="6%">
-<col width="15%">
-<col width="6%">
-<col width="9%">
-<col width="13%">
-<col width="13%">
-<col width="15%">
-<col width="6%">
-<col width="13%">
-</colgroup>
 <thead><tr class="header">
 <th align="right">uid</th>
-<th align="left">Gen</th>
-<th align="right">Row</th>
-<th align="right">Range</th>
 <th align="right">t1</th>
 <th align="right">t2</th>
 <th align="right">sse</th>
@@ -268,9 +240,6 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <tbody>
 <tr class="odd">
 <td align="right">40</td>
-<td align="left">W17043-37</td>
-<td align="right">12</td>
-<td align="right">3</td>
 <td align="right">34.80771</td>
 <td align="right">60.84828</td>
 <td align="right">0.0014765</td>
@@ -279,9 +248,6 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 </tr>
 <tr class="even">
 <td align="right">195</td>
-<td align="left">W16219-8</td>
-<td align="right">13</td>
-<td align="right">14</td>
 <td align="right">38.72534</td>
 <td align="right">61.96802</td>
 <td align="right">0.0000000</td>
@@ -329,9 +295,11 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 </tbody>
 </table>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mod_3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/modeler_HTP.html">modeler_HTP</a></span><span class="op">(</span></span>
-<span>  x <span class="op">=</span> <span class="va">results</span>,</span>
-<span>  variable <span class="op">=</span> <span class="st">"GLI_2"</span>,</span>
+<code class="sourceCode R"><span><span class="va">mod_3</span> <span class="op">&lt;-</span> <span class="va">dt_potato</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/modeler_HTP.html">modeler_HTP</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="va">DAP</span>,</span>
+<span>  y <span class="op">=</span> <span class="va">GLI_2</span>,</span>
+<span>  by <span class="op">=</span> <span class="va">Plot</span>,</span>
 <span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span>,</span>
 <span>  initial_vals <span class="op">=</span> <span class="va">initials</span>,</span>
 <span>  fn <span class="op">=</span> <span class="st">"fn_lin_pl_lin"</span>,</span>
@@ -341,25 +309,19 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <p><img src="maturity-model_files/figure-html/unnamed-chunk-14-1.png" width="768"></p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">mod_3</span><span class="op">$</span><span class="va">param</span><span class="op">)</span></span></code></pre></div>
-<table style="width:100%;" class="table">
+<table class="table">
 <colgroup>
-<col width="4%">
-<col width="10%">
-<col width="4%">
-<col width="6%">
-<col width="9%">
-<col width="9%">
-<col width="9%">
-<col width="10%">
+<col width="5%">
 <col width="12%">
-<col width="10%">
-<col width="9%">
+<col width="12%">
+<col width="12%">
+<col width="14%">
+<col width="15%">
+<col width="14%">
+<col width="12%">
 </colgroup>
 <thead><tr class="header">
 <th align="right">uid</th>
-<th align="left">Gen</th>
-<th align="right">Row</th>
-<th align="right">Range</th>
 <th align="right">t1</th>
 <th align="right">t2</th>
 <th align="right">t3</th>
@@ -371,9 +333,6 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <tbody>
 <tr class="odd">
 <td align="right">40</td>
-<td align="left">W17043-37</td>
-<td align="right">12</td>
-<td align="right">3</td>
 <td align="right">36.88014</td>
 <td align="right">66.41597</td>
 <td align="right">79.85411</td>
@@ -384,9 +343,6 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 </tr>
 <tr class="even">
 <td align="right">195</td>
-<td align="left">W16219-8</td>
-<td align="right">13</td>
-<td align="right">14</td>
 <td align="right">39.59062</td>
 <td align="right">68.27877</td>
 <td align="right">93.33638</td>
@@ -402,9 +358,11 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <h2 id="adding-constrains-to-the-optimization">Adding constrains to the optimization<a class="anchor" aria-label="anchor" href="#adding-constrains-to-the-optimization"></a>
 </h2>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mod_4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/modeler_HTP.html">modeler_HTP</a></span><span class="op">(</span></span>
-<span>  x <span class="op">=</span> <span class="va">results</span>,</span>
-<span>  variable <span class="op">=</span> <span class="st">"GLI_2"</span>,</span>
+<code class="sourceCode R"><span><span class="va">mod_4</span> <span class="op">&lt;-</span> <span class="va">dt_potato</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/modeler_HTP.html">modeler_HTP</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="va">DAP</span>,</span>
+<span>  y <span class="op">=</span> <span class="va">GLI_2</span>,</span>
+<span>  by <span class="op">=</span> <span class="va">Plot</span>,</span>
 <span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span>,</span>
 <span>  parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">38.7</span>, t2 <span class="op">=</span> <span class="fl">62</span>, dt <span class="op">=</span> <span class="fl">28</span>, k <span class="op">=</span> <span class="fl">0.32</span>, beta <span class="op">=</span> <span class="op">-</span><span class="fl">0.01</span><span class="op">)</span>,</span>
 <span>  fn <span class="op">=</span> <span class="st">"fn_lin_pl_lin2"</span>,</span>
@@ -417,25 +375,19 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <p><img src="maturity-model_files/figure-html/unnamed-chunk-16-1.png" width="768"></p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">mod_4</span><span class="op">$</span><span class="va">param</span><span class="op">)</span></span></code></pre></div>
-<table style="width:100%;" class="table">
+<table class="table">
 <colgroup>
-<col width="4%">
-<col width="10%">
-<col width="4%">
-<col width="6%">
-<col width="9%">
-<col width="9%">
-<col width="9%">
-<col width="10%">
+<col width="5%">
 <col width="12%">
-<col width="10%">
-<col width="9%">
+<col width="12%">
+<col width="12%">
+<col width="14%">
+<col width="15%">
+<col width="14%">
+<col width="12%">
 </colgroup>
 <thead><tr class="header">
 <th align="right">uid</th>
-<th align="left">Gen</th>
-<th align="right">Row</th>
-<th align="right">Range</th>
 <th align="right">t1</th>
 <th align="right">t2</th>
 <th align="right">dt</th>
@@ -447,9 +399,6 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <tbody>
 <tr class="odd">
 <td align="right">40</td>
-<td align="left">W17043-37</td>
-<td align="right">12</td>
-<td align="right">3</td>
 <td align="right">36.88016</td>
 <td align="right">66.41594</td>
 <td align="right">13.43819</td>
@@ -460,9 +409,6 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 </tr>
 <tr class="even">
 <td align="right">195</td>
-<td align="left">W16219-8</td>
-<td align="right">13</td>
-<td align="right">14</td>
 <td align="right">39.59062</td>
 <td align="right">68.27877</td>
 <td align="right">25.05761</td>

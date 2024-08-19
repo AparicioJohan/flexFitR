@@ -28,13 +28,7 @@ library(purrr)
 
 ```{r}
 data(dt_chips)
-results <- dt_chips |>
-  read_HTP(
-    x = DAP,
-    y = c(PH, Canopy),
-    id = Plot,
-    .keep = c(Gen, Row, Range)
-  )
+results <- read_HTP(dt_chips, x = DAP, y = c(PH, Canopy), id = Plot)
 ```
 
 ```{r}
@@ -82,15 +76,17 @@ fixed_params <- results |>
 ```
 
 ```{r, warning=FALSE, message=FALSE}
-mod_1 <- modeler_HTP(
-  x = results,
-  variable = "Canopy",
-  id = c(195, 40),
-  parameters = c(t1 = 45, t2 = 80, k = 0.9),
-  fn = "fn_piwise",
-  fixed_params = fixed_params,
-  max_as_last = TRUE
-)
+mod_1 <- dt_chips |>
+  modeler_HTP(
+    x = DAP,
+    y = Canopy,
+    by = Plot,
+    id = c(195, 40),
+    parameters = c(t1 = 45, t2 = 80, k = 0.9),
+    fn = "fn_piwise",
+    fixed_params = fixed_params,
+    max_as_last = TRUE
+  )
 ```
 
 ```{r, fig.width= 8, fig.height=4}
@@ -145,14 +141,16 @@ Using t1 from the previous model as a fixed parameter and using t2 as initial pa
 
 
 ```{r}
-mod_2 <- modeler_HTP(
-  x = results,
-  variable = "PH",
-  id = c(195, 40),
-  fn = "fn_exp2_exp",
-  initial_vals = initials,
-  fixed_params = fixed_params
-)
+mod_2 <- dt_chips |>
+  modeler_HTP(
+    x = DAP,
+    y = PH,
+    by = Plot,
+    id = c(195, 40),
+    fn = "fn_exp2_exp",
+    initial_vals = initials,
+    fixed_params = fixed_params
+  )
 ```
 
 
@@ -167,27 +165,23 @@ kable(mod_2$param)
 
 ```{r, eval = FALSE}
 data(dt_chips)
-results <- dt_chips |>
-  read_HTP(
-    x = DAP,
-    y = c(PH, Canopy),
-    id = Plot,
-    .keep = c(Gen, Row, Range)
-  )
+results <- read_HTP(dt_chips, x = DAP, y = c(PH, Canopy), id = Plot)
 fixed_params <- results |>
   pluck("dt_long") |>
   filter(var %in% "Canopy" & uid %in% c(195, 40)) |>
   group_by(uid) |>
   summarise(k = max(y), .groups = "drop")
-mod_1 <- modeler_HTP(
-  x = results,
-  variable = "Canopy",
-  id = c(195, 40),
-  parameters = c(t1 = 45, t2 = 80, k = 0.9),
-  fn = "fn_piwise",
-  fixed_params = fixed_params,
-  max_as_last = TRUE
-)
+mod_1 <- dt_chips |>
+  modeler_HTP(
+    x = DAP,
+    y = Canopy,
+    by = Plot,
+    id = c(195, 40),
+    parameters = c(t1 = 45, t2 = 80, k = 0.9),
+    fn = "fn_piwise",
+    fixed_params = fixed_params,
+    max_as_last = TRUE
+  )
 fixed_params <- mod_1 |>
   pluck("param") |>
   select(uid, t1)
@@ -195,12 +189,14 @@ initials <- mod_1 |>
   pluck("param") |>
   select(uid, t1, t2) |>
   mutate(alpha = 1 / 600, beta = -1 / 30)
-mod_2 <- modeler_HTP(
-  x = results,
-  variable = "PH",
-  id = c(195, 40),
-  fn = "fn_exp2_exp",
-  initial_vals = initials,
-  fixed_params = fixed_params
-)
+mod_2 <- dt_chips |>
+  modeler_HTP(
+    x = DAP,
+    y = PH,
+    by = Plot,
+    id = c(195, 40),
+    fn = "fn_exp2_exp",
+    initial_vals = initials,
+    fixed_params = fixed_params
+  )
 ```

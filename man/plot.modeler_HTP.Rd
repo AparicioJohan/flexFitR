@@ -28,47 +28,49 @@ Create several plots for an object of class \code{modeler_HTP}
 library(exploreHTP)
 suppressMessages(library(dplyr))
 data(dt_potato)
-results <- dt_potato |>
-  read_HTP(
-    x = DAP,
-    y = c(Canopy, GLI_2),
-    id = Plot,
-    .keep = c(Gen, Row, Range)
-  )
-names(results)
+explorer <- read_HTP(dt_potato, x = DAP, y = c(Canopy, GLI_2), id = Plot)
 # Example 1
-mod_1 <- modeler_HTP(
-  x = results,
-  variable = "GLI_2",
-  id = c(195),
-  parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
-  fn = "fn_lin_pl_lin",
-)
+mod_1 <- dt_potato |>
+  modeler_HTP(
+    x = DAP,
+    y = GLI_2,
+    by = Plot,
+    id = c(1:2),
+    parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
+    fn = "fn_lin_pl_lin",
+    max_as_last = TRUE
+  )
 plot(mod_1, plot_id = c(195))
 mod_1
 # Example 2
-mod_2 <- modeler_HTP(
-  x = results,
-  variable = "Canopy",
-  id = c(195),
-  parameters = c(t1 = 45, t2 = 80, k = 0.9),
-  fn = "fn_piwise"
-)
+mod_2 <- dt_potato |>
+  modeler_HTP(
+    x = DAP,
+    y = Canopy,
+    by = Plot,
+    id = c(1:2),
+    parameters = c(t1 = 45, t2 = 80, k = 0.9),
+    fn = "fn_piwise",
+    max_as_last = TRUE
+  )
 plot(mod_2, plot_id = c(195))
 mod_2
 # Example 3
-fixed_params <- results$dt_long |>
+fixed_params <- explorer$dt_long |>
   filter(var \%in\% "Canopy") |>
   group_by(uid) |>
   summarise(k = max(y, na.rm = TRUE), .groups = "drop")
-mod_3 <- modeler_HTP(
-  x = results,
-  variable = "Canopy",
-  id = c(195),
-  parameters = c(t1 = 45, t2 = 80, k = 0.9),
-  fn = "fn_piwise",
-  fixed_params = fixed_params
-)
+mod_3 <- dt_potato |>
+  modeler_HTP(
+    x = DAP,
+    y = Canopy,
+    by = Plot,
+    id = 195,
+    parameters = c(t1 = 45, t2 = 80, k = 0.9),
+    fn = "fn_piwise",
+    fixed_params = fixed_params,
+    max_as_last = TRUE
+  )
 plot(mod_3, id = c(195))
 mod_3
 }

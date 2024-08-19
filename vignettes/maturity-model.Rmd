@@ -28,13 +28,7 @@ library(purrr)
 
 ```{r}
 data(dt_potato)
-results <- dt_potato |>
-  read_HTP(
-    x = DAP,
-    y = c(Canopy, GLI_2),
-    id = Plot,
-    .keep = c(Gen, Row, Range)
-  )
+results <- read_HTP(dt_potato, x = DAP, y = Canopy, id = Plot)
 ```
 
 ```{r}
@@ -67,8 +61,8 @@ k + \beta \cdot (t - t_3) & \text{if } t > t_3
 plot_fn(
   fn = "fn_lin_pl_lin",
   params = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
-  interval = c(0, 108), 
-  color = "black", 
+  interval = c(0, 108),
+  color = "black",
   base_size = 15
 )
 ```
@@ -76,13 +70,15 @@ plot_fn(
 ## Fitting models for maturity
 
 ```{r, warning=FALSE, message=FALSE}
-mod_1 <- modeler_HTP(
-  x = results,
-  variable = "GLI_2",
-  id = c(195, 40),
-  parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
-  fn = "fn_lin_pl_lin",
-)
+mod_1 <- dt_potato |>
+  modeler_HTP(
+    x = DAP,
+    y = GLI_2,
+    by = Plot,
+    id = c(195, 40),
+    parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
+    fn = "fn_lin_pl_lin",
+  )
 ```
 
 
@@ -102,15 +98,17 @@ fixed_params <- results |>
 ```
 
 ```{r}
-mod_2 <- modeler_HTP(
-  x = results,
-  variable = "Canopy",
-  id = c(195, 40),
-  parameters = c(t1 = 45, t2 = 80, k = 0.9),
-  fn = "fn_piwise",
-  fixed_params = fixed_params,
-  max_as_last = TRUE
-)
+mod_2 <- dt_potato |>
+  modeler_HTP(
+    x = DAP,
+    y = Canopy,
+    by = Plot,
+    id = c(195, 40),
+    parameters = c(t1 = 45, t2 = 80, k = 0.9),
+    fn = "fn_piwise",
+    fixed_params = fixed_params,
+    max_as_last = TRUE
+  )
 ```
 
 ```{r, fig.width= 8, fig.height=4}
@@ -129,13 +127,15 @@ kable(initials)
 ```
 
 ```{r}
-mod_3 <- modeler_HTP(
-  x = results,
-  variable = "GLI_2",
-  id = c(195, 40),
-  initial_vals = initials,
-  fn = "fn_lin_pl_lin",
-)
+mod_3 <- dt_potato |>
+  modeler_HTP(
+    x = DAP,
+    y = GLI_2,
+    by = Plot,
+    id = c(195, 40),
+    initial_vals = initials,
+    fn = "fn_lin_pl_lin",
+  )
 ```
 
 ```{r, fig.width= 8, fig.height=4}
@@ -147,16 +147,18 @@ kable(mod_3$param)
 ## Adding constrains to the optimization
 
 ```{r}
-mod_4 <- modeler_HTP(
-  x = results,
-  variable = "GLI_2",
-  id = c(195, 40),
-  parameters = c(t1 = 38.7, t2 = 62, dt = 28, k = 0.32, beta = -0.01),
-  fn = "fn_lin_pl_lin2",
-  method = c("nlminb", "L-BFGS-B"),
-  lower = c(-Inf, -Inf, 0, -Inf, -Inf),
-  upper = c(Inf, Inf, Inf, Inf, 0),
-)
+mod_4 <- dt_potato |>
+  modeler_HTP(
+    x = DAP,
+    y = GLI_2,
+    by = Plot,
+    id = c(195, 40),
+    parameters = c(t1 = 38.7, t2 = 62, dt = 28, k = 0.32, beta = -0.01),
+    fn = "fn_lin_pl_lin2",
+    method = c("nlminb", "L-BFGS-B"),
+    lower = c(-Inf, -Inf, 0, -Inf, -Inf),
+    upper = c(Inf, Inf, Inf, Inf, 0),
+  )
 ```
 
 ```{r, fig.width= 8, fig.height=4}

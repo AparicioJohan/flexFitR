@@ -25,22 +25,19 @@ Coefficients for an object of class \code{modeler_HTP}
 \examples{
 library(exploreHTP)
 data(dt_potato)
-results <- dt_potato |>
-  read_HTP(
+explorer <- read_HTP(dt_potato, x = DAP, y = c(Canopy, GLI_2), id = Plot)
+mod_1 <- dt_potato |>
+  modeler_HTP(
     x = DAP,
-    y = c(Canopy, GLI_2),
-    id = Plot,
-    .keep = c(Gen, Row, Range)
+    y = Canopy,
+    by = Plot,
+    id = c(15, 2, 45),
+    parameters = c(t1 = 45, t2 = 80, k = 0.9),
+    fn = "fn_piwise",
+    max_as_last = TRUE
   )
-mod <- modeler_HTP(
-  x = results,
-  variable = "Canopy",
-  id = 1:2,
-  parameters = c(t1 = 45, t2 = 80, k = 0.9),
-  fn = "fn_piwise"
-)
-mod
-coef(mod)
+mod_1
+coef(mod_1, id = 2)
 }
 \author{
 Johan Aparicio [aut]

@@ -5,8 +5,11 @@
 \title{Modeler HTP}
 \usage{
 modeler_HTP(
+  data,
   x,
-  variable = "GLI",
+  y,
+  by,
+  .keep,
   id = NULL,
   fn = "fn_piwise",
   parameters = NULL,
@@ -28,9 +31,15 @@ modeler_HTP(
 )
 }
 \arguments{
-\item{x}{An object of class \code{read_HTP}, containing the results of the \code{read_HTP()} function.}
+\item{data}{A data.frame in a wide format.}
 
-\item{variable}{A string specifying the trait to be modeled. Default is \code{"GLI"}. Must match a trait in the data.}
+\item{x}{The name of the column in `data` that contains x points.}
+
+\item{y}{The name of the column in `data` that contain the variable to be analyzed. Must match a var in the data.}
+
+\item{by}{The name of the column in `data` that contains the unique identifiers (id).}
+
+\item{.keep}{The names of the columns in `data` to keep across the analysis.}
 
 \item{id}{An optional vector of IDs to filter the data. Default is \code{NULL}, meaning all ids are used.}
 
@@ -42,7 +51,7 @@ modeler_HTP(
 
 \item{upper}{Numeric vector specifying the upper bounds for the parameters. Default is \code{Inf} for all parameters.}
 
-\item{initial_vals}{A data frame with columns \code{uid}, and the initial parameter values for each plot. Used for providing specific initial values per plot.}
+\item{initial_vals}{A data frame with columns \code{uid}, and the initial parameter values for each id. Used for providing specific initial values per id.}
 
 \item{fixed_params}{A data frame with columns \code{uid}, and the fixed parameter values for each id. Used for fixing certain parameters during optimization.}
 
@@ -50,7 +59,7 @@ modeler_HTP(
 
 \item{return_method}{Logical. If \code{TRUE}, includes the optimization method used in the result. Default is \code{FALSE}.}
 
-\item{add_zero}{Logical. If \code{TRUE}, adds a zero value to the time series at the start. Default is \code{TRUE}.}
+\item{add_zero}{Logical. If \code{TRUE}, adds a zero value to the series at the start. Default is \code{TRUE}.}
 
 \item{check_negative}{Logical. If \code{TRUE}, converts negative values in the data to zero. Default is \code{TRUE}.}
 
@@ -89,32 +98,30 @@ General-purpose optimization for HTP data.
 \examples{
 library(exploreHTP)
 data(dt_potato)
-results <- dt_potato |>
-  read_HTP(
-    x = DAP,
-    y = c(Canopy, GLI_2),
-    id = Plot,
-    .keep = c(Gen, Row, Range)
-  )
+explorer <- read_HTP(dt_potato, x = DAP, y = c(Canopy, GLI_2), id = Plot)
 # Example 1
-mod_1 <- modeler_HTP(
-  x = results,
-  variable = "GLI_2",
-  id = c(195),
-  parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
-  fn = "fn_lin_pl_lin",
-)
+mod_1 <- dt_potato |>
+  modeler_HTP(
+    x = DAP,
+    y = GLI_2,
+    by = Plot,
+    id = c(195),
+    parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
+    fn = "fn_lin_pl_lin",
+  )
 plot(mod_1, plot_id = c(195))
 print(mod_1)
 # Example 2
-mod_2 <- modeler_HTP(
-  x = results,
-  variable = "Canopy",
-  id = c(195),
-  parameters = c(t1 = 45, t2 = 80, k = 0.9),
-  fn = "fn_piwise",
-  max_as_last = TRUE
-)
+mod_2 <- dt_potato |>
+  modeler_HTP(
+    x = DAP,
+    y = Canopy,
+    by = Plot,
+    id = c(195),
+    parameters = c(t1 = 45, t2 = 80, k = 0.9),
+    fn = "fn_piwise",
+    max_as_last = TRUE
+  )
 plot(mod_2, id = c(195))
 print(mod_2)
 }

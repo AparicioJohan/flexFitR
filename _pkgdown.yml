@@ -33,20 +33,18 @@ navbar:
     text: Github
     href: https://github.com/AparicioJohan/exploreHTP
 reference:
-- title: exploreHTP
-  desc: Read and fit models
+- title: Modeling
 - contents:
-  - read_HTP
   - modeler_HTP
-  - metrics_HTP
-- title: Exploring Results
-  desc: S3 methods
-- contents:
-  - plot.read_HTP
   - plot.modeler_HTP
-  - print.modeler_HTP
   - predict.modeler_HTP
   - coef.modeler_HTP
+  - print.modeler_HTP
+  - metrics_HTP
+- title: Data Exploration
+- contents:
+  - read_HTP
+  - plot.read_HTP
   - plot_fn
 - title: Data
   desc: Example Datasets

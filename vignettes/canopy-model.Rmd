@@ -28,29 +28,23 @@ library(purrr)
 
 ```{r}
 data(dt_potato)
-results <- dt_potato |>
-  read_HTP(
-    x = DAP,
-    y = Canopy,
-    id = Plot,
-    .keep = c(Gen, Row, Range)
-  )
+explorer <- read_HTP(dt_potato, x = DAP, y = Canopy, id = Plot)
 ```
 
 ```{r}
-names(results)
+names(explorer)
 ```
 
 ## Data exploration
 
 ```{r, fig.width= 8, fig.height=4}
-p1 <- plot(results, type = "evolution", return_gg = TRUE)
-p2 <- plot(results, type = "time_by_trait", return_gg = TRUE)
+p1 <- plot(explorer, type = "evolution", return_gg = TRUE)
+p2 <- plot(explorer, type = "time_by_trait", return_gg = TRUE)
 ggarrange(p1, p2)
 ```
 
 ```{r, echo=FALSE}
-kable(mutate_if(results$summ_traits, is.numeric, round, 2))
+kable(mutate_if(explorer$summ_traits, is.numeric, round, 2))
 ```
 
 
@@ -72,8 +66,8 @@ k & \text{if } t > t_2
 plot_fn(
   fn = "fn_piwise",
   params = c(t1 = 34.9, t2 = 61.8, k = 100),
-  interval = c(0, 108), 
-  color = "black", 
+  interval = c(0, 108),
+  color = "black",
   base_size = 15
 )
 ```
@@ -81,13 +75,15 @@ plot_fn(
 ## Fitting Models
 
 ```{r, warning=FALSE, message=FALSE }
-mod_1 <- modeler_HTP(
-  x = results,
-  variable = "Canopy",
-  id = c(195, 40),
-  parameters = c(t1 = 45, t2 = 80, k = 0.9),
-  fn = "fn_piwise"
-)
+mod_1 <- dt_potato |>
+  modeler_HTP(
+    x = DAP,
+    y = Canopy,
+    by = Plot,
+    id = c(195, 40),
+    parameters = c(t1 = 45, t2 = 80, k = 0.9),
+    fn = "fn_piwise"
+  )
 mod_1
 ```
 
@@ -100,7 +96,7 @@ kable(mod_1$param)
 ## Providing different initial values
 
 ```{r}
-initials <- results |>
+initials <- explorer |>
   pluck("dt_long") |>
   filter(var %in% "Canopy" & uid %in% c(195, 40)) |>
   group_by(uid) |>
@@ -113,14 +109,16 @@ kable(initials)
 ```
 
 ```{r}
-mod_2 <- modeler_HTP(
-  x = results,
-  variable = "Canopy",
-  id = c(195, 40),
-  parameters = c(t1 = 45, t2 = 80, k = 0.9),
-  fn = "fn_piwise",
-  initial_vals = initials
-)
+mod_2 <- dt_potato |>
+  modeler_HTP(
+    x = DAP,
+    y = Canopy,
+    by = Plot,
+    id = c(195, 40),
+    parameters = c(t1 = 45, t2 = 80, k = 0.9),
+    fn = "fn_piwise",
+    initial_vals = initials
+  )
 ```
 
 ```{r, fig.width= 8, fig.height=4}
@@ -131,7 +129,7 @@ kable(mod_2$param)
 ## Fixing some parameters of the model
 
 ```{r}
-fixed_params <- results |>
+fixed_params <- explorer |>
   pluck("dt_long") |>
   filter(var %in% "Canopy" & uid %in% c(195, 40)) |>
   group_by(uid) |>
@@ -144,14 +142,16 @@ kable(fixed_params)
 
 
 ```{r}
-mod_3 <- modeler_HTP(
-  x = results,
-  variable = "Canopy",
-  id = c(195, 40),
-  parameters = c(t1 = 45, t2 = 80, k = 0.9),
-  fn = "fn_piwise",
-  fixed_params = fixed_params
-)
+mod_3 <- dt_potato |>
+  modeler_HTP(
+    x = DAP,
+    y = Canopy,
+    by = Plot,
+    id = c(195, 40),
+    parameters = c(t1 = 45, t2 = 80, k = 0.9),
+    fn = "fn_piwise",
+    fixed_params = fixed_params
+  )
 ```
 
 ```{r, fig.width= 8, fig.height=4}
@@ -162,15 +162,17 @@ kable(mod_3$param)
 ## Correcting Maximun value
 
 ```{r}
-mod_4 <- modeler_HTP(
-  x = results,
-  variable = "Canopy",
-  id = c(195, 40),
-  parameters = c(t1 = 45, t2 = 80, k = 0.9),
-  fn = "fn_piwise",
-  fixed_params = fixed_params,
-  max_as_last = TRUE
-)
+mod_4 <- dt_potato |>
+  modeler_HTP(
+    x = DAP,
+    y = Canopy,
+    by = Plot,
+    id = c(195, 40),
+    parameters = c(t1 = 45, t2 = 80, k = 0.9),
+    fn = "fn_piwise",
+    fixed_params = fixed_params,
+    max_as_last = TRUE
+  )
 ```
 
 ```{r, fig.width= 8, fig.height=4}
@@ -196,24 +198,20 @@ rbind.data.frame(
 ## Code
 
 ```{r, eval = FALSE}
-results <- dt_potato |>
-  read_HTP(
-    x = DAP,
-    y = Canopy,
-    id = Plot,
-    .keep = c(Gen, Row, Range)
-  )
-fixed_params <- results$dt_long |>
+explorer <- read_HTP(dt_potato, x = DAP, y = c(Canopy), id = Plot)
+fixed_params <- explorer$dt_long |>
   filter(var %in% "Canopy") |>
   group_by(uid) |>
   summarise(k = max(y), .groups = "drop")
-mod <- modeler_HTP(
-  x = results,
-  variable = "Canopy",
-  id = NULL,
-  parameters = c(t1 = 45, t2 = 80, k = 0.9),
-  fn = "fn_piwise",
-  fixed_params = fixed_params,
-  max_as_last = TRUE
-)
+mod <- dt_potato |>
+  modeler_HTP(
+    x = DAP,
+    y = Canopy,
+    by = Plot,
+    id = c(195, 40),
+    parameters = c(t1 = 45, t2 = 80, k = 0.9),
+    fn = "fn_piwise",
+    fixed_params = fixed_params,
+    max_as_last = TRUE
+  )
 ```

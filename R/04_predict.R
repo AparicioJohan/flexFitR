@@ -15,22 +15,19 @@
 #' @examples
 #' library(exploreHTP)
 #' data(dt_potato)
-#' results <- dt_potato |>
-#'   read_HTP(
+#' explorer <- read_HTP(dt_potato, x = DAP, y = c(Canopy, GLI_2), id = Plot)
+#' mod_1 <- dt_potato |>
+#'   modeler_HTP(
 #'     x = DAP,
-#'     y = c(Canopy, GLI_2),
-#'     id = Plot,
-#'     .keep = c(Gen, Row, Range)
+#'     y = Canopy,
+#'     by = Plot,
+#'     id = c(15, 2, 45),
+#'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
+#'     fn = "fn_piwise",
+#'     max_as_last = TRUE
 #'   )
-#' mod <- modeler_HTP(
-#'   x = results,
-#'   variable = "Canopy",
-#'   id = c(15, 2, 45),
-#'   parameters = c(t1 = 45, t2 = 80, k = 0.9),
-#'   fn = "fn_piwise"
-#' )
-#' mod
-#' predict(mod, x = 45, id = 2)
+#' mod_1
+#' predict(mod_1, x = 45, id = 2)
 #' @import ggplot2
 #' @import dplyr
 predict.modeler_HTP <- function(object,
@@ -166,22 +163,19 @@ ff <- function(params, x_new, curve, fixed_params = NA) {
 #' @examples
 #' library(exploreHTP)
 #' data(dt_potato)
-#' results <- dt_potato |>
-#'   read_HTP(
+#' explorer <- read_HTP(dt_potato, x = DAP, y = c(Canopy, GLI_2), id = Plot)
+#' mod_1 <- dt_potato |>
+#'   modeler_HTP(
 #'     x = DAP,
-#'     y = c(Canopy, GLI_2),
-#'     id = Plot,
-#'     .keep = c(Gen, Row, Range)
+#'     y = Canopy,
+#'     by = Plot,
+#'     id = c(15, 2, 45),
+#'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
+#'     fn = "fn_piwise",
+#'     max_as_last = TRUE
 #'   )
-#' mod <- modeler_HTP(
-#'   x = results,
-#'   variable = "Canopy",
-#'   id = 1:2,
-#'   parameters = c(t1 = 45, t2 = 80, k = 0.9),
-#'   fn = "fn_piwise"
-#' )
-#' mod
-#' coef(mod)
+#' mod_1
+#' coef(mod_1, id = 2)
 #' @import dplyr
 #' @importFrom stats pt
 coef.modeler_HTP <- function(x, id = NULL, metadata = FALSE, ...) {
@@ -195,6 +189,7 @@ coef.modeler_HTP <- function(x, id = NULL, metadata = FALSE, ...) {
     if (!all(id %in% unique(dt$uid))) {
       stop("plot_ids not found in x.")
     }
+    uid <- id
   } else {
     uid <- unique(dt$uid)
   }

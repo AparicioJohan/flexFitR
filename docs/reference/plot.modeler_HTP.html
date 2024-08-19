@@ -106,24 +106,21 @@ executing the function <code><a href="modeler_HTP.html">modeler_HTP()</a></code>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://apariciojohan.github.io/exploreHTP/">exploreHTP</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">dt_potato</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="va">dt_potato</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="read_HTP.html">read_HTP</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    x <span class="op">=</span> <span class="va">DAP</span>,</span></span>
-<span class="r-in"><span>    y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">Canopy</span>, <span class="va">GLI_2</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    id <span class="op">=</span> <span class="va">Plot</span>,</span></span>
-<span class="r-in"><span>    .keep <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">Gen</span>, <span class="va">Row</span>, <span class="va">Range</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">results</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">explorer</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_HTP.html">read_HTP</a></span><span class="op">(</span><span class="va">dt_potato</span>, x <span class="op">=</span> <span class="va">DAP</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">Canopy</span>, <span class="va">GLI_2</span><span class="op">)</span>, id <span class="op">=</span> <span class="va">Plot</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">explorer</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "summ_traits"    "metadata"       "locals_min_max" "dt_long"       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5] ".keep"         </span>
 <span class="r-in"><span><span class="co"># Example 1</span></span></span>
-<span class="r-in"><span><span class="va">mod_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="modeler_HTP.html">modeler_HTP</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  x <span class="op">=</span> <span class="va">results</span>,</span></span>
-<span class="r-in"><span>  variable <span class="op">=</span> <span class="st">"GLI_2"</span>,</span></span>
-<span class="r-in"><span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">38.7</span>, t2 <span class="op">=</span> <span class="fl">62</span>, t3 <span class="op">=</span> <span class="fl">90</span>, k <span class="op">=</span> <span class="fl">0.32</span>, beta <span class="op">=</span> <span class="op">-</span><span class="fl">0.01</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  fn <span class="op">=</span> <span class="st">"fn_lin_pl_lin"</span>,</span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">mod_1</span> <span class="op">&lt;-</span> <span class="va">dt_potato</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="modeler_HTP.html">modeler_HTP</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    x <span class="op">=</span> <span class="va">DAP</span>,</span></span>
+<span class="r-in"><span>    y <span class="op">=</span> <span class="va">GLI_2</span>,</span></span>
+<span class="r-in"><span>    by <span class="op">=</span> <span class="va">Plot</span>,</span></span>
+<span class="r-in"><span>    id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">38.7</span>, t2 <span class="op">=</span> <span class="fl">62</span>, t3 <span class="op">=</span> <span class="fl">90</span>, k <span class="op">=</span> <span class="fl">0.32</span>, beta <span class="op">=</span> <span class="op">-</span><span class="fl">0.01</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    fn <span class="op">=</span> <span class="st">"fn_lin_pl_lin"</span>,</span></span>
+<span class="r-in"><span>    max_as_last <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span>, plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot.modeler_HTP-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="va">mod_1</span></span></span>
@@ -133,24 +130,28 @@ executing the function <code><a href="modeler_HTP.html">modeler_HTP()</a></code>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Sum of Squares Error:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.024e-05 1.024e-05 1.024e-05 1.024e-05 1.024e-05 1.024e-05 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7.407e-06 8.881e-06 1.036e-05 1.036e-05 1.183e-05 1.330e-05 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Optimization Results `head()`:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  uid   t1   t2   t3     k  beta      sse  auc</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  195 39.6 68.3 93.3 0.323 -0.01 1.02e-05 16.4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  uid   t1   t2  t3     k beta      sse  auc</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    1 39.5 65.0 113 0.335 2.99 7.41e-06 18.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    2 37.9 65.3 110 0.363 1.41 1.33e-05 20.5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Ids      Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    1 0.8786 secs        100%   896 (id)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    2 2.8185 secs        100%  1526 (id)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="co"># Example 2</span></span></span>
-<span class="r-in"><span><span class="va">mod_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="modeler_HTP.html">modeler_HTP</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  x <span class="op">=</span> <span class="va">results</span>,</span></span>
-<span class="r-in"><span>  variable <span class="op">=</span> <span class="st">"Canopy"</span>,</span></span>
-<span class="r-in"><span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">45</span>, t2 <span class="op">=</span> <span class="fl">80</span>, k <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  fn <span class="op">=</span> <span class="st">"fn_piwise"</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">mod_2</span> <span class="op">&lt;-</span> <span class="va">dt_potato</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="modeler_HTP.html">modeler_HTP</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    x <span class="op">=</span> <span class="va">DAP</span>,</span></span>
+<span class="r-in"><span>    y <span class="op">=</span> <span class="va">Canopy</span>,</span></span>
+<span class="r-in"><span>    by <span class="op">=</span> <span class="va">Plot</span>,</span></span>
+<span class="r-in"><span>    id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">45</span>, t2 <span class="op">=</span> <span class="fl">80</span>, k <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    fn <span class="op">=</span> <span class="st">"fn_piwise"</span>,</span></span>
+<span class="r-in"><span>    max_as_last <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_2</span>, plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot.modeler_HTP-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="va">mod_2</span></span></span>
@@ -160,29 +161,33 @@ executing the function <code><a href="modeler_HTP.html">modeler_HTP()</a></code>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Sum of Squares Error:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   390.5   390.5   390.5   390.5   390.5   390.5 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0.4489  2.0903  3.7317  3.7317  5.3731  7.0145 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Optimization Results `head()`:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  uid   t1 t2    k sse  auc</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  195 38.7 60 91.7 390 5377</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  uid   t1   t2     k   sse  auc</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    1 38.6 61.0  99.8 0.449 5807</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    2 35.2 60.7 100.0 7.014 6004</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Ids      Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    1 0.4641 secs        100%   506 (id)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    2 1.1224 secs        100%   469 (id)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="co"># Example 3</span></span></span>
-<span class="r-in"><span><span class="va">fixed_params</span> <span class="op">&lt;-</span> <span class="va">results</span><span class="op">$</span><span class="va">dt_long</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span><span class="va">fixed_params</span> <span class="op">&lt;-</span> <span class="va">explorer</span><span class="op">$</span><span class="va">dt_long</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">var</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="st">"Canopy"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">uid</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>k <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">y</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">mod_3</span> <span class="op">&lt;-</span> <span class="fu"><a href="modeler_HTP.html">modeler_HTP</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  x <span class="op">=</span> <span class="va">results</span>,</span></span>
-<span class="r-in"><span>  variable <span class="op">=</span> <span class="st">"Canopy"</span>,</span></span>
-<span class="r-in"><span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">45</span>, t2 <span class="op">=</span> <span class="fl">80</span>, k <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  fn <span class="op">=</span> <span class="st">"fn_piwise"</span>,</span></span>
-<span class="r-in"><span>  fixed_params <span class="op">=</span> <span class="va">fixed_params</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">mod_3</span> <span class="op">&lt;-</span> <span class="va">dt_potato</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="modeler_HTP.html">modeler_HTP</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    x <span class="op">=</span> <span class="va">DAP</span>,</span></span>
+<span class="r-in"><span>    y <span class="op">=</span> <span class="va">Canopy</span>,</span></span>
+<span class="r-in"><span>    by <span class="op">=</span> <span class="va">Plot</span>,</span></span>
+<span class="r-in"><span>    id <span class="op">=</span> <span class="fl">195</span>,</span></span>
+<span class="r-in"><span>    parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">45</span>, t2 <span class="op">=</span> <span class="fl">80</span>, k <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    fn <span class="op">=</span> <span class="st">"fn_piwise"</span>,</span></span>
+<span class="r-in"><span>    fixed_params <span class="op">=</span> <span class="va">fixed_params</span>,</span></span>
+<span class="r-in"><span>    max_as_last <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_3</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot.modeler_HTP-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="va">mod_3</span></span></span>
@@ -191,16 +196,16 @@ executing the function <code><a href="modeler_HTP.html">modeler_HTP()</a></code>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Canopy ~ fn_piwise(x, t1, t2, k) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Sum of Squares Error:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     663     663     663     663     663     663 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3.572e-26 3.572e-26 3.572e-26 3.572e-26 3.572e-26 3.572e-26 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Optimization Results `head()`:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  uid   t1 t2 sse   k  auc</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  195 38.7 62 663 100 5765</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  uid   t1 t2      sse   k  auc</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  195 38.7 62 3.57e-26 100 5765</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Ids      Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    1 0.4289 secs        100%   316 (id)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    1 0.5584 secs        100%   346 (id)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>

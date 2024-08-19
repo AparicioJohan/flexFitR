@@ -26,22 +26,16 @@ The function .fitter_curve is used internally to find the parameters requested.
 }
 \examples{
 library(exploreHTP)
-suppressMessages(library(dplyr))
 data(dt_potato)
-dt_potato <- dt_potato
-results <- read_HTP(
-  data = dt_potato,
-  x = "DAP",
-  y = c("Canopy", "GLI_2"),
-  id = "Plot",
-  .keep = c("Gen", "Row", "Range")
-)
-mod <- modeler_HTP(
-  x = results,
-  variable = "GLI_2",
-  id = c(195),
-  parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
-  fn = "fn_lin_pl_lin",
-)
+explorer <- read_HTP(dt_potato, x = DAP, y = c(Canopy, GLI_2), id = Plot)
+mod_1 <- dt_potato |>
+  modeler_HTP(
+    x = DAP,
+    y = GLI_2,
+    by = Plot,
+    id = 195,
+    parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
+    fn = "fn_lin_pl_lin"
+  )
 }
 \keyword{internal}
