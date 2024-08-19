@@ -151,7 +151,7 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mod_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/modeler_HTP.html">modeler_HTP</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="va">results</span>,</span>
-<span>  index <span class="op">=</span> <span class="st">"GLI_2"</span>,</span>
+<span>  variable <span class="op">=</span> <span class="st">"GLI_2"</span>,</span>
 <span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span>,</span>
 <span>  parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">38.7</span>, t2 <span class="op">=</span> <span class="fl">62</span>, t3 <span class="op">=</span> <span class="fl">90</span>, k <span class="op">=</span> <span class="fl">0.32</span>, beta <span class="op">=</span> <span class="op">-</span><span class="fl">0.01</span><span class="op">)</span>,</span>
 <span>  fn <span class="op">=</span> <span class="st">"fn_lin_pl_lin"</span>,</span>
@@ -230,7 +230,7 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mod_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/modeler_HTP.html">modeler_HTP</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="va">results</span>,</span>
-<span>  index <span class="op">=</span> <span class="st">"Canopy"</span>,</span>
+<span>  variable <span class="op">=</span> <span class="st">"Canopy"</span>,</span>
 <span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span>,</span>
 <span>  parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">45</span>, t2 <span class="op">=</span> <span class="fl">80</span>, k <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>,</span>
 <span>  fn <span class="op">=</span> <span class="st">"fn_piwise"</span>,</span>
@@ -331,7 +331,7 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mod_3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/modeler_HTP.html">modeler_HTP</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="va">results</span>,</span>
-<span>  index <span class="op">=</span> <span class="st">"GLI_2"</span>,</span>
+<span>  variable <span class="op">=</span> <span class="st">"GLI_2"</span>,</span>
 <span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span>,</span>
 <span>  initial_vals <span class="op">=</span> <span class="va">initials</span>,</span>
 <span>  fn <span class="op">=</span> <span class="st">"fn_lin_pl_lin"</span>,</span>
@@ -404,7 +404,7 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mod_4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/modeler_HTP.html">modeler_HTP</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="va">results</span>,</span>
-<span>  index <span class="op">=</span> <span class="st">"GLI_2"</span>,</span>
+<span>  variable <span class="op">=</span> <span class="st">"GLI_2"</span>,</span>
 <span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span>,</span>
 <span>  parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">38.7</span>, t2 <span class="op">=</span> <span class="fl">62</span>, dt <span class="op">=</span> <span class="fl">28</span>, k <span class="op">=</span> <span class="fl">0.32</span>, beta <span class="op">=</span> <span class="op">-</span><span class="fl">0.01</span><span class="op">)</span>,</span>
 <span>  fn <span class="op">=</span> <span class="st">"fn_lin_pl_lin2"</span>,</span>

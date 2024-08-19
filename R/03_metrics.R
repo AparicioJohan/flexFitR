@@ -41,7 +41,7 @@ r_squared <- function(actual, predicted) {
 #' @param x An object of class `modeler_HTP` containing the necessary data to compute the metrics.
 #' @param .by_id Return the metrics by id? TRUE by default.
 #'
-#' @return A data frame containing the calculated metrics grouped by plot, row, range, genotype, and trait.
+#' @return A data frame containing the calculated metrics grouped by uid, metadata, and variables.
 #'
 #' @details
 #' \if{html}{
@@ -66,7 +66,6 @@ r_squared <- function(actual, predicted) {
 #' @examples
 #' library(exploreHTP)
 #' data(dt_potato)
-#' dt_potato <- dt_potato
 #' results <- dt_potato |>
 #'   read_HTP(
 #'     x = DAP,
@@ -74,10 +73,17 @@ r_squared <- function(actual, predicted) {
 #'     id = Plot,
 #'     .keep = c(Gen, Row, Range)
 #'   )
-#' x <- canopy_HTP(x = results, index = "Canopy", id = c(1:2))
-#' plot(x, c(1:2))
-#' print(x)
-#' metrics_HTP(x)
+#' mod_1 <- modeler_HTP(
+#'   x = results,
+#'   variable = "Canopy",
+#'   id = c(1:2),
+#'   parameters = c(t1 = 45, t2 = 80, k = 0.9),
+#'   fn = "fn_piwise",
+#'   max_as_last = TRUE
+#' )
+#' plot(mod_1, id = c(1:2))
+#' print(mod_1)
+#' metrics_HTP(mod_1)
 metrics_HTP <- function(x, .by_id = TRUE) {
   if (!inherits(x, "modeler_HTP")) {
     stop("The object should be of modeler_HTP class")

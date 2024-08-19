@@ -83,7 +83,7 @@ plot_fn(
 ```{r, warning=FALSE, message=FALSE }
 mod_1 <- modeler_HTP(
   x = results,
-  index = "Canopy",
+  variable = "Canopy",
   id = c(195, 40),
   parameters = c(t1 = 45, t2 = 80, k = 0.9),
   fn = "fn_piwise"
@@ -115,7 +115,7 @@ kable(initials)
 ```{r}
 mod_2 <- modeler_HTP(
   x = results,
-  index = "Canopy",
+  variable = "Canopy",
   id = c(195, 40),
   parameters = c(t1 = 45, t2 = 80, k = 0.9),
   fn = "fn_piwise",
@@ -146,7 +146,7 @@ kable(fixed_params)
 ```{r}
 mod_3 <- modeler_HTP(
   x = results,
-  index = "Canopy",
+  variable = "Canopy",
   id = c(195, 40),
   parameters = c(t1 = 45, t2 = 80, k = 0.9),
   fn = "fn_piwise",
@@ -164,7 +164,7 @@ kable(mod_3$param)
 ```{r}
 mod_4 <- modeler_HTP(
   x = results,
-  index = "Canopy",
+  variable = "Canopy",
   id = c(195, 40),
   parameters = c(t1 = 45, t2 = 80, k = 0.9),
   fn = "fn_piwise",
@@ -209,7 +209,7 @@ fixed_params <- results$dt_long |>
   summarise(k = max(y), .groups = "drop")
 mod <- modeler_HTP(
   x = results,
-  index = "Canopy",
+  variable = "Canopy",
   id = NULL,
   parameters = c(t1 = 45, t2 = 80, k = 0.9),
   fn = "fn_piwise",

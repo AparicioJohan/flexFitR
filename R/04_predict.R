@@ -24,7 +24,7 @@
 #'   )
 #' mod <- modeler_HTP(
 #'   x = results,
-#'   index = "Canopy",
+#'   variable = "Canopy",
 #'   id = c(15, 2, 45),
 #'   parameters = c(t1 = 45, t2 = 80, k = 0.9),
 #'   fn = "fn_piwise"
@@ -156,7 +156,7 @@ ff <- function(params, x_new, curve, fixed_params = NA) {
 #' @aliases coef.modeler_HTP
 #' @param x An object inheriting from class \code{modeler_HTP} resulting of
 #' executing the function \code{modeler_HTP()}
-#' @param id A numeric to filter by Plot Id.
+#' @param id A numeric Id to filter by.
 #' @param metadata TRUE or FALSE. Whether to bring the metadata or not when calculating the coefficients.
 #' @param ... Further parameters. For future improvements.
 #' @author Johan Aparicio [aut]
@@ -175,7 +175,7 @@ ff <- function(params, x_new, curve, fixed_params = NA) {
 #'   )
 #' mod <- modeler_HTP(
 #'   x = results,
-#'   index = "Canopy",
+#'   variable = "Canopy",
 #'   id = 1:2,
 #'   parameters = c(t1 = 45, t2 = 80, k = 0.9),
 #'   fn = "fn_piwise"

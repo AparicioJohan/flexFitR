@@ -273,7 +273,7 @@
 <h2 id="id_2-estimating-days-to-emergence-and-days-to-full-canopy">2. Estimating days to emergence and days to full canopy<a class="anchor" aria-label="anchor" href="#id_2-estimating-days-to-emergence-and-days-to-full-canopy"></a>
 </h2>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/canopy_HTP.html">canopy_HTP</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">results</span>, index <span class="op">=</span> <span class="st">"Canopy"</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">60</span>, <span class="fl">150</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu">canopy_HTP</span><span class="op">(</span>x <span class="op">=</span> <span class="va">results</span>, index <span class="op">=</span> <span class="st">"Canopy"</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">60</span>, <span class="fl">150</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">print</span>(out)</span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>Call<span class="sc">:</span></span>
@@ -354,7 +354,7 @@
 <h2 id="id_3-modelling-plant-height">3. Modelling Plant Height<a class="anchor" aria-label="anchor" href="#id_3-modelling-plant-height"></a>
 </h2>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ph_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/height_HTP.html">height_HTP</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">ph_1</span> <span class="op">&lt;-</span> <span class="fu">height_HTP</span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="va">results</span>,</span>
 <span>  height <span class="op">=</span> <span class="st">"PH"</span>,</span>
 <span>  canopy <span class="op">=</span> <span class="st">"Canopy"</span>,</span>
@@ -445,7 +445,7 @@
 <span>    id <span class="op">=</span> <span class="va">Plot</span>,</span>
 <span>    .keep <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">Gen</span>, <span class="va">Row</span>, <span class="va">Range</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
-<span><span class="va">mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/maturity_HTP.html">maturity_HTP</a></span><span class="op">(</span></span>
+<span><span class="va">mat</span> <span class="op">&lt;-</span> <span class="fu">maturity_HTP</span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="va">results</span>,</span>
 <span>  index <span class="op">=</span> <span class="st">"GLI_2"</span>,</span>
 <span>  canopy <span class="op">=</span> <span class="st">"Canopy"</span>,</span>

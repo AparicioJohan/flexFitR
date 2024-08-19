@@ -4,17 +4,17 @@
 #' General-purpose optimization for HTP data.
 #'
 #' @param x An object of class \code{read_HTP}, containing the results of the \code{read_HTP()} function.
-#' @param index A string specifying the trait to be modeled. Default is \code{"GLI"}. Must match a trait in the data.
-#' @param id An optional vector of plot IDs to filter the data. Default is \code{NULL}, meaning all plots are used.
+#' @param variable A string specifying the variable to be modeled. Default is \code{"GLI"}. Must match a var in the data.
+#' @param id An optional vector of IDs to filter the data. Default is \code{NULL}, meaning all ids are used.
 #' @param fn A string specifying the name of the function to be used for the curve fitting. Default is \code{"fn_piwise"}.
 #' @param parameters A named numeric vector specifying the initial values for the parameters to be optimized. Default is \code{NULL}.
 #' @param lower Numeric vector specifying the lower bounds for the parameters. Default is \code{-Inf} for all parameters.
 #' @param upper Numeric vector specifying the upper bounds for the parameters. Default is \code{Inf} for all parameters.
-#' @param initial_vals A data frame with columns \code{uid}, and the initial parameter values for each plot. Used for providing specific initial values per plot.
+#' @param initial_vals A data frame with columns \code{uid}, and the initial parameter values for each id. Used for providing specific initial values per id.
 #' @param fixed_params A data frame with columns \code{uid}, and the fixed parameter values for each id. Used for fixing certain parameters during optimization.
 #' @param method A character vector specifying the optimization methods to be used. See \code{optimx} package for available methods. Default is \code{c("subplex", "pracmanm", "anms")}.
 #' @param return_method Logical. If \code{TRUE}, includes the optimization method used in the result. Default is \code{FALSE}.
-#' @param add_zero Logical. If \code{TRUE}, adds a zero value to the time series at the start. Default is \code{TRUE}.
+#' @param add_zero Logical. If \code{TRUE}, adds a zero value to the series at the start. Default is \code{TRUE}.
 #' @param check_negative Logical. If \code{TRUE}, converts negative values in the data to zero. Default is \code{TRUE}.
 #' @param max_as_last Logical. If \code{TRUE}, appends the maximum value after reaching the maximum. Default is \code{FALSE}.
 #' @param n_points An integer specifying the number of time points to use for approximating the Area Under the Curve (AUC). Default is \code{1000}.
@@ -51,7 +51,7 @@
 #' # Example 1
 #' mod_1 <- modeler_HTP(
 #'   x = results,
-#'   index = "GLI_2",
+#'   variable = "GLI_2",
 #'   id = c(195),
 #'   parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
 #'   fn = "fn_lin_pl_lin",
@@ -61,7 +61,7 @@
 #' # Example 2
 #' mod_2 <- modeler_HTP(
 #'   x = results,
-#'   index = "Canopy",
+#'   variable = "Canopy",
 #'   id = c(195),
 #'   parameters = c(t1 = 45, t2 = 80, k = 0.9),
 #'   fn = "fn_piwise",
@@ -74,7 +74,7 @@
 #' @import dplyr
 #' @import foreach
 modeler_HTP <- function(x,
-                        index = "GLI",
+                        variable = "GLI",
                         id = NULL,
                         fn = "fn_piwise",
                         parameters = NULL,
@@ -98,10 +98,10 @@ modeler_HTP <- function(x,
     stop("The object should be of class 'read_HTP'.")
   }
   .keep <- x$.keep
-  # Validate index
+  # Validate variable
   traits <- unique(x$dt_long$var)
-  if (!index %in% traits) {
-    stop("Index not found in x. Please verify the spelling.")
+  if (!variable %in% traits) {
+    stop("variable not found in x. Please verify the spelling.")
   }
   # Validate and extract argument names for the function
   args <- try(expr = names(formals(fn))[-1], silent = TRUE)
@@ -155,7 +155,7 @@ modeler_HTP <- function(x,
     }
   }
   dt <- x$dt_long |>
-    filter(var %in% index) |>
+    filter(var %in% variable) |>
     filter(!is.na(y)) |>
     droplevels()
   if (max_as_last) {
@@ -213,7 +213,7 @@ modeler_HTP <- function(x,
     full_join(init, by = c("uid"))
   if (any(unlist(lapply(dt_nest$fx_params, is.null)))) {
     stop(
-      "Fitting models for all plots but 'fixed_params' has only a few.
+      "Fitting models for all ids but 'fixed_params' has only a few.
        Check the argument 'id'"
     )
   }
@@ -237,7 +237,7 @@ modeler_HTP <- function(x,
   }
   p <- progressr::progressor(along = plot_id)
   init_time <- Sys.time()
-  modeler <- foreach(
+  objt <- foreach(
     i = plot_id,
     .options.future = list(seed = TRUE)
   ) %dofu% {
@@ -257,14 +257,14 @@ modeler_HTP <- function(x,
   # Metrics
   metrics <- do.call(
     what = rbind,
-    args = lapply(modeler, function(x) {
+    args = lapply(objt, function(x) {
       x$rr |>
         select(c(uid, method, sse, fevals:xtime)) |>
         as_tibble()
     })
   )
   # Selecting the best
-  param_mat <- do.call(rbind, lapply(modeler, function(x) as_tibble(x$param)))
+  param_mat <- do.call(rbind, lapply(objt, function(x) as_tibble(x$param)))
   if (is.null(fixed_params)) {
     param_mat <- param_mat |> select(-`t(fx_params)`)
   }
@@ -306,10 +306,10 @@ modeler_HTP <- function(x,
     metrics = metrics,
     max_time = max_time,
     execution = end_time - init_time,
-    response = index,
+    response = variable,
     .keep = .keep,
     fun = fn,
-    fit = modeler
+    fit = objt
   )
   class(out) <- "modeler_HTP"
   return(invisible(out))
@@ -322,7 +322,7 @@ modeler_HTP <- function(x,
 #' The function .fitter_curve is used internally to find the parameters requested.
 #'
 #' @param data A nested data.frame with columns <plot, genotype, row, range, data, initials, fx_params>.
-#' @param id An optional vector of plot IDs to filter the data. Default is \code{NULL}, meaning all plots are used.
+#' @param id An optional vector of IDs to filter the data. Default is \code{NULL}, meaning all ids are used.
 #' @param fn A string specifying the name of the function to be used for the curve fitting. Default is \code{"fn_piwise"}.
 #' @param method A character vector specifying the optimization methods to be used. See \code{optimx} package for available methods. Default is \code{c("subplex", "pracmanm", "anms")}.
 #' @param lower Numeric vector specifying the lower bounds for the parameters. Default is \code{-Inf} for all parameters.
@@ -345,7 +345,7 @@ modeler_HTP <- function(x,
 #' )
 #' mod <- modeler_HTP(
 #'   x = results,
-#'   index = "GLI_2",
+#'   variable = "GLI_2",
 #'   id = c(195),
 #'   parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
 #'   fn = "fn_lin_pl_lin",
@@ -426,4 +426,36 @@ modeler_HTP <- function(x,
     uid = id
   )
   return(out)
+}
+
+#' @noRd
+max_as_last <- function(data, .keep) {
+  dt_can <- data |>
+    group_by(uid, across(all_of(.keep))) |>
+    mutate(
+      loc_max_at = paste(local_min_max(y, x)$days_max, collapse = "_"),
+      loc_max = as.numeric(local_min_max(y, x)$days_max[1])
+    ) |>
+    mutate(loc_max = ifelse(is.na(loc_max), max(x, na.rm = TRUE), loc_max)) |>
+    mutate(
+      y = ifelse(x <= loc_max, y, y[x == loc_max])
+    ) |>
+    select(-loc_max_at, -loc_max) |>
+    ungroup()
+  return(dt_can)
+}
+
+#' @noRd
+local_min_max <- function(x, days) {
+  up <- c(x[-1], NA)
+  down <- c(NA, x[-length(x)])
+  a <- cbind(x, up, down)
+  minima <- which(apply(a, 1, min) == a[, 1])
+  maxima <- which(apply(a, 1, max) == a[, 1])
+  list(
+    minima = minima,
+    days_min = days[minima],
+    maxima = maxima,
+    days_max = days[maxima]
+  )
 }

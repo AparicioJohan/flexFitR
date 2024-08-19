@@ -38,9 +38,6 @@ reference:
 - contents:
   - read_HTP
   - modeler_HTP
-  - canopy_HTP
-  - height_HTP
-  - maturity_HTP
   - metrics_HTP
 - title: Exploring Results
   desc: S3 methods

@@ -13,7 +13,7 @@ read_HTP(data, x, y, id, .keep)
 
 \item{y}{The names of the columns in `data` that contain the variables to be analyzed.}
 
-\item{id}{The name of the column in `data` that contains plot IDs or unique identifiers.}
+\item{id}{The name of the column in `data` that contains IDs or unique identifiers.}
 
 \item{.keep}{The names of the columns in `data` to keep across the analysis.}
 }
@@ -22,8 +22,8 @@ An object of class \code{read_HTP}, which is a list containing the following ele
 \describe{
   \item{\code{summ_traits}}{A data.frame containing summary statistics for each trait at each time point, including minimum, mean, median, maximum, standard deviation, coefficient of variation, number of non-missing values, percentage of missing values, and percentage of negative values.}
   \item{\code{metadata}}{A data.frame summarizing the metadata.}
-  \item{\code{locals_min_max}}{A data.frame containing the local minima and maxima of the mean trait values over time.}
-  \item{\code{dt_long}}{A data.frame in long format, with columns for time, plot, row, range, genotype, trait, and value.}
+  \item{\code{locals_min_max}}{A data.frame containing the local minima and maxima of the mean y values over time.}
+  \item{\code{dt_long}}{A data.frame in long format, with columns for uid, .keep, var, x, and y}
   \item{\code{.keep}}{A character vector with the names of the variables to keep across.}
 }
 }

@@ -84,7 +84,7 @@ fixed_params <- results |>
 ```{r, warning=FALSE, message=FALSE}
 mod_1 <- modeler_HTP(
   x = results,
-  index = "Canopy",
+  variable = "Canopy",
   id = c(195, 40),
   parameters = c(t1 = 45, t2 = 80, k = 0.9),
   fn = "fn_piwise",
@@ -147,7 +147,7 @@ Using t1 from the previous model as a fixed parameter and using t2 as initial pa
 ```{r}
 mod_2 <- modeler_HTP(
   x = results,
-  index = "PH",
+  variable = "PH",
   id = c(195, 40),
   fn = "fn_exp2_exp",
   initial_vals = initials,
@@ -181,7 +181,7 @@ fixed_params <- results |>
   summarise(k = max(y), .groups = "drop")
 mod_1 <- modeler_HTP(
   x = results,
-  index = "Canopy",
+  variable = "Canopy",
   id = c(195, 40),
   parameters = c(t1 = 45, t2 = 80, k = 0.9),
   fn = "fn_piwise",
@@ -197,7 +197,7 @@ initials <- mod_1 |>
   mutate(alpha = 1 / 600, beta = -1 / 30)
 mod_2 <- modeler_HTP(
   x = results,
-  index = "PH",
+  variable = "PH",
   id = c(195, 40),
   fn = "fn_exp2_exp",
   initial_vals = initials,
