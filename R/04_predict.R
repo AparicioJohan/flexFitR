@@ -241,3 +241,67 @@ coef.modeler_HTP <- function(x, id = NULL, metadata = FALSE, ...) {
     return(coeff)
   }
 }
+
+
+#' Variance-Covariance matrix for an object of class \code{modeler_HTP}
+#'
+#' @description vcov for an object of class \code{modeler_HTP}
+#' @aliases vcov.modeler_HTP
+#' @param x An object inheriting from class \code{modeler_HTP} resulting of
+#' executing the function \code{modeler_HTP()}
+#' @param id A numeric Id to filter by.
+#' @param ... Further parameters. For future improvements.
+#' @author Johan Aparicio [aut]
+#' @method vcov modeler_HTP
+#' @return A list object with matrices of the estimated covariances between the parameter estimates.
+#' @export
+#' @examples
+#' library(exploreHTP)
+#' data(dt_potato)
+#' mod_1 <- dt_potato |>
+#'   modeler_HTP(
+#'     x = DAP,
+#'     y = Canopy,
+#'     by = Plot,
+#'     id = c(15, 2, 45),
+#'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
+#'     fn = "fn_piwise",
+#'     max_as_last = TRUE
+#'   )
+#' mod_1
+#' vcov(mod_1)
+#' @import dplyr
+#' @importFrom stats pt
+vcov.modeler_HTP <- function(x, id = NULL, ...) {
+  # Check the class of x
+  if (!inherits(x, "modeler_HTP")) {
+    stop("The object should be of class 'modeler_HTP'.")
+  }
+  dt <- x$param
+  if (!is.null(id)) {
+    if (!all(id %in% unique(dt$uid))) {
+      stop("plot_ids not found in x.")
+    }
+    uid <- id
+  } else {
+    uid <- unique(dt$uid)
+  }
+  .get_vcov <- function(fit) {
+    hessian <- fit$hessian
+    rdf <- (fit$n_obs - fit$p)
+    varerr <- fit$param$sse / rdf
+    mat_hess <- try((solve(hessian) * 2 * varerr), silent = TRUE)
+    if (inherits(mat_hess, "try-error")) mat_hess <- NA
+    mat_hess <- list(mat_hess)
+    names(mat_hess) <- fit$uid
+    return(mat_hess)
+  }
+  fit_list <- x$fit
+  id <- which(unlist(lapply(fit_list, function(x) x$uid)) %in% uid)
+  fit_list <- fit_list[id]
+  vcov_out <- do.call(
+    what = c,
+    args = suppressWarnings(lapply(fit_list, FUN = .get_vcov))
+  )
+  return(vcov_out)
+}

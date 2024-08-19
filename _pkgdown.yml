@@ -39,6 +39,7 @@ reference:
   - plot.modeler_HTP
   - predict.modeler_HTP
   - coef.modeler_HTP
+  - vcov.modeler_HTP
   - print.modeler_HTP
   - metrics_HTP
 - title: Data Exploration

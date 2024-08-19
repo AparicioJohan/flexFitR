@@ -143,15 +143,15 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <h2 id="fitting-models-for-maturity">Fitting models for maturity<a class="anchor" aria-label="anchor" href="#fitting-models-for-maturity"></a>
 </h2>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mod_1</span> <span class="op">&lt;-</span> <span class="va">dt_potato</span> <span class="op">|&gt;</span> </span>
+<code class="sourceCode R"><span><span class="va">mod_1</span> <span class="op">&lt;-</span> <span class="va">dt_potato</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/modeler_HTP.html">modeler_HTP</a></span><span class="op">(</span></span>
-<span>  x <span class="op">=</span> <span class="va">DAP</span>,</span>
-<span>  y <span class="op">=</span> <span class="va">GLI_2</span>,</span>
-<span>  by <span class="op">=</span> <span class="va">Plot</span>,</span>
-<span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span>,</span>
-<span>  parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">38.7</span>, t2 <span class="op">=</span> <span class="fl">62</span>, t3 <span class="op">=</span> <span class="fl">90</span>, k <span class="op">=</span> <span class="fl">0.32</span>, beta <span class="op">=</span> <span class="op">-</span><span class="fl">0.01</span><span class="op">)</span>,</span>
-<span>  fn <span class="op">=</span> <span class="st">"fn_lin_pl_lin"</span>,</span>
-<span><span class="op">)</span></span></code></pre></div>
+<span>    x <span class="op">=</span> <span class="va">DAP</span>,</span>
+<span>    y <span class="op">=</span> <span class="va">GLI_2</span>,</span>
+<span>    by <span class="op">=</span> <span class="va">Plot</span>,</span>
+<span>    id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span>,</span>
+<span>    parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">38.7</span>, t2 <span class="op">=</span> <span class="fl">62</span>, t3 <span class="op">=</span> <span class="fl">90</span>, k <span class="op">=</span> <span class="fl">0.32</span>, beta <span class="op">=</span> <span class="op">-</span><span class="fl">0.01</span><span class="op">)</span>,</span>
+<span>    fn <span class="op">=</span> <span class="st">"fn_lin_pl_lin"</span>,</span>
+<span>  <span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="maturity-model_files/figure-html/unnamed-chunk-8-1.png" width="768"></p>
@@ -212,17 +212,17 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">uid</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>k <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mod_2</span> <span class="op">&lt;-</span> <span class="va">dt_potato</span> <span class="op">|&gt;</span> </span>
+<code class="sourceCode R"><span><span class="va">mod_2</span> <span class="op">&lt;-</span> <span class="va">dt_potato</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/modeler_HTP.html">modeler_HTP</a></span><span class="op">(</span></span>
-<span>  x <span class="op">=</span> <span class="va">DAP</span>,</span>
-<span>  y <span class="op">=</span> <span class="va">Canopy</span>,</span>
-<span>  by <span class="op">=</span> <span class="va">Plot</span>,</span>
-<span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span>,</span>
-<span>  parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">45</span>, t2 <span class="op">=</span> <span class="fl">80</span>, k <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>,</span>
-<span>  fn <span class="op">=</span> <span class="st">"fn_piwise"</span>,</span>
-<span>  fixed_params <span class="op">=</span> <span class="va">fixed_params</span>,</span>
-<span>  max_as_last <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span>    x <span class="op">=</span> <span class="va">DAP</span>,</span>
+<span>    y <span class="op">=</span> <span class="va">Canopy</span>,</span>
+<span>    by <span class="op">=</span> <span class="va">Plot</span>,</span>
+<span>    id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span>,</span>
+<span>    parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">45</span>, t2 <span class="op">=</span> <span class="fl">80</span>, k <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>,</span>
+<span>    fn <span class="op">=</span> <span class="st">"fn_piwise"</span>,</span>
+<span>    fixed_params <span class="op">=</span> <span class="va">fixed_params</span>,</span>
+<span>    max_as_last <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_2</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="maturity-model_files/figure-html/unnamed-chunk-11-1.png" width="768"></p>
@@ -295,15 +295,15 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 </tbody>
 </table>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mod_3</span> <span class="op">&lt;-</span> <span class="va">dt_potato</span> <span class="op">|&gt;</span> </span>
+<code class="sourceCode R"><span><span class="va">mod_3</span> <span class="op">&lt;-</span> <span class="va">dt_potato</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/modeler_HTP.html">modeler_HTP</a></span><span class="op">(</span></span>
-<span>  x <span class="op">=</span> <span class="va">DAP</span>,</span>
-<span>  y <span class="op">=</span> <span class="va">GLI_2</span>,</span>
-<span>  by <span class="op">=</span> <span class="va">Plot</span>,</span>
-<span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span>,</span>
-<span>  initial_vals <span class="op">=</span> <span class="va">initials</span>,</span>
-<span>  fn <span class="op">=</span> <span class="st">"fn_lin_pl_lin"</span>,</span>
-<span><span class="op">)</span></span></code></pre></div>
+<span>    x <span class="op">=</span> <span class="va">DAP</span>,</span>
+<span>    y <span class="op">=</span> <span class="va">GLI_2</span>,</span>
+<span>    by <span class="op">=</span> <span class="va">Plot</span>,</span>
+<span>    id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span>,</span>
+<span>    initial_vals <span class="op">=</span> <span class="va">initials</span>,</span>
+<span>    fn <span class="op">=</span> <span class="st">"fn_lin_pl_lin"</span>,</span>
+<span>  <span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_3</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="maturity-model_files/figure-html/unnamed-chunk-14-1.png" width="768"></p>
@@ -358,18 +358,18 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <h2 id="adding-constrains-to-the-optimization">Adding constrains to the optimization<a class="anchor" aria-label="anchor" href="#adding-constrains-to-the-optimization"></a>
 </h2>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mod_4</span> <span class="op">&lt;-</span> <span class="va">dt_potato</span> <span class="op">|&gt;</span> </span>
+<code class="sourceCode R"><span><span class="va">mod_4</span> <span class="op">&lt;-</span> <span class="va">dt_potato</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/modeler_HTP.html">modeler_HTP</a></span><span class="op">(</span></span>
-<span>  x <span class="op">=</span> <span class="va">DAP</span>,</span>
-<span>  y <span class="op">=</span> <span class="va">GLI_2</span>,</span>
-<span>  by <span class="op">=</span> <span class="va">Plot</span>,</span>
-<span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span>,</span>
-<span>  parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">38.7</span>, t2 <span class="op">=</span> <span class="fl">62</span>, dt <span class="op">=</span> <span class="fl">28</span>, k <span class="op">=</span> <span class="fl">0.32</span>, beta <span class="op">=</span> <span class="op">-</span><span class="fl">0.01</span><span class="op">)</span>,</span>
-<span>  fn <span class="op">=</span> <span class="st">"fn_lin_pl_lin2"</span>,</span>
-<span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"nlminb"</span>, <span class="st">"L-BFGS-B"</span><span class="op">)</span>,</span>
-<span>  lower <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="cn">Inf</span>, <span class="op">-</span><span class="cn">Inf</span>, <span class="fl">0</span>, <span class="op">-</span><span class="cn">Inf</span>, <span class="op">-</span><span class="cn">Inf</span><span class="op">)</span>,</span>
-<span>  upper <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">Inf</span>, <span class="cn">Inf</span>, <span class="cn">Inf</span>, <span class="cn">Inf</span>, <span class="fl">0</span><span class="op">)</span>,</span>
-<span><span class="op">)</span></span></code></pre></div>
+<span>    x <span class="op">=</span> <span class="va">DAP</span>,</span>
+<span>    y <span class="op">=</span> <span class="va">GLI_2</span>,</span>
+<span>    by <span class="op">=</span> <span class="va">Plot</span>,</span>
+<span>    id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span>,</span>
+<span>    parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">38.7</span>, t2 <span class="op">=</span> <span class="fl">62</span>, dt <span class="op">=</span> <span class="fl">28</span>, k <span class="op">=</span> <span class="fl">0.32</span>, beta <span class="op">=</span> <span class="op">-</span><span class="fl">0.01</span><span class="op">)</span>,</span>
+<span>    fn <span class="op">=</span> <span class="st">"fn_lin_pl_lin2"</span>,</span>
+<span>    method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"nlminb"</span>, <span class="st">"L-BFGS-B"</span><span class="op">)</span>,</span>
+<span>    lower <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="cn">Inf</span>, <span class="op">-</span><span class="cn">Inf</span>, <span class="fl">0</span>, <span class="op">-</span><span class="cn">Inf</span>, <span class="op">-</span><span class="cn">Inf</span><span class="op">)</span>,</span>
+<span>    upper <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">Inf</span>, <span class="cn">Inf</span>, <span class="cn">Inf</span>, <span class="cn">Inf</span>, <span class="fl">0</span><span class="op">)</span>,</span>
+<span>  <span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_4</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="maturity-model_files/figure-html/unnamed-chunk-16-1.png" width="768"></p>
