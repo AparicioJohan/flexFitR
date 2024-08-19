@@ -213,7 +213,7 @@ coef.modeler_HTP <- function(x, id = NULL, metadata = FALSE, ...) {
       dplyr::mutate(uid = fit$uid, .before = coefficient) |>
       dplyr::mutate(
         `t value` = solution / std.error,
-        `Pr(>|t|)` = pt(abs(`t value`), rdf, lower.tail = FALSE)
+        `Pr(>|t|)` = 2 * pt(abs(`t value`), rdf, lower.tail = FALSE)
       )
     ccoef <- full_join(
       x = select(fit$param, uid),
