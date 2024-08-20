@@ -24,6 +24,7 @@
 #'     id = c(15, 2, 45),
 #'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
 #'     fn = "fn_piwise",
+#'     add_zero = TRUE,
 #'     max_as_last = TRUE
 #'   )
 #' mod_1
@@ -172,6 +173,7 @@ ff <- function(params, x_new, curve, fixed_params = NA) {
 #'     id = c(15, 2, 45),
 #'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
 #'     fn = "fn_piwise",
+#'     add_zero = TRUE,
 #'     max_as_last = TRUE
 #'   )
 #' mod_1
@@ -266,6 +268,7 @@ coef.modeler_HTP <- function(x, id = NULL, metadata = FALSE, ...) {
 #'     id = c(15, 2, 45),
 #'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
 #'     fn = "fn_piwise",
+#'     add_zero = TRUE,
 #'     max_as_last = TRUE
 #'   )
 #' mod_1

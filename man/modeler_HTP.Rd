@@ -8,7 +8,7 @@ modeler_HTP(
   data,
   x,
   y,
-  by,
+  by = NULL,
   .keep,
   id = NULL,
   fn = "fn_piwise",
@@ -19,8 +19,8 @@ modeler_HTP(
   fixed_params = NULL,
   method = c("subplex", "pracmanm", "anms"),
   return_method = FALSE,
-  add_zero = TRUE,
-  check_negative = TRUE,
+  add_zero = FALSE,
+  check_negative = FALSE,
   max_as_last = FALSE,
   n_points = 1000,
   max_time = NULL,
@@ -59,9 +59,9 @@ modeler_HTP(
 
 \item{return_method}{Logical. If \code{TRUE}, includes the optimization method used in the result. Default is \code{FALSE}.}
 
-\item{add_zero}{Logical. If \code{TRUE}, adds a zero value to the series at the start. Default is \code{TRUE}.}
+\item{add_zero}{Logical. If \code{TRUE}, adds a zero value to the series at the start. Default is \code{FALSE}.}
 
-\item{check_negative}{Logical. If \code{TRUE}, converts negative values in the data to zero. Default is \code{TRUE}.}
+\item{check_negative}{Logical. If \code{TRUE}, converts negative values in the data to zero. Default is \code{FALSE}.}
 
 \item{max_as_last}{Logical. If \code{TRUE}, appends the maximum value after reaching the maximum. Default is \code{FALSE}.}
 
@@ -108,6 +108,7 @@ mod_1 <- dt_potato |>
     id = c(195),
     parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
     fn = "fn_lin_pl_lin",
+    add_zero = TRUE
   )
 plot(mod_1, plot_id = c(195))
 print(mod_1)
@@ -120,6 +121,7 @@ mod_2 <- dt_potato |>
     id = c(195),
     parameters = c(t1 = 45, t2 = 80, k = 0.9),
     fn = "fn_piwise",
+    add_zero = TRUE,
     max_as_last = TRUE
   )
 plot(mod_2, id = c(195))

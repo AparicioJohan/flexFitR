@@ -4,8 +4,9 @@ pkgdown_sha: ~
 articles:
   canopy-model: canopy-model.html
   height-model: height-model.html
+  how_to_start: how_to_start.html
   maturity-model: maturity-model.html
-last_built: 2024-08-19T19:50Z
+last_built: 2024-08-20T02:31Z
 urls:
   reference: https://apariciojohan.github.io/exploreHTP/reference
   article: https://apariciojohan.github.io/exploreHTP/articles

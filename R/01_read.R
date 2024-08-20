@@ -39,11 +39,17 @@
 #' @import dplyr
 #' @import tidyr
 #' @importFrom stats sd median
-read_HTP <- function(data, x, y, id, .keep) {
+read_HTP <- function(data, x, y, id = NULL, .keep) {
   if (is.null(data)) {
     stop("Error: data not found")
   }
-  id <- names(select(data, {{ id }}))
+  id_quo <- enquo(id)
+  if (rlang::quo_is_null(id_quo)) {
+    data <- data |> mutate(.id = 1)
+    id <- ".id"
+  } else {
+    id <- names(select(data, !!id_quo))
+  }
   x <- names(select(data, {{ x }}))
   y <- names(select(data, {{ y }}))
   .keep <- names(select(data, {{ .keep }}))

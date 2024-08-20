@@ -27,9 +27,10 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/canopy-model.html">Modeling Emergence</a>
-    <a class="dropdown-item" href="../articles/height-model.html">Modeling Plant Height</a>
-    <a class="dropdown-item" href="../articles/maturity-model.html">Modeling Maturity</a>
+    <a class="dropdown-item" href="../articles/how_to_start.html">Get Started</a>
+    <a class="dropdown-item" href="../articles/canopy-model.html">Modeling HTP Data 1</a>
+    <a class="dropdown-item" href="../articles/height-model.html">Modeling HTP Data 2</a>
+    <a class="dropdown-item" href="../articles/maturity-model.html">Modeling HTP Data 3</a>
   </div>
 </li>
 <li class="nav-item">
@@ -110,6 +111,7 @@ executing the function <code><a href="modeler_HTP.html">modeler_HTP()</a></code>
 <span class="r-in"><span>    id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">15</span>, <span class="fl">2</span>, <span class="fl">45</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">45</span>, t2 <span class="op">=</span> <span class="fl">80</span>, k <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    fn <span class="op">=</span> <span class="st">"fn_piwise"</span>,</span></span>
+<span class="r-in"><span>    add_zero <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>    max_as_last <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: foreach</span>
@@ -131,15 +133,15 @@ executing the function <code><a href="modeler_HTP.html">modeler_HTP()</a></code>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Ids      Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    3 1.3728 secs        100%   414 (id)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    3 1.6221 secs        100%   414 (id)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">mod_1</span>, id <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 6</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     uid coefficient solution std.error `t value` `Pr(&gt;|t|)`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     2 t1              35.2     0.239      147.   3.29<span style="color: #949494;">e</span><span style="color: #BB0000;">-12</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     2 t2              60.7     0.371      164.   1.76<span style="color: #949494;">e</span><span style="color: #BB0000;">-12</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>     2 k              100.      0.541      185.   8.42<span style="color: #949494;">e</span><span style="color: #BB0000;">-13</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     2 t1              35.2     0.239      147.   6.57<span style="color: #949494;">e</span><span style="color: #BB0000;">-12</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     2 t2              60.7     0.371      164.   3.53<span style="color: #949494;">e</span><span style="color: #BB0000;">-12</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>     2 k              100.      0.541      185.   1.68<span style="color: #949494;">e</span><span style="color: #BB0000;">-12</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

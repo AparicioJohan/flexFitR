@@ -123,6 +123,7 @@ plot_fn <- function(fn = "fn_piwise",
 #'     id = c(1:2),
 #'     parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
 #'     fn = "fn_lin_pl_lin",
+#'     add_zero = TRUE,
 #'     max_as_last = TRUE
 #'   )
 #' plot(mod_1, plot_id = c(195))
@@ -136,6 +137,7 @@ plot_fn <- function(fn = "fn_piwise",
 #'     id = c(1:2),
 #'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
 #'     fn = "fn_piwise",
+#'     add_zero = TRUE,
 #'     max_as_last = TRUE
 #'   )
 #' plot(mod_2, plot_id = c(195))
@@ -154,6 +156,7 @@ plot_fn <- function(fn = "fn_piwise",
 #'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
 #'     fn = "fn_piwise",
 #'     fixed_params = fixed_params,
+#'     add_zero = TRUE,
 #'     max_as_last = TRUE
 #'   )
 #' plot(mod_3, id = c(195))

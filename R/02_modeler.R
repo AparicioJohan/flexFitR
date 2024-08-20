@@ -17,8 +17,8 @@
 #' @param fixed_params A data frame with columns \code{uid}, and the fixed parameter values for each id. Used for fixing certain parameters during optimization.
 #' @param method A character vector specifying the optimization methods to be used. See \code{optimx} package for available methods. Default is \code{c("subplex", "pracmanm", "anms")}.
 #' @param return_method Logical. If \code{TRUE}, includes the optimization method used in the result. Default is \code{FALSE}.
-#' @param add_zero Logical. If \code{TRUE}, adds a zero value to the series at the start. Default is \code{TRUE}.
-#' @param check_negative Logical. If \code{TRUE}, converts negative values in the data to zero. Default is \code{TRUE}.
+#' @param add_zero Logical. If \code{TRUE}, adds a zero value to the series at the start. Default is \code{FALSE}.
+#' @param check_negative Logical. If \code{TRUE}, converts negative values in the data to zero. Default is \code{FALSE}.
 #' @param max_as_last Logical. If \code{TRUE}, appends the maximum value after reaching the maximum. Default is \code{FALSE}.
 #' @param n_points An integer specifying the number of time points to use for approximating the Area Under the Curve (AUC). Default is \code{1000}.
 #' @param max_time Numeric. The maximum time value to use for calculating the AUC. Default is \code{NULL}, which uses the last time point in the data.
@@ -54,6 +54,7 @@
 #'     id = c(195),
 #'     parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
 #'     fn = "fn_lin_pl_lin",
+#'     add_zero = TRUE
 #'   )
 #' plot(mod_1, plot_id = c(195))
 #' print(mod_1)
@@ -66,6 +67,7 @@
 #'     id = c(195),
 #'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
 #'     fn = "fn_piwise",
+#'     add_zero = TRUE,
 #'     max_as_last = TRUE
 #'   )
 #' plot(mod_2, id = c(195))
@@ -77,7 +79,7 @@
 modeler_HTP <- function(data,
                         x,
                         y,
-                        by,
+                        by = NULL,
                         .keep,
                         id = NULL,
                         fn = "fn_piwise",
@@ -88,8 +90,8 @@ modeler_HTP <- function(data,
                         fixed_params = NULL,
                         method = c("subplex", "pracmanm", "anms"),
                         return_method = FALSE,
-                        add_zero = TRUE,
-                        check_negative = TRUE,
+                        add_zero = FALSE,
+                        check_negative = FALSE,
                         max_as_last = FALSE,
                         n_points = 1000,
                         max_time = NULL,
@@ -100,13 +102,7 @@ modeler_HTP <- function(data,
   if (is.null(data)) {
     stop("Error: data not found")
   }
-  x <- read_HTP(
-    data = data,
-    x = {{ x }},
-    y = {{ y }},
-    id = {{ by }},
-    .keep = {{ .keep }}
-  )
+  x <- read_HTP(data, {{ x }}, {{ y }}, {{ by }}, {{ .keep }})
   # Check the class of x
   if (!inherits(x, "read_HTP")) {
     stop("The object should be of class 'read_HTP'.")
@@ -358,7 +354,8 @@ modeler_HTP <- function(data,
 #'     by = Plot,
 #'     id = 195,
 #'     parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
-#'     fn = "fn_lin_pl_lin"
+#'     fn = "fn_lin_pl_lin",
+#'     add_zero = TRUE
 #'   )
 #' @import optimx
 #' @import tibble

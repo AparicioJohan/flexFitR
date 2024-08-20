@@ -75,6 +75,7 @@ r_squared <- function(actual, predicted) {
 #'     id = c(1:2),
 #'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
 #'     fn = "fn_piwise",
+#'     add_zero = TRUE,
 #'     max_as_last = TRUE
 #'   )
 #' plot(mod_1, id = c(1:2))

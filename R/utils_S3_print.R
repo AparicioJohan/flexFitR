@@ -24,6 +24,7 @@
 #'     id = c(1:5),
 #'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
 #'     fn = "fn_piwise",
+#'     add_zero = TRUE,
 #'     max_as_last = TRUE
 #'   )
 #' plot(mod_1, id = c(1:5))
@@ -34,7 +35,10 @@ print.modeler_HTP <- function(x, ...) {
   cat("\nCall:\n")
   cat(paste(trait, "~", deparse(x$fn)), "\n")
   cat("\n")
-  if (nrow(param) < 10) {
+  if (nrow(param) == 1) {
+    cat("Residuals:\n")
+    resum <- summary(c(x$dt$y - x$dt$.fitted))
+  } else if (nrow(param) < 10) {
     cat("Sum of Squares Error:\n")
     resum <- summary(param$sse)
   } else {

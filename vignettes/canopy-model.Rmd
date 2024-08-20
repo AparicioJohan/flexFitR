@@ -82,7 +82,8 @@ mod_1 <- dt_potato |>
     by = Plot,
     id = c(195, 40),
     parameters = c(t1 = 45, t2 = 80, k = 0.9),
-    fn = "fn_piwise"
+    fn = "fn_piwise",
+    add_zero = TRUE
   )
 mod_1
 ```
@@ -117,6 +118,7 @@ mod_2 <- dt_potato |>
     id = c(195, 40),
     parameters = c(t1 = 45, t2 = 80, k = 0.9),
     fn = "fn_piwise",
+    add_zero = TRUE,
     initial_vals = initials
   )
 ```
@@ -150,7 +152,8 @@ mod_3 <- dt_potato |>
     id = c(195, 40),
     parameters = c(t1 = 45, t2 = 80, k = 0.9),
     fn = "fn_piwise",
-    fixed_params = fixed_params
+    fixed_params = fixed_params,
+    add_zero = TRUE
   )
 ```
 
@@ -171,6 +174,7 @@ mod_4 <- dt_potato |>
     parameters = c(t1 = 45, t2 = 80, k = 0.9),
     fn = "fn_piwise",
     fixed_params = fixed_params,
+    add_zero = TRUE,
     max_as_last = TRUE
   )
 ```
@@ -212,6 +216,7 @@ mod <- dt_potato |>
     parameters = c(t1 = 45, t2 = 80, k = 0.9),
     fn = "fn_piwise",
     fixed_params = fixed_params,
+    add_zero = TRUE,
     max_as_last = TRUE
   )
 ```

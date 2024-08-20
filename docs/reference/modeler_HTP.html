@@ -27,9 +27,10 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/canopy-model.html">Modeling Emergence</a>
-    <a class="dropdown-item" href="../articles/height-model.html">Modeling Plant Height</a>
-    <a class="dropdown-item" href="../articles/maturity-model.html">Modeling Maturity</a>
+    <a class="dropdown-item" href="../articles/how_to_start.html">Get Started</a>
+    <a class="dropdown-item" href="../articles/canopy-model.html">Modeling HTP Data 1</a>
+    <a class="dropdown-item" href="../articles/height-model.html">Modeling HTP Data 2</a>
+    <a class="dropdown-item" href="../articles/maturity-model.html">Modeling HTP Data 3</a>
   </div>
 </li>
 <li class="nav-item">
@@ -67,7 +68,7 @@
 <span>  <span class="va">data</span>,</span>
 <span>  <span class="va">x</span>,</span>
 <span>  <span class="va">y</span>,</span>
-<span>  <span class="va">by</span>,</span>
+<span>  by <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">.keep</span>,</span>
 <span>  id <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  fn <span class="op">=</span> <span class="st">"fn_piwise"</span>,</span>
@@ -78,8 +79,8 @@
 <span>  fixed_params <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"subplex"</span>, <span class="st">"pracmanm"</span>, <span class="st">"anms"</span><span class="op">)</span>,</span>
 <span>  return_method <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  add_zero <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  check_negative <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  add_zero <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  check_negative <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  max_as_last <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  n_points <span class="op">=</span> <span class="fl">1000</span>,</span>
 <span>  max_time <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -149,11 +150,11 @@
 
 
 <dt>add_zero</dt>
-<dd><p>Logical. If <code>TRUE</code>, adds a zero value to the series at the start. Default is <code>TRUE</code>.</p></dd>
+<dd><p>Logical. If <code>TRUE</code>, adds a zero value to the series at the start. Default is <code>FALSE</code>.</p></dd>
 
 
 <dt>check_negative</dt>
-<dd><p>Logical. If <code>TRUE</code>, converts negative values in the data to zero. Default is <code>TRUE</code>.</p></dd>
+<dd><p>Logical. If <code>TRUE</code>, converts negative values in the data to zero. Default is <code>FALSE</code>.</p></dd>
 
 
 <dt>max_as_last</dt>
@@ -235,6 +236,7 @@
 <span class="r-in"><span>    id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">38.7</span>, t2 <span class="op">=</span> <span class="fl">62</span>, t3 <span class="op">=</span> <span class="fl">90</span>, k <span class="op">=</span> <span class="fl">0.32</span>, beta <span class="op">=</span> <span class="op">-</span><span class="fl">0.01</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    fn <span class="op">=</span> <span class="st">"fn_lin_pl_lin"</span>,</span></span>
+<span class="r-in"><span>    add_zero <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span>, plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="modeler_HTP-1.png" alt="" width="700" height="433"></span>
@@ -243,17 +245,17 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> GLI_2 ~ fn_lin_pl_lin(x, t1, t2, t3, k, beta) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Sum of Squares Error:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Residuals:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.024e-05 1.024e-05 1.024e-05 1.024e-05 1.024e-05 1.024e-05 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -0.011076 -0.002262  0.000000 -0.001676  0.000000  0.002262 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Optimization Results `head()`:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  uid   t1   t2   t3     k  beta      sse  auc</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  195 39.6 68.3 93.3 0.323 -0.01 1.02e-05 16.4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  195 39.6 68.3 93.3 0.323 -0.01 0.000149 16.4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Ids      Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    1 0.9777 secs        100%   896 (id)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    1 1.0759 secs        100%   901 (id)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="co"># Example 2</span></span></span>
 <span class="r-in"><span><span class="va">mod_2</span> <span class="op">&lt;-</span> <span class="va">dt_potato</span> <span class="op">|&gt;</span></span></span>
@@ -264,6 +266,7 @@
 <span class="r-in"><span>    id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">45</span>, t2 <span class="op">=</span> <span class="fl">80</span>, k <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    fn <span class="op">=</span> <span class="st">"fn_piwise"</span>,</span></span>
+<span class="r-in"><span>    add_zero <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>    max_as_last <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_2</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span><span class="op">)</span><span class="op">)</span></span></span>
@@ -273,9 +276,9 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Canopy ~ fn_piwise(x, t1, t2, k) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Sum of Squares Error:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.877e-18 1.877e-18 1.877e-18 1.877e-18 1.877e-18 1.877e-18 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Residuals:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       Min.    1st Qu.     Median       Mean    3rd Qu.       Max. </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -1.340e-09  0.000e+00  0.000e+00 -9.481e-11  1.391e-10  1.391e-10 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Optimization Results `head()`:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  uid   t1 t2   k      sse  auc</span>
@@ -283,7 +286,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Ids      Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    1 0.5646 secs        100%   349 (id)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    1 0.6543 secs        100%   349 (id)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>

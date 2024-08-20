@@ -4,7 +4,7 @@
 \alias{read_HTP}
 \title{Read HTP Data}
 \usage{
-read_HTP(data, x, y, id, .keep)
+read_HTP(data, x, y, id = NULL, .keep)
 }
 \arguments{
 \item{data}{A data.frame in a wide format containing HTP data.}

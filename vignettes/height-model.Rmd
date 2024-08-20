@@ -85,6 +85,7 @@ mod_1 <- dt_chips |>
     parameters = c(t1 = 45, t2 = 80, k = 0.9),
     fn = "fn_piwise",
     fixed_params = fixed_params,
+    add_zero = TRUE,
     max_as_last = TRUE
   )
 ```
@@ -149,7 +150,8 @@ mod_2 <- dt_chips |>
     id = c(195, 40),
     fn = "fn_exp2_exp",
     initial_vals = initials,
-    fixed_params = fixed_params
+    fixed_params = fixed_params,
+    add_zero = TRUE
   )
 ```
 
@@ -180,6 +182,7 @@ mod_1 <- dt_chips |>
     parameters = c(t1 = 45, t2 = 80, k = 0.9),
     fn = "fn_piwise",
     fixed_params = fixed_params,
+    add_zero = TRUE,
     max_as_last = TRUE
   )
 fixed_params <- mod_1 |>
@@ -197,6 +200,7 @@ mod_2 <- dt_chips |>
     id = c(195, 40),
     fn = "fn_exp2_exp",
     initial_vals = initials,
-    fixed_params = fixed_params
+    fixed_params = fixed_params,
+    add_zero = TRUE
   )
 ```

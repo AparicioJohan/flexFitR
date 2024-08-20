@@ -19,11 +19,13 @@ navbar:
   - icon:
     text: Articles
     menu:
-      - text: Modeling Emergence
+      - text: Get Started
+        href: articles/how_to_start.html
+      - text: Modeling HTP Data 1
         href: articles/canopy-model.html
-      - text: Modeling Plant Height
+      - text: Modeling HTP Data 2
         href: articles/height-model.html
-      - text: Modeling Maturity
+      - text: Modeling HTP Data 3
         href: articles/maturity-model.html
   - icon:
     text: News

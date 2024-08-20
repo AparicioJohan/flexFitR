@@ -51,9 +51,10 @@
 <li class="active nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/canopy-model.html">Modeling Emergence</a>
-    <a class="dropdown-item" href="../articles/height-model.html">Modeling Plant Height</a>
-    <a class="dropdown-item" href="../articles/maturity-model.html">Modeling Maturity</a>
+    <a class="dropdown-item" href="../articles/how_to_start.html">Get Started</a>
+    <a class="dropdown-item" href="../articles/canopy-model.html">Modeling HTP Data 1</a>
+    <a class="dropdown-item" href="../articles/height-model.html">Modeling HTP Data 2</a>
+    <a class="dropdown-item" href="../articles/maturity-model.html">Modeling HTP Data 3</a>
   </div>
 </li>
 <li class="nav-item">
@@ -151,6 +152,7 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <span>    id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span>,</span>
 <span>    parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">38.7</span>, t2 <span class="op">=</span> <span class="fl">62</span>, t3 <span class="op">=</span> <span class="fl">90</span>, k <span class="op">=</span> <span class="fl">0.32</span>, beta <span class="op">=</span> <span class="op">-</span><span class="fl">0.01</span><span class="op">)</span>,</span>
 <span>    fn <span class="op">=</span> <span class="st">"fn_lin_pl_lin"</span>,</span>
+<span>    add_zero <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -186,7 +188,7 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <td align="right">79.85413</td>
 <td align="right">0.3691396</td>
 <td align="right">-0.0105694</td>
-<td align="right">0.0006767</td>
+<td align="right">0.0006928</td>
 <td align="right">16.61523</td>
 </tr>
 <tr class="even">
@@ -196,7 +198,7 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <td align="right">93.33638</td>
 <td align="right">0.3228831</td>
 <td align="right">-0.0100491</td>
-<td align="right">0.0000102</td>
+<td align="right">0.0001490</td>
 <td align="right">16.37637</td>
 </tr>
 </tbody>
@@ -221,6 +223,7 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <span>    parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">45</span>, t2 <span class="op">=</span> <span class="fl">80</span>, k <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>,</span>
 <span>    fn <span class="op">=</span> <span class="st">"fn_piwise"</span>,</span>
 <span>    fixed_params <span class="op">=</span> <span class="va">fixed_params</span>,</span>
+<span>    add_zero <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>    max_as_last <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
@@ -303,6 +306,7 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <span>    id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span>,</span>
 <span>    initial_vals <span class="op">=</span> <span class="va">initials</span>,</span>
 <span>    fn <span class="op">=</span> <span class="st">"fn_lin_pl_lin"</span>,</span>
+<span>    add_zero <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_3</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -333,13 +337,13 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <tbody>
 <tr class="odd">
 <td align="right">40</td>
-<td align="right">36.88014</td>
-<td align="right">66.41597</td>
-<td align="right">79.85411</td>
-<td align="right">0.3691395</td>
-<td align="right">-0.0105694</td>
-<td align="right">0.0006767</td>
-<td align="right">16.61522</td>
+<td align="right">36.88024</td>
+<td align="right">66.41594</td>
+<td align="right">79.85395</td>
+<td align="right">0.3691399</td>
+<td align="right">-0.0105693</td>
+<td align="right">0.0006928</td>
+<td align="right">16.61520</td>
 </tr>
 <tr class="even">
 <td align="right">195</td>
@@ -348,7 +352,7 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <td align="right">93.33638</td>
 <td align="right">0.3228831</td>
 <td align="right">-0.0100491</td>
-<td align="right">0.0000102</td>
+<td align="right">0.0001490</td>
 <td align="right">16.37637</td>
 </tr>
 </tbody>
@@ -369,6 +373,7 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <span>    method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"nlminb"</span>, <span class="st">"L-BFGS-B"</span><span class="op">)</span>,</span>
 <span>    lower <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="cn">Inf</span>, <span class="op">-</span><span class="cn">Inf</span>, <span class="fl">0</span>, <span class="op">-</span><span class="cn">Inf</span>, <span class="op">-</span><span class="cn">Inf</span><span class="op">)</span>,</span>
 <span>    upper <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">Inf</span>, <span class="cn">Inf</span>, <span class="cn">Inf</span>, <span class="cn">Inf</span>, <span class="fl">0</span><span class="op">)</span>,</span>
+<span>    add_zero <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_4</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -404,7 +409,7 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <td align="right">13.43819</td>
 <td align="right">0.3691396</td>
 <td align="right">-0.0105694</td>
-<td align="right">0.0006767</td>
+<td align="right">0.0006928</td>
 <td align="right">16.61523</td>
 </tr>
 <tr class="even">
@@ -412,9 +417,9 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <td align="right">39.59062</td>
 <td align="right">68.27877</td>
 <td align="right">25.05761</td>
-<td align="right">0.3228831</td>
+<td align="right">0.3228832</td>
 <td align="right">-0.0100491</td>
-<td align="right">0.0000102</td>
+<td align="right">0.0001490</td>
 <td align="right">16.37637</td>
 </tr>
 </tbody>

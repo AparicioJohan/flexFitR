@@ -1,0 +1,173 @@
+---
+title: "How to start"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{How to start}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Getting started
+
+```{r, warning=FALSE, message=FALSE}
+library(exploreHTP)
+library(dplyr)
+```
+
+## 1. Basic illustration with simple linear regression
+
+```{r , warning=FALSE, message=FALSE}
+dt <- data.frame(X = 1:6, Y = c(12, 16, 44, 50, 95, 100))
+plot(dt$X, dt$Y)
+```
+
+```{r, warning=FALSE, message=FALSE}
+fn_lm <- function(x, b, m) {
+  y <- b + m * x
+  return(y)
+}
+
+plot_fn(fn = "fn_lm", params = c(b = 10, m = 5))
+```
+
+
+```{r, warning=FALSE, message=FALSE}
+mod <- dt |>
+  modeler_HTP(
+    x = X,
+    y = Y,
+    parameters = c(b = -5, m = 10),
+    fn = "fn_lm"
+  )
+mod
+```
+```{r}
+plot(mod)
+```
+
+### Coefficients
+```{r}
+coef(mod)
+```
+
+### Variance-Covariance Matrix
+```{r}
+vcov(mod)
+```
+
+### Making predictions
+```{r}
+predict(mod, x = 4.5)
+```
+
+### Comparison with `lm` 
+
+```{r, warning=FALSE, message=FALSE}
+mo <- lm(Y ~ X, data = dt)
+summary(mo)
+```
+
+```{r}
+vcov(mo)
+predict(mo, newdata = data.frame(X = 4.5), se.fit = TRUE)
+```
+
+
+## 2. Piece-wise regression
+
+```{r, warning=FALSE, message=FALSE}
+dt <- data.frame(
+  time = c(0, 29, 36, 42, 56, 76, 92, 100, 108),
+  variable = c(0, 0, 0.67, 15.11, 77.38, 99.81, 99.81, 99.81, 99.81)
+)
+plot(dt$time, dt$variable)
+fun <- function(t, t1 = 45, t2 = 80, k = 0.9) {
+  if (t < t1) {
+    y <- 0
+  } else if (t >= t1 && t <= t2) {
+    y <- k / (t2 - t1) * (t - t1)
+  } else {
+    y <- k
+  }
+  return(y)
+}
+
+plot_fn(fn = "fun", params = c(t1 = 30, t2 = 60, k = 90))
+```
+
+```{r, warning=FALSE, message=FALSE}
+mod_1 <- dt |>
+  modeler_HTP(
+    x = time,
+    y = variable,
+    parameters = c(t1 = 45, t2 = 80, k = 90),
+    fn = "fun"
+  )
+mod_1
+```
+
+```{r}
+plot(mod_1)
+```
+
+### Coefficients
+```{r}
+coef(mod_1)
+```
+
+### Variance-Covariance Matrix
+```{r}
+vcov(mod_1)
+```
+
+### Making predictions
+```{r}
+predict(mod_1, x = 45)
+```
+
+
+### Providing Initial values
+
+```{r, warning=FALSE, message=FALSE}
+init <- data.frame(uid = 1, t1 = 20, t2 = 30, k = 0.8)
+
+mod_2 <- dt |>
+  modeler_HTP(
+    x = time,
+    y = variable,
+    parameters = c(t1 = 45, t2 = 80, k = 90),
+    fn = "fun",
+    initial_vals = init
+  )
+mod_2
+coef(mod_2)
+```
+
+### Fixing parameters
+
+```{r, warning=FALSE, message=FALSE}
+fix <- data.frame(uid = 1, k = 98)
+
+mod_3 <- dt |>
+  modeler_HTP(
+    x = time,
+    y = variable,
+    parameters = c(t1 = 45, t2 = 80, k = 90),
+    fn = "fun",
+    fixed_params = fix
+  )
+mod_3
+coef(mod_3)
+plot(mod_3)
+```
+
+```{r}
+rbind(metrics_HTP(mod_1), metrics_HTP(mod_2), metrics_HTP(mod_3))
+```
