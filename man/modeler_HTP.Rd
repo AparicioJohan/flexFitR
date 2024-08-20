@@ -105,12 +105,12 @@ mod_1 <- dt_potato |>
     x = DAP,
     y = GLI_2,
     by = Plot,
-    id = c(195),
+    id = 195,
     parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
     fn = "fn_lin_pl_lin",
     add_zero = TRUE
   )
-plot(mod_1, plot_id = c(195))
+plot(mod_1, plot_id = 195)
 print(mod_1)
 # Example 2
 mod_2 <- dt_potato |>
@@ -118,12 +118,12 @@ mod_2 <- dt_potato |>
     x = DAP,
     y = Canopy,
     by = Plot,
-    id = c(195),
+    id = 195,
     parameters = c(t1 = 45, t2 = 80, k = 0.9),
     fn = "fn_piwise",
     add_zero = TRUE,
     max_as_last = TRUE
   )
-plot(mod_2, id = c(195))
+plot(mod_2, id = 195)
 print(mod_2)
 }
