@@ -31,7 +31,7 @@ An object of class \code{read_HTP}, which is a list containing the following ele
 Reads and processes high-throughput phenotyping (HTP) data from a data frame in wide format.
 }
 \details{
-This function processes and prepares data to be analyzed with \code{modeler_HTP()}.
+This function helps to explore the dataset before being analyzed with \code{modeler()}.
 }
 \examples{
 library(exploreHTP)

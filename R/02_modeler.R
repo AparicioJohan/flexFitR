@@ -26,7 +26,7 @@
 #' @param parallel Logical. If \code{TRUE} the model fit is performed in parallel. Default is \code{FALSE}.
 #' @param workers The number of parallel processes to use. `parallel::detectCores()`
 #' @param control A list of control parameters to be passed to the optimization function. For example: \code{list(maxit = 500)}.
-#' @return An object of class \code{modeler_HTP}, which is a list containing the following elements:
+#' @return An object of class \code{modeler}, which is a list containing the following elements:
 #' \describe{
 #'   \item{\code{param}}{A data frame containing the optimized parameters and related information.}
 #'   \item{\code{dt}}{A data frame with data used and fitted values.}
@@ -47,7 +47,7 @@
 #' explorer <- read_HTP(dt_potato, x = DAP, y = c(Canopy, GLI_2), id = Plot)
 #' # Example 1
 #' mod_1 <- dt_potato |>
-#'   modeler_HTP(
+#'   modeler(
 #'     x = DAP,
 #'     y = GLI_2,
 #'     by = Plot,
@@ -60,7 +60,7 @@
 #' print(mod_1)
 #' # Example 2
 #' mod_2 <- dt_potato |>
-#'   modeler_HTP(
+#'   modeler(
 #'     x = DAP,
 #'     y = Canopy,
 #'     by = Plot,
@@ -76,29 +76,29 @@
 #' @import tibble
 #' @import dplyr
 #' @import foreach
-modeler_HTP <- function(data,
-                        x,
-                        y,
-                        by = NULL,
-                        .keep,
-                        id = NULL,
-                        fn = "fn_piwise",
-                        parameters = NULL,
-                        lower = -Inf,
-                        upper = Inf,
-                        initial_vals = NULL,
-                        fixed_params = NULL,
-                        method = c("subplex", "pracmanm", "anms"),
-                        return_method = FALSE,
-                        add_zero = FALSE,
-                        check_negative = FALSE,
-                        max_as_last = FALSE,
-                        n_points = 1000,
-                        max_time = NULL,
-                        progress = FALSE,
-                        parallel = FALSE,
-                        workers = parallel::detectCores(),
-                        control = list()) {
+modeler <- function(data,
+                    x,
+                    y,
+                    by = NULL,
+                    .keep,
+                    id = NULL,
+                    fn = "fn_piwise",
+                    parameters = NULL,
+                    lower = -Inf,
+                    upper = Inf,
+                    initial_vals = NULL,
+                    fixed_params = NULL,
+                    method = c("subplex", "pracmanm", "anms"),
+                    return_method = FALSE,
+                    add_zero = FALSE,
+                    check_negative = FALSE,
+                    max_as_last = FALSE,
+                    n_points = 1000,
+                    max_time = NULL,
+                    progress = FALSE,
+                    parallel = FALSE,
+                    workers = max(1L, parallel::detectCores(), na.rm = TRUE),
+                    control = list()) {
   if (is.null(data)) {
     stop("Error: data not found")
   }
@@ -322,7 +322,7 @@ modeler_HTP <- function(data,
     fun = fn,
     fit = objt
   )
-  class(out) <- "modeler_HTP"
+  class(out) <- "modeler"
   return(invisible(out))
 }
 
@@ -347,7 +347,7 @@ modeler_HTP <- function(data,
 #' data(dt_potato)
 #' explorer <- read_HTP(dt_potato, x = DAP, y = c(Canopy, GLI_2), id = Plot)
 #' mod_1 <- dt_potato |>
-#'   modeler_HTP(
+#'   modeler(
 #'     x = DAP,
 #'     y = GLI_2,
 #'     by = Plot,

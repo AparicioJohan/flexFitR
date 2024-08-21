@@ -1,15 +1,15 @@
-#' Predict an object of class \code{modeler_HTP}
+#' Predict an object of class \code{modeler}
 #'
-#' @description Model predictions for an object of class \code{modeler_HTP}
-#' @aliases predict.modeler_HTP
-#' @param object An object inheriting from class \code{modeler_HTP} resulting of
-#' executing the function \code{modeler_HTP()}
+#' @description Model predictions for an object of class \code{modeler}
+#' @aliases predict.modeler
+#' @param object An object inheriting from class \code{modeler} resulting of
+#' executing the function \code{modeler()}
 #' @param x A numeric time point to make the prediction. Can be more than one.
 #' @param id A numeric to filter by unique identifier. NULL by default.
 #' @param metadata TRUE or FALSE. Whether to bring the metadata or not when calculating the coefficients.
 #' @param ... Further parameters. For future improvements.
 #' @author Johan Aparicio [aut]
-#' @method predict modeler_HTP
+#' @method predict modeler
 #' @return A data.frame object with predicted values.
 #' @export
 #' @examples
@@ -17,7 +17,7 @@
 #' data(dt_potato)
 #' explorer <- read_HTP(dt_potato, x = DAP, y = c(Canopy, GLI_2), id = Plot)
 #' mod_1 <- dt_potato |>
-#'   modeler_HTP(
+#'   modeler(
 #'     x = DAP,
 #'     y = Canopy,
 #'     by = Plot,
@@ -31,13 +31,13 @@
 #' predict(mod_1, x = 45, id = 2)
 #' @import ggplot2
 #' @import dplyr
-predict.modeler_HTP <- function(object,
-                                x = NULL,
-                                id = NULL,
-                                metadata = FALSE, ...) {
+predict.modeler <- function(object,
+                            x = NULL,
+                            id = NULL,
+                            metadata = FALSE, ...) {
   # Check the class of object
-  if (!inherits(object, "modeler_HTP")) {
-    stop("The object should be of class 'modeler_HTP'.")
+  if (!inherits(object, "modeler")) {
+    stop("The object should be of class 'modeler'.")
   }
   if (is.null(x)) {
     stop("Argument x is required for predictions.")
@@ -148,17 +148,17 @@ ff <- function(params, x_new, curve, fixed_params = NA) {
   return(y_hat)
 }
 
-#' Coefficients of an object of class \code{modeler_HTP}
+#' Coefficients of an object of class \code{modeler}
 #'
-#' @description Coefficients for an object of class \code{modeler_HTP}
-#' @aliases coef.modeler_HTP
-#' @param x An object inheriting from class \code{modeler_HTP} resulting of
-#' executing the function \code{modeler_HTP()}
+#' @description Coefficients for an object of class \code{modeler}
+#' @aliases coef.modeler
+#' @param x An object inheriting from class \code{modeler} resulting of
+#' executing the function \code{modeler()}
 #' @param id A numeric Id to filter by.
 #' @param metadata TRUE or FALSE. Whether to bring the metadata or not when calculating the coefficients.
 #' @param ... Further parameters. For future improvements.
 #' @author Johan Aparicio [aut]
-#' @method coef modeler_HTP
+#' @method coef modeler
 #' @return A data.frame object with coefficients and standard errors.
 #' @export
 #' @examples
@@ -166,7 +166,7 @@ ff <- function(params, x_new, curve, fixed_params = NA) {
 #' data(dt_potato)
 #' explorer <- read_HTP(dt_potato, x = DAP, y = c(Canopy, GLI_2), id = Plot)
 #' mod_1 <- dt_potato |>
-#'   modeler_HTP(
+#'   modeler(
 #'     x = DAP,
 #'     y = Canopy,
 #'     by = Plot,
@@ -180,10 +180,10 @@ ff <- function(params, x_new, curve, fixed_params = NA) {
 #' coef(mod_1, id = 2)
 #' @import dplyr
 #' @importFrom stats pt
-coef.modeler_HTP <- function(x, id = NULL, metadata = FALSE, ...) {
+coef.modeler <- function(x, id = NULL, metadata = FALSE, ...) {
   # Check the class of x
-  if (!inherits(x, "modeler_HTP")) {
-    stop("The object should be of class 'modeler_HTP'.")
+  if (!inherits(x, "modeler")) {
+    stop("The object should be of class 'modeler'.")
   }
   keep <- x$.keep
   dt <- x$param
@@ -245,23 +245,23 @@ coef.modeler_HTP <- function(x, id = NULL, metadata = FALSE, ...) {
 }
 
 
-#' Variance-Covariance matrix for an object of class \code{modeler_HTP}
+#' Variance-Covariance matrix for an object of class \code{modeler}
 #'
-#' @description vcov for an object of class \code{modeler_HTP}
-#' @aliases vcov.modeler_HTP
-#' @param x An object inheriting from class \code{modeler_HTP} resulting of
-#' executing the function \code{modeler_HTP()}
+#' @description vcov for an object of class \code{modeler}
+#' @aliases vcov.modeler
+#' @param x An object inheriting from class \code{modeler} resulting of
+#' executing the function \code{modeler()}
 #' @param id A numeric Id to filter by.
 #' @param ... Further parameters. For future improvements.
 #' @author Johan Aparicio [aut]
-#' @method vcov modeler_HTP
+#' @method vcov modeler
 #' @return A list object with matrices of the estimated covariances between the parameter estimates.
 #' @export
 #' @examples
 #' library(exploreHTP)
 #' data(dt_potato)
 #' mod_1 <- dt_potato |>
-#'   modeler_HTP(
+#'   modeler(
 #'     x = DAP,
 #'     y = Canopy,
 #'     by = Plot,
@@ -275,10 +275,10 @@ coef.modeler_HTP <- function(x, id = NULL, metadata = FALSE, ...) {
 #' vcov(mod_1)
 #' @import dplyr
 #' @importFrom stats pt
-vcov.modeler_HTP <- function(x, id = NULL, ...) {
+vcov.modeler <- function(x, id = NULL, ...) {
   # Check the class of x
-  if (!inherits(x, "modeler_HTP")) {
-    stop("The object should be of class 'modeler_HTP'.")
+  if (!inherits(x, "modeler")) {
+    stop("The object should be of class 'modeler'.")
   }
   dt <- x$param
   if (!is.null(id)) {

@@ -2,12 +2,12 @@
 % Please edit documentation in R/03_metrics.R
 \name{metrics_HTP}
 \alias{metrics_HTP}
-\title{Metrics for modeler_HTP}
+\title{Metrics for modeler}
 \usage{
 metrics_HTP(x, .by_id = TRUE)
 }
 \arguments{
-\item{x}{An object of class `modeler_HTP` containing the necessary data to compute the metrics.}
+\item{x}{An object of class `modeler` containing the necessary data to compute the metrics.}
 
 \item{.by_id}{Return the metrics by id? TRUE by default.}
 }
@@ -15,7 +15,7 @@ metrics_HTP(x, .by_id = TRUE)
 A data frame containing the calculated metrics grouped by uid, metadata, and variables.
 }
 \description{
-Computes various performance metrics for a modeler_HTP object.
+Computes various performance metrics for a modeler object.
 The function calculates Sum of Squared Errors (SSE), Mean Absolute Error (MAE),
 Mean Squared Error (MSE), Root Mean Squared Error (RMSE), and the Coefficient
 of Determination (R-squared).
@@ -43,7 +43,7 @@ library(exploreHTP)
 data(dt_potato)
 explorer <- read_HTP(dt_potato, x = DAP, y = c(Canopy, PH), id = Plot)
 mod_1 <- dt_potato |>
-  modeler_HTP(
+  modeler(
     x = DAP,
     y = Canopy,
     by = Plot,

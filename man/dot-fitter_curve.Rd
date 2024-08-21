@@ -29,7 +29,7 @@ library(exploreHTP)
 data(dt_potato)
 explorer <- read_HTP(dt_potato, x = DAP, y = c(Canopy, GLI_2), id = Plot)
 mod_1 <- dt_potato |>
-  modeler_HTP(
+  modeler(
     x = DAP,
     y = GLI_2,
     by = Plot,

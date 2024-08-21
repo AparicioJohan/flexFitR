@@ -95,18 +95,18 @@ plot_fn <- function(fn = "fn_piwise",
 }
 
 
-#' Plot an object of class \code{modeler_HTP}
+#' Plot an object of class \code{modeler}
 #'
-#' @description Create several plots for an object of class \code{modeler_HTP}
-#' @aliases plot.modeler_HTP
-#' @param x An object inheriting from class \code{modeler_HTP} resulting of
-#' executing the function \code{modeler_HTP()}
+#' @description Create several plots for an object of class \code{modeler}
+#' @aliases plot.modeler
+#' @param x An object inheriting from class \code{modeler} resulting of
+#' executing the function \code{modeler()}
 #' @param id To avoid too many plots in one figure. Filter by Id.
 #' @param label_size Label size. 3 by default.
 #' @param base_size Base font size, given in pts.
 #' @param ... Further graphical parameters. For future improvements.
 #' @author Johan Aparicio [aut]
-#' @method plot modeler_HTP
+#' @method plot modeler
 #' @return A ggplot object.
 #' @export
 #' @examples
@@ -116,7 +116,7 @@ plot_fn <- function(fn = "fn_piwise",
 #' explorer <- read_HTP(dt_potato, x = DAP, y = c(Canopy, GLI_2), id = Plot)
 #' # Example 1
 #' mod_1 <- dt_potato |>
-#'   modeler_HTP(
+#'   modeler(
 #'     x = DAP,
 #'     y = GLI_2,
 #'     by = Plot,
@@ -130,7 +130,7 @@ plot_fn <- function(fn = "fn_piwise",
 #' mod_1
 #' # Example 2
 #' mod_2 <- dt_potato |>
-#'   modeler_HTP(
+#'   modeler(
 #'     x = DAP,
 #'     y = Canopy,
 #'     by = Plot,
@@ -148,7 +148,7 @@ plot_fn <- function(fn = "fn_piwise",
 #'   group_by(uid) |>
 #'   summarise(k = max(y, na.rm = TRUE), .groups = "drop")
 #' mod_3 <- dt_potato |>
-#'   modeler_HTP(
+#'   modeler(
 #'     x = DAP,
 #'     y = Canopy,
 #'     by = Plot,
@@ -164,10 +164,10 @@ plot_fn <- function(fn = "fn_piwise",
 #' @import ggplot2
 #' @import dplyr
 #' @importFrom stats quantile
-plot.modeler_HTP <- function(x,
-                             id = NULL,
-                             label_size = 4,
-                             base_size = 14, ...) {
+plot.modeler <- function(x,
+                         id = NULL,
+                         label_size = 4,
+                         base_size = 14, ...) {
   data <- x$dt |> select(uid, var, x, y, .fitted)
   param <- x$param
   fn <- x$fn

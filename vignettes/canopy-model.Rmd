@@ -76,7 +76,7 @@ plot_fn(
 
 ```{r, warning=FALSE, message=FALSE }
 mod_1 <- dt_potato |>
-  modeler_HTP(
+  modeler(
     x = DAP,
     y = Canopy,
     by = Plot,
@@ -111,7 +111,7 @@ kable(initials)
 
 ```{r}
 mod_2 <- dt_potato |>
-  modeler_HTP(
+  modeler(
     x = DAP,
     y = Canopy,
     by = Plot,
@@ -145,7 +145,7 @@ kable(fixed_params)
 
 ```{r}
 mod_3 <- dt_potato |>
-  modeler_HTP(
+  modeler(
     x = DAP,
     y = Canopy,
     by = Plot,
@@ -166,7 +166,7 @@ kable(mod_3$param)
 
 ```{r}
 mod_4 <- dt_potato |>
-  modeler_HTP(
+  modeler(
     x = DAP,
     y = Canopy,
     by = Plot,
@@ -208,7 +208,7 @@ fixed_params <- explorer$dt_long |>
   group_by(uid) |>
   summarise(k = max(y), .groups = "drop")
 mod <- dt_potato |>
-  modeler_HTP(
+  modeler(
     x = DAP,
     y = Canopy,
     by = Plot,

@@ -47,11 +47,11 @@ The `plot_fn` function, which is integrated into the package, allows us to plot 
 plot_fn(fn = "fn_lm", params = c(b = 10, m = 5))
 ```
 
-To fit the model, we use the `modeler_HTP` function. In this function, we pass x as the independent variable, y as the dependent variable, and then a vector of parameters where we assign initial values to our coefficient b and coefficient m.
+To fit the model, we use the `modeler` function. In this function, we pass x as the independent variable, y as the dependent variable, and then a vector of parameters where we assign initial values to our coefficient b and coefficient m.
 
 ```{r, warning=FALSE, message=FALSE}
 mod <- dt |>
-  modeler_HTP(
+  modeler(
     x = X,
     y = Y,
     parameters = c(b = -5, m = 10),
@@ -98,9 +98,9 @@ vcov(mo)
 predict(mo, newdata = data.frame(X = 4.5), se.fit = TRUE)
 ```
 
-While the previous example was fairly simple, we can consider a more complex scenario where we need to fit not just one function, but hundreds of functions for several groups. This can be achieved using the `by` argument in the `modeler_HTP` function. Additionally, we can parallelize these processes by setting the `parallel` argument to `TRUE` and defining the number of cores to use.
+While the previous example was fairly simple, we can consider a more complex scenario where we need to fit not just one function, but hundreds of functions for several groups. This can be achieved using the `by` argument in the `modeler` function. Additionally, we can parallelize these processes by setting the `parallel` argument to `TRUE` and defining the number of cores to use.
 
-It’s important to note that depending on the functions defined by the user, some parameters may need to be constrained, such as being required to be greater than or less than zero. In other cases, certain parameters might need to be fixed at known values. In these more complex situations, where we have many curves to fit and are working with complex functions—whether non linear regressions with specific parameter constraints or cases where some parameters are fixed for each group—modeler_HTP offers extensive flexibility.
+It’s important to note that depending on the functions defined by the user, some parameters may need to be constrained, such as being required to be greater than or less than zero. In other cases, certain parameters might need to be fixed at known values. In these more complex situations, where we have many curves to fit and are working with complex functions—whether non linear regressions with specific parameter constraints or cases where some parameters are fixed for each group—modeler offers extensive flexibility.
 
 ## 2. Piece-wise regression
 
@@ -119,7 +119,7 @@ fun <- function(t, t1 = 45, t2 = 80, k = 0.9) {
 }
 ```
 
-We can plot the piecewise function and then fit the model using the `modeler_HTP` function. After fitting the model, we can examine the results, plot the fitted curve, extract the coefficients and their associated p-values, obtain the variance-covariance matrix, and make predictions for unknown values of x.
+We can plot the piecewise function and then fit the model using the `modeler` function. After fitting the model, we can examine the results, plot the fitted curve, extract the coefficients and their associated p-values, obtain the variance-covariance matrix, and make predictions for unknown values of x.
 
 
 ```{r}
@@ -138,7 +138,7 @@ plot(dt$time, dt$variable)
 
 ```{r, warning=FALSE, message=FALSE}
 mod_1 <- dt |>
-  modeler_HTP(
+  modeler(
     x = time,
     y = variable,
     parameters = c(t1 = 45, t2 = 80, k = 90),
@@ -174,7 +174,7 @@ Finally, we illustrate how to provide different initial values to the function w
 init <- data.frame(uid = 1, t1 = 20, t2 = 30, k = 0.8)
 
 mod_2 <- dt |>
-  modeler_HTP(
+  modeler(
     x = time,
     y = variable,
     parameters = c(t1 = 45, t2 = 80, k = 90),
@@ -191,7 +191,7 @@ coef(mod_2)
 fix <- data.frame(uid = 1, k = 98)
 
 mod_3 <- dt |>
-  modeler_HTP(
+  modeler(
     x = time,
     y = variable,
     parameters = c(t1 = 45, t2 = 80, k = 90),

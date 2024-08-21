@@ -31,14 +31,14 @@ r_squared <- function(actual, predicted) {
 }
 
 
-#' Metrics for modeler_HTP
+#' Metrics for modeler
 #'
-#' Computes various performance metrics for a modeler_HTP object.
+#' Computes various performance metrics for a modeler object.
 #' The function calculates Sum of Squared Errors (SSE), Mean Absolute Error (MAE),
 #' Mean Squared Error (MSE), Root Mean Squared Error (RMSE), and the Coefficient
 #' of Determination (R-squared).
 #'
-#' @param x An object of class `modeler_HTP` containing the necessary data to compute the metrics.
+#' @param x An object of class `modeler` containing the necessary data to compute the metrics.
 #' @param .by_id Return the metrics by id? TRUE by default.
 #'
 #' @return A data frame containing the calculated metrics grouped by uid, metadata, and variables.
@@ -68,7 +68,7 @@ r_squared <- function(actual, predicted) {
 #' data(dt_potato)
 #' explorer <- read_HTP(dt_potato, x = DAP, y = c(Canopy, PH), id = Plot)
 #' mod_1 <- dt_potato |>
-#'   modeler_HTP(
+#'   modeler(
 #'     x = DAP,
 #'     y = Canopy,
 #'     by = Plot,
@@ -82,8 +82,8 @@ r_squared <- function(actual, predicted) {
 #' print(mod_1)
 #' metrics_HTP(mod_1)
 metrics_HTP <- function(x, .by_id = TRUE) {
-  if (!inherits(x, "modeler_HTP")) {
-    stop("The object should be of modeler_HTP class")
+  if (!inherits(x, "modeler")) {
+    stop("The object should be of modeler class")
   }
   val_metrics <- x$dt |>
     group_by(uid, var) |>

@@ -1,15 +1,15 @@
-#' Print an object of class \code{modeler_HTP}
+#' Print an object of class \code{modeler}
 #'
-#' @description Prints information about \code{modeler_HTP} function.
+#' @description Prints information about \code{modeler} function.
 #'
-#' @aliases print.modeler_HTP
-#' @usage \method{print}{modeler_HTP}(x, ...)
-#' @param x An object fitted with the function \code{modeler_HTP()}.
+#' @aliases print.modeler
+#' @usage \method{print}{modeler}(x, ...)
+#' @param x An object fitted with the function \code{modeler()}.
 #' @param ... Options used by the tibble package to format the output. See
 #' `tibble::print()` for more details.
 #' @author Johan Aparicio [aut]
-#' @method print modeler_HTP
-#' @return an object inheriting from class \code{modeler_HTP}.
+#' @method print modeler
+#' @return an object inheriting from class \code{modeler}.
 #' @importFrom utils head
 #' @export
 #' @examples
@@ -17,7 +17,7 @@
 #' data(dt_potato)
 #' explorer <- read_HTP(dt_potato, x = DAP, y = c(Canopy, PH), id = Plot)
 #' mod_1 <- dt_potato |>
-#'   modeler_HTP(
+#'   modeler(
 #'     x = DAP,
 #'     y = Canopy,
 #'     by = Plot,
@@ -29,7 +29,7 @@
 #'   )
 #' plot(mod_1, id = c(1:5))
 #' print(mod_1)
-print.modeler_HTP <- function(x, ...) {
+print.modeler <- function(x, ...) {
   param <- select(x$param, -all_of(x$.keep))
   trait <- unique(x$dt$var)
   cat("\nCall:\n")
