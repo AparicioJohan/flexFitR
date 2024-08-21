@@ -80,8 +80,8 @@ r_squared <- function(actual, predicted) {
 #'   )
 #' plot(mod_1, id = c(1:2))
 #' print(mod_1)
-#' metrics_HTP(mod_1)
-metrics_HTP <- function(x, .by_id = TRUE) {
+#' metrics(mod_1)
+metrics <- function(x, .by_id = TRUE) {
   if (!inherits(x, "modeler")) {
     stop("The object should be of modeler class")
   }

@@ -204,7 +204,7 @@ plot(mod_3)
 ```
 
 ```{r}
-rbind(metrics_HTP(mod_1), metrics_HTP(mod_2), metrics_HTP(mod_3))
+rbind(metrics(mod_1), metrics(mod_2), metrics(mod_3))
 ```
 
 

@@ -40,6 +40,9 @@
     <loc>https://apariciojohan.github.io/exploreHTP/reference/canopy_model.html</loc>
   </url>
   <url>
+    <loc>https://apariciojohan.github.io/exploreHTP/reference/coef.modeler.html</loc>
+  </url>
+  <url>
     <loc>https://apariciojohan.github.io/exploreHTP/reference/coef.modeler_HTP.html</loc>
   </url>
   <url>
@@ -50,6 +53,9 @@
   </url>
   <url>
     <loc>https://apariciojohan.github.io/exploreHTP/reference/dt_potato.html</loc>
+  </url>
+  <url>
+    <loc>https://apariciojohan.github.io/exploreHTP/reference/explorer.html</loc>
   </url>
   <url>
     <loc>https://apariciojohan.github.io/exploreHTP/reference/fn_canopy.html</loc>
@@ -115,6 +121,9 @@
     <loc>https://apariciojohan.github.io/exploreHTP/reference/maturity_HTP.html</loc>
   </url>
   <url>
+    <loc>https://apariciojohan.github.io/exploreHTP/reference/metrics.html</loc>
+  </url>
+  <url>
     <loc>https://apariciojohan.github.io/exploreHTP/reference/metrics_HTP.html</loc>
   </url>
   <url>
@@ -133,10 +142,16 @@
     <loc>https://apariciojohan.github.io/exploreHTP/reference/plot.canopy_HTP.html</loc>
   </url>
   <url>
+    <loc>https://apariciojohan.github.io/exploreHTP/reference/plot.explorer.html</loc>
+  </url>
+  <url>
     <loc>https://apariciojohan.github.io/exploreHTP/reference/plot.height_HTP.html</loc>
   </url>
   <url>
     <loc>https://apariciojohan.github.io/exploreHTP/reference/plot.maturity_HTP.html</loc>
+  </url>
+  <url>
+    <loc>https://apariciojohan.github.io/exploreHTP/reference/plot.modeler.html</loc>
   </url>
   <url>
     <loc>https://apariciojohan.github.io/exploreHTP/reference/plot.modeler_HTP.html</loc>
@@ -148,7 +163,13 @@
     <loc>https://apariciojohan.github.io/exploreHTP/reference/plot_fn.html</loc>
   </url>
   <url>
+    <loc>https://apariciojohan.github.io/exploreHTP/reference/predict.modeler.html</loc>
+  </url>
+  <url>
     <loc>https://apariciojohan.github.io/exploreHTP/reference/predict.modeler_HTP.html</loc>
+  </url>
+  <url>
+    <loc>https://apariciojohan.github.io/exploreHTP/reference/print.modeler.html</loc>
   </url>
   <url>
     <loc>https://apariciojohan.github.io/exploreHTP/reference/print.modeler_HTP.html</loc>
@@ -182,6 +203,9 @@
   </url>
   <url>
     <loc>https://apariciojohan.github.io/exploreHTP/reference/sse_piwise.html</loc>
+  </url>
+  <url>
+    <loc>https://apariciojohan.github.io/exploreHTP/reference/vcov.modeler.html</loc>
   </url>
   <url>
     <loc>https://apariciojohan.github.io/exploreHTP/reference/vcov.modeler_HTP.html</loc>

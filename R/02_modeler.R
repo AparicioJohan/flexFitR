@@ -13,8 +13,8 @@
 #' @param parameters A named numeric vector specifying the initial values for the parameters to be optimized. Default is \code{NULL}.
 #' @param lower Numeric vector specifying the lower bounds for the parameters. Default is \code{-Inf} for all parameters.
 #' @param upper Numeric vector specifying the upper bounds for the parameters. Default is \code{Inf} for all parameters.
-#' @param initial_vals A data frame with columns \code{uid}, and the initial parameter values for each id. Used for providing specific initial values per id.
-#' @param fixed_params A data frame with columns \code{uid}, and the fixed parameter values for each id. Used for fixing certain parameters during optimization.
+#' @param initial_vals A data frame with columns \code{uid}, and the initial parameter values for each group id. Used for providing specific initial values per group id.
+#' @param fixed_params A data frame with columns \code{uid}, and the fixed parameter values for each group id. Used for fixing certain parameters during optimization.
 #' @param method A character vector specifying the optimization methods to be used. See \code{optimx} package for available methods. Default is \code{c("subplex", "pracmanm", "anms")}.
 #' @param return_method Logical. If \code{TRUE}, includes the optimization method used in the result. Default is \code{FALSE}.
 #' @param add_zero Logical. If \code{TRUE}, adds a zero value to the series at the start. Default is \code{FALSE}.
@@ -35,7 +35,7 @@
 #'   \item{\code{max_time}}{Maximum time value used for calculating the AUC.}
 #'   \item{\code{execution}}{Execution time.}
 #'   \item{\code{response}}{Response variable.}
-#'   \item{\code{.keep}}{Metadata to keep across.}
+#'   \item{\code{keep}}{Metadata to keep across.}
 #'   \item{\code{fun}}{Function being optimized}
 #'   \item{\code{fit}}{List with the fitted models.}
 #' }
@@ -318,7 +318,7 @@ modeler <- function(data,
     max_time = max_time,
     execution = end_time - init_time,
     response = variable,
-    .keep = .keep,
+    keep = .keep,
     fun = fn,
     fit = objt
   )

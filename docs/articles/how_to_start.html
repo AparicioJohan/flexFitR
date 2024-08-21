@@ -130,13 +130,13 @@ the model to the data.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_fn.html">plot_fn</a></span><span class="op">(</span>fn <span class="op">=</span> <span class="st">"fn_lm"</span>, params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>b <span class="op">=</span> <span class="fl">10</span>, m <span class="op">=</span> <span class="fl">5</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="how_to_start_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
-<p>To fit the model, we use the <code>modeler_HTP</code> function. In
-this function, we pass x as the independent variable, y as the dependent
+<p>To fit the model, we use the <code>modeler</code> function. In this
+function, we pass x as the independent variable, y as the dependent
 variable, and then a vector of parameters where we assign initial values
 to our coefficient b and coefficient m.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mod</span> <span class="op">&lt;-</span> <span class="va">dt</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/modeler_HTP.html">modeler_HTP</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="../reference/modeler.html">modeler</a></span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="va">X</span>,</span>
 <span>    y <span class="op">=</span> <span class="va">Y</span>,</span>
 <span>    parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>b <span class="op">=</span> <span class="op">-</span><span class="fl">5</span>, m <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>,</span>
@@ -157,7 +157,7 @@ to our coefficient b and coefficient m.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
 <span><span class="co">#&gt;  Ids      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;    1 0.5373 secs        100%   259 (id)</span></span></code></pre></div>
+<span><span class="co">#&gt;    1 0.4142 secs        100%   259 (id)</span></span></code></pre></div>
 <p>Once the model is fitted, we can examine the output, extract the
 estimated parameters, make some plots, and predict new x values.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -229,7 +229,7 @@ results similar to those obtained with our package.</p>
 <p>While the previous example was fairly simple, we can consider a more
 complex scenario where we need to fit not just one function, but
 hundreds of functions for several groups. This can be achieved using the
-<code>by</code> argument in the <code>modeler_HTP</code> function.
+<code>group_by</code> argument in the <code>modeler</code> function.
 Additionally, we can parallelize these processes by setting the
 <code>parallel</code> argument to <code>TRUE</code> and defining the
 number of cores to use.</p>
@@ -240,7 +240,7 @@ might need to be fixed at known values. In these more complex
 situations, where we have many curves to fit and are working with
 complex functions—whether non linear regressions with specific parameter
 constraints or cases where some parameters are fixed for each
-group—modeler_HTP offers extensive flexibility.</p>
+group—modeler offers extensive flexibility.</p>
 </div>
 </div>
 <div class="section level2">
@@ -263,10 +263,10 @@ expression:</p>
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <p>We can plot the piecewise function and then fit the model using the
-<code>modeler_HTP</code> function. After fitting the model, we can
-examine the results, plot the fitted curve, extract the coefficients and
-their associated p-values, obtain the variance-covariance matrix, and
-make predictions for unknown values of x.</p>
+<code>modeler</code> function. After fitting the model, we can examine
+the results, plot the fitted curve, extract the coefficients and their
+associated p-values, obtain the variance-covariance matrix, and make
+predictions for unknown values of x.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_fn.html">plot_fn</a></span><span class="op">(</span>fn <span class="op">=</span> <span class="st">"fun"</span>, params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">30</span>, t2 <span class="op">=</span> <span class="fl">60</span>, k <span class="op">=</span> <span class="fl">90</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="how_to_start_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
@@ -279,7 +279,7 @@ make predictions for unknown values of x.</p>
 <p><img src="how_to_start_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mod_1</span> <span class="op">&lt;-</span> <span class="va">dt</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/modeler_HTP.html">modeler_HTP</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="../reference/modeler.html">modeler</a></span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="va">time</span>,</span>
 <span>    y <span class="op">=</span> <span class="va">variable</span>,</span>
 <span>    parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">45</span>, t2 <span class="op">=</span> <span class="fl">80</span>, k <span class="op">=</span> <span class="fl">90</span><span class="op">)</span>,</span>
@@ -299,8 +299,8 @@ make predictions for unknown values of x.</p>
 <span><span class="co">#&gt;    1 38.6 61 99.8 0.449 5807</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
-<span><span class="co">#&gt;  Ids     Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;    1 0.545 secs        100%   511 (id)</span></span></code></pre></div>
+<span><span class="co">#&gt;  Ids      Timing Convergence Iterations</span></span>
+<span><span class="co">#&gt;    1 0.3978 secs        100%   511 (id)</span></span></code></pre></div>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">)</span></span></code></pre></div>
 <p><img src="how_to_start_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
@@ -338,7 +338,7 @@ some parameters of the objective function.</p>
 <code class="sourceCode R"><span><span class="va">init</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>uid <span class="op">=</span> <span class="fl">1</span>, t1 <span class="op">=</span> <span class="fl">20</span>, t2 <span class="op">=</span> <span class="fl">30</span>, k <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">mod_2</span> <span class="op">&lt;-</span> <span class="va">dt</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/modeler_HTP.html">modeler_HTP</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="../reference/modeler.html">modeler</a></span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="va">time</span>,</span>
 <span>    y <span class="op">=</span> <span class="va">variable</span>,</span>
 <span>    parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">45</span>, t2 <span class="op">=</span> <span class="fl">80</span>, k <span class="op">=</span> <span class="fl">90</span><span class="op">)</span>,</span>
@@ -360,7 +360,7 @@ some parameters of the objective function.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
 <span><span class="co">#&gt;  Ids      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;    1 0.5506 secs        100%   567 (id)</span></span>
+<span><span class="co">#&gt;    1 0.3962 secs        100%   567 (id)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">mod_2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 6</span></span></span>
 <span><span class="co">#&gt;     uid coefficient solution std.error `t value` `Pr(&gt;|t|)`</span></span>
@@ -376,7 +376,7 @@ some parameters of the objective function.</p>
 <code class="sourceCode R"><span><span class="va">fix</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>uid <span class="op">=</span> <span class="fl">1</span>, k <span class="op">=</span> <span class="fl">98</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">mod_3</span> <span class="op">&lt;-</span> <span class="va">dt</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/modeler_HTP.html">modeler_HTP</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="../reference/modeler.html">modeler</a></span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="va">time</span>,</span>
 <span>    y <span class="op">=</span> <span class="va">variable</span>,</span>
 <span>    parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">45</span>, t2 <span class="op">=</span> <span class="fl">80</span>, k <span class="op">=</span> <span class="fl">90</span><span class="op">)</span>,</span>
@@ -397,8 +397,8 @@ some parameters of the objective function.</p>
 <span><span class="co">#&gt;    1 38.6 60.6 13.6 98 5721</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
-<span><span class="co">#&gt;  Ids      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;    1 0.5039 secs        100%   321 (id)</span></span>
+<span><span class="co">#&gt;  Ids     Timing Convergence Iterations</span></span>
+<span><span class="co">#&gt;    1 0.376 secs        100%   321 (id)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">mod_3</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 6</span></span></span>
 <span><span class="co">#&gt;     uid coefficient solution std.error `t value` `Pr(&gt;|t|)`</span></span>
@@ -408,7 +408,7 @@ some parameters of the objective function.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_3</span><span class="op">)</span></span></code></pre></div>
 <p><img src="how_to_start_files/figure-html/unnamed-chunk-23-1.png" width="700"></p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="fu"><a href="../reference/metrics_HTP.html">metrics_HTP</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">)</span>, <span class="fu"><a href="../reference/metrics_HTP.html">metrics_HTP</a></span><span class="op">(</span><span class="va">mod_2</span><span class="op">)</span>, <span class="fu"><a href="../reference/metrics_HTP.html">metrics_HTP</a></span><span class="op">(</span><span class="va">mod_3</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="fu"><a href="../reference/metrics.html">metrics</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">)</span>, <span class="fu"><a href="../reference/metrics.html">metrics</a></span><span class="op">(</span><span class="va">mod_2</span><span class="op">)</span>, <span class="fu"><a href="../reference/metrics.html">metrics</a></span><span class="op">(</span><span class="va">mod_3</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 8</span></span></span>
 <span><span class="co">#&gt;     uid var         SSE    MAE    MSE  RMSE r_squared     n</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>

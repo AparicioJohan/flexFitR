@@ -66,7 +66,7 @@ print.modeler <- function(x, ...) {
     mutate(ite = paste0(ite, " (id)")) |>
     pull(ite)
   info <- data.frame(
-    Ids = nrow(dt),
+    Groups = nrow(dt),
     `Timing` = round(total_time, 4),
     Convergence = conv,
     `Iterations` = ite,
