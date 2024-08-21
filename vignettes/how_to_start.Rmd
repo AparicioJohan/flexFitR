@@ -16,27 +16,38 @@ knitr::opts_chunk$set(
 
 ## Getting started
 
+The basic idea of this vignette is to illustrate to users how to use the exploreHTP package. We'll start with a very basic example: a simple linear regression. Although this example is not the primary focus of the package, it will serve to demonstrate its use.
+
+## 1. Simple linear regression
+
+In this example, we'll work with a small dataset consisting of 6 observations, where X is the independent variable and Y is the dependent variable.
+
 ```{r, warning=FALSE, message=FALSE}
 library(exploreHTP)
 library(dplyr)
 ```
-
-## 1. Basic illustration with simple linear regression
 
 ```{r , warning=FALSE, message=FALSE}
 dt <- data.frame(X = 1:6, Y = c(12, 16, 44, 50, 95, 100))
 plot(dt$X, dt$Y)
 ```
 
+First, we define an objective function. In this case, the function `fn_lm` will represent the linear regression, where b is the intercept and m is the slope of the regression.
+
 ```{r, warning=FALSE, message=FALSE}
 fn_lm <- function(x, b, m) {
   y <- b + m * x
   return(y)
 }
+```
 
+The `plot_fn` function, which is integrated into the package, allows us to plot any function with the parameters provided. This is useful for visualizing the shape of the function before fitting the model to the data.
+
+```{r}
 plot_fn(fn = "fn_lm", params = c(b = 10, m = 5))
 ```
 
+To fit the model, we use the `modeler_HTP` function. In this function, we pass x as the independent variable, y as the dependent variable, and then a vector of parameters where we assign initial values to our coefficient b and coefficient m.
 
 ```{r, warning=FALSE, message=FALSE}
 mod <- dt |>
@@ -48,46 +59,54 @@ mod <- dt |>
   )
 mod
 ```
+Once the model is fitted, we can examine the output, extract the estimated parameters, make some plots, and predict new x values.
+
 ```{r}
 plot(mod)
 ```
 
-### Coefficients
+In order to get the coefficients with their variance-covariance matrix we make use of the `coef` and `vcov` function, which only takes the model object as an argument.
+
 ```{r}
 coef(mod)
 ```
-
-### Variance-Covariance Matrix
 ```{r}
 vcov(mod)
 ```
+Finally, we can make predictions using the predict function, which takes the fitted model as an object and X as the value for which we want to make the prediction.
 
-### Making predictions
 ```{r}
 predict(mod, x = 4.5)
 ```
+
+We can compare this with the lm function in R, which will give results similar to those obtained with our package.
 
 ### Comparison with `lm` 
 
 ```{r, warning=FALSE, message=FALSE}
 mo <- lm(Y ~ X, data = dt)
-summary(mo)
+mo
 ```
+
+```{r}
+summary(mo)$coefficients
+```
+
 
 ```{r}
 vcov(mo)
 predict(mo, newdata = data.frame(X = 4.5), se.fit = TRUE)
 ```
 
+While the previous example was fairly simple, we can consider a more complex scenario where we need to fit not just one function, but hundreds of functions for several groups. This can be achieved using the `by` argument in the `modeler_HTP` function. Additionally, we can parallelize these processes by setting the `parallel` argument to `TRUE` and defining the number of cores to use.
+
+It’s important to note that depending on the functions defined by the user, some parameters may need to be constrained, such as being required to be greater than or less than zero. In other cases, certain parameters might need to be fixed at known values. In these more complex situations, where we have many curves to fit and are working with complex functions—whether non linear regressions with specific parameter constraints or cases where some parameters are fixed for each group—modeler_HTP offers extensive flexibility.
 
 ## 2. Piece-wise regression
 
+The following example, although still simple, represents a slightly more complex function with a greater number of parameters. In this case, we have a piece-wise regression, parameterized by `t1`, `t2`, and `k`, and defined by the following expression:
+
 ```{r, warning=FALSE, message=FALSE}
-dt <- data.frame(
-  time = c(0, 29, 36, 42, 56, 76, 92, 100, 108),
-  variable = c(0, 0, 0.67, 15.11, 77.38, 99.81, 99.81, 99.81, 99.81)
-)
-plot(dt$time, dt$variable)
 fun <- function(t, t1 = 45, t2 = 80, k = 0.9) {
   if (t < t1) {
     y <- 0
@@ -98,9 +117,24 @@ fun <- function(t, t1 = 45, t2 = 80, k = 0.9) {
   }
   return(y)
 }
+```
 
+We can plot the piecewise function and then fit the model using the `modeler_HTP` function. After fitting the model, we can examine the results, plot the fitted curve, extract the coefficients and their associated p-values, obtain the variance-covariance matrix, and make predictions for unknown values of x.
+
+
+```{r}
 plot_fn(fn = "fun", params = c(t1 = 30, t2 = 60, k = 90))
 ```
+
+
+```{r}
+dt <- data.frame(
+  time = c(0, 29, 36, 42, 56, 76, 92, 100, 108),
+  variable = c(0, 0, 0.67, 15.11, 77.38, 99.81, 99.81, 99.81, 99.81)
+)
+plot(dt$time, dt$variable)
+```
+
 
 ```{r, warning=FALSE, message=FALSE}
 mod_1 <- dt |>
@@ -117,21 +151,22 @@ mod_1
 plot(mod_1)
 ```
 
-### Coefficients
 ```{r}
+# Coefficients
 coef(mod_1)
 ```
 
-### Variance-Covariance Matrix
 ```{r}
+# Variance-Covariance Matrix
 vcov(mod_1)
 ```
 
-### Making predictions
 ```{r}
+# Making predictions
 predict(mod_1, x = 45)
 ```
 
+Finally, we illustrate how to provide different initial values to the function when dealing with multiple groups, and we also show how to fix some parameters of the objective function.
 
 ### Providing Initial values
 
@@ -171,3 +206,6 @@ plot(mod_3)
 ```{r}
 rbind(metrics_HTP(mod_1), metrics_HTP(mod_2), metrics_HTP(mod_3))
 ```
+
+
+This vignette provided a basic introduction to using the exploreHTP package, starting with simple examples such as linear regression and piecewise regression. The goal was to demonstrate the fundamental features and flexibility of the package. However, more complex situations can arise when working with high-throughput phenotypic (HTP) data, which involve multiple groups, parameter constraints, and advanced modeling scenarios. These more complex situations are illustrated in the other vignettes, which use real HTP data to showcase the full capabilities of the exploreHTP package.
