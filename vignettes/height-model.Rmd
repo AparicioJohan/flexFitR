@@ -24,11 +24,11 @@ library(ggpubr)
 library(purrr)
 ```
 
-## Reading data `read_HTP()`
+## Exploring data `explorer()`
 
 ```{r}
 data(dt_chips)
-results <- read_HTP(dt_chips, x = DAP, y = c(PH, Canopy), id = Plot)
+results <- explorer(dt_chips, x = DAP, y = c(PH, Canopy), id = Plot)
 ```
 
 ```{r}
@@ -80,7 +80,7 @@ mod_1 <- dt_chips |>
   modeler(
     x = DAP,
     y = Canopy,
-    by = Plot,
+    grp = Plot,
     id = c(195, 40),
     parameters = c(t1 = 45, t2 = 80, k = 0.9),
     fn = "fn_piwise",
@@ -146,7 +146,7 @@ mod_2 <- dt_chips |>
   modeler(
     x = DAP,
     y = PH,
-    by = Plot,
+    grp = Plot,
     id = c(195, 40),
     fn = "fn_exp2_exp",
     initial_vals = initials,
@@ -167,7 +167,7 @@ kable(mod_2$param)
 
 ```{r, eval = FALSE}
 data(dt_chips)
-results <- read_HTP(dt_chips, x = DAP, y = c(PH, Canopy), id = Plot)
+results <- explorer(dt_chips, x = DAP, y = c(PH, Canopy), id = Plot)
 fixed_params <- results |>
   pluck("dt_long") |>
   filter(var %in% "Canopy" & uid %in% c(195, 40)) |>
@@ -177,7 +177,7 @@ mod_1 <- dt_chips |>
   modeler(
     x = DAP,
     y = Canopy,
-    by = Plot,
+    grp = Plot,
     id = c(195, 40),
     parameters = c(t1 = 45, t2 = 80, k = 0.9),
     fn = "fn_piwise",
@@ -196,7 +196,7 @@ mod_2 <- dt_chips |>
   modeler(
     x = DAP,
     y = PH,
-    by = Plot,
+    grp = Plot,
     id = c(195, 40),
     fn = "fn_exp2_exp",
     initial_vals = initials,

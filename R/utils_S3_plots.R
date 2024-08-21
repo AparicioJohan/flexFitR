@@ -113,13 +113,13 @@ plot_fn <- function(fn = "fn_piwise",
 #' library(exploreHTP)
 #' suppressMessages(library(dplyr))
 #' data(dt_potato)
-#' explorer <- read_HTP(dt_potato, x = DAP, y = c(Canopy, GLI_2), id = Plot)
+#' explorer <- explorer(dt_potato, x = DAP, y = c(Canopy, GLI_2), id = Plot)
 #' # Example 1
 #' mod_1 <- dt_potato |>
 #'   modeler(
 #'     x = DAP,
 #'     y = GLI_2,
-#'     by = Plot,
+#'     grp = Plot,
 #'     id = c(1:2),
 #'     parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
 #'     fn = "fn_lin_pl_lin",
@@ -133,7 +133,7 @@ plot_fn <- function(fn = "fn_piwise",
 #'   modeler(
 #'     x = DAP,
 #'     y = Canopy,
-#'     by = Plot,
+#'     grp = Plot,
 #'     id = c(1:2),
 #'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
 #'     fn = "fn_piwise",
@@ -151,7 +151,7 @@ plot_fn <- function(fn = "fn_piwise",
 #'   modeler(
 #'     x = DAP,
 #'     y = Canopy,
-#'     by = Plot,
+#'     grp = Plot,
 #'     id = 195,
 #'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
 #'     fn = "fn_piwise",
@@ -238,12 +238,12 @@ plot.modeler <- function(x,
   return(p0)
 }
 
-#' Plot an object of class \code{read_HTP}
+#' Plot an object of class \code{explorer}
 #'
 #' @description
-#' Creates various plots for an object of class \code{read_HTP}. Depending on the specified type, the function can generate plots that show correlations between traits over time, correlations between time points for each trait, or the evolution of traits over time.
+#' Creates various plots for an object of class \code{explorer}. Depending on the specified type, the function can generate plots that show correlations between traits over time, correlations between time points for each trait, or the evolution of traits over time.
 #'
-#' @param x An object inheriting from class \code{read_HTP}, resulting from executing the function \code{read_HTP()}.
+#' @param x An object inheriting from class \code{explorer}, resulting from executing the function \code{explorer()}.
 #' @param type Character string or number specifying the type of plot to generate. Available options are:
 #' \describe{
 #'   \item{\code{"trait_by_time" or 1}}{Plots correlations between traits over time (default).}
@@ -268,13 +268,13 @@ plot.modeler <- function(x,
 #' library(exploreHTP)
 #' data(dt_potato)
 #' dt_potato <- dt_potato
-#' results <- read_HTP(dt_potato, x = DAP, y = c(Canopy, PH), id = Plot)
+#' results <- explorer(dt_potato, x = DAP, y = c(Canopy, PH), id = Plot)
 #' table <- plot(results, label_size = 4, signif = TRUE, n_row = 2)
 #' table
 #' plot(results, type = "time_by_trait", label_size = 4, signif = TRUE)
 #' @import tidyr
 #' @import agriutilities
-plot.read_HTP <- function(x,
+plot.explorer <- function(x,
                           type = "trait_by_time",
                           label_size = 4,
                           signif = FALSE,

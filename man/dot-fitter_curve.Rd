@@ -27,12 +27,12 @@ The function .fitter_curve is used internally to find the parameters requested.
 \examples{
 library(exploreHTP)
 data(dt_potato)
-explorer <- read_HTP(dt_potato, x = DAP, y = c(Canopy, GLI_2), id = Plot)
+explorer <- explorer(dt_potato, x = DAP, y = c(Canopy, GLI_2), id = Plot)
 mod_1 <- dt_potato |>
   modeler(
     x = DAP,
     y = GLI_2,
-    by = Plot,
+    grp = Plot,
     id = 195,
     parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
     fn = "fn_lin_pl_lin",

@@ -27,7 +27,7 @@ mod_1 <- dt_potato |>
   modeler(
     x = DAP,
     y = Canopy,
-    by = Plot,
+    grp = Plot,
     id = c(15, 2, 45),
     parameters = c(t1 = 45, t2 = 80, k = 0.9),
     fn = "fn_piwise",

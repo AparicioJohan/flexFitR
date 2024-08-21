@@ -24,11 +24,11 @@ library(ggpubr)
 library(purrr)
 ```
 
-## Reading data `read_HTP()`
+## Exploring data `explorer()`
 
 ```{r}
 data(dt_potato)
-explorer <- read_HTP(dt_potato, x = DAP, y = Canopy, id = Plot)
+explorer <- explorer(dt_potato, x = DAP, y = Canopy, id = Plot)
 ```
 
 ```{r}
@@ -79,7 +79,7 @@ mod_1 <- dt_potato |>
   modeler(
     x = DAP,
     y = Canopy,
-    by = Plot,
+    grp = Plot,
     id = c(195, 40),
     parameters = c(t1 = 45, t2 = 80, k = 0.9),
     fn = "fn_piwise",
@@ -114,7 +114,7 @@ mod_2 <- dt_potato |>
   modeler(
     x = DAP,
     y = Canopy,
-    by = Plot,
+    grp = Plot,
     id = c(195, 40),
     parameters = c(t1 = 45, t2 = 80, k = 0.9),
     fn = "fn_piwise",
@@ -148,7 +148,7 @@ mod_3 <- dt_potato |>
   modeler(
     x = DAP,
     y = Canopy,
-    by = Plot,
+    grp = Plot,
     id = c(195, 40),
     parameters = c(t1 = 45, t2 = 80, k = 0.9),
     fn = "fn_piwise",
@@ -169,7 +169,7 @@ mod_4 <- dt_potato |>
   modeler(
     x = DAP,
     y = Canopy,
-    by = Plot,
+    grp = Plot,
     id = c(195, 40),
     parameters = c(t1 = 45, t2 = 80, k = 0.9),
     fn = "fn_piwise",
@@ -202,7 +202,7 @@ rbind.data.frame(
 ## Code
 
 ```{r, eval = FALSE}
-explorer <- read_HTP(dt_potato, x = DAP, y = c(Canopy), id = Plot)
+explorer <- explorer(dt_potato, x = DAP, y = c(Canopy), id = Plot)
 fixed_params <- explorer$dt_long |>
   filter(var %in% "Canopy") |>
   group_by(uid) |>
@@ -211,7 +211,7 @@ mod <- dt_potato |>
   modeler(
     x = DAP,
     y = Canopy,
-    by = Plot,
+    grp = Plot,
     id = c(195, 40),
     parameters = c(t1 = 45, t2 = 80, k = 0.9),
     fn = "fn_piwise",

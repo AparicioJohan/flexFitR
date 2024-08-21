@@ -10,7 +10,7 @@
 #' @param id The name of the column in `data` that contains IDs or unique identifiers.
 #' @param .keep The names of the columns in `data` to keep across the analysis.
 #'
-#' @return An object of class \code{read_HTP}, which is a list containing the following elements:
+#' @return An object of class \code{explorer}, which is a list containing the following elements:
 #' \describe{
 #'   \item{\code{summ_traits}}{A data.frame containing summary statistics for each trait at each time point, including minimum, mean, median, maximum, standard deviation, coefficient of variation, number of non-missing values, percentage of missing values, and percentage of negative values.}
 #'   \item{\code{metadata}}{A data.frame summarizing the metadata.}
@@ -25,7 +25,7 @@
 #' library(exploreHTP)
 #' data(dt_potato)
 #' results <- dt_potato |>
-#'   read_HTP(
+#'   explorer(
 #'     x = DAP,
 #'     y = c(Canopy, PH),
 #'     id = Plot,
@@ -39,16 +39,14 @@
 #' @import dplyr
 #' @import tidyr
 #' @importFrom stats sd median
-read_HTP <- function(data, x, y, id = NULL, .keep) {
+explorer <- function(data, x, y, id, .keep) {
   if (is.null(data)) {
     stop("Error: data not found")
   }
-  id_quo <- enquo(id)
-  if (rlang::quo_is_null(id_quo)) {
+  id <- names(select(data, {{ id }}))
+  if (length(id) == 0) {
     data <- data |> mutate(.id = 1)
     id <- ".id"
-  } else {
-    id <- names(select(data, !!id_quo))
   }
   x <- names(select(data, {{ x }}))
   y <- names(select(data, {{ y }}))
@@ -105,7 +103,7 @@ read_HTP <- function(data, x, y, id = NULL, .keep) {
     dt_long = dt_long,
     .keep = .keep
   )
-  class(out) <- "read_HTP"
+  class(out) <- "explorer"
   return(out)
 }
 

@@ -25,12 +25,12 @@ Coefficients for an object of class \code{modeler}
 \examples{
 library(exploreHTP)
 data(dt_potato)
-explorer <- read_HTP(dt_potato, x = DAP, y = c(Canopy, GLI_2), id = Plot)
+explorer <- explorer(dt_potato, x = DAP, y = c(Canopy, GLI_2), id = Plot)
 mod_1 <- dt_potato |>
   modeler(
     x = DAP,
     y = Canopy,
-    by = Plot,
+    grp = Plot,
     id = c(15, 2, 45),
     parameters = c(t1 = 45, t2 = 80, k = 0.9),
     fn = "fn_piwise",

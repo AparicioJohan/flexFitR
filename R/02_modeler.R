@@ -6,9 +6,9 @@
 #' @param data A data.frame in a wide format.
 #' @param x The name of the column in `data` that contains x points.
 #' @param y The name of the column in `data` that contain the variable to be analyzed. Must match a var in the data.
-#' @param by The name of the column in `data` that contains the unique identifiers (id).
-#' @param .keep The names of the columns in `data` to keep across the analysis.
-#' @param id An optional vector of IDs to filter the data. Default is \code{NULL}, meaning all ids are used.
+#' @param grp The name of the column in `data` that contains a grouping variable. (Optional).
+#' @param to_keep The names of the columns in `data` to keep across the analysis.
+#' @param id An optional vector with levels of `grp` to filter the data. Default is \code{NULL}, meaning all groups are used.
 #' @param fn A string specifying the name of the function to be used for the curve fitting. Default is \code{"fn_piwise"}.
 #' @param parameters A named numeric vector specifying the initial values for the parameters to be optimized. Default is \code{NULL}.
 #' @param lower Numeric vector specifying the lower bounds for the parameters. Default is \code{-Inf} for all parameters.
@@ -44,13 +44,13 @@
 #' @examples
 #' library(exploreHTP)
 #' data(dt_potato)
-#' explorer <- read_HTP(dt_potato, x = DAP, y = c(Canopy, GLI_2), id = Plot)
+#' explorer <- explorer(dt_potato, x = DAP, y = c(Canopy, GLI_2), id = Plot)
 #' # Example 1
 #' mod_1 <- dt_potato |>
 #'   modeler(
 #'     x = DAP,
 #'     y = GLI_2,
-#'     by = Plot,
+#'     grp = Plot,
 #'     id = 195,
 #'     parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
 #'     fn = "fn_lin_pl_lin",
@@ -63,7 +63,7 @@
 #'   modeler(
 #'     x = DAP,
 #'     y = Canopy,
-#'     by = Plot,
+#'     grp = Plot,
 #'     id = 195,
 #'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
 #'     fn = "fn_piwise",
@@ -79,8 +79,8 @@
 modeler <- function(data,
                     x,
                     y,
-                    by = NULL,
-                    .keep,
+                    grp,
+                    to_keep,
                     id = NULL,
                     fn = "fn_piwise",
                     parameters = NULL,
@@ -102,10 +102,10 @@ modeler <- function(data,
   if (is.null(data)) {
     stop("Error: data not found")
   }
-  x <- read_HTP(data, {{ x }}, {{ y }}, {{ by }}, {{ .keep }})
+  x <- explorer(data, {{ x }}, {{ y }}, {{ grp }}, {{ to_keep }})
   # Check the class of x
-  if (!inherits(x, "read_HTP")) {
-    stop("The object should be of class 'read_HTP'.")
+  if (!inherits(x, "explorer")) {
+    stop("The object should be of class 'explorer'.")
   }
   .keep <- x$.keep
   variable <- unique(x$summ_traits$var)
@@ -345,12 +345,12 @@ modeler <- function(data,
 #' @examples
 #' library(exploreHTP)
 #' data(dt_potato)
-#' explorer <- read_HTP(dt_potato, x = DAP, y = c(Canopy, GLI_2), id = Plot)
+#' explorer <- explorer(dt_potato, x = DAP, y = c(Canopy, GLI_2), id = Plot)
 #' mod_1 <- dt_potato |>
 #'   modeler(
 #'     x = DAP,
 #'     y = GLI_2,
-#'     by = Plot,
+#'     grp = Plot,
 #'     id = 195,
 #'     parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
 #'     fn = "fn_lin_pl_lin",
