@@ -58,7 +58,6 @@ plot_fn <- function(fn = "fn_piwise",
     summarise(auc = round(sum(trapezoid_area), 2)) |>
     pull(auc)
   title <- create_call(fn)
-  density <- paste(fn, "(t, ", values, ")", sep = "")
   info <- paste(paste(arg, round(params, 3), sep = " = "), collapse = "\n")
 
   x.label_params <- interval[1] + (interval[2] - interval[1]) * 0.15
@@ -304,7 +303,7 @@ plot.explorer <- function(x,
   }
 
   # Correlation between traits by time
-  if (type == "trait_by_time" | type == 1) {
+  if (type == "trait_by_time" || type == 1) {
     traits <- unique(data$var)
     if (length(traits) <= 1) {
       stop("Only one trait available. 'trait_by_time' plot not informative.")
@@ -362,7 +361,7 @@ plot.explorer <- function(x,
   }
 
   # Correlation between time-points by trait
-  if (type == "time_by_trait" | type == 2) {
+  if (type == "time_by_trait" || type == 2) {
     time_by_trait <- data |>
       pivot_wider(names_from = x, values_from = y) |>
       select(-c(uid, all_of(.keep))) |>
@@ -415,7 +414,7 @@ plot.explorer <- function(x,
       select(-label, -txtCol)
   }
 
-  if (type == "evolution" | type == 3) {
+  if (type == "evolution" || type == 3) {
     dt_avg <- data |>
       group_by(x, var) |>
       summarise(y = mean(y, na.rm = TRUE), .groups = "drop")

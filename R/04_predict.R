@@ -53,7 +53,6 @@ predict.modeler <- function(object,
   } else {
     uid <- unique(data$uid)
   }
-  fn <- object$fn
   limit_inf <- min(data$x, na.rm = TRUE)
   limit_sup <- object$max_time
   if (!all(limit_inf <= x & x <= limit_sup)) {

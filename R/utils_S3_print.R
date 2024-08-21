@@ -77,7 +77,7 @@ print.modeler <- function(x, ...) {
 }
 
 #' @noRd
-comparison_HTP <- function(x, y, value = 5) {
+comparison <- function(x, y, value = 5) {
   x <- x$param
   y <- y$param
   xy <- full_join(

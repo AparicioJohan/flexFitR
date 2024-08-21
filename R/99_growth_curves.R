@@ -39,12 +39,10 @@
 #'   auc_label_size = 3
 #' )
 fn_exp1_lin <- function(t, t1, t2, alpha, beta) {
-  # beta < 0
-  # alpha > 0
   if (t < t1) {
     return(0)
   }
-  if (t >= t1 & t <= t2) {
+  if (t >= t1 && t <= t2) {
     return(exp(alpha * (t - t1)) - 1)
   }
   if (t > t2) {
@@ -94,12 +92,10 @@ fn_exp1_lin <- function(t, t1, t2, alpha, beta) {
 #'   auc_label_size = 3
 #' )
 fn_exp2_lin <- function(t, t1, t2, alpha, beta) {
-  # beta < 0
-  # alpha > 0
   if (t < t1) {
     return(0)
   }
-  if (t >= t1 & t <= t2) {
+  if (t >= t1 && t <= t2) {
     return(exp(alpha * (t - t1)^2) - 1)
   }
   if (t > t2) {
@@ -151,12 +147,10 @@ fn_exp2_lin <- function(t, t1, t2, alpha, beta) {
 #'   y_auc_label = 0.2
 #' )
 fn_exp1_exp <- function(t, t1, t2, alpha, beta) {
-  # beta < 0
-  # alpha > 0
   if (t < t1) {
     return(0)
   }
-  if (t >= t1 & t <= t2) {
+  if (t >= t1 && t <= t2) {
     return(exp(alpha * (t - t1)) - 1)
   }
   if (t > t2) {
@@ -208,12 +202,10 @@ fn_exp1_exp <- function(t, t1, t2, alpha, beta) {
 #'   y_auc_label = 0.15
 #' )
 fn_exp2_exp <- function(t, t1, t2, alpha, beta) {
-  # beta < 0
-  # alpha > 0
   if (t < t1) {
     return(0)
   }
-  if (t >= t1 & t <= t2) {
+  if (t >= t1 && t <= t2) {
     return(exp(alpha * (t - t1)^2) - 1)
   }
   if (t > t2) {
@@ -339,10 +331,10 @@ fn_lin_pl_lin <- function(t, t1, t2, t3, k, beta) {
   if (t < t1) {
     return(0)
   }
-  if (t >= t1 & t <= t2) {
+  if (t >= t1 && t <= t2) {
     y <- k / (t2 - t1) * (t - t1)
   }
-  if (t >= t2 & t <= t3) {
+  if (t >= t2 && t <= t3) {
     y <- k
   }
   if (t >= t3) {
@@ -389,10 +381,10 @@ fn_lin_pl_lin2 <- function(t, t1, t2, dt, k, beta) {
   if (t < t1) {
     return(0)
   }
-  if (t >= t1 & t <= t2) {
+  if (t >= t1 && t <= t2) {
     y <- k / (t2 - t1) * (t - t1)
   }
-  if (t >= t2 & t <= (t2 + dt)) {
+  if (t >= t2 && t <= (t2 + dt)) {
     y <- k
   }
   if (t >= (t2 + dt)) {
@@ -439,10 +431,10 @@ fn_lin_pl_lin3 <- function(t, t1, t2, t3, k, beta) {
   if (t < t1) {
     y <- 0
   }
-  if (t >= t1 & t <= t2) {
+  if (t >= t1 && t <= t2) {
     y <- k / (t2 - t1) * (t - t1)
   }
-  if (t >= t2 & t <= t3) {
+  if (t >= t2 && t <= t3) {
     y <- k
   }
   if (t >= t3) {
@@ -560,7 +552,7 @@ fn_linexp <- function(t, t1, t2, a, b, c) {
   if (t < t1) {
     return(0)
   }
-  if (t >= t1 & t <= t2) {
+  if (t >= t1 && t <= t2) {
     return(a + b * (t - t1))
   }
   if (t > t2) {

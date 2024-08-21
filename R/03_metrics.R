@@ -97,7 +97,7 @@ metrics <- function(x, .by_id = TRUE) {
       .groups = "drop"
     )
   n_plots <- nrow(val_metrics)
-  if (!.by_id & n_plots > 1) {
+  if (!.by_id && n_plots > 1) {
     summ_metrics <- val_metrics |>
       select(var:r_squared) |>
       pivot_longer(cols = SSE:r_squared, names_to = "metric") |>

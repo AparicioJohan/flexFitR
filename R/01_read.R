@@ -134,7 +134,7 @@ summarize_metadata <- function(data = NULL, cols = NULL) {
   # Initialize an empty list to store summaries
   summaries <- list()
   # Iterate over each variable in the metadata vector
-  for (var in 1:length(cols)) {
+  for (var in seq_along(cols)) {
     # Extract the variable data
     var_data <- data[[cols[var]]]
     # Create a summary for the variable

@@ -119,13 +119,13 @@ fun <- function(t, t1 = 45, t2 = 80, k = 0.9) {
 }
 ```
 
-We can plot the piecewise function and then fit the model using the `modeler` function. After fitting the model, we can examine the results, plot the fitted curve, extract the coefficients and their associated p-values, obtain the variance-covariance matrix, and make predictions for unknown values of x.
-
+We can plot the piecewise function and then fit the model using the `modeler` function.
 
 ```{r}
 plot_fn(fn = "fun", params = c(t1 = 30, t2 = 60, k = 90))
 ```
 
+But first, let's take a look at the example dataset.
 
 ```{r}
 dt <- data.frame(
@@ -134,7 +134,6 @@ dt <- data.frame(
 )
 plot(dt$time, dt$variable)
 ```
-
 
 ```{r, warning=FALSE, message=FALSE}
 mod_1 <- dt |>
@@ -146,6 +145,8 @@ mod_1 <- dt |>
   )
 mod_1
 ```
+
+After fitting the model, we can examine the results, plot the fitted curve, extract the coefficients and their associated p-values, obtain the variance-covariance matrix, and make predictions for unknown values of x.
 
 ```{r}
 plot(mod_1)
@@ -169,6 +170,8 @@ predict(mod_1, x = 45)
 Finally, we illustrate how to provide different initial values to the function when dealing with multiple groups, and we also show how to fix some parameters of the objective function.
 
 ### Providing Initial values
+
+In this example, we don't have a grouping variable. However, by default, the function assigns a unique identifier (`uid`) to the dataset. Because of this, we need to specify `uid = 1` for the initial values and fixed parameters. If there is only one group, you only need to modify the parameters argument accordingly. This approach is primarily for illustrative purposes.
 
 ```{r, warning=FALSE, message=FALSE}
 init <- data.frame(uid = 1, t1 = 20, t2 = 30, k = 0.8)

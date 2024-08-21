@@ -159,7 +159,7 @@ modeler <- function(data,
     stop("max_time should be a positive numeric value if specified.")
   }
   # Validate parameters and initial_vals
-  if (is.null(parameters) & is.null(initial_vals)) {
+  if (is.null(parameters) && is.null(initial_vals)) {
     stop("You have to provide initial values for the optimization procedure")
   } else if (!is.null(parameters)) {
     if (!sum(names(parameters) %in% args) == length(args)) {

@@ -156,8 +156,8 @@ to our coefficient b and coefficient m.</p>
 <span><span class="co">#&gt;    1 -15.5 19.5 449 258</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
-<span><span class="co">#&gt;  Ids      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;    1 0.4142 secs        100%   259 (id)</span></span></code></pre></div>
+<span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
+<span><span class="co">#&gt;       1 0.4371 secs        100%   259 (id)</span></span></code></pre></div>
 <p>Once the model is fitted, we can examine the output, extract the
 estimated parameters, make some plots, and predict new x values.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -263,13 +263,11 @@ expression:</p>
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <p>We can plot the piecewise function and then fit the model using the
-<code>modeler</code> function. After fitting the model, we can examine
-the results, plot the fitted curve, extract the coefficients and their
-associated p-values, obtain the variance-covariance matrix, and make
-predictions for unknown values of x.</p>
+<code>modeler</code> function.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_fn.html">plot_fn</a></span><span class="op">(</span>fn <span class="op">=</span> <span class="st">"fun"</span>, params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">30</span>, t2 <span class="op">=</span> <span class="fl">60</span>, k <span class="op">=</span> <span class="fl">90</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="how_to_start_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
+<p>But first, let’s take a look at the example dataset.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">29</span>, <span class="fl">36</span>, <span class="fl">42</span>, <span class="fl">56</span>, <span class="fl">76</span>, <span class="fl">92</span>, <span class="fl">100</span>, <span class="fl">108</span><span class="op">)</span>,</span>
@@ -299,8 +297,12 @@ predictions for unknown values of x.</p>
 <span><span class="co">#&gt;    1 38.6 61 99.8 0.449 5807</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
-<span><span class="co">#&gt;  Ids      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;    1 0.3978 secs        100%   511 (id)</span></span></code></pre></div>
+<span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
+<span><span class="co">#&gt;       1 0.4364 secs        100%   511 (id)</span></span></code></pre></div>
+<p>After fitting the model, we can examine the results, plot the fitted
+curve, extract the coefficients and their associated p-values, obtain
+the variance-covariance matrix, and make predictions for unknown values
+of x.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">)</span></span></code></pre></div>
 <p><img src="how_to_start_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
@@ -334,6 +336,12 @@ some parameters of the objective function.</p>
 <div class="section level3">
 <h3 id="providing-initial-values">Providing Initial values<a class="anchor" aria-label="anchor" href="#providing-initial-values"></a>
 </h3>
+<p>In this example, we don’t have a grouping variable. However, by
+default, the function assigns a unique identifier (<code>uid</code>) to
+the dataset. Because of this, we need to specify <code>uid = 1</code>
+for the initial values and fixed parameters. If there is only one group,
+you only need to modify the parameters argument accordingly. This
+approach is primarily for illustrative purposes.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">init</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>uid <span class="op">=</span> <span class="fl">1</span>, t1 <span class="op">=</span> <span class="fl">20</span>, t2 <span class="op">=</span> <span class="fl">30</span>, k <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span>
 <span></span>
@@ -359,8 +367,8 @@ some parameters of the objective function.</p>
 <span><span class="co">#&gt;    1 38.6 61 99.8 0.449 5807</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
-<span><span class="co">#&gt;  Ids      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;    1 0.3962 secs        100%   567 (id)</span></span>
+<span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
+<span><span class="co">#&gt;       1 0.3647 secs        100%   567 (id)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">mod_2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 6</span></span></span>
 <span><span class="co">#&gt;     uid coefficient solution std.error `t value` `Pr(&gt;|t|)`</span></span>
@@ -397,8 +405,8 @@ some parameters of the objective function.</p>
 <span><span class="co">#&gt;    1 38.6 60.6 13.6 98 5721</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
-<span><span class="co">#&gt;  Ids     Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;    1 0.376 secs        100%   321 (id)</span></span>
+<span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
+<span><span class="co">#&gt;       1 0.3812 secs        100%   321 (id)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">mod_3</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 6</span></span></span>
 <span><span class="co">#&gt;     uid coefficient solution std.error `t value` `Pr(&gt;|t|)`</span></span>
