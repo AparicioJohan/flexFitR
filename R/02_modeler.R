@@ -253,7 +253,7 @@ modeler <- function(data,
     i = plot_id,
     .options.future = list(seed = TRUE)
   ) %dofu% {
-    p(sprintf("uid = %g", i))
+    p(sprintf("uid = %s", i))
     .fitter_curve(
       data = dt_nest,
       id = i,

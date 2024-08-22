@@ -49,7 +49,8 @@ A ggplot object representing the plot.
 }
 \description{
 This function plots a user-defined function over a specified interval and annotates the plot with
-the calculated Area Under the Curve (AUC) and parameter values.
+the calculated Area Under the Curve (AUC) and parameter values. The aim of `plot_fn` is to allow users to play with
+different Starting Values in their functions before fitting any models.
 }
 \examples{
 # Example usage
