@@ -9,7 +9,7 @@ modeler(
   x,
   y,
   grp,
-  to_keep,
+  keep,
   id = NULL,
   fn = "fn_piwise",
   parameters = NULL,
@@ -39,7 +39,7 @@ modeler(
 
 \item{grp}{The name of the column in `data` that contains a grouping variable. (Optional).}
 
-\item{to_keep}{The names of the columns in `data` to keep across the analysis.}
+\item{keep}{The names of the columns in `data` to keep across the analysis.}
 
 \item{id}{An optional vector with levels of `grp` to filter the data. Default is \code{NULL}, meaning all groups are used.}
 

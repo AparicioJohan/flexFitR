@@ -7,7 +7,7 @@
 #' @param x The name of the column in `data` that contains x points.
 #' @param y The name of the column in `data` that contain the variable to be analyzed. Must match a var in the data.
 #' @param grp The name of the column in `data` that contains a grouping variable. (Optional).
-#' @param to_keep The names of the columns in `data` to keep across the analysis.
+#' @param keep The names of the columns in `data` to keep across the analysis.
 #' @param id An optional vector with levels of `grp` to filter the data. Default is \code{NULL}, meaning all groups are used.
 #' @param fn A string specifying the name of the function to be used for the curve fitting. Default is \code{"fn_piwise"}.
 #' @param parameters A named numeric vector specifying the initial values for the parameters to be optimized. Default is \code{NULL}.
@@ -80,7 +80,7 @@ modeler <- function(data,
                     x,
                     y,
                     grp,
-                    to_keep,
+                    keep,
                     id = NULL,
                     fn = "fn_piwise",
                     parameters = NULL,
@@ -102,7 +102,7 @@ modeler <- function(data,
   if (is.null(data)) {
     stop("Error: data not found")
   }
-  x <- explorer(data, {{ x }}, {{ y }}, {{ grp }}, {{ to_keep }})
+  x <- explorer(data, {{ x }}, {{ y }}, {{ grp }}, {{ keep }})
   # Check the class of x
   if (!inherits(x, "explorer")) {
     stop("The object should be of class 'explorer'.")
