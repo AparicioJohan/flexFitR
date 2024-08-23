@@ -1,213 +1,46 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/404.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/articles/canopy-model.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/articles/height-model.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/articles/how_to_start.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/articles/maturity-model.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/index.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/canopy_HTP.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/canopy_model.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/coef.modeler.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/coef.modeler_HTP.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/dot-fitter_curve.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/dt_chips.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/dt_potato.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/explorer.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/fn_canopy.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/fn_exp1_exp.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/fn_exp1_lin.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/fn_exp2_exp.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/fn_exp2_lin.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/fn_exp_exp.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/fn_exp_linear.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/fn_lin_pl_lin.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/fn_lin_pl_lin2.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/fn_lin_pl_lin3.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/fn_lin_pl_lin4.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/fn_piwise.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/fn_sse.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/fn_sse_can.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/fn_sse_exp.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/fn_sse_lin.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/fn_sse_piw.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/fun_canopy.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/height_HTP.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/maturity_HTP.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/metrics.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/metrics_HTP.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/modeler.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/modeler_HTP.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/modeler_HTP2.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/plot.canopyHTP.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/plot.canopy_HTP.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/plot.explorer.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/plot.height_HTP.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/plot.maturity_HTP.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/plot.modeler.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/plot.modeler_HTP.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/plot.read_HTP.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/plot_fn.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/predict.modeler.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/predict.modeler_HTP.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/print.modeler.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/print.modeler_HTP.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/read_HTP.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/SSE.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/sse_exp1_exp.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/sse_exp1_lin.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/sse_exp2_exp.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/sse_exp2_lin.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/sse_lin_pl_lin.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/sse_lin_pl_lin2.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/sse_lin_pl_lin3.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/sse_piwise.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/vcov.modeler.html</loc>
-  </url>
-  <url>
-    <loc>https://apariciojohan.github.io/exploreHTP/reference/vcov.modeler_HTP.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://apariciojohan.github.io/exploreHTP/404.html</loc></url>
+<url><loc>https://apariciojohan.github.io/exploreHTP/articles/canopy-model.html</loc></url>
+<url><loc>https://apariciojohan.github.io/exploreHTP/articles/height-model.html</loc></url>
+<url><loc>https://apariciojohan.github.io/exploreHTP/articles/how_to_start.html</loc></url>
+<url><loc>https://apariciojohan.github.io/exploreHTP/articles/index.html</loc></url>
+<url><loc>https://apariciojohan.github.io/exploreHTP/articles/maturity-model.html</loc></url>
+<url><loc>https://apariciojohan.github.io/exploreHTP/authors.html</loc></url>
+<url><loc>https://apariciojohan.github.io/exploreHTP/CODE_OF_CONDUCT.html</loc></url>
+<url><loc>https://apariciojohan.github.io/exploreHTP/index.html</loc></url>
+<url><loc>https://apariciojohan.github.io/exploreHTP/LICENSE-text.html</loc></url>
+<url><loc>https://apariciojohan.github.io/exploreHTP/LICENSE.html</loc></url>
+<url><loc>https://apariciojohan.github.io/exploreHTP/news/index.html</loc></url>
+<url><loc>https://apariciojohan.github.io/exploreHTP/reference/coef.modeler.html</loc></url>
+<url><loc>https://apariciojohan.github.io/exploreHTP/reference/coef.modeler_HTP.html</loc></url>
+<url><loc>https://apariciojohan.github.io/exploreHTP/reference/dot-fitter_curve.html</loc></url>
+<url><loc>https://apariciojohan.github.io/exploreHTP/reference/dt_chips.html</loc></url>
+<url><loc>https://apariciojohan.github.io/exploreHTP/reference/dt_potato.html</loc></url>
+<url><loc>https://apariciojohan.github.io/exploreHTP/reference/explorer.html</loc></url>
+<url><loc>https://apariciojohan.github.io/exploreHTP/reference/fn_exp1_exp.html</loc></url>
+<url><loc>https://apariciojohan.github.io/exploreHTP/reference/fn_exp1_lin.html</loc></url>
+<url><loc>https://apariciojohan.github.io/exploreHTP/reference/fn_exp2_exp.html</loc></url>
+<url><loc>https://apariciojohan.github.io/exploreHTP/reference/fn_exp2_lin.html</loc></url>
+<url><loc>https://apariciojohan.github.io/exploreHTP/reference/fn_lin_pl_lin.html</loc></url>
+<url><loc>https://apariciojohan.github.io/exploreHTP/reference/fn_lin_pl_lin2.html</loc></url>
+<url><loc>https://apariciojohan.github.io/exploreHTP/reference/fn_lin_pl_lin3.html</loc></url>
+<url><loc>https://apariciojohan.github.io/exploreHTP/reference/fn_piwise.html</loc></url>
+<url><loc>https://apariciojohan.github.io/exploreHTP/reference/index.html</loc></url>
+<url><loc>https://apariciojohan.github.io/exploreHTP/reference/metrics.html</loc></url>
+<url><loc>https://apariciojohan.github.io/exploreHTP/reference/metrics_HTP.html</loc></url>
+<url><loc>https://apariciojohan.github.io/exploreHTP/reference/modeler.html</loc></url>
+<url><loc>https://apariciojohan.github.io/exploreHTP/reference/modeler_HTP.html</loc></url>
+<url><loc>https://apariciojohan.github.io/exploreHTP/reference/plot.explorer.html</loc></url>
+<url><loc>https://apariciojohan.github.io/exploreHTP/reference/plot.modeler.html</loc></url>
+<url><loc>https://apariciojohan.github.io/exploreHTP/reference/plot.modeler_HTP.html</loc></url>
+<url><loc>https://apariciojohan.github.io/exploreHTP/reference/plot.read_HTP.html</loc></url>
+<url><loc>https://apariciojohan.github.io/exploreHTP/reference/plot_fn.html</loc></url>
+<url><loc>https://apariciojohan.github.io/exploreHTP/reference/predict.modeler.html</loc></url>
+<url><loc>https://apariciojohan.github.io/exploreHTP/reference/predict.modeler_HTP.html</loc></url>
+<url><loc>https://apariciojohan.github.io/exploreHTP/reference/print.modeler.html</loc></url>
+<url><loc>https://apariciojohan.github.io/exploreHTP/reference/print.modeler_HTP.html</loc></url>
+<url><loc>https://apariciojohan.github.io/exploreHTP/reference/read_HTP.html</loc></url>
+<url><loc>https://apariciojohan.github.io/exploreHTP/reference/vcov.modeler.html</loc></url>
+<url><loc>https://apariciojohan.github.io/exploreHTP/reference/vcov.modeler_HTP.html</loc></url>
 </urlset>
+

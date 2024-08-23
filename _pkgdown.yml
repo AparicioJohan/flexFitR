@@ -1,14 +1,19 @@
 template:
   bootstrap: 5
-  bootswatch: materia
-  theme: a11y-light
+  light-switch: true
   bslib:
-    pkgdown-nav-height: 100px
+    primary: "#0054AD"
+    border-radius: 0.5rem
+    btn-border-radius: 0.25rem
+    danger: "#A6081A"
+
 url: https://apariciojohan.github.io/exploreHTP/
+
+development:
+  mode: auto
+
 navbar:
   title: exploreHTP
-  type: default
-  bg: secondary
   left:
   - icon:
     text: Home
@@ -30,10 +35,7 @@ navbar:
   - icon:
     text: News
     href: news/index.html
-  right:
-  - icon: fa-github
-    text: Github
-    href: https://github.com/AparicioJohan/exploreHTP
+
 reference:
 - title: Modeling
 - contents:

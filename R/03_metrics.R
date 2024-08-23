@@ -39,7 +39,7 @@ r_squared <- function(actual, predicted) {
 #' of Determination (R-squared).
 #'
 #' @param x An object of class `modeler` containing the necessary data to compute the metrics.
-#' @param .by_id Return the metrics by id? TRUE by default.
+#' @param by_grp Return the metrics by id? TRUE by default.
 #'
 #' @return A data frame containing the calculated metrics grouped by uid, metadata, and variables.
 #'
@@ -73,15 +73,15 @@ r_squared <- function(actual, predicted) {
 #'     y = Canopy,
 #'     grp = Plot,
 #'     id = c(1:2),
-#'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
 #'     fn = "fn_piwise",
+#'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
 #'     add_zero = TRUE,
 #'     max_as_last = TRUE
 #'   )
 #' plot(mod_1, id = c(1:2))
 #' print(mod_1)
 #' metrics(mod_1)
-metrics <- function(x, .by_id = TRUE) {
+metrics <- function(x, by_grp = TRUE) {
   if (!inherits(x, "modeler")) {
     stop("The object should be of modeler class")
   }
@@ -97,7 +97,7 @@ metrics <- function(x, .by_id = TRUE) {
       .groups = "drop"
     )
   n_plots <- nrow(val_metrics)
-  if (!.by_id && n_plots > 1) {
+  if (!by_grp && n_plots > 1) {
     summ_metrics <- val_metrics |>
       select(var:r_squared) |>
       pivot_longer(cols = SSE:r_squared, names_to = "metric") |>

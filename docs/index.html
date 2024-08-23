@@ -5,7 +5,6 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="Implements general-purpose optimization techniques for modeling high-throughput phenotypic (HTP) data in plant breeding experimental trials.">
 <title>Explore High-Throughput Phenotypic (HTP) Data • exploreHTP</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -13,70 +12,62 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
-<script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<script src="lightswitch.js"></script><script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js" integrity="sha512-7O5pXpc0oCRrxk8RUfDYFgn0nO1t+jLuIOQdOMRp4APB7uZ4vSjspzp5y6YDtDs4VzUSTbWzBFZ/LKJhnyFOKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Explore High-Throughput Phenotypic (HTP) Data">
+<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
+<link href="deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Explore High-Throughput Phenotypic (HTP) Data">
+<meta name="description" content="Implements general-purpose optimization techniques for modeling high-throughput phenotypic (HTP) data in plant breeding experimental trials.">
 <meta property="og:description" content="Implements general-purpose optimization techniques for modeling high-throughput phenotypic (HTP) data in plant breeding experimental trials.">
 <meta property="og:image" content="https://apariciojohan.github.io/exploreHTP/logo.png">
-<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
-    
 
-    <nav class="navbar fixed-top navbar-default navbar-expand-lg bg-secondary" data-bs-theme="default"><div class="container">
-    
+
+    <nav class="navbar navbar-expand-lg fixed-top " aria-label="Site navigation"><div class="container">
+
     <a class="navbar-brand me-2" href="index.html">exploreHTP</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.0</small>
 
-    
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="active nav-item">
-  <a class="nav-link" href="index.html">Home</a>
-</li>
-<li class="nav-item">
-  <a class="nav-link" href="reference/index.html">Reference</a>
-</li>
+<li class="active nav-item"><a class="nav-link" href="index.html">Home</a></li>
+<li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="articles/how_to_start.html">Get Started</a>
-    <a class="dropdown-item" href="articles/canopy-model.html">Modeling HTP Data 1</a>
-    <a class="dropdown-item" href="articles/height-model.html">Modeling HTP Data 2</a>
-    <a class="dropdown-item" href="articles/maturity-model.html">Modeling HTP Data 3</a>
-  </div>
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="articles/how_to_start.html">Get Started</a></li>
+    <li><a class="dropdown-item" href="articles/canopy-model.html">Modeling HTP Data 1</a></li>
+    <li><a class="dropdown-item" href="articles/height-model.html">Modeling HTP Data 2</a></li>
+    <li><a class="dropdown-item" href="articles/maturity-model.html">Modeling HTP Data 3</a></li>
+  </ul>
 </li>
-<li class="nav-item">
-  <a class="nav-link" href="news/index.html">News</a>
-</li>
+<li class="nav-item"><a class="nav-link" href="news/index.html">News</a></li>
       </ul>
-<form class="form-inline my-2 my-lg-0" role="search">
-        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="search.json" id="search-input" placeholder="Search for" autocomplete="off">
-</form>
-
-      <ul class="navbar-nav">
-<li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/AparicioJohan/exploreHTP">
-    <span class="fa fa-github"></span>
-     
-    Github
-  </a>
+<ul class="navbar-nav">
+<li class="nav-item"><form class="form-inline" role="search">
+ <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
+</form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/AparicioJohan/exploreHTP/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-lightswitch" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-label="Light switch"><span class="fa fa-sun"></span></button>
+  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-lightswitch">
+<li><button class="dropdown-item" data-bs-theme-value="light"><span class="fa fa-sun"></span> Light</button></li>
+    <li><button class="dropdown-item" data-bs-theme-value="dark"><span class="fa fa-moon"></span> Dark</button></li>
+    <li><button class="dropdown-item" data-bs-theme-value="auto"><span class="fa fa-adjust"></span> Auto</button></li>
+  </ul>
 </li>
       </ul>
 </div>
 
-    
+
   </div>
 </nav><div class="container template-home">
 <div class="row">
@@ -88,7 +79,7 @@
 </div>
 <!-- badges: start -->
 <!-- badges: end -->
-<p>exploreHTP is designed to assist researchers and plant breeders in efficiently exploring and analyzing data derived from drone imagery. This package offers a suite of tools tailored to the unique needs of plant breeding data, facilitating comprehensive data exploration, correlation analysis, data manipulation, and flexible data modeling.</p>
+<p>exploreHTP is an R package designed for efficient modeling and analysis of large and complex datasets. It offers powerful tools for parameter estimation, model fitting, and visualization, leveraging the <code>optimx</code> package for optimization and the <code>future</code> package for parallel processing.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -98,454 +89,122 @@
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"AparicioJohan/exploreHTP"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="id_1-reading-data">1. Reading Data<a class="anchor" aria-label="anchor" href="#id_1-reading-data"></a>
+<h2 id="features">Features<a class="anchor" aria-label="anchor" href="#features"></a>
 </h2>
-<p>This is a basic example which shows how to use exploreHTP:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(exploreHTP)</span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">data</span>(dt_chips)</span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>results <span class="ot">&lt;-</span> dt_chips <span class="sc">|&gt;</span></span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>  <span class="fu">read_HTP</span>(</span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>    <span class="at">x =</span> DAP,</span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">c</span>(Canopy, PH),</span>
-<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>    <span class="at">id =</span> Plot,</span>
-<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>    <span class="at">.keep =</span> <span class="fu">c</span>(Gen, Row, Range)</span>
-<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>  )</span>
-<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="fu">names</span>(results)</span>
-<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"summ_traits"</span>    <span class="st">"metadata"</span>       <span class="st">"locals_min_max"</span> <span class="st">"dt_long"</span>       </span>
-<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>[<span class="dv">5</span>] <span class="st">".keep"</span>         </span></code></pre></div>
+<ul>
+<li>Parameter Estimation: Utilizes <code>optimx</code> and derivative-free algorithms to solve and estimate parameters for a given function.</li>
+<li>Parallelization: Implements parallel processing using the <code>future</code> package, enabling efficient fitting of hundreds of curves simultaneously.</li>
+<li>Visualization Tools: Provides a variety of plots to visualize model fits, correlations, predictions, and more.</li>
+<li>Prediction: Facilitates the prediction of non-observed data points.</li>
+<li>Statistical Rigor: Offers standard errors and p-values for coefficients, supporting robust conclusions and interpretations.</li>
+<li>Flexibility: Allows users to fix certain parameters in the model and specify different initial values per grouping factor.</li>
+<li>Custom Modeling Functions: Equipped with built-in modeling functions for common analysis tasks, while also permitting users to supply their own custom functions.</li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+</h2>
+<p>Here’s a simple example to get you started with exploreHTP. This example demonstrates fitting a piecewise regression model:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://apariciojohan.github.io/exploreHTP/">exploreHTP</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">29</span>, <span class="fl">36</span>, <span class="fl">42</span>, <span class="fl">56</span>, <span class="fl">76</span>, <span class="fl">92</span>, <span class="fl">100</span>, <span class="fl">108</span><span class="op">)</span>,</span>
+<span>  variable <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0.67</span>, <span class="fl">15.11</span>, <span class="fl">77.38</span>, <span class="fl">99.81</span>, <span class="fl">99.81</span>, <span class="fl">99.81</span>, <span class="fl">99.81</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="reference/explorer.html">explorer</a></span><span class="op">(</span><span class="va">dt</span>, <span class="va">time</span>, <span class="va">variable</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"xy"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README_unnamed-chunk-2-1.png"><!-- --></p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">results</span>, type <span class="op">=</span> <span class="st">"evolution"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-2-1.png" width="100%"></p>
+<code class="sourceCode R"><span><span class="va">fun</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">t</span>, <span class="va">t1</span> <span class="op">=</span> <span class="fl">45</span>, <span class="va">t2</span> <span class="op">=</span> <span class="fl">80</span>, <span class="va">k</span> <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="va">t</span> <span class="op">&lt;</span> <span class="va">t1</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">y</span> <span class="op">&lt;-</span> <span class="fl">0</span></span>
+<span>  <span class="op">}</span> <span class="kw">else</span> <span class="kw">if</span> <span class="op">(</span><span class="va">t</span> <span class="op">&gt;=</span> <span class="va">t1</span> <span class="op">&amp;&amp;</span> <span class="va">t</span> <span class="op">&lt;=</span> <span class="va">t2</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">y</span> <span class="op">&lt;-</span> <span class="va">k</span> <span class="op">/</span> <span class="op">(</span><span class="va">t2</span> <span class="op">-</span> <span class="va">t1</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span><span class="va">t</span> <span class="op">-</span> <span class="va">t1</span><span class="op">)</span></span>
+<span>  <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
+<span>    <span class="va">y</span> <span class="op">&lt;-</span> <span class="va">k</span></span>
+<span>  <span class="op">}</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">summ_traits</span><span class="op">)</span></span></code></pre></div>
-<table style="width:100%;" class="table">
-<colgroup>
-<col width="10%">
-<col width="6%">
-<col width="8%">
-<col width="8%">
-<col width="10%">
-<col width="10%">
-<col width="8%">
-<col width="7%">
-<col width="6%">
-<col width="7%">
-<col width="8%">
-<col width="7%">
-</colgroup>
-<thead><tr class="header">
-<th align="left">var</th>
-<th align="right">x</th>
-<th align="right">Min</th>
-<th align="right">Mean</th>
-<th align="right">Median</th>
-<th align="right">Max</th>
-<th align="right">SD</th>
-<th align="right">CV</th>
-<th align="right">n</th>
-<th align="right">miss</th>
-<th align="right">miss%</th>
-<th align="right">neg%</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="left">Canopy</td>
-<td align="right">28</td>
-<td align="right">0.00</td>
-<td align="right">0.01</td>
-<td align="right">0.00</td>
-<td align="right">0.52</td>
-<td align="right">0.06</td>
-<td align="right">4.46</td>
-<td align="right">196</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-</tr>
-<tr class="even">
-<td align="left">Canopy</td>
-<td align="right">42</td>
-<td align="right">1.33</td>
-<td align="right">19.31</td>
-<td align="right">19.72</td>
-<td align="right">41.65</td>
-<td align="right">8.14</td>
-<td align="right">0.42</td>
-<td align="right">196</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-</tr>
-<tr class="odd">
-<td align="left">Canopy</td>
-<td align="right">50</td>
-<td align="right">18.53</td>
-<td align="right">52.75</td>
-<td align="right">53.36</td>
-<td align="right">82.39</td>
-<td align="right">11.76</td>
-<td align="right">0.22</td>
-<td align="right">196</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-</tr>
-<tr class="even">
-<td align="left">Canopy</td>
-<td align="right">62</td>
-<td align="right">52.37</td>
-<td align="right">85.06</td>
-<td align="right">86.31</td>
-<td align="right">99.86</td>
-<td align="right">9.63</td>
-<td align="right">0.11</td>
-<td align="right">196</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-</tr>
-<tr class="odd">
-<td align="left">Canopy</td>
-<td align="right">77</td>
-<td align="right">94.83</td>
-<td align="right">99.83</td>
-<td align="right">99.94</td>
-<td align="right">100.00</td>
-<td align="right">0.51</td>
-<td align="right">0.01</td>
-<td align="right">196</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-</tr>
-<tr class="even">
-<td align="left">Canopy</td>
-<td align="right">84</td>
-<td align="right">95.40</td>
-<td align="right">99.88</td>
-<td align="right">100.00</td>
-<td align="right">100.02</td>
-<td align="right">0.51</td>
-<td align="right">0.01</td>
-<td align="right">196</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-</tr>
-</tbody>
-</table>
-<table class="table">
-<thead><tr class="header">
-<th align="left">Column</th>
-<th align="left">Type</th>
-<th align="right">Unique_Values</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="left">uid</td>
-<td align="left">numeric</td>
-<td align="right">196</td>
-</tr>
-<tr class="even">
-<td align="left">x</td>
-<td align="left">numeric</td>
-<td align="right">8</td>
-</tr>
-<tr class="odd">
-<td align="left">Gen</td>
-<td align="left">character</td>
-<td align="right">178</td>
-</tr>
-<tr class="even">
-<td align="left">Row</td>
-<td align="left">numeric</td>
-<td align="right">14</td>
-</tr>
-<tr class="odd">
-<td align="left">Range</td>
-<td align="left">numeric</td>
-<td align="right">14</td>
-</tr>
-</tbody>
-</table>
+<code class="sourceCode R"><span><span class="co"># Fitting piecewise regression</span></span>
+<span><span class="va">mod_1</span> <span class="op">&lt;-</span> <span class="va">dt</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="reference/modeler.html">modeler</a></span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="va">time</span>,</span>
+<span>    y <span class="op">=</span> <span class="va">variable</span>,</span>
+<span>    fn <span class="op">=</span> <span class="st">"fun"</span>,</span>
+<span>    parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">45</span>, t2 <span class="op">=</span> <span class="fl">80</span>, k <span class="op">=</span> <span class="fl">90</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">print</span>(mod_1)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>Call<span class="sc">:</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>variable <span class="sc">~</span> <span class="fu">fun</span>(x, t1, t2, k) </span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>Residuals<span class="sc">:</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="fl">0.00000</span> <span class="fl">0.00000</span> <span class="fl">0.00000</span> <span class="fl">0.07444</span> <span class="fl">0.00000</span> <span class="fl">0.67000</span> </span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>Optimization Results <span class="st">`</span><span class="at">head()</span><span class="st">`</span><span class="sc">:</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a> uid   t1 t2    k   sse  auc</span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>   <span class="dv">1</span> <span class="fl">38.6</span> <span class="dv">61</span> <span class="fl">99.8</span> <span class="fl">0.449</span> <span class="dv">5807</span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>Metrics<span class="sc">:</span></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a> Groups      Timing Convergence Iterations</span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>      <span class="dv">1</span> <span class="fl">0.4179</span> secs        <span class="dv">100</span>%   <span class="dv">511</span> (id)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Auto plot</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README_unnamed-chunk-6-1.png" alt="plot fin"></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># Coefficients</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="fu">coef</span>(mod_1)</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co"># A tibble: 3 × 6</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>    uid coefficient solution std.error <span class="st">`</span><span class="at">t value</span><span class="st">`</span> <span class="st">`</span><span class="at">Pr(&gt;|t|)</span><span class="st">`</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>  <span class="sc">&lt;</span>dbl<span class="sc">&gt;</span> <span class="er">&lt;</span>chr<span class="sc">&gt;</span>          <span class="er">&lt;</span>dbl<span class="sc">&gt;</span>     <span class="er">&lt;</span>dbl<span class="sc">&gt;</span>     <span class="er">&lt;</span>dbl<span class="sc">&gt;</span>      <span class="er">&lt;</span>dbl<span class="sc">&gt;</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="dv">1</span>     <span class="dv">1</span> t1              <span class="fl">38.6</span>    <span class="fl">0.0779</span>      <span class="fl">496.</span>   <span class="fl">4.54e-15</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="dv">2</span>     <span class="dv">1</span> t2              <span class="fl">61.0</span>    <span class="fl">0.0918</span>      <span class="fl">665.</span>   <span class="fl">7.82e-16</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="dv">3</span>     <span class="dv">1</span> k               <span class="fl">99.8</span>    <span class="fl">0.137</span>       <span class="fl">730.</span>   <span class="fl">4.47e-16</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># Variance-Covariance Matrix</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="fu">vcov</span>(mod_1)</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="sc">$</span><span class="st">`</span><span class="at">1</span><span class="st">`</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>              t1           t2            k</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>t1  <span class="fl">6.061705e-03</span> <span class="sc">-</span><span class="fl">0.002940001</span> <span class="fl">1.877072e-07</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>t2 <span class="sc">-</span><span class="fl">2.940001e-03</span>  <span class="fl">0.008431400</span> <span class="fl">4.204939e-03</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>k   <span class="fl">1.877072e-07</span>  <span class="fl">0.004204939</span> <span class="fl">1.870426e-02</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># Making predictions</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="fu">predict</span>(mod_1, <span class="at">x =</span> <span class="dv">45</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="co"># A tibble: 1 × 4</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>    uid x_new predicted.value std.error</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>  <span class="sc">&lt;</span>dbl<span class="sc">&gt;</span> <span class="er">&lt;</span>dbl<span class="sc">&gt;</span>           <span class="er">&lt;</span>dbl<span class="sc">&gt;</span>     <span class="er">&lt;</span>dbl<span class="sc">&gt;</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="dv">1</span>     <span class="dv">1</span>    <span class="dv">45</span>            <span class="fl">28.5</span>     <span class="fl">0.223</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="id_2-estimating-days-to-emergence-and-days-to-full-canopy">2. Estimating days to emergence and days to full canopy<a class="anchor" aria-label="anchor" href="#id_2-estimating-days-to-emergence-and-days-to-full-canopy"></a>
+<h2 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>
 </h2>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu">canopy_HTP</span><span class="op">(</span>x <span class="op">=</span> <span class="va">results</span>, index <span class="op">=</span> <span class="st">"Canopy"</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">60</span>, <span class="fl">150</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">print</span>(out)</span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>Call<span class="sc">:</span></span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>Canopy <span class="sc">~</span> <span class="fu">fn_piwise</span>(x, t1, t2, k) </span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>Sum of Squares Error<span class="sc">:</span></span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>  <span class="fl">4.894</span>  <span class="fl">13.772</span>  <span class="fl">22.650</span>  <span class="fl">22.650</span>  <span class="fl">31.528</span>  <span class="fl">40.406</span> </span>
-<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a></span>
-<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>Optimization Results <span class="st">`</span><span class="at">head()</span><span class="st">`</span><span class="sc">:</span></span>
-<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a> uid   t1   t2   sse   k  auc   dt slope</span>
-<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>  <span class="dv">60</span> <span class="fl">38.0</span> <span class="fl">68.7</span>  <span class="fl">4.89</span> <span class="dv">100</span> <span class="dv">5162</span> <span class="fl">30.6</span>  <span class="fl">3.26</span></span>
-<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a> <span class="dv">150</span> <span class="fl">33.8</span> <span class="fl">68.5</span> <span class="fl">40.41</span> <span class="dv">100</span> <span class="dv">5386</span> <span class="fl">34.7</span>  <span class="fl">2.88</span></span>
-<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a></span>
-<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>Metrics<span class="sc">:</span></span>
-<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a> Ids      Timing Convergence Iterations</span>
-<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a>   <span class="dv">2</span> <span class="fl">1.1606</span> secs        <span class="dv">100</span>% <span class="fl">273.5</span> (id)</span>
-<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="fu">plot</span>(out, <span class="at">id =</span> <span class="fu">c</span>(<span class="dv">60</span>, <span class="dv">150</span>))</span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-7-1.png" width="100%"></p>
-<table style="width:100%;" class="table">
-<colgroup>
-<col width="5%">
-<col width="12%">
-<col width="5%">
-<col width="8%">
-<col width="9%">
-<col width="9%">
-<col width="9%">
-<col width="10%">
-<col width="11%">
-<col width="9%">
-<col width="8%">
-</colgroup>
-<thead><tr class="header">
-<th align="right">uid</th>
-<th align="left">Gen</th>
-<th align="right">Row</th>
-<th align="right">Range</th>
-<th align="right">t1</th>
-<th align="right">t2</th>
-<th align="right">sse</th>
-<th align="right">k</th>
-<th align="right">auc</th>
-<th align="right">dt</th>
-<th align="right">slope</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="right">60</td>
-<td align="left">W19026-15</td>
-<td align="right">4</td>
-<td align="right">5</td>
-<td align="right">38.045</td>
-<td align="right">68.662</td>
-<td align="right">4.894</td>
-<td align="right">99.956</td>
-<td align="right">5162.344</td>
-<td align="right">30.617</td>
-<td align="right">3.265</td>
-</tr>
-<tr class="even">
-<td align="right">150</td>
-<td align="left">W19023-21</td>
-<td align="right">10</td>
-<td align="right">11</td>
-<td align="right">33.791</td>
-<td align="right">68.496</td>
-<td align="right">40.406</td>
-<td align="right">100.000</td>
-<td align="right">5385.674</td>
-<td align="right">34.705</td>
-<td align="right">2.881</td>
-</tr>
-</tbody>
-</table>
+<p>For detailed documentation and examples, visit <a href="https://apariciojohan.github.io/exploreHTP/reference/index.html">exploreHTP</a></p>
+<ul>
+<li>Vignette 1: <a href="https://apariciojohan.github.io/exploreHTP/articles/how_to_start.html">How to start</a>
+</li>
+<li>Vignette 2: <a href="https://apariciojohan.github.io/exploreHTP/articles/canopy-model.html">Modeling Canopy</a>
+</li>
+<li>Vignette 3: <a href="https://apariciojohan.github.io/exploreHTP/articles/height-model.html">Modeling Plant Height</a>
+</li>
+<li>Vignette 4: <a href="https://apariciojohan.github.io/exploreHTP/articles/maturity-model.html">Modeling VIs</a>
+</li>
+</ul>
 </div>
 <div class="section level2">
-<h2 id="id_3-modelling-plant-height">3. Modelling Plant Height<a class="anchor" aria-label="anchor" href="#id_3-modelling-plant-height"></a>
+<h2 id="contributing">Contributing<a class="anchor" aria-label="anchor" href="#contributing"></a>
 </h2>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ph_1</span> <span class="op">&lt;-</span> <span class="fu">height_HTP</span><span class="op">(</span></span>
-<span>  x <span class="op">=</span> <span class="va">results</span>,</span>
-<span>  height <span class="op">=</span> <span class="st">"PH"</span>,</span>
-<span>  canopy <span class="op">=</span> <span class="st">"Canopy"</span>,</span>
-<span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">60</span>, <span class="fl">150</span><span class="op">)</span>,</span>
-<span>  fn <span class="op">=</span> <span class="st">"fn_exp2_exp"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">print</span>(ph_1)</span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>Call<span class="sc">:</span></span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>PH <span class="sc">~</span> <span class="fu">fn_exp2_exp</span>(x, t1, t2, alpha, beta) </span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a></span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>Sum of Squares Error<span class="sc">:</span></span>
-<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. </span>
-<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="fl">0.001433</span> <span class="fl">0.003388</span> <span class="fl">0.005343</span> <span class="fl">0.005343</span> <span class="fl">0.007298</span> <span class="fl">0.009253</span> </span>
-<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a></span>
-<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>Optimization Results <span class="st">`</span><span class="at">head()</span><span class="st">`</span><span class="sc">:</span></span>
-<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a> uid t2    alpha    beta     sse   t1  auc</span>
-<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>  <span class="dv">60</span> <span class="dv">62</span> <span class="fl">0.001168</span> <span class="sc">-</span><span class="fl">0.0346</span> <span class="fl">0.00925</span> <span class="fl">38.0</span> <span class="fl">28.0</span></span>
-<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a> <span class="dv">150</span> <span class="dv">62</span> <span class="fl">0.000783</span> <span class="sc">-</span><span class="fl">0.0183</span> <span class="fl">0.00143</span> <span class="fl">33.8</span> <span class="fl">32.9</span></span>
-<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a></span>
-<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a>Metrics<span class="sc">:</span></span>
-<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a> Ids      Timing Convergence Iterations</span>
-<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a>   <span class="dv">2</span> <span class="fl">1.1645</span> secs        <span class="dv">100</span>% <span class="fl">964.5</span> (id)</span>
-<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a><span class="fu">plot</span>(ph_1, <span class="at">id =</span> <span class="fu">c</span>(<span class="dv">60</span>, <span class="dv">150</span>))</span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-10-1.png" width="100%"></p>
-<table style="width:100%;" class="table">
-<colgroup>
-<col width="7%">
-<col width="15%">
-<col width="7%">
-<col width="9%">
-<col width="7%">
-<col width="9%">
-<col width="11%">
-<col width="9%">
-<col width="11%">
-<col width="11%">
-</colgroup>
-<thead><tr class="header">
-<th align="right">uid</th>
-<th align="left">Gen</th>
-<th align="right">Row</th>
-<th align="right">Range</th>
-<th align="right">t2</th>
-<th align="right">alpha</th>
-<th align="right">beta</th>
-<th align="right">sse</th>
-<th align="right">t1</th>
-<th align="right">auc</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="right">60</td>
-<td align="left">W19026-15</td>
-<td align="right">4</td>
-<td align="right">5</td>
-<td align="right">62</td>
-<td align="right">0.001</td>
-<td align="right">-0.035</td>
-<td align="right">0.009</td>
-<td align="right">38.045</td>
-<td align="right">27.977</td>
-</tr>
-<tr class="even">
-<td align="right">150</td>
-<td align="left">W19023-21</td>
-<td align="right">10</td>
-<td align="right">11</td>
-<td align="right">62</td>
-<td align="right">0.001</td>
-<td align="right">-0.018</td>
-<td align="right">0.001</td>
-<td align="right">33.791</td>
-<td align="right">32.890</td>
-</tr>
-</tbody>
-</table>
+<p>Contributions to exploreHTP are welcome! If you’d like to contribute, please fork the repository and submit a pull request. For significant changes, please open an issue first to discuss your ideas.</p>
 </div>
 <div class="section level2">
-<h2 id="id_4-modelling-maturity">4. Modelling Maturity<a class="anchor" aria-label="anchor" href="#id_4-modelling-maturity"></a>
+<h2 id="code-of-conduct">Code of Conduct<a class="anchor" aria-label="anchor" href="#code-of-conduct"></a>
 </h2>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">dt_potato</span><span class="op">)</span></span>
-<span><span class="va">results</span> <span class="op">&lt;-</span> <span class="va">dt_potato</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">read_HTP</span><span class="op">(</span></span>
-<span>    x <span class="op">=</span> <span class="va">DAP</span>,</span>
-<span>    y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">Canopy</span>, <span class="va">GLI_2</span><span class="op">)</span>,</span>
-<span>    id <span class="op">=</span> <span class="va">Plot</span>,</span>
-<span>    .keep <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">Gen</span>, <span class="va">Row</span>, <span class="va">Range</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="va">mat</span> <span class="op">&lt;-</span> <span class="fu">maturity_HTP</span><span class="op">(</span></span>
-<span>  x <span class="op">=</span> <span class="va">results</span>,</span>
-<span>  index <span class="op">=</span> <span class="st">"GLI_2"</span>,</span>
-<span>  canopy <span class="op">=</span> <span class="st">"Canopy"</span>,</span>
-<span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span>, <span class="fl">20</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">print</span>(mat)</span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>Call<span class="sc">:</span></span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>GLI_2 <span class="sc">~</span> <span class="fu">fn_lin_pl_lin2</span>(x, t1, t2, dt, k, beta) </span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a></span>
-<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>Sum of Squares Error<span class="sc">:</span></span>
-<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>     Min.   1st Qu.    Median      Mean   3rd Qu.      Max. </span>
-<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="fl">6.229e-06</span> <span class="fl">8.233e-06</span> <span class="fl">1.024e-05</span> <span class="fl">2.310e-04</span> <span class="fl">3.435e-04</span> <span class="fl">6.767e-04</span> </span>
-<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a></span>
-<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a>Optimization Results <span class="st">`</span><span class="at">head()</span><span class="st">`</span><span class="sc">:</span></span>
-<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a> uid   t1   t2   dt     k     beta      sse  auc   t3</span>
-<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a>  <span class="dv">20</span> <span class="fl">35.8</span> <span class="fl">68.5</span> <span class="fl">14.5</span> <span class="fl">0.362</span> <span class="sc">-</span><span class="fl">0.00405</span> <span class="fl">6.23e-06</span> <span class="fl">19.0</span> <span class="fl">83.1</span></span>
-<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a>  <span class="dv">40</span> <span class="fl">36.9</span> <span class="fl">66.4</span> <span class="fl">13.4</span> <span class="fl">0.369</span> <span class="sc">-</span><span class="fl">0.01057</span> <span class="fl">6.77e-04</span> <span class="fl">16.6</span> <span class="fl">79.9</span></span>
-<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a> <span class="dv">195</span> <span class="fl">39.6</span> <span class="fl">68.3</span> <span class="fl">25.1</span> <span class="fl">0.323</span> <span class="sc">-</span><span class="fl">0.01005</span> <span class="fl">1.02e-05</span> <span class="fl">16.4</span> <span class="fl">93.3</span></span>
-<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a></span>
-<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a>Metrics<span class="sc">:</span></span>
-<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a> Ids      Timing Convergence  Iterations</span>
-<span id="cb10-18"><a href="#cb10-18" tabindex="-1"></a>   <span class="dv">3</span> <span class="fl">1.4719</span> secs        <span class="dv">100</span>% <span class="fl">444.33</span> (id)</span>
-<span id="cb10-19"><a href="#cb10-19" tabindex="-1"></a><span class="fu">plot</span>(mat, <span class="at">id =</span> <span class="fu">c</span>(<span class="dv">195</span>, <span class="dv">40</span>))</span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-13-1.png" width="100%"></p>
-<table style="width:100%;" class="table">
-<colgroup>
-<col width="5%">
-<col width="12%">
-<col width="5%">
-<col width="7%">
-<col width="8%">
-<col width="8%">
-<col width="8%">
-<col width="7%">
-<col width="8%">
-<col width="7%">
-<col width="8%">
-<col width="8%">
-</colgroup>
-<thead><tr class="header">
-<th align="right">uid</th>
-<th align="left">Gen</th>
-<th align="right">Row</th>
-<th align="right">Range</th>
-<th align="right">t1</th>
-<th align="right">t2</th>
-<th align="right">dt</th>
-<th align="right">k</th>
-<th align="right">beta</th>
-<th align="right">sse</th>
-<th align="right">auc</th>
-<th align="right">t3</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="right">20</td>
-<td align="left">W17067-7</td>
-<td align="right">6</td>
-<td align="right">2</td>
-<td align="right">35.818</td>
-<td align="right">68.529</td>
-<td align="right">14.540</td>
-<td align="right">0.362</td>
-<td align="right">-0.004</td>
-<td align="right">0.000</td>
-<td align="right">18.977</td>
-<td align="right">83.069</td>
-</tr>
-<tr class="even">
-<td align="right">40</td>
-<td align="left">W17043-37</td>
-<td align="right">12</td>
-<td align="right">3</td>
-<td align="right">36.880</td>
-<td align="right">66.416</td>
-<td align="right">13.438</td>
-<td align="right">0.369</td>
-<td align="right">-0.011</td>
-<td align="right">0.001</td>
-<td align="right">16.615</td>
-<td align="right">79.854</td>
-</tr>
-<tr class="odd">
-<td align="right">195</td>
-<td align="left">W16219-8</td>
-<td align="right">13</td>
-<td align="right">14</td>
-<td align="right">39.591</td>
-<td align="right">68.279</td>
-<td align="right">25.058</td>
-<td align="right">0.323</td>
-<td align="right">-0.010</td>
-<td align="right">0.000</td>
-<td align="right">16.376</td>
-<td align="right">93.336</td>
-</tr>
-</tbody>
-</table>
+<p>Please note that the exploreHTP project is released with a <a href="https://apariciojohan.github.io/exploreHTP/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
+</div>
+<div class="section level2">
+<h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
+</h2>
+<p>exploreHTP is licensed under the MIT License. See the <a href="https://apariciojohan.github.io/exploreHTP/LICENSE.html">LICENSE</a> file for more details.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
@@ -564,6 +223,12 @@
 </ul>
 </div>
 
+<div class="community">
+<h2 data-toc-skip>Community</h2>
+<ul class="list-unstyled">
+<li><a href="CODE_OF_CONDUCT.html">Code of conduct</a></li>
+</ul>
+</div>
 
 <div class="citation">
 <h2 data-toc-skip>Citation</h2>
@@ -592,15 +257,15 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
     </footer>
 </div>
 
-  
 
-  
+
+
 
   </body>
 </html>

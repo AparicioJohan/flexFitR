@@ -16,6 +16,7 @@
   n_col = NULL,
   base_size = 13,
   return_gg = FALSE,
+  add_avg = FALSE,
   ...
 )
 }
@@ -27,6 +28,7 @@
   \item{\code{"trait_by_time" or 1}}{Plots correlations between traits over time (default).}
   \item{\code{"time_by_trait" or 2}}{Plots correlations between time points for each trait.}
   \item{\code{"evolution" or 3}}{Plots the evolution of traits over time.}
+  \item{\code{"xy" or 4}}{Scatterplot (x, y)}
 }}
 
 \item{label_size}{Numeric. Size of the labels in the plot. Default is 4. Only works with type 1 and 2.}
@@ -46,6 +48,8 @@
 \item{base_size}{Numeric. Base font size for the plot. Default is 13.}
 
 \item{return_gg}{Logical. If \code{TRUE}, returns the ggplot object instead of printing it. Default is \code{FALSE}.}
+
+\item{add_avg}{Logical. If \code{TRUE}, returns evolution plot with the average trend across groups. Default is \code{FALSE}.}
 
 \item{...}{Further graphical parameters for future improvements.}
 }

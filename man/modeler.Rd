@@ -23,7 +23,7 @@ modeler(
   check_negative = FALSE,
   max_as_last = FALSE,
   n_points = 1000,
-  max_time = NULL,
+  max_x = NULL,
   progress = FALSE,
   parallel = FALSE,
   workers = max(1L, parallel::detectCores(), na.rm = TRUE),
@@ -67,7 +67,7 @@ modeler(
 
 \item{n_points}{An integer specifying the number of time points to use for approximating the Area Under the Curve (AUC). Default is \code{1000}.}
 
-\item{max_time}{Numeric. The maximum time value to use for calculating the AUC. Default is \code{NULL}, which uses the last time point in the data.}
+\item{max_x}{Numeric. The maximum time value to use for calculating the AUC. Default is \code{NULL}, which uses the last time point in the data.}
 
 \item{progress}{Logical. If \code{TRUE} a progress bar is displayed. Default is \code{FALSE}. Try this before running the function: \code{progressr::handlers("progress", "beepr")}.}
 
@@ -84,7 +84,7 @@ An object of class \code{modeler}, which is a list containing the following elem
   \item{\code{dt}}{A data frame with data used and fitted values.}
   \item{\code{fn}}{The call used to calculate the AUC.}
   \item{\code{metrics}}{Metrics and summary of the models.}
-  \item{\code{max_time}}{Maximum time value used for calculating the AUC.}
+  \item{\code{max_x}}{Maximum time value used for calculating the AUC.}
   \item{\code{execution}}{Execution time.}
   \item{\code{response}}{Response variable.}
   \item{\code{keep}}{Metadata to keep across.}
@@ -106,8 +106,8 @@ mod_1 <- dt_potato |>
     y = GLI_2,
     grp = Plot,
     id = 195,
-    parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
     fn = "fn_lin_pl_lin",
+    parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
     add_zero = TRUE
   )
 plot(mod_1, plot_id = 195)
@@ -119,8 +119,8 @@ mod_2 <- dt_potato |>
     y = Canopy,
     grp = Plot,
     id = 195,
-    parameters = c(t1 = 45, t2 = 80, k = 0.9),
     fn = "fn_piwise",
+    parameters = c(t1 = 45, t2 = 80, k = 0.9),
     add_zero = TRUE,
     max_as_last = TRUE
   )

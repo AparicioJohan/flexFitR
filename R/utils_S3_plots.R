@@ -101,7 +101,7 @@ plot_fn <- function(fn = "fn_piwise",
 #' @aliases plot.modeler
 #' @param x An object inheriting from class \code{modeler} resulting of
 #' executing the function \code{modeler()}
-#' @param id To avoid too many plots in one figure. Filter by Id.
+#' @param id To avoid too many plots in one figure. Filter by group Id.
 #' @param label_size Label size. 3 by default.
 #' @param base_size Base font size, given in pts.
 #' @param ... Further graphical parameters. For future improvements.
@@ -121,8 +121,8 @@ plot_fn <- function(fn = "fn_piwise",
 #'     y = GLI_2,
 #'     grp = Plot,
 #'     id = c(1:2),
-#'     parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
 #'     fn = "fn_lin_pl_lin",
+#'     parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
 #'     add_zero = TRUE,
 #'     max_as_last = TRUE
 #'   )
@@ -135,8 +135,8 @@ plot_fn <- function(fn = "fn_piwise",
 #'     y = Canopy,
 #'     grp = Plot,
 #'     id = c(1:2),
-#'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
 #'     fn = "fn_piwise",
+#'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
 #'     add_zero = TRUE,
 #'     max_as_last = TRUE
 #'   )
@@ -153,8 +153,8 @@ plot_fn <- function(fn = "fn_piwise",
 #'     y = Canopy,
 #'     grp = Plot,
 #'     id = 195,
-#'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
 #'     fn = "fn_piwise",
+#'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
 #'     fixed_params = fixed_params,
 #'     add_zero = TRUE,
 #'     max_as_last = TRUE
@@ -249,6 +249,7 @@ plot.modeler <- function(x,
 #'   \item{\code{"trait_by_time" or 1}}{Plots correlations between traits over time (default).}
 #'   \item{\code{"time_by_trait" or 2}}{Plots correlations between time points for each trait.}
 #'   \item{\code{"evolution" or 3}}{Plots the evolution of traits over time.}
+#'   \item{\code{"xy" or 4}}{Scatterplot (x, y)}
 #' }
 #' @param signif Logical. If \code{TRUE}, adds p-values to the correlation plot labels. Default is \code{FALSE}. Only works with type 1 and 2.
 #' @param label_size Numeric. Size of the labels in the plot. Default is 4. Only works with type 1 and 2.
@@ -259,6 +260,7 @@ plot.modeler <- function(x,
 #' @param n_col Integer specifying the number of columns to use in \code{facet_wrap()}. Default is \code{NULL}. Only works with type 1 and 2.
 #' @param base_size Numeric. Base font size for the plot. Default is 13.
 #' @param return_gg Logical. If \code{TRUE}, returns the ggplot object instead of printing it. Default is \code{FALSE}.
+#' @param add_avg Logical. If \code{TRUE}, returns evolution plot with the average trend across groups. Default is \code{FALSE}.
 #' @param ... Further graphical parameters for future improvements.
 #'
 #' @return A ggplot object and an invisible data.frame containing the correlation table when \code{type} is \code{"trait_by_time"} or \code{"time_by_trait"}.
@@ -284,7 +286,8 @@ plot.explorer <- function(x,
                           n_row = NULL,
                           n_col = NULL,
                           base_size = 13,
-                          return_gg = FALSE, ...) {
+                          return_gg = FALSE,
+                          add_avg = FALSE, ...) {
   .keep <- x$.keep
   colours <- c("#db4437", "white", "#4285f4")
   flt <- x$summ_traits |>
@@ -435,12 +438,35 @@ plot.explorer <- function(x,
         linetype = 2, color = "grey90"
       ) +
       geom_line(color = "grey", aes(group = uid)) +
-      geom_line(data = dt_avg, color = "red") +
-      geom_point(data = dt_avg, color = "red") +
       facet_wrap(~var, scales = "free_y") +
       theme_classic(base_size = base_size) +
       labs(x = "x", y = NULL, nrow = n_row, ncol = n_col)
+    if (add_avg) {
+      p1 <- p1 + geom_line(data = dt_avg, color = "red") +
+        geom_point(data = dt_avg, color = "red")
+    }
   }
+
+  if (type == "xy" || type == 4) {
+    if (!is.null(id)) {
+      if (!all(id %in% unique(data$uid))) {
+        stop("ids not found in data")
+      }
+      data <- filter(data, uid %in% id)
+    }
+    p1 <- data |>
+      ggplot(aes(x = x, y = y)) +
+      geom_point() +
+      theme_classic(base_size = base_size) +
+      labs(x = "x", y = "y", nrow = n_row, ncol = n_col)
+    lv <- length(unique(data$var))
+    if (lv > 1) {
+      p1 <- p1 +
+        facet_wrap(~var, scales = "free_y")
+    }
+  }
+
+
   if (return_gg) {
     return(p1)
   }

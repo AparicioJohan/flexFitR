@@ -54,7 +54,7 @@ predict.modeler <- function(object,
     uid <- unique(data$uid)
   }
   limit_inf <- min(data$x, na.rm = TRUE)
-  limit_sup <- object$max_time
+  limit_sup <- object$max_x
   if (!all(limit_inf <= x & x <= limit_sup)) {
     stop("x needs to be in the interval <", limit_inf, ", ", limit_sup, ">")
   }

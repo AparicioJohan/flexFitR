@@ -4,12 +4,12 @@
 \alias{metrics}
 \title{Metrics for modeler}
 \usage{
-metrics(x, .by_id = TRUE)
+metrics(x, by_grp = TRUE)
 }
 \arguments{
 \item{x}{An object of class `modeler` containing the necessary data to compute the metrics.}
 
-\item{.by_id}{Return the metrics by id? TRUE by default.}
+\item{by_grp}{Return the metrics by id? TRUE by default.}
 }
 \value{
 A data frame containing the calculated metrics grouped by uid, metadata, and variables.
@@ -48,8 +48,8 @@ mod_1 <- dt_potato |>
     y = Canopy,
     grp = Plot,
     id = c(1:2),
-    parameters = c(t1 = 45, t2 = 80, k = 0.9),
     fn = "fn_piwise",
+    parameters = c(t1 = 45, t2 = 80, k = 0.9),
     add_zero = TRUE,
     max_as_last = TRUE
   )

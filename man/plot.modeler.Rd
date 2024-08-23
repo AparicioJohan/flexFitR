@@ -10,7 +10,7 @@
 \item{x}{An object inheriting from class \code{modeler} resulting of
 executing the function \code{modeler()}}
 
-\item{id}{To avoid too many plots in one figure. Filter by Id.}
+\item{id}{To avoid too many plots in one figure. Filter by group Id.}
 
 \item{label_size}{Label size. 3 by default.}
 
@@ -36,8 +36,8 @@ mod_1 <- dt_potato |>
     y = GLI_2,
     grp = Plot,
     id = c(1:2),
-    parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
     fn = "fn_lin_pl_lin",
+    parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
     add_zero = TRUE,
     max_as_last = TRUE
   )
@@ -50,8 +50,8 @@ mod_2 <- dt_potato |>
     y = Canopy,
     grp = Plot,
     id = c(1:2),
-    parameters = c(t1 = 45, t2 = 80, k = 0.9),
     fn = "fn_piwise",
+    parameters = c(t1 = 45, t2 = 80, k = 0.9),
     add_zero = TRUE,
     max_as_last = TRUE
   )
@@ -68,8 +68,8 @@ mod_3 <- dt_potato |>
     y = Canopy,
     grp = Plot,
     id = 195,
-    parameters = c(t1 = 45, t2 = 80, k = 0.9),
     fn = "fn_piwise",
+    parameters = c(t1 = 45, t2 = 80, k = 0.9),
     fixed_params = fixed_params,
     add_zero = TRUE,
     max_as_last = TRUE

@@ -8,8 +8,10 @@ output: github_document
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "",
-  fig.path = "man/figures/README-",
-  out.width = "100%"
+  fig.path = "man/figures/README_",
+  fig.dpi = 600,
+  warning = FALSE,
+  message = FALSE
 )
 ```
 
@@ -19,7 +21,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-exploreHTP is designed to assist researchers and plant breeders in efficiently exploring and analyzing data derived from drone imagery. This package offers a suite of tools tailored to the unique needs of plant breeding data, facilitating comprehensive data exploration, correlation analysis, data manipulation, and flexible data modeling.
+exploreHTP is an R package designed for efficient modeling and analysis of large and complex datasets. It offers powerful tools for parameter estimation, model fitting, and visualization, leveraging the `optimx` package for optimization and the `future` package for parallel processing.
 
 ## Installation
 
@@ -30,112 +32,96 @@ You can install the development version of exploreHTP from [GitHub](https://gith
 devtools::install_github("AparicioJohan/exploreHTP")
 ```
 
-## 1. Reading Data
+## Features
 
-This is a basic example which shows how to use exploreHTP:
+* Parameter Estimation: Utilizes `optimx` and derivative-free algorithms to solve and estimate parameters for a given function.
+* Parallelization: Implements parallel processing using the `future` package, enabling efficient fitting of hundreds of curves simultaneously.
+* Visualization Tools: Provides a variety of plots to visualize model fits, correlations, predictions, and more.
+* Prediction: Facilitates the prediction of non-observed data points.
+* Statistical Rigor: Offers standard errors and p-values for coefficients, supporting robust conclusions and interpretations.
+* Flexibility: Allows users to fix certain parameters in the model and specify different initial values per grouping factor.
+* Custom Modeling Functions: Equipped with built-in modeling functions for common analysis tasks, while also permitting users to supply their own custom functions.
 
-```{r example}
+## Example
+
+Here's a simple example to get you started with exploreHTP. This example demonstrates fitting a piecewise regression model:
+
+```{r, fig.dpi=600, fig.height=3}
 library(exploreHTP)
-data(dt_chips)
 
-results <- dt_chips |>
-  read_HTP(
-    x = DAP,
-    y = c(Canopy, PH),
-    id = Plot,
-    .keep = c(Gen, Row, Range)
-  )
-names(results)
-```
-```{r, fig.height=3, fig.dpi=600}
-plot(results, type = "evolution")
+dt <- data.frame(
+  time = c(0, 29, 36, 42, 56, 76, 92, 100, 108),
+  variable = c(0, 0, 0.67, 15.11, 77.38, 99.81, 99.81, 99.81, 99.81)
+)
+plot(explorer(dt, time, variable), type = "xy")
 ```
 
-```{r, eval=FALSE}
-head(results$summ_traits)
+```{r, fig.alt= "plot fun"}
+fun <- function(t, t1 = 45, t2 = 80, k = 0.9) {
+  if (t < t1) {
+    y <- 0
+  } else if (t >= t1 && t <= t2) {
+    y <- k / (t2 - t1) * (t - t1)
+  } else {
+    y <- k
+  }
+  return(y)
+}
 ```
-
-```{r, echo = FALSE}
-results$summ_traits |>
-  head() |>
-  dplyr::mutate_if(is.numeric, round, 2) |>
-  kableExtra::kable()
-```
-
-
-```{r, echo = FALSE}
-results$metadata |>
-  dplyr::mutate_if(is.numeric, round, 2) |>
-  kableExtra::kable()
-```
-
-## 2. Estimating days to emergence and days to full canopy
-
-```{r, warning=FALSE, message=FALSE}
-out <- canopy_HTP(x = results, index = "Canopy", id = c(60, 150))
-```
-```{r, fig.width= 8, fig.height=4, fig.dpi=600}
-print(out)
-plot(out, id = c(60, 150))
-```
-
-
-```{r, echo =FALSE}
-out$param |>
-  dplyr::mutate_if(is.numeric, round, 3) |>
-  kableExtra::kable()
-```
-
-## 3. Modelling Plant Height
 
 ```{r}
-ph_1 <- height_HTP(
-  x = results,
-  height = "PH",
-  canopy = "Canopy",
-  id = c(60, 150),
-  fn = "fn_exp2_exp"
-)
-```
-
-```{r,  fig.width= 8, fig.height=4, fig.dpi=600}
-print(ph_1)
-plot(ph_1, id = c(60, 150))
-```
-
-```{r, echo =FALSE}
-ph_1$param |>
-  dplyr::mutate_if(is.numeric, round, 3) |>
-  kableExtra::kable()
-```
-
-## 4. Modelling Maturity
-
-```{r, fig.width= 8, fig.height = 4,fig.dpi=600}
-data(dt_potato)
-results <- dt_potato |>
-  read_HTP(
-    x = DAP,
-    y = c(Canopy, GLI_2),
-    id = Plot,
-    .keep = c(Gen, Row, Range)
+# Fitting piecewise regression
+mod_1 <- dt |>
+  modeler(
+    x = time,
+    y = variable,
+    fn = "fun",
+    parameters = c(t1 = 45, t2 = 80, k = 90)
   )
-mat <- maturity_HTP(
-  x = results,
-  index = "GLI_2",
-  canopy = "Canopy",
-  id = c(195, 40, 20)
-)
 ```
 
-```{r, fig.width= 8, fig.height=4,fig.dpi=600}
-print(mat)
-plot(mat, id = c(195, 40))
+```{r}
+print(mod_1)
 ```
 
 
-```{r, echo =FALSE}
-mat$param |>
-  dplyr::mutate_if(is.numeric, round, 3) |>
-  kableExtra::kable()
+```{r, fig.alt= "plot fin", fig.height=3}
+# Auto plot
+plot(mod_1)
 ```
+
+```{r}
+# Coefficients
+coef(mod_1)
+```
+
+```{r}
+# Variance-Covariance Matrix
+vcov(mod_1)
+```
+
+```{r}
+# Making predictions
+predict(mod_1, x = 45)
+```
+
+## Documentation
+
+For detailed documentation and examples, visit [exploreHTP](https://apariciojohan.github.io/exploreHTP/reference/index.html) 
+
+* Vignette 1: [How to start](https://apariciojohan.github.io/exploreHTP/articles/how_to_start.html) 
+* Vignette 2: [Modeling Canopy](https://apariciojohan.github.io/exploreHTP/articles/canopy-model.html) 
+* Vignette 3: [Modeling Plant Height](https://apariciojohan.github.io/exploreHTP/articles/height-model.html) 
+* Vignette 4: [Modeling VIs](https://apariciojohan.github.io/exploreHTP/articles/maturity-model.html) 
+
+## Contributing
+
+Contributions to exploreHTP are welcome! If you'd like to contribute, please fork the repository and submit a pull request. For significant changes, please open an issue first to discuss your ideas.
+
+## Code of Conduct
+
+Please note that the exploreHTP project is released with a [Contributor Code of Conduct](https://apariciojohan.github.io/exploreHTP/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
+
+## License
+
+exploreHTP is licensed under the MIT License. See the [LICENSE](https://apariciojohan.github.io/exploreHTP/LICENSE.html) file for more details.

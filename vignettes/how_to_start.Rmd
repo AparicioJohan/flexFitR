@@ -27,9 +27,9 @@ library(exploreHTP)
 library(dplyr)
 ```
 
-```{r , warning=FALSE, message=FALSE}
+```{r , warning=FALSE, message=FALSE, fig.alt = "Plot x,y"}
 dt <- data.frame(X = 1:6, Y = c(12, 16, 44, 50, 95, 100))
-plot(dt$X, dt$Y)
+plot(explorer(dt, X, Y), type = "xy")
 ```
 
 First, we define an objective function. In this case, the function `fn_lm` will represent the linear regression, where b is the intercept and m is the slope of the regression.
@@ -43,7 +43,7 @@ fn_lm <- function(x, b, m) {
 
 The `plot_fn` function, which is integrated into the package, allows us to plot any function with the parameters provided. This is useful for visualizing the shape of the function before fitting the model to the data.
 
-```{r}
+```{r, fig.alt = "Plot function"}
 plot_fn(fn = "fn_lm", params = c(b = 10, m = 5))
 ```
 
@@ -61,7 +61,7 @@ mod
 ```
 Once the model is fitted, we can examine the output, extract the estimated parameters, make some plots, and predict new x values.
 
-```{r}
+```{r, fig.alt = "Plot evolution"}
 plot(mod)
 ```
 
@@ -119,21 +119,22 @@ fun <- function(t, t1 = 45, t2 = 80, k = 0.9) {
 }
 ```
 
-We can plot the piecewise function and then fit the model using the `modeler` function.
+Before fitting the model, let's take a look at the example dataset.
 
-```{r}
-plot_fn(fn = "fun", params = c(t1 = 30, t2 = 60, k = 90))
-```
-
-But first, let's take a look at the example dataset.
-
-```{r}
+```{r, fig.alt = "Plot x,y"}
 dt <- data.frame(
   time = c(0, 29, 36, 42, 56, 76, 92, 100, 108),
   variable = c(0, 0, 0.67, 15.11, 77.38, 99.81, 99.81, 99.81, 99.81)
 )
-plot(dt$time, dt$variable)
+plot(explorer(dt, time, variable), type = "xy")
 ```
+
+We can make a plot of the piecewise function and then fit the model using the `modeler` function.
+
+```{r fig.alt = "Plot function"}
+plot_fn(fn = "fun", params = c(t1 = 25, t2 = 70, k = 90))
+```
+
 
 ```{r, warning=FALSE, message=FALSE}
 mod_1 <- dt |>
@@ -148,7 +149,7 @@ mod_1
 
 After fitting the model, we can examine the results, plot the fitted curve, extract the coefficients and their associated p-values, obtain the variance-covariance matrix, and make predictions for unknown values of x.
 
-```{r}
+```{r fig.alt = "Plot evolution"}
 plot(mod_1)
 ```
 
@@ -190,7 +191,7 @@ coef(mod_2)
 
 ### Fixing parameters
 
-```{r, warning=FALSE, message=FALSE}
+```{r, warning=FALSE, message=FALSE, fig.alt = "Plot evolution"}
 fix <- data.frame(uid = 1, k = 98)
 
 mod_3 <- dt |>
