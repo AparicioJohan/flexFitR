@@ -30,7 +30,7 @@
 #' plot(mod_1, id = c(1:5))
 #' print(mod_1)
 print.modeler <- function(x, ...) {
-  param <- select(x$param, -all_of(x$.keep))
+  param <- select(x$param, -all_of(x$keep))
   trait <- unique(x$dt$var)
   cat("\nCall:\n")
   cat(paste(trait, "~", deparse(x$fn)), "\n")

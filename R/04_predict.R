@@ -42,7 +42,7 @@ predict.modeler <- function(object,
   if (is.null(x)) {
     stop("Argument x is required for predictions.")
   }
-  keep <- object$.keep
+  keep <- object$keep
   data <- object$dt
   dt <- object$param
   if (!is.null(id)) {
@@ -184,7 +184,7 @@ coef.modeler <- function(x, id = NULL, metadata = FALSE, ...) {
   if (!inherits(x, "modeler")) {
     stop("The object should be of class 'modeler'.")
   }
-  keep <- x$.keep
+  keep <- x$keep
   dt <- x$param
   if (!is.null(id)) {
     if (!all(id %in% unique(dt$uid))) {

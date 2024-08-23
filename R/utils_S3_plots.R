@@ -241,20 +241,21 @@ plot.modeler <- function(x,
 #' Plot an object of class \code{explorer}
 #'
 #' @description
-#' Creates various plots for an object of class \code{explorer}. Depending on the specified type, the function can generate plots that show correlations between traits over time, correlations between time points for each trait, or the evolution of traits over time.
+#' Creates various plots for an object of class \code{explorer}.
+#' Depending on the specified type, the function can generate plots that show correlations between variables over x, correlations between x values for each variable, or the evolution of variables over x.
 #'
 #' @param x An object inheriting from class \code{explorer}, resulting from executing the function \code{explorer()}.
 #' @param type Character string or number specifying the type of plot to generate. Available options are:
 #' \describe{
-#'   \item{\code{"trait_by_time" or 1}}{Plots correlations between traits over time (default).}
-#'   \item{\code{"time_by_trait" or 2}}{Plots correlations between time points for each trait.}
-#'   \item{\code{"evolution" or 3}}{Plots the evolution of traits over time.}
+#'   \item{\code{"var_by_x" or 1}}{Plots correlations between variables over x (default).}
+#'   \item{\code{"x_by_var" or 2}}{Plots correlations between x points for each variable (y).}
+#'   \item{\code{"evolution" or 3}}{Plot the evolution of the variables (y) over x.}
 #'   \item{\code{"xy" or 4}}{Scatterplot (x, y)}
 #' }
 #' @param signif Logical. If \code{TRUE}, adds p-values to the correlation plot labels. Default is \code{FALSE}. Only works with type 1 and 2.
 #' @param label_size Numeric. Size of the labels in the plot. Default is 4. Only works with type 1 and 2.
 #' @param method Character string specifying the method for correlation calculation. Available options are \code{"pearson"} (default), \code{"spearman"}, and \code{"kendall"}. Only works with type 1 and 2.
-#' @param filter_trait Character vector specifying the traits to exclude from the plot.
+#' @param filter_var Character vector specifying the variables to exclude from the plot.
 #' @param id Optional unique identifier to filter the evolution type of plot. Default is \code{NULL}. Only works with type 3.
 #' @param n_row Integer specifying the number of rows to use in \code{facet_wrap()}. Default is \code{NULL}. Only works with type 1 and 2.
 #' @param n_col Integer specifying the number of columns to use in \code{facet_wrap()}. Default is \code{NULL}. Only works with type 1 and 2.
@@ -263,7 +264,7 @@ plot.modeler <- function(x,
 #' @param add_avg Logical. If \code{TRUE}, returns evolution plot with the average trend across groups. Default is \code{FALSE}.
 #' @param ... Further graphical parameters for future improvements.
 #'
-#' @return A ggplot object and an invisible data.frame containing the correlation table when \code{type} is \code{"trait_by_time"} or \code{"time_by_trait"}.
+#' @return A ggplot object and an invisible data.frame containing the correlation table when \code{type} is \code{"var_by_x"} or \code{"x_by_var"}.
 #'
 #' @export
 #' @examples
@@ -273,24 +274,24 @@ plot.modeler <- function(x,
 #' results <- explorer(dt_potato, x = DAP, y = c(Canopy, PH), id = Plot)
 #' table <- plot(results, label_size = 4, signif = TRUE, n_row = 2)
 #' table
-#' plot(results, type = "time_by_trait", label_size = 4, signif = TRUE)
+#' plot(results, type = "x_by_var", label_size = 4, signif = TRUE)
 #' @import tidyr
 #' @import agriutilities
 plot.explorer <- function(x,
-                          type = "trait_by_time",
+                          type = "var_by_x",
                           label_size = 4,
                           signif = FALSE,
                           method = "pearson",
-                          filter_trait = NULL,
+                          filter_var = NULL,
                           id = NULL,
                           n_row = NULL,
                           n_col = NULL,
                           base_size = 13,
                           return_gg = FALSE,
                           add_avg = FALSE, ...) {
-  .keep <- x$.keep
+  .keep <- x$metadata
   colours <- c("#db4437", "white", "#4285f4")
-  flt <- x$summ_traits |>
+  flt <- x$summ_vars |>
     filter(`miss%` <= 0.2) |> #  & SD > 0
     droplevels() |>
     mutate(id = paste(var, x, sep = "_")) |>
@@ -302,17 +303,17 @@ plot.explorer <- function(x,
     select(-id) |>
     droplevels()
 
-  if (length(filter_trait) >= 1) {
-    data <- filter(data, !var %in% filter_trait)
+  if (length(filter_var) >= 1) {
+    data <- filter(data, !var %in% filter_var)
   }
 
-  # Correlation between traits by time
-  if (type == "trait_by_time" || type == 1) {
-    traits <- unique(data$var)
-    if (length(traits) <= 1) {
-      stop("Only one trait available. 'trait_by_time' plot not informative.")
+  # Correlation between var by x
+  if (type == "var_by_x" || type == 1) {
+    vars <- unique(data$var)
+    if (length(vars) <= 1) {
+      stop("Only one trait available. 'var_by_x' plot not informative.")
     }
-    trait_by_time <- data |>
+    var_by_x <- data |>
       pivot_wider(names_from = var, values_from = y) |>
       select(-c(uid, all_of(.keep))) |>
       nest_by(x) |>
@@ -324,7 +325,7 @@ plot.explorer <- function(x,
         )
       ) |>
       reframe(mat)
-    p1 <- trait_by_time |>
+    p1 <- var_by_x |>
       ggplot(aes(x = col, y = row, fill = name.x)) +
       geom_tile(color = "gray") +
       labs(x = NULL, y = NULL) +
@@ -333,7 +334,7 @@ plot.explorer <- function(x,
         if (signif) {
           geom_text(
             aes(x = col, y = row, label = label),
-            color = trait_by_time$txtCol,
+            color = var_by_x$txtCol,
             size = label_size
           )
         }
@@ -342,7 +343,7 @@ plot.explorer <- function(x,
         if (!signif) {
           geom_text(
             aes(x = col, y = row, label = name.x),
-            color = trait_by_time$txtCol,
+            color = var_by_x$txtCol,
             size = label_size
           )
         }
@@ -359,14 +360,14 @@ plot.explorer <- function(x,
         panel.grid.major = element_blank()
       ) +
       facet_wrap(~x, nrow = n_row, ncol = n_col)
-    table <- trait_by_time |>
+    table <- var_by_x |>
       rename(corr = name.x, p.value = value.y, n = value) |>
       select(-label, -txtCol)
   }
 
-  # Correlation between time-points by trait
-  if (type == "time_by_trait" || type == 2) {
-    time_by_trait <- data |>
+  # Correlation between x by var
+  if (type == "x_by_var" || type == 2) {
+    x_by_var <- data |>
       pivot_wider(names_from = x, values_from = y) |>
       select(-c(uid, all_of(.keep))) |>
       nest_by(var) |>
@@ -378,7 +379,7 @@ plot.explorer <- function(x,
         )
       ) |>
       reframe(mat)
-    p1 <- time_by_trait |>
+    p1 <- x_by_var |>
       ggplot(aes(x = col, y = row, fill = name.x)) +
       geom_tile(color = "gray") +
       labs(x = NULL, y = NULL) +
@@ -387,7 +388,7 @@ plot.explorer <- function(x,
         if (signif) {
           geom_text(
             aes(x = col, y = row, label = label),
-            color = time_by_trait$txtCol,
+            color = x_by_var$txtCol,
             size = label_size
           )
         }
@@ -396,7 +397,7 @@ plot.explorer <- function(x,
         if (!signif) {
           geom_text(
             aes(x = col, y = row, label = name.x),
-            color = time_by_trait$txtCol,
+            color = x_by_var$txtCol,
             size = label_size
           )
         }
@@ -413,7 +414,7 @@ plot.explorer <- function(x,
         panel.grid.major = element_blank()
       ) +
       facet_wrap(~var, nrow = n_row, ncol = n_col)
-    table <- time_by_trait |>
+    table <- x_by_var |>
       rename(corr = name.x, p.value = value.y, n = value) |>
       select(-label, -txtCol)
   }
@@ -471,7 +472,7 @@ plot.explorer <- function(x,
     return(p1)
   }
   print(p1)
-  if (type %in% c("time_by_trait", "trait_by_time")) {
+  if (type %in% c("x_by_var", "var_by_x")) {
     invisible(table)
   }
 }

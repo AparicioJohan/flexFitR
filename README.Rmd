@@ -46,7 +46,7 @@ devtools::install_github("AparicioJohan/exploreHTP")
 
 Here's a simple example to get you started with exploreHTP. This example demonstrates fitting a piecewise regression model:
 
-```{r, fig.dpi=600, fig.height=3}
+```{r, fig.dpi=600, fig.height=3, fig.alt= "plot xy"}
 library(exploreHTP)
 
 dt <- data.frame(

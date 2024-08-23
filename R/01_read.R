@@ -1,22 +1,22 @@
-#' Read HTP Data
+#' Explore Data
 #'
-#' Reads and processes high-throughput phenotyping (HTP) data from a data frame in wide format.
+#' Explores data from a data frame in wide format.
 #'
 #' This function helps to explore the dataset before being analyzed with \code{modeler()}.
 #'
 #' @param data A data.frame in a wide format containing HTP data.
-#' @param x The name of the column in `data` that contains time points.
+#' @param x The name of the column in `data` that contains x points.
 #' @param y The names of the columns in `data` that contain the variables to be analyzed.
 #' @param id The name of the column in `data` that contains IDs or unique identifiers.
-#' @param .keep The names of the columns in `data` to keep across the analysis.
+#' @param metadata The names of the columns in `data` to keep across the analysis.
 #'
 #' @return An object of class \code{explorer}, which is a list containing the following elements:
 #' \describe{
-#'   \item{\code{summ_traits}}{A data.frame containing summary statistics for each trait at each time point, including minimum, mean, median, maximum, standard deviation, coefficient of variation, number of non-missing values, percentage of missing values, and percentage of negative values.}
-#'   \item{\code{metadata}}{A data.frame summarizing the metadata.}
-#'   \item{\code{locals_min_max}}{A data.frame containing the local minima and maxima of the mean y values over time.}
-#'   \item{\code{dt_long}}{A data.frame in long format, with columns for uid, .keep, var, x, and y}
-#'   \item{\code{.keep}}{A character vector with the names of the variables to keep across.}
+#'   \item{\code{summ_vars}}{A data.frame containing summary statistics for each trait at each x point, including minimum, mean, median, maximum, standard deviation, coefficient of variation, number of non-missing values, percentage of missing values, and percentage of negative values.}
+#'   \item{\code{summ_metadata}}{A data.frame summarizing the metadata.}
+#'   \item{\code{locals_min_max}}{A data.frame containing the local minima and maxima of the mean y values over x.}
+#'   \item{\code{dt_long}}{A data.frame in long format, with columns for uid, metadata, var, x, and y}
+#'   \item{\code{metadata}}{A character vector with the names of the variables to keep across.}
 #' }
 #'
 #' @export
@@ -29,17 +29,17 @@
 #'     x = DAP,
 #'     y = c(Canopy, PH),
 #'     id = Plot,
-#'     .keep = c(Gen, Row, Range)
+#'     metadata = c(Gen, Row, Range)
 #'   )
 #' names(results)
-#' head(results$summ_traits)
+#' head(results$summ_vars)
 #' plot(results, label_size = 4, signif = TRUE, n_row = 2)
 #' # New data format
 #' head(results$dt_long)
 #' @import dplyr
 #' @import tidyr
 #' @importFrom stats sd median
-explorer <- function(data, x, y, id, .keep) {
+explorer <- function(data, x, y, id, metadata) {
   if (is.null(data)) {
     stop("Error: data not found")
   }
@@ -50,7 +50,7 @@ explorer <- function(data, x, y, id, .keep) {
   }
   x <- names(select(data, {{ x }}))
   y <- names(select(data, {{ y }}))
-  .keep <- names(select(data, {{ .keep }}))
+  .keep <- names(select(data, {{ metadata }}))
   for (i in y) {
     class_trait <- data[[i]] |> class()
     if (!class_trait %in% c("numeric", "integer")) {
@@ -69,7 +69,7 @@ explorer <- function(data, x, y, id, .keep) {
     select(uid, all_of(.keep), x, all_of(y)) |>
     pivot_longer(all_of(y), names_to = "var", values_to = "y") |>
     relocate(x, .after = var)
-  summ_traits <- dt_long |>
+  summ_vars <- dt_long |>
     group_by(var, x) |>
     summarise(
       Min = suppressWarnings(min(y, na.rm = TRUE)),
@@ -84,8 +84,8 @@ explorer <- function(data, x, y, id, .keep) {
       `neg%` = sum(y < 0, na.rm = TRUE) / n,
       .groups = "drop"
     )
-  l <- which(is.infinite(summ_traits$Min))
-  summ_traits[l, c("Min", "Mean", "Max")] <- NA
+  l <- which(is.infinite(summ_vars$Min))
+  summ_vars[l, c("Min", "Mean", "Max")] <- NA
   max_min <- dt_long |>
     group_by(var, x) |>
     summarise(mean = mean(y, na.rm = TRUE), .groups = "drop") |>
@@ -97,11 +97,11 @@ explorer <- function(data, x, y, id, .keep) {
       .groups = "drop"
     )
   out <- list(
-    summ_traits = summ_traits,
-    metadata = resum,
+    summ_vars = summ_vars,
+    summ_metadata = resum,
     locals_min_max = max_min,
     dt_long = dt_long,
-    .keep = .keep
+    metadata = .keep
   )
   class(out) <- "explorer"
   return(out)

@@ -2,33 +2,33 @@
 % Please edit documentation in R/01_read.R
 \name{explorer}
 \alias{explorer}
-\title{Read HTP Data}
+\title{Explore Data}
 \usage{
-explorer(data, x, y, id, .keep)
+explorer(data, x, y, id, metadata)
 }
 \arguments{
 \item{data}{A data.frame in a wide format containing HTP data.}
 
-\item{x}{The name of the column in `data` that contains time points.}
+\item{x}{The name of the column in `data` that contains x points.}
 
 \item{y}{The names of the columns in `data` that contain the variables to be analyzed.}
 
 \item{id}{The name of the column in `data` that contains IDs or unique identifiers.}
 
-\item{.keep}{The names of the columns in `data` to keep across the analysis.}
+\item{metadata}{The names of the columns in `data` to keep across the analysis.}
 }
 \value{
 An object of class \code{explorer}, which is a list containing the following elements:
 \describe{
-  \item{\code{summ_traits}}{A data.frame containing summary statistics for each trait at each time point, including minimum, mean, median, maximum, standard deviation, coefficient of variation, number of non-missing values, percentage of missing values, and percentage of negative values.}
-  \item{\code{metadata}}{A data.frame summarizing the metadata.}
-  \item{\code{locals_min_max}}{A data.frame containing the local minima and maxima of the mean y values over time.}
-  \item{\code{dt_long}}{A data.frame in long format, with columns for uid, .keep, var, x, and y}
-  \item{\code{.keep}}{A character vector with the names of the variables to keep across.}
+  \item{\code{summ_vars}}{A data.frame containing summary statistics for each trait at each x point, including minimum, mean, median, maximum, standard deviation, coefficient of variation, number of non-missing values, percentage of missing values, and percentage of negative values.}
+  \item{\code{summ_metadata}}{A data.frame summarizing the metadata.}
+  \item{\code{locals_min_max}}{A data.frame containing the local minima and maxima of the mean y values over x.}
+  \item{\code{dt_long}}{A data.frame in long format, with columns for uid, metadata, var, x, and y}
+  \item{\code{metadata}}{A character vector with the names of the variables to keep across.}
 }
 }
 \description{
-Reads and processes high-throughput phenotyping (HTP) data from a data frame in wide format.
+Explores data from a data frame in wide format.
 }
 \details{
 This function helps to explore the dataset before being analyzed with \code{modeler()}.
@@ -41,10 +41,10 @@ results <- dt_potato |>
     x = DAP,
     y = c(Canopy, PH),
     id = Plot,
-    .keep = c(Gen, Row, Range)
+    metadata = c(Gen, Row, Range)
   )
 names(results)
-head(results$summ_traits)
+head(results$summ_vars)
 plot(results, label_size = 4, signif = TRUE, n_row = 2)
 # New data format
 head(results$dt_long)

@@ -20,8 +20,8 @@
 #' @param add_zero Logical. If \code{TRUE}, adds a zero value to the series at the start. Default is \code{FALSE}.
 #' @param check_negative Logical. If \code{TRUE}, converts negative values in the data to zero. Default is \code{FALSE}.
 #' @param max_as_last Logical. If \code{TRUE}, appends the maximum value after reaching the maximum. Default is \code{FALSE}.
-#' @param n_points An integer specifying the number of time points to use for approximating the Area Under the Curve (AUC). Default is \code{1000}.
-#' @param max_x Numeric. The maximum time value to use for calculating the AUC. Default is \code{NULL}, which uses the last time point in the data.
+#' @param n_points An integer specifying the number of x points to use for approximating the Area Under the Curve (AUC). Default is \code{1000}.
+#' @param max_x Numeric. The maximum x value to use for calculating the AUC. Default is \code{NULL}, which uses the last x value in the data.
 #' @param progress Logical. If \code{TRUE} a progress bar is displayed. Default is \code{FALSE}. Try this before running the function: \code{progressr::handlers("progress", "beepr")}.
 #' @param parallel Logical. If \code{TRUE} the model fit is performed in parallel. Default is \code{FALSE}.
 #' @param workers The number of parallel processes to use. `parallel::detectCores()`
@@ -32,7 +32,7 @@
 #'   \item{\code{dt}}{A data frame with data used and fitted values.}
 #'   \item{\code{fn}}{The call used to calculate the AUC.}
 #'   \item{\code{metrics}}{Metrics and summary of the models.}
-#'   \item{\code{max_x}}{Maximum time value used for calculating the AUC.}
+#'   \item{\code{max_x}}{Maximum x value used for calculating the AUC.}
 #'   \item{\code{execution}}{Execution time.}
 #'   \item{\code{response}}{Response variable.}
 #'   \item{\code{keep}}{Metadata to keep across.}
@@ -107,14 +107,9 @@ modeler <- function(data,
   if (!inherits(x, "explorer")) {
     stop("The object should be of class 'explorer'.")
   }
-  .keep <- x$.keep
-  variable <- unique(x$summ_traits$var)
+  .keep <- x$metadata
+  variable <- unique(x$summ_vars$var)
   if (length(variable) != 1) stop("Only single response is allowed.")
-  # Validate variable
-  traits <- unique(x$dt_long$var)
-  if (!variable %in% traits) {
-    stop("variable not found in x. Please verify the spelling.")
-  }
   # Validate and extract argument names for the function
   args <- try(expr = names(formals(fn))[-1], silent = TRUE)
   if (inherits(args, "try-error")) {

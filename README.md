@@ -55,7 +55,7 @@ dt <- data.frame(
 plot(explorer(dt, time, variable), type = "xy")
 ```
 
-![](man/figures/README_unnamed-chunk-2-1.png)<!-- -->
+<img src="man/figures/README_unnamed-chunk-2-1.png" alt="plot xy"  />
 
 ``` r
 fun <- function(t, t1 = 45, t2 = 80, k = 0.9) {
@@ -97,7 +97,7 @@ Optimization Results `head()`:
 
 Metrics:
  Groups      Timing Convergence Iterations
-      1 0.4179 secs        100%   511 (id)
+      1 0.4037 secs        100%   511 (id)
 ```
 
 ``` r

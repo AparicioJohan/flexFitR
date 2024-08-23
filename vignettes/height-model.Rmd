@@ -37,9 +37,9 @@ names(results)
 
 ## Data exploration
 
-```{r, fig.width= 8, fig.height=6}
+```{r, fig.width= 8, fig.height=6, fig.alt="plot corr"}
 p1 <- plot(results, type = "evolution", return_gg = TRUE)
-p2 <- plot(results, type = "time_by_trait", return_gg = TRUE)
+p2 <- plot(results, type = "x_by_var", return_gg = TRUE)
 ggarrange(p1, p2, nrow = 2)
 ```
 
@@ -54,7 +54,7 @@ k & \text{if } t > t_2
 \end{cases}
 \end{equation}
 
-```{r, echo = FALSE, fig.width= 8}
+```{r, echo = FALSE, fig.width= 8, fig.alt="plot fn"}
 plot_fn(
   fn = "fn_piwise",
   params = c(t1 = 34.9, t2 = 61.8, k = 100),
@@ -90,7 +90,7 @@ mod_1 <- dt_chips |>
   )
 ```
 
-```{r, fig.width= 8, fig.height=4}
+```{r, fig.width= 8, fig.height=4, fig.alt="plot fit"}
 plot(mod_1, id = c(195, 40))
 kable(mod_1$param)
 ```
@@ -108,7 +108,7 @@ e^{\alpha \cdot (t - t_1)^2} - 1 & \text{if } t_1 \leq t \leq t_2 \\
 \end{cases}
 \end{equation}
 
-```{r, echo = FALSE, fig.width= 8}
+```{r, echo = FALSE, fig.width= 8, fig.alt="plot fn"}
 plot_fn(
   fn = "fn_exp2_exp",
   params = c(t1 = 35, t2 = 55, alpha = 1 / 600, beta = -1 / 30),
@@ -156,7 +156,7 @@ mod_2 <- dt_chips |>
 ```
 
 
-```{r, fig.width= 8, fig.height=4}
+```{r, fig.width= 8, fig.height=4, fig.alt="plot fit 2"}
 plot(mod_2, id = c(195, 40))
 kable(mod_2$param)
 ```

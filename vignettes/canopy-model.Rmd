@@ -37,14 +37,14 @@ names(explorer)
 
 ## Data exploration
 
-```{r, fig.width= 8, fig.height=4}
+```{r, fig.width= 8, fig.height=4, fig.alt="plot corr"}
 p1 <- plot(explorer, type = "evolution", return_gg = TRUE)
-p2 <- plot(explorer, type = "time_by_trait", return_gg = TRUE)
+p2 <- plot(explorer, type = "x_by_var", return_gg = TRUE)
 ggarrange(p1, p2)
 ```
 
 ```{r, echo=FALSE}
-kable(mutate_if(explorer$summ_traits, is.numeric, round, 2))
+kable(mutate_if(explorer$summ_vars, is.numeric, round, 2))
 ```
 
 
@@ -62,7 +62,7 @@ k & \text{if } t > t_2
 \end{equation}
 
 
-```{r, echo = FALSE, fig.width= 8}
+```{r, echo = FALSE, fig.width= 8, fig.alt="plot fn"}
 plot_fn(
   fn = "fn_piwise",
   params = c(t1 = 34.9, t2 = 61.8, k = 100),
@@ -81,15 +81,15 @@ mod_1 <- dt_potato |>
     y = Canopy,
     grp = Plot,
     id = c(195, 40),
-    parameters = c(t1 = 45, t2 = 80, k = 0.9),
     fn = "fn_piwise",
+    parameters = c(t1 = 45, t2 = 80, k = 0.9),
     add_zero = TRUE
   )
 mod_1
 ```
 
 
-```{r, fig.width= 8, fig.height=4}
+```{r, fig.width= 8, fig.height=4, fig.alt="plot fit"}
 plot(mod_1, id = c(195, 40))
 kable(mod_1$param)
 ```
@@ -97,12 +97,12 @@ kable(mod_1$param)
 ## Providing different initial values
 
 ```{r}
-initials <- explorer |>
-  pluck("dt_long") |>
-  filter(var %in% "Canopy" & uid %in% c(195, 40)) |>
-  group_by(uid) |>
-  summarise(k = max(y), .groups = "drop") |>
-  mutate(t1 = c(40, 60), t2 = c(70, 80), .before = k)
+initials <- data.frame(
+  uid = c(195, 40),
+  t1 = c(40, 60),
+  t2 = c(70, 80),
+  k = c(100, 100)
+)
 ```
 
 ```{r}
@@ -116,14 +116,14 @@ mod_2 <- dt_potato |>
     y = Canopy,
     grp = Plot,
     id = c(195, 40),
-    parameters = c(t1 = 45, t2 = 80, k = 0.9),
     fn = "fn_piwise",
+    parameters = c(t1 = 45, t2 = 80, k = 0.9),
     add_zero = TRUE,
     initial_vals = initials
   )
 ```
 
-```{r, fig.width= 8, fig.height=4}
+```{r, fig.width= 8, fig.height=4, fig.alt="plot fit 2"}
 plot(mod_2, id = c(195, 40))
 kable(mod_2$param)
 ```
@@ -131,11 +131,7 @@ kable(mod_2$param)
 ## Fixing some parameters of the model
 
 ```{r}
-fixed_params <- explorer |>
-  pluck("dt_long") |>
-  filter(var %in% "Canopy" & uid %in% c(195, 40)) |>
-  group_by(uid) |>
-  summarise(k = max(y), .groups = "drop")
+fixed_params <- data.frame(uid = c(195, 40), k = c(100, 100))
 ```
 
 ```{r}
@@ -157,7 +153,7 @@ mod_3 <- dt_potato |>
   )
 ```
 
-```{r, fig.width= 8, fig.height=4}
+```{r, fig.width= 8, fig.height=4, fig.alt="plot fit 3"}
 plot(mod_3, id = c(195, 40))
 kable(mod_3$param)
 ```
@@ -179,7 +175,7 @@ mod_4 <- dt_potato |>
   )
 ```
 
-```{r, fig.width= 8, fig.height=4}
+```{r, fig.width= 8, fig.height=4, fig.alt="plot fit 4"}
 plot(mod_4, id = c(195, 40))
 kable(mod_4$param)
 ```
@@ -198,25 +194,3 @@ rbind.data.frame(
 ```
 
 <hr>
-
-## Code
-
-```{r, eval = FALSE}
-explorer <- explorer(dt_potato, x = DAP, y = c(Canopy), id = Plot)
-fixed_params <- explorer$dt_long |>
-  filter(var %in% "Canopy") |>
-  group_by(uid) |>
-  summarise(k = max(y), .groups = "drop")
-mod <- dt_potato |>
-  modeler(
-    x = DAP,
-    y = Canopy,
-    grp = Plot,
-    id = c(195, 40),
-    parameters = c(t1 = 45, t2 = 80, k = 0.9),
-    fn = "fn_piwise",
-    fixed_params = fixed_params,
-    add_zero = TRUE,
-    max_as_last = TRUE
-  )
-```

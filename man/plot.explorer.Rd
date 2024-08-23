@@ -6,11 +6,11 @@
 \usage{
 \method{plot}{explorer}(
   x,
-  type = "trait_by_time",
+  type = "var_by_x",
   label_size = 4,
   signif = FALSE,
   method = "pearson",
-  filter_trait = NULL,
+  filter_var = NULL,
   id = NULL,
   n_row = NULL,
   n_col = NULL,
@@ -25,9 +25,9 @@
 
 \item{type}{Character string or number specifying the type of plot to generate. Available options are:
 \describe{
-  \item{\code{"trait_by_time" or 1}}{Plots correlations between traits over time (default).}
-  \item{\code{"time_by_trait" or 2}}{Plots correlations between time points for each trait.}
-  \item{\code{"evolution" or 3}}{Plots the evolution of traits over time.}
+  \item{\code{"var_by_x" or 1}}{Plots correlations between variables over x (default).}
+  \item{\code{"x_by_var" or 2}}{Plots correlations between x points for each variable (y).}
+  \item{\code{"evolution" or 3}}{Plot the evolution of the variables (y) over x.}
   \item{\code{"xy" or 4}}{Scatterplot (x, y)}
 }}
 
@@ -37,7 +37,7 @@
 
 \item{method}{Character string specifying the method for correlation calculation. Available options are \code{"pearson"} (default), \code{"spearman"}, and \code{"kendall"}. Only works with type 1 and 2.}
 
-\item{filter_trait}{Character vector specifying the traits to exclude from the plot.}
+\item{filter_var}{Character vector specifying the variables to exclude from the plot.}
 
 \item{id}{Optional unique identifier to filter the evolution type of plot. Default is \code{NULL}. Only works with type 3.}
 
@@ -54,10 +54,11 @@
 \item{...}{Further graphical parameters for future improvements.}
 }
 \value{
-A ggplot object and an invisible data.frame containing the correlation table when \code{type} is \code{"trait_by_time"} or \code{"time_by_trait"}.
+A ggplot object and an invisible data.frame containing the correlation table when \code{type} is \code{"var_by_x"} or \code{"x_by_var"}.
 }
 \description{
-Creates various plots for an object of class \code{explorer}. Depending on the specified type, the function can generate plots that show correlations between traits over time, correlations between time points for each trait, or the evolution of traits over time.
+Creates various plots for an object of class \code{explorer}.
+Depending on the specified type, the function can generate plots that show correlations between variables over x, correlations between x values for each variable, or the evolution of variables over x.
 }
 \examples{
 library(exploreHTP)
@@ -66,5 +67,5 @@ dt_potato <- dt_potato
 results <- explorer(dt_potato, x = DAP, y = c(Canopy, PH), id = Plot)
 table <- plot(results, label_size = 4, signif = TRUE, n_row = 2)
 table
-plot(results, type = "time_by_trait", label_size = 4, signif = TRUE)
+plot(results, type = "x_by_var", label_size = 4, signif = TRUE)
 }

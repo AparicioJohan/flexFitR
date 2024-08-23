@@ -54,8 +54,8 @@ mod <- dt |>
   modeler(
     x = X,
     y = Y,
-    parameters = c(b = -5, m = 10),
-    fn = "fn_lm"
+    fn = "fn_lm",
+    parameters = c(b = -5, m = 10)
   )
 mod
 ```
@@ -141,8 +141,8 @@ mod_1 <- dt |>
   modeler(
     x = time,
     y = variable,
-    parameters = c(t1 = 45, t2 = 80, k = 90),
-    fn = "fun"
+    fn = "fun",
+    parameters = c(t1 = 45, t2 = 80, k = 90)
   )
 mod_1
 ```
@@ -181,8 +181,8 @@ mod_2 <- dt |>
   modeler(
     x = time,
     y = variable,
-    parameters = c(t1 = 45, t2 = 80, k = 90),
     fn = "fun",
+    parameters = c(t1 = 45, t2 = 80, k = 90),
     initial_vals = init
   )
 mod_2
@@ -198,8 +198,8 @@ mod_3 <- dt |>
   modeler(
     x = time,
     y = variable,
-    parameters = c(t1 = 45, t2 = 80, k = 90),
     fn = "fun",
+    parameters = c(t1 = 45, t2 = 80, k = 90),
     fixed_params = fix
   )
 mod_3
