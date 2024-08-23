@@ -6,7 +6,7 @@
 #' @param data A data.frame in a wide format.
 #' @param x The name of the column in `data` that contains x points.
 #' @param y The name of the column in `data` that contain the variable to be analyzed. Must match a var in the data.
-#' @param grp The name of the column in `data` that contains a grouping variable. (Optional).
+#' @param grp The names of the columns in `data` that contains a grouping variable. (Optional).
 #' @param keep The names of the columns in `data` to keep across the analysis.
 #' @param id An optional vector with levels of `grp` to filter the data. Default is \code{NULL}, meaning all groups are used.
 #' @param fn A string specifying the name of the function to be used for the curve fitting. Default is \code{"fn_piwise"}.
@@ -218,6 +218,9 @@ modeler <- function(data,
   dt_nest <- dt |>
     nest_by(uid, across(all_of(.keep))) |>
     full_join(init, by = c("uid"))
+  if (nrow(dt_nest) == 0) {
+    stop("Check the ids for which you are filtering.")
+  }
   if (any(unlist(lapply(dt_nest$fx_params, is.null)))) {
     stop(
       "Fitting models for all ids but 'fixed_params' has only a few.

@@ -7,7 +7,7 @@
 #' @param data A data.frame in a wide format containing HTP data.
 #' @param x The name of the column in `data` that contains x points.
 #' @param y The names of the columns in `data` that contain the variables to be analyzed.
-#' @param id The name of the column in `data` that contains IDs or unique identifiers.
+#' @param id The names of the columns in `data` that contains a grouping variable.
 #' @param metadata The names of the columns in `data` to keep across the analysis.
 #'
 #' @return An object of class \code{explorer}, which is a list containing the following elements:
@@ -46,6 +46,9 @@ explorer <- function(data, x, y, id, metadata) {
   id <- names(select(data, {{ id }}))
   if (length(id) == 0) {
     data <- data |> mutate(.id = 1)
+    id <- ".id"
+  } else if (length(id) > 1) {
+    data <- data |> unite(.id, id, sep = "_", remove = FALSE)
     id <- ".id"
   }
   x <- names(select(data, {{ x }}))
