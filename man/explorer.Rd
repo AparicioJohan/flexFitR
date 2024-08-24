@@ -13,7 +13,7 @@ explorer(data, x, y, id, metadata)
 
 \item{y}{The names of the columns in `data` that contain the variables to be analyzed.}
 
-\item{id}{The name of the column in `data` that contains IDs or unique identifiers.}
+\item{id}{The names of the columns in `data` that contains a grouping variable.}
 
 \item{metadata}{The names of the columns in `data` to keep across the analysis.}
 }

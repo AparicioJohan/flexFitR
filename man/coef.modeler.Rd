@@ -4,7 +4,7 @@
 \alias{coef.modeler}
 \title{Coefficients of an object of class \code{modeler}}
 \usage{
-\method{coef}{modeler}(x, id = NULL, metadata = FALSE, ...)
+\method{coef}{modeler}(x, id = NULL, metadata = FALSE, df = FALSE, ...)
 }
 \arguments{
 \item{x}{An object inheriting from class \code{modeler} resulting of
@@ -13,6 +13,8 @@ executing the function \code{modeler()}}
 \item{id}{A numeric Id to filter by.}
 
 \item{metadata}{TRUE or FALSE. Whether to bring the metadata or not when calculating the coefficients.}
+
+\item{df}{TRUE or FALSE. Whether to return the degrees of freedom or not when calculating the coefficients. \code{FALSE} by default.}
 
 \item{...}{Further parameters. For future improvements.}
 }

@@ -155,6 +155,7 @@ ff <- function(params, x_new, curve, fixed_params = NA) {
 #' executing the function \code{modeler()}
 #' @param id A numeric Id to filter by.
 #' @param metadata TRUE or FALSE. Whether to bring the metadata or not when calculating the coefficients.
+#' @param df TRUE or FALSE. Whether to return the degrees of freedom or not when calculating the coefficients. \code{FALSE} by default.
 #' @param ... Further parameters. For future improvements.
 #' @author Johan Aparicio [aut]
 #' @method coef modeler
@@ -179,7 +180,10 @@ ff <- function(params, x_new, curve, fixed_params = NA) {
 #' coef(mod_1, id = 2)
 #' @import dplyr
 #' @importFrom stats pt
-coef.modeler <- function(x, id = NULL, metadata = FALSE, ...) {
+coef.modeler <- function(x,
+                         id = NULL,
+                         metadata = FALSE,
+                         df = FALSE, ...) {
   # Check the class of x
   if (!inherits(x, "modeler")) {
     stop("The object should be of class 'modeler'.")
@@ -194,7 +198,7 @@ coef.modeler <- function(x, id = NULL, metadata = FALSE, ...) {
   } else {
     uid <- unique(dt$uid)
   }
-  .get_coef <- function(fit) {
+  .get_coef <- function(fit, df) {
     hessian <- fit$hessian
     rdf <- (fit$n_obs - fit$p)
     varerr <- fit$param$sse / rdf
@@ -216,6 +220,9 @@ coef.modeler <- function(x, id = NULL, metadata = FALSE, ...) {
         `t value` = solution / std.error,
         `Pr(>|t|)` = 2 * pt(abs(`t value`), rdf, lower.tail = FALSE)
       )
+    if (df) {
+      ccoef <- mutate(ccoef, rdf = rdf)
+    }
     ccoef <- full_join(
       x = select(fit$param, uid),
       y = ccoef,
@@ -228,7 +235,7 @@ coef.modeler <- function(x, id = NULL, metadata = FALSE, ...) {
   fit_list <- fit_list[id]
   coeff <- do.call(
     what = rbind,
-    args = suppressWarnings(lapply(fit_list, FUN = .get_coef))
+    args = suppressWarnings(lapply(fit_list, FUN = .get_coef, df))
   ) |>
     as_tibble()
   if (metadata) {

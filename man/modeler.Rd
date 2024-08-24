@@ -37,7 +37,7 @@ modeler(
 
 \item{y}{The name of the column in `data` that contain the variable to be analyzed. Must match a var in the data.}
 
-\item{grp}{The name of the column in `data` that contains a grouping variable. (Optional).}
+\item{grp}{The names of the columns in `data` that contains a grouping variable. (Optional).}
 
 \item{keep}{The names of the columns in `data` to keep across the analysis.}
 
