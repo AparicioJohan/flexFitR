@@ -4,7 +4,7 @@
 \alias{plot.modeler}
 \title{Plot an object of class \code{modeler}}
 \usage{
-\method{plot}{modeler}(x, id = NULL, type = 1, label_size = 4, base_size = 14, ...)
+\method{plot}{modeler}(x, id = NULL, type = 1, label_size = 4, base_size = 14, parm = NULL, ...)
 }
 \arguments{
 \item{x}{An object inheriting from class \code{modeler} resulting of
@@ -18,6 +18,8 @@ executing the function \code{modeler()}}
 
 \item{base_size}{Base font size, given in pts.}
 
+\item{parm}{If type is equal to 2 it must be a vector of names of the parameters. If NULL, all parameters are considered.}
+
 \item{...}{Further graphical parameters. For future improvements.}
 }
 \value{
@@ -28,56 +30,23 @@ Create several plots for an object of class \code{modeler}
 }
 \examples{
 library(exploreHTP)
-suppressMessages(library(dplyr))
 data(dt_potato)
 explorer <- explorer(dt_potato, x = DAP, y = c(Canopy, GLI_2), id = Plot)
 # Example 1
-mod_1 <- dt_potato |>
-  modeler(
-    x = DAP,
-    y = GLI_2,
-    grp = Plot,
-    id = c(1:2),
-    fn = "fn_lin_pl_lin",
-    parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
-    add_zero = TRUE,
-    max_as_last = TRUE
-  )
-plot(mod_1, plot_id = c(195))
-mod_1
-# Example 2
 mod_2 <- dt_potato |>
   modeler(
     x = DAP,
     y = Canopy,
     grp = Plot,
-    id = c(1:2),
+    id = c(1:3),
     fn = "fn_piwise",
     parameters = c(t1 = 45, t2 = 80, k = 0.9),
     add_zero = TRUE,
     max_as_last = TRUE
   )
-plot(mod_2, plot_id = c(195))
 mod_2
-# Example 3
-fixed_params <- explorer$dt_long |>
-  filter(var \%in\% "Canopy") |>
-  group_by(uid) |>
-  summarise(k = max(y, na.rm = TRUE), .groups = "drop")
-mod_3 <- dt_potato |>
-  modeler(
-    x = DAP,
-    y = Canopy,
-    grp = Plot,
-    id = 195,
-    fn = "fn_piwise",
-    parameters = c(t1 = 45, t2 = 80, k = 0.9),
-    fixed_params = fixed_params,
-    add_zero = TRUE,
-    max_as_last = TRUE
-  )
-plot(mod_3, id = c(195))
-mod_3
+plot(mod_2, plot_id = 2)
+plot(mod_2, id = 1:3, type = 2, label_size = 10)
 }
 \author{
 Johan Aparicio [aut]

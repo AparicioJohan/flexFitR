@@ -347,7 +347,7 @@ vcov.modeler <- function(x, id = NULL, ...) {
 #' mod_1
 #' confint(mod_1)
 #' @import dplyr
-#' @importFrom stats pt
+#' @importFrom stats qt
 confint.modeler <- function(x, parm = NULL, level = 0.95, id = NULL, ...) {
   # Check the class of x
   if (!inherits(x, "modeler")) {
@@ -362,7 +362,7 @@ confint.modeler <- function(x, parm = NULL, level = 0.95, id = NULL, ...) {
   } else {
     uid <- unique(dt$uid)
   }
-  ci_table <- coef(x, df = TRUE, id = id) |>
+  ci_table <- coef.modeler(x, df = TRUE, id = id) |>
     mutate(
       t_value = qt(1 - (1 - level) / 2, df = rdf),
       ci_lower = solution - t_value * std.error,
@@ -370,7 +370,7 @@ confint.modeler <- function(x, parm = NULL, level = 0.95, id = NULL, ...) {
     ) |>
     select(-c(`t value`, `Pr(>|t|)`, rdf, t_value))
   if (!is.null(parm)) {
-    ci_table <- ci_table |>  filter(coefficient %in% parm)
+    ci_table <- ci_table |> filter(coefficient %in% parm)
   }
   return(ci_table)
 }

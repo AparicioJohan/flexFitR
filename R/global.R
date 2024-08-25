@@ -67,6 +67,12 @@ utils::globalVariables(
     "var",
     "uid",
     "y",
-    "x"
+    "x",
+    "t_value",
+    "rdf",
+    "Pr(>|t|)",
+    "ci_lower",
+    "ci_upper",
+    ".id"
   )
 )

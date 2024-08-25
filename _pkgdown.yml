@@ -45,6 +45,7 @@ reference:
   - predict.modeler
   - coef.modeler
   - vcov.modeler
+  - confint.modeler
   - print.modeler
   - metrics
 - title: Data Exploration
