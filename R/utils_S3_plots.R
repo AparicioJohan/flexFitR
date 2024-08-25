@@ -102,6 +102,7 @@ plot_fn <- function(fn = "fn_piwise",
 #' @param x An object inheriting from class \code{modeler} resulting of
 #' executing the function \code{modeler()}
 #' @param id To avoid too many plots in one figure. Filter by group Id.
+#' @param type Numeric 1, 2, or 3. To specify the type of plot. Default is 1.
 #' @param label_size Label size. 3 by default.
 #' @param base_size Base font size, given in pts.
 #' @param ... Further graphical parameters. For future improvements.
@@ -166,6 +167,7 @@ plot_fn <- function(fn = "fn_piwise",
 #' @importFrom stats quantile
 plot.modeler <- function(x,
                          id = NULL,
+                         type = 1,
                          label_size = 4,
                          base_size = 14, ...) {
   data <- x$dt |> select(uid, var, x, y, .fitted)
@@ -201,7 +203,6 @@ plot.modeler <- function(x,
 
   label <- unique(dt$var)
 
-  type <- 1
   if (type == 1) {
     p0 <- dt |>
       ggplot() +
@@ -212,16 +213,34 @@ plot.modeler <- function(x,
       labs(y = label)
   }
   if (type == 2) {
+    alpha <- 0.05
+    coef_name <- "t2"
+    cc_table <- coef(mod_2, df = TRUE) |>
+      filter(coefficient %in% coef_name) |>
+      mutate(
+        t_value = qt(1 - alpha / 2, df = rdf),
+        ci_lower = solution - t_value * std.error,
+        ci_upper = solution + t_value * std.error
+      )
+    p0 <- cc_table |>
+      ggplot(aes(x = reorder(uid, -solution), y = solution)) +
+      geom_point() +
+      geom_errorbar(aes(ymin = ci_lower, ymax = ci_upper), width = 0.25) +
+      facet_wrap(~ coefficient, scales = "free_y") +
+      labs(x = "Group") +
+      theme_classic() +
+      theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 6))
+  }
+  if (type == 3) {
     p0 <- dt |>
       ggplot() +
-      geom_point(aes(x = x, y = y)) +
+      # geom_point(aes(x = x, y = y)) +
       geom_line(
         data = func_dt,
-        mapping = aes(x = x, y = dens, group = uid),
-        color = "red"
+        mapping = aes(x = x, y = dens, group = uid, color = as.factor(uid)),
       ) +
       theme_classic(base_size = base_size) +
-      labs(y = label)
+      labs(y = label, color = "uid")
   }
 
   # We can enable the prediction to be plotted

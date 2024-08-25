@@ -4,13 +4,15 @@
 \alias{plot.modeler}
 \title{Plot an object of class \code{modeler}}
 \usage{
-\method{plot}{modeler}(x, id = NULL, label_size = 4, base_size = 14, ...)
+\method{plot}{modeler}(x, id = NULL, type = 1, label_size = 4, base_size = 14, ...)
 }
 \arguments{
 \item{x}{An object inheriting from class \code{modeler} resulting of
 executing the function \code{modeler()}}
 
 \item{id}{To avoid too many plots in one figure. Filter by group Id.}
+
+\item{type}{Numeric 1, 2, or 3. To specify the type of plot. Default is 1.}
 
 \item{label_size}{Label size. 3 by default.}
 
