@@ -10,7 +10,7 @@
 \item{x}{An object inheriting from class \code{modeler} resulting of
 executing the function \code{modeler()}}
 
-\item{id}{A numeric Id to filter by.}
+\item{id}{A unique identifier to filter by. \code{NULL} by default.}
 
 \item{...}{Further parameters. For future improvements.}
 }

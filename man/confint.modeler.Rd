@@ -14,7 +14,7 @@ executing the function \code{modeler()}}
 
 \item{level}{The confidence level required. Default is 0.95.}
 
-\item{id}{A numeric Id to filter by.}
+\item{id}{A unique identifier to filter by. \code{NULL} by default.}
 
 \item{...}{Further parameters. For future improvements.}
 }

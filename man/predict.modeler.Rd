@@ -12,9 +12,9 @@ executing the function \code{modeler()}}
 
 \item{x}{A numeric time point to make the prediction. Can be more than one.}
 
-\item{id}{A numeric to filter by unique identifier. NULL by default.}
+\item{id}{A unique identifier to filter by. \code{NULL} by default.}
 
-\item{metadata}{TRUE or FALSE. Whether to bring the metadata or not when calculating the coefficients.}
+\item{metadata}{\code{TRUE} or \code{FALSE}. Whether to bring the metadata or not when calculating the coefficients.}
 
 \item{...}{Further parameters. For future improvements.}
 }

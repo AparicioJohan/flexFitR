@@ -56,7 +56,7 @@
 #'     parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
 #'     add_zero = TRUE
 #'   )
-#' plot(mod_1, plot_id = 195)
+#' plot(mod_1, id = 195)
 #' print(mod_1)
 #' # Example 2
 #' mod_2 <- dt_potato |>
@@ -97,7 +97,7 @@ modeler <- function(data,
                     max_x = NULL,
                     progress = FALSE,
                     parallel = FALSE,
-                    workers = max(1L, parallel::detectCores(), na.rm = TRUE),
+                    workers = max(1, parallel::detectCores(), na.rm = TRUE),
                     control = list()) {
   if (is.null(data)) {
     stop("Error: data not found")
@@ -229,7 +229,7 @@ modeler <- function(data,
   }
   # Parallel
   `%dofu%` <- doFuture::`%dofuture%`
-  plot_id <- unique(dt_nest$uid)
+  grp_id <- unique(dt_nest$uid)
   if (parallel) {
     workers <- ifelse(
       test = is.null(workers),
@@ -245,10 +245,10 @@ modeler <- function(data,
     progressr::handlers(global = TRUE)
     on.exit(progressr::handlers(global = FALSE), add = TRUE)
   }
-  p <- progressr::progressor(along = plot_id)
+  p <- progressr::progressor(along = grp_id)
   init_time <- Sys.time()
   objt <- foreach(
-    i = plot_id,
+    i = grp_id,
     .options.future = list(seed = TRUE)
   ) %dofu% {
     p(sprintf("uid = %s", i))

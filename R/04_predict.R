@@ -5,8 +5,8 @@
 #' @param object An object inheriting from class \code{modeler} resulting of
 #' executing the function \code{modeler()}
 #' @param x A numeric time point to make the prediction. Can be more than one.
-#' @param id A numeric to filter by unique identifier. NULL by default.
-#' @param metadata TRUE or FALSE. Whether to bring the metadata or not when calculating the coefficients.
+#' @param id A unique identifier to filter by. \code{NULL} by default.
+#' @param metadata \code{TRUE} or \code{FALSE}. Whether to bring the metadata or not when calculating the coefficients.
 #' @param ... Further parameters. For future improvements.
 #' @author Johan Aparicio [aut]
 #' @method predict modeler
@@ -153,7 +153,7 @@ ff <- function(params, x_new, curve, fixed_params = NA) {
 #' @aliases coef.modeler
 #' @param x An object inheriting from class \code{modeler} resulting of
 #' executing the function \code{modeler()}
-#' @param id A numeric Id to filter by.
+#' @param id A unique identifier to filter by. \code{NULL} by default.
 #' @param metadata TRUE or FALSE. Whether to bring the metadata or not when calculating the coefficients.
 #' @param df TRUE or FALSE. Whether to return the degrees of freedom or not when calculating the coefficients. \code{FALSE} by default.
 #' @param ... Further parameters. For future improvements.
@@ -257,7 +257,7 @@ coef.modeler <- function(x,
 #' @aliases vcov.modeler
 #' @param x An object inheriting from class \code{modeler} resulting of
 #' executing the function \code{modeler()}
-#' @param id A numeric Id to filter by.
+#' @param id A unique identifier to filter by. \code{NULL} by default.
 #' @param ... Further parameters. For future improvements.
 #' @author Johan Aparicio [aut]
 #' @method vcov modeler
@@ -324,7 +324,7 @@ vcov.modeler <- function(x, id = NULL, ...) {
 #' executing the function \code{modeler()}
 #' @param parm A specification of which parameters are to be given confidence intervals, must be a vector of names. If missing, all parameters are considered.
 #' @param level The confidence level required. Default is 0.95.
-#' @param id A numeric Id to filter by.
+#' @param id A unique identifier to filter by. \code{NULL} by default.
 #' @param ... Further parameters. For future improvements.
 #' @author Johan Aparicio [aut]
 #' @method confint modeler

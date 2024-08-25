@@ -116,7 +116,7 @@ plot_fn <- function(fn = "fn_piwise",
 #' data(dt_potato)
 #' explorer <- explorer(dt_potato, x = DAP, y = c(Canopy, GLI_2), id = Plot)
 #' # Example 1
-#' mod_2 <- dt_potato |>
+#' mod_1 <- dt_potato |>
 #'   modeler(
 #'     x = DAP,
 #'     y = Canopy,
@@ -127,9 +127,9 @@ plot_fn <- function(fn = "fn_piwise",
 #'     add_zero = TRUE,
 #'     max_as_last = TRUE
 #'   )
-#' mod_2
-#' plot(mod_2, plot_id = 2)
-#' plot(mod_2, id = 1:3, type = 2, label_size = 10)
+#' mod_1
+#' plot(mod_1, id = 1:2)
+#' plot(mod_1, id = 1:3, type = 2, label_size = 10)
 #' @import ggplot2
 #' @import dplyr
 #' @importFrom stats quantile
@@ -205,7 +205,7 @@ plot.modeler <- function(x,
   }
 
   # We can enable the prediction to be plotted
-  # pp <- predict(mod_1, time = 50, plot_id = 2)
+  # pp <- predict(mod_1, time = 50, id = 2)
   # geom_errorbar(
   #   data = pp,
   #   mapping = aes(

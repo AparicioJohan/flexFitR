@@ -26,7 +26,7 @@ modeler(
   max_x = NULL,
   progress = FALSE,
   parallel = FALSE,
-  workers = max(1L, parallel::detectCores(), na.rm = TRUE),
+  workers = max(1, parallel::detectCores(), na.rm = TRUE),
   control = list()
 )
 }
@@ -110,7 +110,7 @@ mod_1 <- dt_potato |>
     parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
     add_zero = TRUE
   )
-plot(mod_1, plot_id = 195)
+plot(mod_1, id = 195)
 print(mod_1)
 # Example 2
 mod_2 <- dt_potato |>
