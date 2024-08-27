@@ -34,8 +34,8 @@ mod_1 <- dt_potato |>
     y = Canopy,
     grp = Plot,
     id = c(15, 2, 45),
-    parameters = c(t1 = 45, t2 = 80, k = 0.9),
     fn = "fn_piwise",
+    parameters = c(t1 = 45, t2 = 80, k = 0.9),
     add_zero = TRUE,
     max_as_last = TRUE
   )
