@@ -27,7 +27,7 @@
 #'     add_zero = TRUE,
 #'     max_as_last = TRUE
 #'   )
-#' mod_1
+#' print(mod_1)
 #' predict(mod_1, x = 45, id = 2)
 #' @import ggplot2
 #' @import dplyr
@@ -176,7 +176,7 @@ ff <- function(params, x_new, curve, fixed_params = NA) {
 #'     add_zero = TRUE,
 #'     max_as_last = TRUE
 #'   )
-#' mod_1
+#' print(mod_1)
 #' coef(mod_1, id = 2)
 #' @import dplyr
 #' @importFrom stats pt
@@ -277,7 +277,7 @@ coef.modeler <- function(x,
 #'     add_zero = TRUE,
 #'     max_as_last = TRUE
 #'   )
-#' mod_1
+#' print(mod_1)
 #' vcov(mod_1)
 #' @import dplyr
 #' @importFrom stats pt
@@ -344,7 +344,7 @@ vcov.modeler <- function(x, id = NULL, ...) {
 #'     add_zero = TRUE,
 #'     max_as_last = TRUE
 #'   )
-#' mod_1
+#' print(mod_1)
 #' confint(mod_1)
 #' @import dplyr
 #' @importFrom stats qt
@@ -373,4 +373,87 @@ confint.modeler <- function(x, parm = NULL, level = 0.95, id = NULL, ...) {
     ci_table <- ci_table |> filter(coefficient %in% parm)
   }
   return(ci_table)
+}
+
+
+#'  Extra Sum-of-Squares F-Test for objects of class \code{modeler}
+#'
+#' @description anova for objects of class \code{modeler}
+#' @aliases anova.modeler
+#' @param reduced_model An object of class `modeler` with reduced number of parameters.
+#' @param full_model An object of class `modeler` with more number of parameters.
+#' @param ... Further parameters. For future improvements.
+#' @author Johan Aparicio [aut]
+#' @method anova modeler
+#' @return A tibble with columns giving F test and p values.
+#' @export
+#' @examples
+#' library(exploreHTP)
+#' dt <- data.frame(X = 1:6, Y = c(12, 16, 44, 50, 95, 100))
+#' f1 <- function(x, b, m) {
+#'   y <- b + m * x
+#'   return(y)
+#' }
+#' f2 <- function(x, a, b, c) {
+#'   y <- a + b * x + c * x^2
+#'   return(y)
+#' }
+#' mo_1 <- modeler(dt, x = X, y = Y, fn = "f1", param = c(b = -5, m = 10))
+#' mo_2 <- modeler(dt, x = X, y = Y, fn = "f2", param = c(a = 1, b = 10, c = 5))
+#' anova(mo_1, mo_2)
+#' @importFrom stats pf
+anova.modeler <- function(reduced_model, full_model = NULL, ...) {
+  if (!inherits(reduced_model, "modeler")) {
+    stop("The object should be of class 'modeler'.")
+  }
+  if (is.null(full_model)) {
+    stop("anova is only defined for a sequence of two \"modeler\" objects")
+  }
+  if (!inherits(full_model, "modeler")) {
+    stop("full_model should be of class 'modeler'.")
+  }
+  vars <- c("uid", "var", "x", "y")
+  if (!identical(reduced_model$dt[, vars], full_model$dt[, vars])) {
+    stop("The models are not fitted to the same dataset.")
+  }
+  p_breaks <- c(0, 0.001, 0.01, 0.05, Inf)
+  p_labels <- c("***", "**", "*", "ns")
+  # Calculate Residual Sum of Squares for both models
+  rss_reduced <- reduced_model$param$sse
+  rss_full <- full_model$param$sse
+  # Number of parameters in each model
+  p_reduced <- unlist(x = lapply(X = reduced_model$fit, FUN = \(x) x$p))
+  p_full <- unlist(x = lapply(X = full_model$fit, FUN = \(x)  x$p))
+  if (p_reduced >= p_full) {
+    stop("The reduced model must have fewer parameters than the full model.")
+  }
+  # Number of observations
+  n <- unlist(x = lapply(full_model$fit, FUN = \(x) x$n_obs))
+  # Calculate the F-statistic
+  numerator <- (rss_reduced - rss_full) / (p_full - p_reduced)
+  denominator <- rss_full / (n - p_full)
+  f_statistic <- numerator / denominator
+  # DF
+  df1 <- p_full - p_reduced
+  df2 <- n - p_full
+  # Calculate the p-value
+  p_value <- pf(q = f_statistic, df1 = df1, df2 = df2, lower.tail = FALSE)
+  tag <- cut(x = p_value, right = FALSE, breaks = p_breaks, labels = p_labels)
+  # IDs
+  ids <- unlist(x = lapply(full_model$fit, FUN = \(x) x$uid))
+  # Output results as a tibble
+  results <- data.frame(
+    uid = ids,
+    RSS_reduced = rss_reduced,
+    RSS_full = rss_full,
+    n = n,
+    df1 = df1,
+    df2 = df2,
+    `F` = f_statistic,
+    `Pr(>F)` = p_value,
+    "." = tag,
+    check.names = FALSE
+  ) |>
+    as_tibble()
+  return(results)
 }

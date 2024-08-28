@@ -31,9 +31,9 @@ devtools::install_github("AparicioJohan/exploreHTP")
   simultaneously.
 - Visualization Tools: Provides a variety of plots to visualize model
   fits, correlations, predictions, and more.
-- Prediction: Facilitates the prediction of non-observed data points.
 - Statistical Rigor: Offers standard errors and p-values for
   coefficients, supporting robust conclusions and interpretations.
+- Prediction: Facilitates the prediction of non-observed data points.
 - Flexibility: Allows users to fix certain parameters in the model and
   specify different initial values per grouping factor.
 - Custom Modeling Functions: Equipped with built-in modeling functions
@@ -97,7 +97,7 @@ Optimization Results `head()`:
 
 Metrics:
  Groups      Timing Convergence Iterations
-      1 0.4037 secs        100%   511 (id)
+      1 0.3885 secs        100%   511 (id)
 ```
 
 ``` r

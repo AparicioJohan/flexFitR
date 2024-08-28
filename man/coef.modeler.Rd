@@ -39,7 +39,7 @@ mod_1 <- dt_potato |>
     add_zero = TRUE,
     max_as_last = TRUE
   )
-mod_1
+print(mod_1)
 coef(mod_1, id = 2)
 }
 \author{

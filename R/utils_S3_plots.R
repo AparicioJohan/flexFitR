@@ -127,7 +127,7 @@ plot_fn <- function(fn = "fn_piwise",
 #'     add_zero = TRUE,
 #'     max_as_last = TRUE
 #'   )
-#' mod_1
+#' print(mod_1)
 #' plot(mod_1, id = 1:2)
 #' plot(mod_1, id = 1:3, type = 2, label_size = 10)
 #' @import ggplot2

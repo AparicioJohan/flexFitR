@@ -38,7 +38,7 @@ mod_1 <- dt_potato |>
     add_zero = TRUE,
     max_as_last = TRUE
   )
-mod_1
+print(mod_1)
 confint(mod_1)
 }
 \author{
