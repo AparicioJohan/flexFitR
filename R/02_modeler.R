@@ -8,7 +8,6 @@
 #' @param y The name of the column in `data` that contain the variable to be analyzed. Must match a var in the data.
 #' @param grp The names of the columns in `data` that contains a grouping variable. (Optional).
 #' @param keep The names of the columns in `data` to keep across the analysis.
-#' @param id An optional vector with levels of `grp` to filter the data. Default is \code{NULL}, meaning all groups are used.
 #' @param fn A string specifying the name of the function to be used for the curve fitting. Default is \code{"fn_piwise"}.
 #' @param parameters A named numeric vector specifying the initial values for the parameters to be optimized. Default is \code{NULL}.
 #' @param lower Numeric vector specifying the lower bounds for the parameters. Default is \code{-Inf} for all parameters.
@@ -17,6 +16,7 @@
 #' @param fixed_params A data frame with columns \code{uid}, and the fixed parameter values for each group id. Used for fixing certain parameters during optimization.
 #' @param method A character vector specifying the optimization methods to be used. See \code{optimx} package for available methods. Default is \code{c("subplex", "pracmanm", "anms")}.
 #' @param return_method Logical. If \code{TRUE}, includes the optimization method used in the result. Default is \code{FALSE}.
+#' @param subset An optional vector with levels of `grp` to filter the data. Default is \code{NULL}, meaning all groups are used.
 #' @param add_zero Logical. If \code{TRUE}, adds a zero value to the series at the start. Default is \code{FALSE}.
 #' @param check_negative Logical. If \code{TRUE}, converts negative values in the data to zero. Default is \code{FALSE}.
 #' @param max_as_last Logical. If \code{TRUE}, appends the maximum value after reaching the maximum. Default is \code{FALSE}.
@@ -51,9 +51,9 @@
 #'     x = DAP,
 #'     y = GLI_2,
 #'     grp = Plot,
-#'     id = 195,
 #'     fn = "fn_lin_pl_lin",
 #'     parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
+#'     subset = 195,
 #'     add_zero = TRUE
 #'   )
 #' plot(mod_1, id = 195)
@@ -64,9 +64,9 @@
 #'     x = DAP,
 #'     y = Canopy,
 #'     grp = Plot,
-#'     id = 195,
 #'     fn = "fn_piwise",
 #'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
+#'     subset = 195,
 #'     add_zero = TRUE,
 #'     max_as_last = TRUE
 #'   )
@@ -81,7 +81,6 @@ modeler <- function(data,
                     y,
                     grp,
                     keep,
-                    id = NULL,
                     fn = "fn_piwise",
                     parameters = NULL,
                     lower = -Inf,
@@ -90,6 +89,7 @@ modeler <- function(data,
                     fixed_params = NULL,
                     method = c("subplex", "pracmanm", "anms"),
                     return_method = FALSE,
+                    subset = NULL,
                     add_zero = FALSE,
                     check_negative = FALSE,
                     max_as_last = FALSE,
@@ -210,10 +210,10 @@ modeler <- function(data,
       mutate(fx_params = list(NA))
     init <- full_join(init, fixed, by = c("uid"))
   }
-  if (!is.null(id)) {
-    dt <- droplevels(filter(dt, uid %in% id))
-    init <- droplevels(filter(init, uid %in% id))
-    fixed <- droplevels(filter(fixed, uid %in% id))
+  if (!is.null(subset)) {
+    dt <- droplevels(filter(dt, uid %in% subset))
+    init <- droplevels(filter(init, uid %in% subset))
+    fixed <- droplevels(filter(fixed, uid %in% subset))
   }
   dt_nest <- dt |>
     nest_by(uid, across(all_of(.keep))) |>
@@ -224,7 +224,7 @@ modeler <- function(data,
   if (any(unlist(lapply(dt_nest$fx_params, is.null)))) {
     stop(
       "Fitting models for all ids but 'fixed_params' has only a few.
-       Check the argument 'id'"
+       Check the argument 'subset'"
     )
   }
   # Parallel
@@ -303,7 +303,12 @@ modeler <- function(data,
     rowwise() |>
     mutate(.fitted = !!density) |>
     select(x, uid, .fitted)
-  dt <- suppressWarnings(full_join(dt, fitted_vals, by = c("x", "uid")))
+  # Final data
+  dt <- suppressWarnings({
+    dt |>
+      full_join(y = fitted_vals, by = c("x", "uid")) |>
+      mutate(.error = y - .fitted)
+  })
   # Output
   if (!return_method) {
     param_mat <- select(param_mat, -method)
@@ -349,9 +354,9 @@ modeler <- function(data,
 #'     x = DAP,
 #'     y = GLI_2,
 #'     grp = Plot,
-#'     id = 195,
 #'     fn = "fn_lin_pl_lin",
 #'     parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
+#'     subset = 195,
 #'     add_zero = TRUE
 #'   )
 #' @import optimx

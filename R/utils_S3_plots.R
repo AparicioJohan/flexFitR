@@ -121,9 +121,9 @@ plot_fn <- function(fn = "fn_piwise",
 #'     x = DAP,
 #'     y = Canopy,
 #'     grp = Plot,
-#'     id = c(1:3),
 #'     fn = "fn_piwise",
 #'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
+#'     subset = c(1:3),
 #'     add_zero = TRUE,
 #'     max_as_last = TRUE
 #'   )

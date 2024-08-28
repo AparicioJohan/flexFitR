@@ -33,9 +33,9 @@ mod_1 <- dt_potato |>
     x = DAP,
     y = GLI_2,
     grp = Plot,
-    id = 195,
     fn = "fn_lin_pl_lin",
     parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
+    subset = 195,
     add_zero = TRUE
   )
 }

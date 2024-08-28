@@ -10,7 +10,6 @@ modeler(
   y,
   grp,
   keep,
-  id = NULL,
   fn = "fn_piwise",
   parameters = NULL,
   lower = -Inf,
@@ -19,6 +18,7 @@ modeler(
   fixed_params = NULL,
   method = c("subplex", "pracmanm", "anms"),
   return_method = FALSE,
+  subset = NULL,
   add_zero = FALSE,
   check_negative = FALSE,
   max_as_last = FALSE,
@@ -41,8 +41,6 @@ modeler(
 
 \item{keep}{The names of the columns in `data` to keep across the analysis.}
 
-\item{id}{An optional vector with levels of `grp` to filter the data. Default is \code{NULL}, meaning all groups are used.}
-
 \item{fn}{A string specifying the name of the function to be used for the curve fitting. Default is \code{"fn_piwise"}.}
 
 \item{parameters}{A named numeric vector specifying the initial values for the parameters to be optimized. Default is \code{NULL}.}
@@ -58,6 +56,8 @@ modeler(
 \item{method}{A character vector specifying the optimization methods to be used. See \code{optimx} package for available methods. Default is \code{c("subplex", "pracmanm", "anms")}.}
 
 \item{return_method}{Logical. If \code{TRUE}, includes the optimization method used in the result. Default is \code{FALSE}.}
+
+\item{subset}{An optional vector with levels of `grp` to filter the data. Default is \code{NULL}, meaning all groups are used.}
 
 \item{add_zero}{Logical. If \code{TRUE}, adds a zero value to the series at the start. Default is \code{FALSE}.}
 
@@ -105,9 +105,9 @@ mod_1 <- dt_potato |>
     x = DAP,
     y = GLI_2,
     grp = Plot,
-    id = 195,
     fn = "fn_lin_pl_lin",
     parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
+    subset = 195,
     add_zero = TRUE
   )
 plot(mod_1, id = 195)
@@ -118,9 +118,9 @@ mod_2 <- dt_potato |>
     x = DAP,
     y = Canopy,
     grp = Plot,
-    id = 195,
     fn = "fn_piwise",
     parameters = c(t1 = 45, t2 = 80, k = 0.9),
+    subset = 195,
     add_zero = TRUE,
     max_as_last = TRUE
   )
