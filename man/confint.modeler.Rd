@@ -25,7 +25,7 @@ A tibble with columns giving lower and upper confidence limits for each paramete
 confint for an object of class \code{modeler}
 }
 \examples{
-library(exploreHTP)
+library(flexFitR)
 data(dt_potato)
 mod_1 <- dt_potato |>
   modeler(

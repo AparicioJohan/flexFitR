@@ -64,7 +64,7 @@ r_squared <- function(actual, predicted) {
 #' @export
 #'
 #' @examples
-#' library(exploreHTP)
+#' library(flexFitR)
 #' data(dt_potato)
 #' explorer <- explorer(dt_potato, x = DAP, y = c(Canopy, PH), id = Plot)
 #' mod_1 <- dt_potato |>

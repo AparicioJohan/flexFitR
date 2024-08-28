@@ -61,7 +61,7 @@ Creates various plots for an object of class \code{explorer}.
 Depending on the specified type, the function can generate plots that show correlations between variables over x, correlations between x values for each variable, or the evolution of variables over x.
 }
 \examples{
-library(exploreHTP)
+library(flexFitR)
 data(dt_potato)
 dt_potato <- dt_potato
 results <- explorer(dt_potato, x = DAP, y = c(Canopy, PH), id = Plot)

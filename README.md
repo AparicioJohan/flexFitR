@@ -1,25 +1,25 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# exploreHTP <a href="https://apariciojohan.github.io/exploreHTP/"><img src="man/figures/logo.png" align="right" height="160" alt="exploreHTP website" /></a>
+# flexFitR <a href="https://apariciojohan.github.io/flexFitR/"><img src="man/figures/logo.png" align="right" height="160" alt="flexFitR website" /></a>
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-exploreHTP is an R package designed for efficient modeling and analysis
-of large and complex datasets. It offers powerful tools for parameter
+flexFitR is an R package designed for efficient modeling and analysis of
+large and complex datasets. It offers powerful tools for parameter
 estimation, model fitting, and visualization, leveraging the `optimx`
 package for optimization and the `future` package for parallel
 processing.
 
 ## Installation
 
-You can install the development version of exploreHTP from
-[GitHub](https://github.com/AparicioJohan/exploreHTP) with:
+You can install the development version of flexFitR from
+[GitHub](https://github.com/AparicioJohan/flexFitR) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("AparicioJohan/exploreHTP")
+devtools::install_github("AparicioJohan/flexFitR")
 ```
 
 ## Features
@@ -42,11 +42,11 @@ devtools::install_github("AparicioJohan/exploreHTP")
 
 ## Example
 
-Here’s a simple example to get you started with exploreHTP. This example
+Here’s a simple example to get you started with flexFitR. This example
 demonstrates fitting a piecewise regression model:
 
 ``` r
-library(exploreHTP)
+library(flexFitR)
 
 dt <- data.frame(
   time = c(0, 29, 36, 42, 56, 76, 92, 100, 108),
@@ -97,7 +97,7 @@ Optimization Results `head()`:
 
 Metrics:
  Groups      Timing Convergence Iterations
-      1 0.3885 secs        100%   511 (id)
+      1 0.3475 secs        100%   511 (id)
 ```
 
 ``` r
@@ -140,32 +140,32 @@ predict(mod_1, x = 45)
 ## Documentation
 
 For detailed documentation and examples, visit
-[exploreHTP](https://apariciojohan.github.io/exploreHTP/reference/index.html)
+[flexFitR](https://apariciojohan.github.io/flexFitR/reference/index.html)
 
 - Vignette 1: [How to
-  start](https://apariciojohan.github.io/exploreHTP/articles/how_to_start.html)
+  start](https://apariciojohan.github.io/flexFitR/articles/how_to_start.html)
 - Vignette 2: [Modeling
-  Canopy](https://apariciojohan.github.io/exploreHTP/articles/canopy-model.html)
+  Canopy](https://apariciojohan.github.io/flexFitR/articles/canopy-model.html)
 - Vignette 3: [Modeling Plant
-  Height](https://apariciojohan.github.io/exploreHTP/articles/height-model.html)
+  Height](https://apariciojohan.github.io/flexFitR/articles/height-model.html)
 - Vignette 4: [Modeling
-  VIs](https://apariciojohan.github.io/exploreHTP/articles/maturity-model.html)
+  VIs](https://apariciojohan.github.io/flexFitR/articles/maturity-model.html)
 
 ## Contributing
 
-Contributions to exploreHTP are welcome! If you’d like to contribute,
+Contributions to flexFitR are welcome! If you’d like to contribute,
 please fork the repository and submit a pull request. For significant
 changes, please open an issue first to discuss your ideas.
 
 ## Code of Conduct
 
-Please note that the exploreHTP project is released with a [Contributor
+Please note that the flexFitR project is released with a [Contributor
 Code of
-Conduct](https://apariciojohan.github.io/exploreHTP/CODE_OF_CONDUCT.html).
+Conduct](https://apariciojohan.github.io/flexFitR/CODE_OF_CONDUCT.html).
 By contributing to this project, you agree to abide by its terms.
 
 ## License
 
-exploreHTP is licensed under the MIT License. See the
-[LICENSE](https://apariciojohan.github.io/exploreHTP/LICENSE.html) file
+flexFitR is licensed under the MIT License. See the
+[LICENSE](https://apariciojohan.github.io/flexFitR/LICENSE.html) file
 for more details.

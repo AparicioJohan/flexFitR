@@ -96,7 +96,7 @@ An object of class \code{modeler}, which is a list containing the following elem
 General-purpose optimization for HTP data.
 }
 \examples{
-library(exploreHTP)
+library(flexFitR)
 data(dt_potato)
 explorer <- explorer(dt_potato, x = DAP, y = c(Canopy, GLI_2), id = Plot)
 # Example 1

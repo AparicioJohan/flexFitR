@@ -42,7 +42,7 @@
 #' @export
 #'
 #' @examples
-#' library(exploreHTP)
+#' library(flexFitR)
 #' data(dt_potato)
 #' explorer <- explorer(dt_potato, x = DAP, y = c(Canopy, GLI_2), id = Plot)
 #' # Example 1
@@ -346,7 +346,7 @@ modeler <- function(data,
 #' @keywords internal
 #'
 #' @examples
-#' library(exploreHTP)
+#' library(flexFitR)
 #' data(dt_potato)
 #' explorer <- explorer(dt_potato, x = DAP, y = c(Canopy, GLI_2), id = Plot)
 #' mod_1 <- dt_potato |>

@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 ## Loading libraries
 
 ```{r, warning=FALSE, message=FALSE }
-library(exploreHTP)
+library(flexFitR)
 library(dplyr)
 library(kableExtra)
 library(ggpubr)

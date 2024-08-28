@@ -29,6 +29,6 @@ f(t; a, b, c) = a \cdot t^2 + b \cdot t + c
 }
 }
 \examples{
-library(exploreHTP)
+library(flexFitR)
 plot_fn(fn = "fn_quad", params = c(a = 1, b = 10, c = 5))
 }

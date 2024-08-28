@@ -8,13 +8,13 @@ template:
     btn-border-radius: 0.25rem
     danger: "#A6081A"
 
-url: https://apariciojohan.github.io/exploreHTP/
+url: https://apariciojohan.github.io/flexFitR/
 
 development:
   mode: auto
 
 navbar:
-  title: exploreHTP
+  title: flexFitR
   left:
   - icon:
     text: Home

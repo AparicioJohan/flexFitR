@@ -17,7 +17,7 @@
 #' }
 #'
 #' @examples
-#' library(exploreHTP)
+#' library(flexFitR)
 #' plot_fn(
 #'   fn = "fn_lin",
 #'   params = c(m = 2, b = 10),
@@ -49,7 +49,7 @@ fn_lin <- function(t, m, b) {
 #' }
 #'
 #' @examples
-#' library(exploreHTP)
+#' library(flexFitR)
 #' plot_fn(fn = "fn_quad", params = c(a = 1, b = 10, c = 5))
 fn_quad <- function(t, a, b, c) {
   y <- a * t^2 + b * t + c
@@ -88,7 +88,7 @@ fn_quad <- function(t, a, b, c) {
 #' }
 #'
 #' @examples
-#' library(exploreHTP)
+#' library(flexFitR)
 #' plot_fn(
 #'   fn = "fn_exp1_lin",
 #'   params = c(t1 = 35, t2 = 55, alpha = 1 / 20, beta = -1 / 40),
@@ -141,7 +141,7 @@ fn_exp1_lin <- function(t, t1, t2, alpha, beta) {
 #' }
 #'
 #' @examples
-#' library(exploreHTP)
+#' library(flexFitR)
 #' plot_fn(
 #'   fn = "fn_exp2_lin",
 #'   params = c(t1 = 35, t2 = 55, alpha = 1 / 600, beta = -1 / 80),
@@ -195,7 +195,7 @@ fn_exp2_lin <- function(t, t1, t2, alpha, beta) {
 #' }
 #'
 #' @examples
-#' library(exploreHTP)
+#' library(flexFitR)
 #' plot_fn(
 #'   fn = "fn_exp1_exp",
 #'   params = c(t1 = 35, t2 = 55, alpha = 1 / 20, beta = -1 / 30),
@@ -250,7 +250,7 @@ fn_exp1_exp <- function(t, t1, t2, alpha, beta) {
 #' }
 #'
 #' @examples
-#' library(exploreHTP)
+#' library(flexFitR)
 #' plot_fn(
 #'   fn = "fn_exp2_exp",
 #'   params = c(t1 = 35, t2 = 55, alpha = 1 / 600, beta = -1 / 30),
@@ -300,7 +300,7 @@ fn_exp2_exp <- function(t, t1, t2, alpha, beta) {
 #' }
 #'
 #' @examples
-#' library(exploreHTP)
+#' library(flexFitR)
 #' plot_fn(
 #'   fn = "fn_piwise",
 #'   params = c(t1 = 34.9, t2 = 61.8, k = 100),
@@ -334,7 +334,7 @@ fn_piwise <- function(t, t1 = 45, t2 = 80, k = 0.9) {
 #' @noRd
 #'
 #' @examples
-#' library(exploreHTP)
+#' library(flexFitR)
 #' x <- c(0, 29, 36, 42, 56, 76, 92, 100, 108)
 #' y <- c(0, 0, 4.379, 26.138, 78.593, 100, 100, 100, 100)
 #' sse_piwise(params = c(34.9, 61.8), t = x, y = y)
@@ -377,7 +377,7 @@ sse_piwise <- function(params, t, y) {
 #' }
 #'
 #' @examples
-#' library(exploreHTP)
+#' library(flexFitR)
 #' plot_fn(
 #'   fn = "fn_lin_pl_lin",
 #'   params = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
@@ -427,7 +427,7 @@ fn_lin_pl_lin <- function(t, t1, t2, t3, k, beta) {
 #' }
 #'
 #' @examples
-#' library(exploreHTP)
+#' library(flexFitR)
 #' plot_fn(
 #'   fn = "fn_lin_pl_lin2",
 #'   params = c(t1 = 38.7, t2 = 62, dt = 28, k = 0.32, beta = -0.01),
@@ -477,7 +477,7 @@ fn_lin_pl_lin2 <- function(t, t1, t2, dt, k, beta) {
 #' }
 #'
 #' @examples
-#' library(exploreHTP)
+#' library(flexFitR)
 #' plot_fn(
 #'   fn = "fn_lin_pl_lin3",
 #'   params = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
@@ -575,7 +575,7 @@ fn_logis <- function(t, t0, t1, t2) {
   t0 / (1 + exp((t1 - t) / t2))
 }
 
-# library(exploreHTP)
+# library(flexFitR)
 # t <- seq(0, 108, 0.1)
 # y_hat <- sapply(
 #   X = t,

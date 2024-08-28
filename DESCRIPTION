@@ -1,4 +1,4 @@
-Package: exploreHTP
+Package: flexFitR
 Type: Package
 Title: Explore High-Throughput Phenotypic (HTP) Data
 Version: 0.1.0
@@ -37,9 +37,9 @@ Imports:
     subplex,
     tibble,
     tidyr
-URL: https://apariciojohan.github.io/exploreHTP/,
-     https://github.com/AparicioJohan/exploreHTP
-BugReports: https://github.com/AparicioJohan/exploreHTP/issues
+URL: https://apariciojohan.github.io/flexFitR/,
+     https://github.com/AparicioJohan/flexFitR
+BugReports: https://github.com/AparicioJohan/flexFitR/issues
 Suggests: 
     ggpubr,
     kableExtra,

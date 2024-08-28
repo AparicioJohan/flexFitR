@@ -38,7 +38,7 @@ k & \text{if } t > t_2
 }
 }
 \examples{
-library(exploreHTP)
+library(flexFitR)
 plot_fn(
   fn = "fn_piwise",
   params = c(t1 = 34.9, t2 = 61.8, k = 100),

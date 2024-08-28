@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>How to start • exploreHTP</title>
+<title>How to start • flexFitR</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -24,7 +24,7 @@
 
     <nav class="navbar navbar-expand-lg fixed-top " aria-label="Site navigation"><div class="container">
 
-    <a class="navbar-brand me-2" href="../index.html">exploreHTP</a>
+    <a class="navbar-brand me-2" href="../index.html">flexFitR</a>
 
     <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.0</small>
 
@@ -52,7 +52,7 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
 </form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/AparicioJohan/exploreHTP/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/AparicioJohan/flexFitR/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-lightswitch" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-label="Light switch"><span class="fa fa-sun"></span></button>
   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-lightswitch">
@@ -76,7 +76,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>How to start</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/AparicioJohan/exploreHTP/blob/HEAD/vignettes/how_to_start.Rmd" class="external-link"><code>vignettes/how_to_start.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/AparicioJohan/flexFitR/blob/HEAD/vignettes/how_to_start.Rmd" class="external-link"><code>vignettes/how_to_start.Rmd</code></a></small>
       <div class="d-none name"><code>how_to_start.Rmd</code></div>
     </div>
 
@@ -86,7 +86,7 @@
 <h2 id="getting-started">Getting started<a class="anchor" aria-label="anchor" href="#getting-started"></a>
 </h2>
 <p>The basic idea of this vignette is to illustrate to users how to use
-the exploreHTP package. We’ll start with a very basic example: a simple
+the flexFitR package. We’ll start with a very basic example: a simple
 linear regression. Although this example is not the primary focus of the
 package, it will serve to demonstrate its use.</p>
 </div>
@@ -97,7 +97,7 @@ package, it will serve to demonstrate its use.</p>
 observations, where X is the independent variable and Y is the dependent
 variable.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://apariciojohan.github.io/exploreHTP/">exploreHTP</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://apariciojohan.github.io/flexFitR/">flexFitR</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>X <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span>, Y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">16</span>, <span class="fl">44</span>, <span class="fl">50</span>, <span class="fl">95</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span>
@@ -145,7 +145,7 @@ to our coefficient b and coefficient m.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
 <span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;       1 0.4034 secs        100%   259 (id)</span></span></code></pre></div>
+<span><span class="co">#&gt;       1 0.3829 secs        100%   259 (id)</span></span></code></pre></div>
 <p>Once the model is fitted, we can examine the output, extract the
 estimated parameters, make some plots, and predict new x values.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -287,7 +287,7 @@ using the <code>modeler</code> function.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
 <span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;       1 0.4037 secs        100%   511 (id)</span></span></code></pre></div>
+<span><span class="co">#&gt;       1 0.3903 secs        100%   511 (id)</span></span></code></pre></div>
 <p>After fitting the model, we can examine the results, plot the fitted
 curve, extract the coefficients and their associated p-values, obtain
 the variance-covariance matrix, and make predictions for unknown values
@@ -357,7 +357,7 @@ approach is primarily for illustrative purposes.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
 <span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;       1 0.4163 secs        100%   567 (id)</span></span>
+<span><span class="co">#&gt;       1 0.4083 secs        100%   567 (id)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">mod_2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 6</span></span></span>
 <span><span class="co">#&gt;     uid coefficient solution std.error `t value` `Pr(&gt;|t|)`</span></span>
@@ -395,7 +395,7 @@ approach is primarily for illustrative purposes.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
 <span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;       1 0.3825 secs        100%   321 (id)</span></span>
+<span><span class="co">#&gt;       1 0.3743 secs        100%   321 (id)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">mod_3</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 6</span></span></span>
 <span><span class="co">#&gt;     uid coefficient solution std.error `t value` `Pr(&gt;|t|)`</span></span>
@@ -412,7 +412,7 @@ approach is primarily for illustrative purposes.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1 variable  0.449 0.074<span style="text-decoration: underline;">4</span> 0.049<span style="text-decoration: underline;">9</span> 0.223     1.00      9</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     1 variable  0.449 0.074<span style="text-decoration: underline;">4</span> 0.049<span style="text-decoration: underline;">9</span> 0.223     1.00      9</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     1 variable 13.6   0.879  1.51   1.23      0.999     9</span></span></code></pre></div>
-<p>This vignette provided a basic introduction to using the exploreHTP
+<p>This vignette provided a basic introduction to using the flexFitR
 package, starting with simple examples such as linear regression and
 piecewise regression. The goal was to demonstrate the fundamental
 features and flexibility of the package. However, more complex
@@ -420,7 +420,7 @@ situations can arise when working with high-throughput phenotypic (HTP)
 data, which involve multiple groups, parameter constraints, and advanced
 modeling scenarios. These more complex situations are illustrated in the
 other vignettes, which use real HTP data to showcase the full
-capabilities of the exploreHTP package.</p>
+capabilities of the flexFitR package.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

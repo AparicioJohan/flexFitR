@@ -112,7 +112,7 @@ plot_fn <- function(fn = "fn_piwise",
 #' @return A ggplot object.
 #' @export
 #' @examples
-#' library(exploreHTP)
+#' library(flexFitR)
 #' data(dt_potato)
 #' explorer <- explorer(dt_potato, x = DAP, y = c(Canopy, GLI_2), id = Plot)
 #' # Example 1
@@ -248,7 +248,7 @@ plot.modeler <- function(x,
 #'
 #' @export
 #' @examples
-#' library(exploreHTP)
+#' library(flexFitR)
 #' data(dt_potato)
 #' dt_potato <- dt_potato
 #' results <- explorer(dt_potato, x = DAP, y = c(Canopy, PH), id = Plot)

@@ -13,7 +13,7 @@
 #' @return A data.frame object with predicted values.
 #' @export
 #' @examples
-#' library(exploreHTP)
+#' library(flexFitR)
 #' data(dt_potato)
 #' explorer <- explorer(dt_potato, x = DAP, y = c(Canopy, GLI_2), id = Plot)
 #' mod_1 <- dt_potato |>
@@ -162,7 +162,7 @@ ff <- function(params, x_new, curve, fixed_params = NA) {
 #' @return A data.frame object with coefficients and standard errors.
 #' @export
 #' @examples
-#' library(exploreHTP)
+#' library(flexFitR)
 #' data(dt_potato)
 #' explorer <- explorer(dt_potato, x = DAP, y = c(Canopy, GLI_2), id = Plot)
 #' mod_1 <- dt_potato |>
@@ -264,7 +264,7 @@ coef.modeler <- function(x,
 #' @return A list object with matrices of the estimated covariances between the parameter estimates.
 #' @export
 #' @examples
-#' library(exploreHTP)
+#' library(flexFitR)
 #' data(dt_potato)
 #' mod_1 <- dt_potato |>
 #'   modeler(
@@ -331,7 +331,7 @@ vcov.modeler <- function(x, id = NULL, ...) {
 #' @return A tibble with columns giving lower and upper confidence limits for each parameter.
 #' @export
 #' @examples
-#' library(exploreHTP)
+#' library(flexFitR)
 #' data(dt_potato)
 #' mod_1 <- dt_potato |>
 #'   modeler(
@@ -388,7 +388,7 @@ confint.modeler <- function(x, parm = NULL, level = 0.95, id = NULL, ...) {
 #' @return A tibble with columns giving F test and p values.
 #' @export
 #' @examples
-#' library(exploreHTP)
+#' library(flexFitR)
 #' dt <- data.frame(X = 1:6, Y = c(12, 16, 44, 50, 95, 100))
 #' mo_1 <- modeler(
 #'   data = dt,

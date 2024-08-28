@@ -20,7 +20,7 @@ A tibble with columns giving F test and p values.
 anova for objects of class \code{modeler}
 }
 \examples{
-library(exploreHTP)
+library(flexFitR)
 dt <- data.frame(X = 1:6, Y = c(12, 16, 44, 50, 95, 100))
 mo_1 <- modeler(
   data = dt,

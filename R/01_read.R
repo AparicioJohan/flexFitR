@@ -22,7 +22,7 @@
 #' @export
 #'
 #' @examples
-#' library(exploreHTP)
+#' library(flexFitR)
 #' data(dt_potato)
 #' results <- dt_potato |>
 #'   explorer(

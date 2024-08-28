@@ -34,7 +34,7 @@ Explores data from a data frame in wide format.
 This function helps to explore the dataset before being analyzed with \code{modeler()}.
 }
 \examples{
-library(exploreHTP)
+library(flexFitR)
 data(dt_potato)
 results <- dt_potato |>
   explorer(

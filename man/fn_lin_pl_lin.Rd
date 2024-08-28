@@ -39,7 +39,7 @@ k + \beta \cdot (t - t_3) & \text{if } t > t_3
 }
 }
 \examples{
-library(exploreHTP)
+library(flexFitR)
 plot_fn(
   fn = "fn_lin_pl_lin",
   params = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),

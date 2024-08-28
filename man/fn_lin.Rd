@@ -27,7 +27,7 @@ f(t; m, b) = m \cdot t + b
 }
 }
 \examples{
-library(exploreHTP)
+library(flexFitR)
 plot_fn(
   fn = "fn_lin",
   params = c(m = 2, b = 10),

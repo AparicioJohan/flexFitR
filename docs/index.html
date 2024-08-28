@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Explore High-Throughput Phenotypic (HTP) Data • exploreHTP</title>
+<title>Explore High-Throughput Phenotypic (HTP) Data • flexFitR</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
@@ -19,7 +19,7 @@
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><script src="deps/MathJax-3.2.2/tex-chtml.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Explore High-Throughput Phenotypic (HTP) Data">
 <meta name="description" content="Implements general-purpose optimization techniques for modeling high-throughput phenotypic (HTP) data in plant breeding experimental trials.">
 <meta property="og:description" content="Implements general-purpose optimization techniques for modeling high-throughput phenotypic (HTP) data in plant breeding experimental trials.">
-<meta property="og:image" content="https://apariciojohan.github.io/exploreHTP/logo.png">
+<meta property="og:image" content="https://apariciojohan.github.io/flexFitR/logo.png">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -27,7 +27,7 @@
 
     <nav class="navbar navbar-expand-lg fixed-top " aria-label="Site navigation"><div class="container">
 
-    <a class="navbar-brand me-2" href="index.html">exploreHTP</a>
+    <a class="navbar-brand me-2" href="index.html">flexFitR</a>
 
     <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.0</small>
 
@@ -55,7 +55,7 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
 </form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/AparicioJohan/exploreHTP/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/AparicioJohan/flexFitR/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-lightswitch" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-label="Light switch"><span class="fa fa-sun"></span></button>
   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-lightswitch">
@@ -73,20 +73,20 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header">
-<img src="logo.png" class="logo" alt=""><h1 id="explorehtp-">exploreHTP 
-<a class="anchor" aria-label="anchor" href="#explorehtp-"></a>
+<img src="logo.png" class="logo" alt=""><h1 id="flexfitr-">flexFitR 
+<a class="anchor" aria-label="anchor" href="#flexfitr-"></a>
 </h1>
 </div>
 <!-- badges: start -->
 <!-- badges: end -->
-<p>exploreHTP is an R package designed for efficient modeling and analysis of large and complex datasets. It offers powerful tools for parameter estimation, model fitting, and visualization, leveraging the <code>optimx</code> package for optimization and the <code>future</code> package for parallel processing.</p>
+<p>flexFitR is an R package designed for efficient modeling and analysis of large and complex datasets. It offers powerful tools for parameter estimation, model fitting, and visualization, leveraging the <code>optimx</code> package for optimization and the <code>future</code> package for parallel processing.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the development version of exploreHTP from <a href="https://github.com/AparicioJohan/exploreHTP" class="external-link">GitHub</a> with:</p>
+<p>You can install the development version of flexFitR from <a href="https://github.com/AparicioJohan/flexFitR" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"AparicioJohan/exploreHTP"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"AparicioJohan/flexFitR"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="features">Features<a class="anchor" aria-label="anchor" href="#features"></a>
@@ -104,9 +104,9 @@
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
-<p>Here’s a simple example to get you started with exploreHTP. This example demonstrates fitting a piecewise regression model:</p>
+<p>Here’s a simple example to get you started with flexFitR. This example demonstrates fitting a piecewise regression model:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://apariciojohan.github.io/exploreHTP/">exploreHTP</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://apariciojohan.github.io/flexFitR/">flexFitR</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">29</span>, <span class="fl">36</span>, <span class="fl">42</span>, <span class="fl">56</span>, <span class="fl">76</span>, <span class="fl">92</span>, <span class="fl">100</span>, <span class="fl">108</span><span class="op">)</span>,</span>
@@ -149,7 +149,7 @@
 <span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a></span>
 <span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>Metrics<span class="sc">:</span></span>
 <span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a> Groups      Timing Convergence Iterations</span>
-<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>      <span class="dv">1</span> <span class="fl">0.3885</span> secs        <span class="dv">100</span>%   <span class="dv">511</span> (id)</span></code></pre></div>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>      <span class="dv">1</span> <span class="fl">0.3475</span> secs        <span class="dv">100</span>%   <span class="dv">511</span> (id)</span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Auto plot</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">)</span></span></code></pre></div>
@@ -179,39 +179,39 @@
 <div class="section level2">
 <h2 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>
 </h2>
-<p>For detailed documentation and examples, visit <a href="https://apariciojohan.github.io/exploreHTP/reference/index.html">exploreHTP</a></p>
+<p>For detailed documentation and examples, visit <a href="https://apariciojohan.github.io/flexFitR/reference/index.html">flexFitR</a></p>
 <ul>
-<li>Vignette 1: <a href="https://apariciojohan.github.io/exploreHTP/articles/how_to_start.html">How to start</a>
+<li>Vignette 1: <a href="https://apariciojohan.github.io/flexFitR/articles/how_to_start.html">How to start</a>
 </li>
-<li>Vignette 2: <a href="https://apariciojohan.github.io/exploreHTP/articles/canopy-model.html">Modeling Canopy</a>
+<li>Vignette 2: <a href="https://apariciojohan.github.io/flexFitR/articles/canopy-model.html">Modeling Canopy</a>
 </li>
-<li>Vignette 3: <a href="https://apariciojohan.github.io/exploreHTP/articles/height-model.html">Modeling Plant Height</a>
+<li>Vignette 3: <a href="https://apariciojohan.github.io/flexFitR/articles/height-model.html">Modeling Plant Height</a>
 </li>
-<li>Vignette 4: <a href="https://apariciojohan.github.io/exploreHTP/articles/maturity-model.html">Modeling VIs</a>
+<li>Vignette 4: <a href="https://apariciojohan.github.io/flexFitR/articles/maturity-model.html">Modeling VIs</a>
 </li>
 </ul>
 </div>
 <div class="section level2">
 <h2 id="contributing">Contributing<a class="anchor" aria-label="anchor" href="#contributing"></a>
 </h2>
-<p>Contributions to exploreHTP are welcome! If you’d like to contribute, please fork the repository and submit a pull request. For significant changes, please open an issue first to discuss your ideas.</p>
+<p>Contributions to flexFitR are welcome! If you’d like to contribute, please fork the repository and submit a pull request. For significant changes, please open an issue first to discuss your ideas.</p>
 </div>
 <div class="section level2">
 <h2 id="code-of-conduct">Code of Conduct<a class="anchor" aria-label="anchor" href="#code-of-conduct"></a>
 </h2>
-<p>Please note that the exploreHTP project is released with a <a href="https://apariciojohan.github.io/exploreHTP/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
+<p>Please note that the flexFitR project is released with a <a href="https://apariciojohan.github.io/flexFitR/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
 <div class="section level2">
 <h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
 </h2>
-<p>exploreHTP is licensed under the MIT License. See the <a href="https://apariciojohan.github.io/exploreHTP/LICENSE.html">LICENSE</a> file for more details.</p>
+<p>flexFitR is licensed under the MIT License. See the <a href="https://apariciojohan.github.io/flexFitR/LICENSE.html">LICENSE</a> file for more details.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/AparicioJohan/exploreHTP/" class="external-link">Browse source code</a></li>
-<li><a href="https://github.com/AparicioJohan/exploreHTP/issues" class="external-link">Report a bug</a></li>
+<li><a href="https://github.com/AparicioJohan/flexFitR/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/AparicioJohan/flexFitR/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
@@ -233,7 +233,7 @@
 <div class="citation">
 <h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li><a href="authors.html#citation">Citing exploreHTP</a></li>
+<li><a href="authors.html#citation">Citing flexFitR</a></li>
 </ul>
 </div>
 

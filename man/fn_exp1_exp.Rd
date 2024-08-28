@@ -43,7 +43,7 @@ e^{\alpha \cdot (t - t_1)} - 1 & \text{if } t_1 \leq t \leq t_2 \\
 }
 }
 \examples{
-library(exploreHTP)
+library(flexFitR)
 plot_fn(
   fn = "fn_exp1_exp",
   params = c(t1 = 35, t2 = 55, alpha = 1 / 20, beta = -1 / 30),

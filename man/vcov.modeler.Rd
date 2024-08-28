@@ -21,7 +21,7 @@ A list object with matrices of the estimated covariances between the parameter e
 vcov for an object of class \code{modeler}
 }
 \examples{
-library(exploreHTP)
+library(flexFitR)
 data(dt_potato)
 mod_1 <- dt_potato |>
   modeler(
