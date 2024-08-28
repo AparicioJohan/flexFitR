@@ -1,3 +1,61 @@
+#' Linear Function
+#'
+#' Computes a value based on a linear function.
+#'
+#' @param t Numeric value.
+#' @param m Numeric value for the slope coefficient.
+#' @param b Numeric value for the intercept coefficient.
+#'
+#' @return A numeric value based on the linear function.
+#' @export
+#'
+#' @details
+#' \if{html}{
+#' \deqn{
+#' f(t; m, b) = m \cdot t + b
+#' }
+#' }
+#'
+#' @examples
+#' library(exploreHTP)
+#' plot_fn(
+#'   fn = "fn_lin",
+#'   params = c(m = 2, b = 10),
+#'   interval = c(0, 108),
+#'   n_points = 2000
+#' )
+fn_lin <- function(t, m, b) {
+  y <- m * t + b
+  return(y)
+}
+
+#' Quadratic Function
+#'
+#' Computes a value based on a quadratic function..
+#'
+#' @param t Numeric value.
+#' @param a Numeric value for coefficient a.
+#' @param b Numeric value for coefficient b.
+#' @param c Numeric value for coefficient c.
+#'
+#' @return A numeric value based on the linear function.
+#' @export
+#'
+#' @details
+#' \if{html}{
+#' \deqn{
+#' f(t; a, b, c) = a \cdot t^2 + b \cdot t + c
+#' }
+#' }
+#'
+#' @examples
+#' library(exploreHTP)
+#' plot_fn(fn = "fn_quad", params = c(a = 1, b = 10, c = 5))
+fn_quad <- function(t, a, b, c) {
+  y <- a * t^2 + b * t + c
+  return(y)
+}
+
 #' Exponential Linear Function 1
 #'
 #' Computes a value based on an exponential growth curve and linear decay model for time.
