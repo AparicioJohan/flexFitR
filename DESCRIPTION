@@ -1,6 +1,6 @@
 Package: flexFitR
 Type: Package
-Title: Explore High-Throughput Phenotypic (HTP) Data
+Title: Flexible Non-Linear Least Square Modelling
 Version: 0.1.0
 Authors@R: 
     c(person(given = "Johan",
@@ -14,7 +14,7 @@ Authors@R:
       person(given = "University of Wisconsin Madison",
              role = "cph"))
 Maintainer: Johan Aparicio <aparicioarce@wisc.edu> 
-Description: Implements general-purpose optimization techniques for modeling high-throughput phenotypic (HTP) data in plant breeding experimental trials.
+Description: Implements general-purpose optimization techniques for non-linear least squares problems.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

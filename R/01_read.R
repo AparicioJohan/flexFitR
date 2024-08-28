@@ -4,7 +4,7 @@
 #'
 #' This function helps to explore the dataset before being analyzed with \code{modeler()}.
 #'
-#' @param data A data.frame in a wide format containing HTP data.
+#' @param data A data.frame in a wide format containing the data.
 #' @param x The name of the column in `data` that contains x points.
 #' @param y The names of the columns in `data` that contain the variables to be analyzed.
 #' @param id The names of the columns in `data` that contains a grouping variable.

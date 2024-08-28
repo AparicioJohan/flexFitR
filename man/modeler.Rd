@@ -2,7 +2,7 @@
 % Please edit documentation in R/02_modeler.R
 \name{modeler}
 \alias{modeler}
-\title{Modeler HTP}
+\title{Modeler}
 \usage{
 modeler(
   data,
@@ -93,7 +93,7 @@ An object of class \code{modeler}, which is a list containing the following elem
 }
 }
 \description{
-General-purpose optimization for HTP data.
+General-purpose optimization techniques for non-linear least squares problems.
 }
 \examples{
 library(flexFitR)

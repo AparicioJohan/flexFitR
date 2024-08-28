@@ -1,7 +1,7 @@
-#' Modeler HTP
+#' Modeler
 #'
 #' @description
-#' General-purpose optimization for HTP data.
+#' General-purpose optimization techniques for non-linear least squares problems.
 #'
 #' @param data A data.frame in a wide format.
 #' @param x The name of the column in `data` that contains x points.

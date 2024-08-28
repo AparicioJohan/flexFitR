@@ -7,7 +7,7 @@
 explorer(data, x, y, id, metadata)
 }
 \arguments{
-\item{data}{A data.frame in a wide format containing HTP data.}
+\item{data}{A data.frame in a wide format containing the data.}
 
 \item{x}{The name of the column in `data` that contains x points.}
 
