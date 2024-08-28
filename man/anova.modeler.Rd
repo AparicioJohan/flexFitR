@@ -2,7 +2,7 @@
 % Please edit documentation in R/04_predict.R
 \name{anova.modeler}
 \alias{anova.modeler}
-\title{Extra Sum-of-Squares F-Test for objects of class \code{modeler}}
+\title{Extra sum-of-squares F-test for objects of class \code{modeler}}
 \usage{
 \method{anova}{modeler}(reduced_model, full_model = NULL, ...)
 }
@@ -22,16 +22,22 @@ anova for objects of class \code{modeler}
 \examples{
 library(exploreHTP)
 dt <- data.frame(X = 1:6, Y = c(12, 16, 44, 50, 95, 100))
-f1 <- function(x, b, m) {
-  y <- b + m * x
-  return(y)
-}
-f2 <- function(x, a, b, c) {
-  y <- a + b * x + c * x^2
-  return(y)
-}
-mo_1 <- modeler(dt, x = X, y = Y, fn = "f1", param = c(b = -5, m = 10))
-mo_2 <- modeler(dt, x = X, y = Y, fn = "f2", param = c(a = 1, b = 10, c = 5))
+mo_1 <- modeler(
+  data = dt,
+  x = X,
+  y = Y,
+  fn = "fn_lin",
+  param = c(m = 10, b = -5)
+)
+plot(mo_1)
+mo_2 <- modeler(
+  data = dt,
+  x = X,
+  y = Y,
+  fn = "fn_quad",
+  param = c(a = 1, b = 10, c = 5)
+)
+plot(mo_2)
 anova(mo_1, mo_2)
 }
 \author{

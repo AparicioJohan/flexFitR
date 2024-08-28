@@ -1,4 +1,4 @@
-pandoc: 3.1.1
+pandoc: 3.1.11
 pkgdown: 2.1.0
 pkgdown_sha: ~
 articles:
@@ -6,7 +6,7 @@ articles:
   height-model: height-model.html
   how_to_start: how_to_start.html
   maturity-model: maturity-model.html
-last_built: 2024-08-28T15:16Z
+last_built: 2024-08-28T19:24Z
 urls:
   reference: https://apariciojohan.github.io/exploreHTP/reference
   article: https://apariciojohan.github.io/exploreHTP/articles

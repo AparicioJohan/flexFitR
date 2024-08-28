@@ -95,8 +95,8 @@
 <li>Parameter Estimation: Utilizes <code>optimx</code> and derivative-free algorithms to solve and estimate parameters for a given function.</li>
 <li>Parallelization: Implements parallel processing using the <code>future</code> package, enabling efficient fitting of hundreds of curves simultaneously.</li>
 <li>Visualization Tools: Provides a variety of plots to visualize model fits, correlations, predictions, and more.</li>
-<li>Prediction: Facilitates the prediction of non-observed data points.</li>
 <li>Statistical Rigor: Offers standard errors and p-values for coefficients, supporting robust conclusions and interpretations.</li>
+<li>Prediction: Facilitates the prediction of non-observed data points.</li>
 <li>Flexibility: Allows users to fix certain parameters in the model and specify different initial values per grouping factor.</li>
 <li>Custom Modeling Functions: Equipped with built-in modeling functions for common analysis tasks, while also permitting users to supply their own custom functions.</li>
 </ul>
@@ -140,7 +140,7 @@
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>variable <span class="sc">~</span> <span class="fu">fun</span>(x, t1, t2, k) </span>
 <span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a></span>
 <span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>Residuals<span class="sc">:</span></span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>   Min. <span class="dv">1</span>st Qu.  Median    Mean <span class="dv">3</span>rd Qu.    Max. </span>
 <span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="fl">0.00000</span> <span class="fl">0.00000</span> <span class="fl">0.00000</span> <span class="fl">0.07444</span> <span class="fl">0.00000</span> <span class="fl">0.67000</span> </span>
 <span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a></span>
 <span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>Optimization Results <span class="st">`</span><span class="at">head()</span><span class="st">`</span><span class="sc">:</span></span>
@@ -149,7 +149,7 @@
 <span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a></span>
 <span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>Metrics<span class="sc">:</span></span>
 <span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a> Groups      Timing Convergence Iterations</span>
-<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>      <span class="dv">1</span> <span class="fl">0.4037</span> secs        <span class="dv">100</span>%   <span class="dv">511</span> (id)</span></code></pre></div>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>      <span class="dv">1</span> <span class="fl">0.3885</span> secs        <span class="dv">100</span>%   <span class="dv">511</span> (id)</span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Auto plot</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">)</span></span></code></pre></div>

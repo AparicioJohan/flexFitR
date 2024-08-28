@@ -46,6 +46,7 @@ reference:
   - coef.modeler
   - vcov.modeler
   - confint.modeler
+  - anova.modeler
   - print.modeler
   - metrics
 - title: Data Exploration
@@ -61,6 +62,8 @@ reference:
 - title: Growth Modelling
   desc: Collection of functions
 - contents:
+  - fn_lin
+  - fn_quad
   - fn_piwise
   - fn_exp1_lin
   - fn_exp2_lin
