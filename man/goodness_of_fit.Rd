@@ -20,8 +20,7 @@ executing the function \code{modeler()}}
 the classical AIC.}
 }
 \value{
-A tibble with columns giving lower and upper confidence limits for
-each parameter.
+A tibble with columns giving the corresponding AIC and BIC.
 }
 \description{
 Generic function calculating Akaike's ‘An Information Criterion’

@@ -14,7 +14,8 @@
 #' @param upper Numeric vector specifying the upper bounds for the parameters. Default is \code{Inf} for all parameters.
 #' @param initial_vals A data frame with columns \code{uid}, and the initial parameter values for each group id. Used for providing specific initial values per group id.
 #' @param fixed_params A data frame with columns \code{uid}, and the fixed parameter values for each group id. Used for fixing certain parameters during optimization.
-#' @param method A character vector specifying the optimization methods to be used. See \code{optimx} package for available methods. Default is \code{c("subplex", "pracmanm", "anms")}.
+#' @param method A character vector specifying the optimization methods to be used. Check `optimx::checkallsolvers()` for available methods.
+#' Default is \code{c("subplex", "pracmanm", "anms")}.
 #' @param return_method Logical. If \code{TRUE}, includes the optimization method used in the result. Default is \code{FALSE}.
 #' @param subset An optional vector with levels of `grp` to filter the data. Default is \code{NULL}, meaning all groups are used.
 #' @param add_zero Logical. If \code{TRUE}, adds a zero value to the series at the start. Default is \code{FALSE}.

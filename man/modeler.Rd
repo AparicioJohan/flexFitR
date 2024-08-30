@@ -53,7 +53,8 @@ modeler(
 
 \item{fixed_params}{A data frame with columns \code{uid}, and the fixed parameter values for each group id. Used for fixing certain parameters during optimization.}
 
-\item{method}{A character vector specifying the optimization methods to be used. See \code{optimx} package for available methods. Default is \code{c("subplex", "pracmanm", "anms")}.}
+\item{method}{A character vector specifying the optimization methods to be used. Check `optimx::checkallsolvers()` for available methods.
+Default is \code{c("subplex", "pracmanm", "anms")}.}
 
 \item{return_method}{Logical. If \code{TRUE}, includes the optimization method used in the result. Default is \code{FALSE}.}
 

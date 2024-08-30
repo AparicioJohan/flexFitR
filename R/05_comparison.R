@@ -37,8 +37,7 @@ logLik.modeler <- function(object, ...) {
 #' @param k Numeric, the penalty per parameter to be used; the default k = 2 is
 #' the classical AIC.
 #' @author Johan Aparicio [aut]
-#' @return A tibble with columns giving lower and upper confidence limits for
-#' each parameter.
+#' @return A tibble with columns giving the corresponding AIC and BIC.
 #' @examples
 #' library(flexFitR)
 #' dt <- data.frame(X = 1:6, Y = c(12, 16, 44, 50, 95, 100))
