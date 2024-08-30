@@ -47,6 +47,8 @@ reference:
   - vcov.modeler
   - confint.modeler
   - anova.modeler
+  - logLik.modeler
+  - goodness_of_fit
   - print.modeler
   - metrics
 - title: Data Exploration

@@ -73,6 +73,7 @@ utils::globalVariables(
     "Pr(>|t|)",
     "ci_lower",
     "ci_upper",
-    ".id"
+    ".id",
+    "BIC"
   )
 )
