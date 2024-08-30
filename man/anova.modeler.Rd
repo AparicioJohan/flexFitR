@@ -23,6 +23,7 @@ anova for objects of class \code{modeler}
 library(flexFitR)
 dt <- data.frame(X = 1:6, Y = c(12, 16, 44, 50, 95, 100))
 mo_1 <- modeler(dt, X, Y, fn = "fn_lin", param = c(m = 10, b = -5))
+plot(mo_1)
 mo_2 <- modeler(dt, X, Y, fn = "fn_quad", param = c(a = 1, b = 10, c = 5))
 plot(mo_2)
 anova(mo_1, mo_2)
