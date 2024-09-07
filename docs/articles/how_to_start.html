@@ -140,12 +140,12 @@ to our coefficient b and coefficient m.</p>
 <span><span class="co">#&gt; -12.5905  -6.0762  -0.3476   0.0000   6.1952  12.8952 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Optimization Results `head()`:</span></span>
-<span><span class="co">#&gt;  uid     b    m sse auc</span></span>
-<span><span class="co">#&gt;    1 -15.5 19.5 449 258</span></span>
+<span><span class="co">#&gt;  uid     b    m sse</span></span>
+<span><span class="co">#&gt;    1 -15.5 19.5 449</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
 <span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;       1 0.6006 secs        100%   259 (id)</span></span></code></pre></div>
+<span><span class="co">#&gt;       1 0.3847 secs        100%   259 (id)</span></span></code></pre></div>
 <p>Once the model is fitted, we can examine the output, extract the
 estimated parameters, make some plots, and predict new x values.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -282,12 +282,12 @@ using the <code>modeler</code> function.</p>
 <span><span class="co">#&gt; 0.00000 0.00000 0.00000 0.07444 0.00000 0.67000 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Optimization Results `head()`:</span></span>
-<span><span class="co">#&gt;  uid   t1 t2    k   sse  auc</span></span>
-<span><span class="co">#&gt;    1 38.6 61 99.8 0.449 5807</span></span>
+<span><span class="co">#&gt;  uid   t1 t2    k   sse</span></span>
+<span><span class="co">#&gt;    1 38.6 61 99.8 0.449</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
 <span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;       1 0.5456 secs        100%   511 (id)</span></span></code></pre></div>
+<span><span class="co">#&gt;       1 0.4072 secs        100%   511 (id)</span></span></code></pre></div>
 <p>After fitting the model, we can examine the results, plot the fitted
 curve, extract the coefficients and their associated p-values, obtain
 the variance-covariance matrix, and make predictions for unknown values
@@ -352,12 +352,12 @@ approach is primarily for illustrative purposes.</p>
 <span><span class="co">#&gt; 0.00000 0.00000 0.00000 0.07444 0.00000 0.67000 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Optimization Results `head()`:</span></span>
-<span><span class="co">#&gt;  uid   t1 t2    k   sse  auc</span></span>
-<span><span class="co">#&gt;    1 38.6 61 99.8 0.449 5807</span></span>
+<span><span class="co">#&gt;  uid   t1 t2    k   sse</span></span>
+<span><span class="co">#&gt;    1 38.6 61 99.8 0.449</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
 <span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;       1 0.6102 secs        100%   567 (id)</span></span>
+<span><span class="co">#&gt;       1 0.4035 secs        100%   567 (id)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">mod_2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 6</span></span></span>
 <span><span class="co">#&gt;     uid coefficient solution std.error `t value` `Pr(&gt;|t|)`</span></span>
@@ -390,12 +390,12 @@ approach is primarily for illustrative purposes.</p>
 <span><span class="co">#&gt;  0.0000  0.0000  0.6700  0.8789  1.8100  1.8100 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Optimization Results `head()`:</span></span>
-<span><span class="co">#&gt;  uid   t1   t2  sse  k  auc</span></span>
-<span><span class="co">#&gt;    1 38.6 60.6 13.6 98 5721</span></span>
+<span><span class="co">#&gt;  uid   t1   t2  sse  k</span></span>
+<span><span class="co">#&gt;    1 38.6 60.6 13.6 98</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
 <span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;       1 0.5192 secs        100%   321 (id)</span></span>
+<span><span class="co">#&gt;       1 0.3714 secs        100%   321 (id)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">mod_3</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 6</span></span></span>
 <span><span class="co">#&gt;     uid coefficient solution std.error `t value` `Pr(&gt;|t|)`</span></span>

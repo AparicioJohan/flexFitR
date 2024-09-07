@@ -29,12 +29,12 @@
 #' \describe{
 #'   \item{\code{param}}{A data frame containing the optimized parameters and related information.}
 #'   \item{\code{dt}}{A data frame with data used and fitted values.}
-#'   \item{\code{fn}}{The call used to calculate the AUC.}
+#'   \item{\code{fn}}{The call used when fitting models.}
 #'   \item{\code{metrics}}{Metrics and summary of the models.}
 #'   \item{\code{execution}}{Execution time.}
 #'   \item{\code{response}}{Response variable.}
 #'   \item{\code{keep}}{Metadata to keep across.}
-#'   \item{\code{fun}}{Function being optimized}
+#'   \item{\code{fun}}{Name of the function.}
 #'   \item{\code{fit}}{List with the fitted models.}
 #' }
 #' @export

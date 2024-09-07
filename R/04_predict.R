@@ -5,6 +5,8 @@
 #' @param object An object inheriting from class \code{modeler} resulting of
 #' executing the function \code{modeler()}
 #' @param x A numeric time point to make the prediction. Can be more than one.
+#' If type = "auc", x needs to be of size 2, which specifies the interval for
+#' calculating the AUC.
 #' @param id A unique identifier to filter by. \code{NULL} by default.
 #' @param type A character string specifying the type of prediction. If "point"
 #' it will predict the value of y for a given x. If "auc" it will return the
@@ -16,12 +18,11 @@
 #' @param ... Further parameters. For future improvements.
 #' @author Johan Aparicio [aut]
 #' @method predict modeler
-#' @return A data.frame object with predicted values.
+#' @return A data.frame object with predicted values and standard errors.
 #' @export
 #' @examples
 #' library(flexFitR)
 #' data(dt_potato)
-#' explorer <- explorer(dt_potato, x = DAP, y = c(Canopy, GLI_2), id = Plot)
 #' mod_1 <- dt_potato |>
 #'   modeler(
 #'     x = DAP,

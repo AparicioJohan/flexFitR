@@ -295,13 +295,13 @@ k &amp; \text{if } t &gt; t_2
 <span><span class="co">#&gt;   390.5  1004.2  1618.0  1618.0  2231.8  2845.5 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Optimization Results `head()`:</span></span>
-<span><span class="co">#&gt;  uid   t1   t2    k  sse  auc</span></span>
-<span><span class="co">#&gt;   40 34.8 53.7 72.5 2846 4623</span></span>
-<span><span class="co">#&gt;  195 38.7 60.0 91.7  390 5377</span></span>
+<span><span class="co">#&gt;  uid   t1   t2    k  sse</span></span>
+<span><span class="co">#&gt;   40 34.8 53.7 72.5 2846</span></span>
+<span><span class="co">#&gt;  195 38.7 60.0 91.7  390</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
 <span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;       2 1.2254 secs        100%   547 (id)</span></span></code></pre></div>
+<span><span class="co">#&gt;       2 0.8716 secs        100%   547 (id)</span></span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="canopy-model_files/figure-html/unnamed-chunk-9-1.png" alt="plot fit" width="768"></p>
@@ -314,7 +314,6 @@ k &amp; \text{if } t &gt; t_2
 <th align="right">t2</th>
 <th align="right">k</th>
 <th align="right">sse</th>
-<th align="right">auc</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -323,7 +322,6 @@ k &amp; \text{if } t &gt; t_2
 <td align="right">53.73295</td>
 <td align="right">72.5438</td>
 <td align="right">2845.5421</td>
-<td align="right">4623.494</td>
 </tr>
 <tr class="even">
 <td align="right">195</td>
@@ -331,7 +329,6 @@ k &amp; \text{if } t &gt; t_2
 <td align="right">60.04934</td>
 <td align="right">91.7450</td>
 <td align="right">390.4596</td>
-<td align="right">5377.416</td>
 </tr>
 </tbody>
 </table>
@@ -394,7 +391,6 @@ k &amp; \text{if } t &gt; t_2
 <th align="right">t2</th>
 <th align="right">k</th>
 <th align="right">sse</th>
-<th align="right">auc</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -403,7 +399,6 @@ k &amp; \text{if } t &gt; t_2
 <td align="right">53.73295</td>
 <td align="right">72.5438</td>
 <td align="right">2845.5421</td>
-<td align="right">4623.494</td>
 </tr>
 <tr class="even">
 <td align="right">195</td>
@@ -411,7 +406,6 @@ k &amp; \text{if } t &gt; t_2
 <td align="right">60.04934</td>
 <td align="right">91.7450</td>
 <td align="right">390.4596</td>
-<td align="right">5377.416</td>
 </tr>
 </tbody>
 </table>
@@ -463,7 +457,6 @@ k &amp; \text{if } t &gt; t_2
 <th align="right">t2</th>
 <th align="right">sse</th>
 <th align="right">k</th>
-<th align="right">auc</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -472,7 +465,6 @@ k &amp; \text{if } t &gt; t_2
 <td align="right">60.84828</td>
 <td align="right">6268.4633</td>
 <td align="right">100</td>
-<td align="right">6017.198</td>
 </tr>
 <tr class="even">
 <td align="right">195</td>
@@ -480,7 +472,6 @@ k &amp; \text{if } t &gt; t_2
 <td align="right">61.96802</td>
 <td align="right">663.0397</td>
 <td align="right">100</td>
-<td align="right">5765.332</td>
 </tr>
 </tbody>
 </table>
@@ -513,7 +504,6 @@ k &amp; \text{if } t &gt; t_2
 <th align="right">t2</th>
 <th align="right">sse</th>
 <th align="right">k</th>
-<th align="right">auc</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -522,7 +512,6 @@ k &amp; \text{if } t &gt; t_2
 <td align="right">60.84828</td>
 <td align="right">0.0014765</td>
 <td align="right">100</td>
-<td align="right">6017.198</td>
 </tr>
 <tr class="even">
 <td align="right">195</td>
@@ -530,7 +519,6 @@ k &amp; \text{if } t &gt; t_2
 <td align="right">61.96802</td>
 <td align="right">0.0000000</td>
 <td align="right">100</td>
-<td align="right">5765.332</td>
 </tr>
 </tbody>
 </table>
@@ -554,7 +542,6 @@ k &amp; \text{if } t &gt; t_2
 <th align="right">t2</th>
 <th align="right">k</th>
 <th align="right">sse</th>
-<th align="right">auc</th>
 <th align="left">mod</th>
 </tr></thead>
 <tbody>
@@ -564,7 +551,6 @@ k &amp; \text{if } t &gt; t_2
 <td align="right">53.73295</td>
 <td align="right">72.5438</td>
 <td align="right">2845.5421388</td>
-<td align="right">4623.494</td>
 <td align="left">1</td>
 </tr>
 <tr class="even">
@@ -573,7 +559,6 @@ k &amp; \text{if } t &gt; t_2
 <td align="right">53.73295</td>
 <td align="right">72.5438</td>
 <td align="right">2845.5421388</td>
-<td align="right">4623.494</td>
 <td align="left">2</td>
 </tr>
 <tr class="odd">
@@ -582,7 +567,6 @@ k &amp; \text{if } t &gt; t_2
 <td align="right">60.84828</td>
 <td align="right">100.0000</td>
 <td align="right">6268.4633265</td>
-<td align="right">6017.198</td>
 <td align="left">3</td>
 </tr>
 <tr class="even">
@@ -591,7 +575,6 @@ k &amp; \text{if } t &gt; t_2
 <td align="right">60.84828</td>
 <td align="right">100.0000</td>
 <td align="right">0.0014765</td>
-<td align="right">6017.198</td>
 <td align="left">4</td>
 </tr>
 </tbody>

@@ -70,8 +70,6 @@
 <span>  add_zero <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  check_negative <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  max_as_last <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  n_points <span class="op">=</span> <span class="fl">1000</span>,</span>
-<span>  max_x <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  progress <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  parallel <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  workers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span><span class="op">)</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
@@ -152,14 +150,6 @@ Default is <code>c("subplex", "pracmanm", "anms")</code>.</p></dd>
 <dd><p>Logical. If <code>TRUE</code>, appends the maximum value after reaching the maximum. Default is <code>FALSE</code>.</p></dd>
 
 
-<dt id="arg-n-points">n_points<a class="anchor" aria-label="anchor" href="#arg-n-points"></a></dt>
-<dd><p>An integer specifying the number of x points to use for approximating the Area Under the Curve (AUC). Default is <code>1000</code>.</p></dd>
-
-
-<dt id="arg-max-x">max_x<a class="anchor" aria-label="anchor" href="#arg-max-x"></a></dt>
-<dd><p>Numeric. The maximum x value to use for calculating the AUC. Default is <code>NULL</code>, which uses the last x value in the data.</p></dd>
-
-
 <dt id="arg-progress">progress<a class="anchor" aria-label="anchor" href="#arg-progress"></a></dt>
 <dd><p>Logical. If <code>TRUE</code> a progress bar is displayed. Default is <code>FALSE</code>. Try this before running the function: <code>progressr::handlers("progress", "beepr")</code>.</p></dd>
 
@@ -185,13 +175,10 @@ Default is <code>c("subplex", "pracmanm", "anms")</code>.</p></dd>
 <dd><p>A data frame with data used and fitted values.</p></dd>
 
   <dt><code>fn</code></dt>
-<dd><p>The call used to calculate the AUC.</p></dd>
+<dd><p>The call used when fitting models.</p></dd>
 
   <dt><code>metrics</code></dt>
 <dd><p>Metrics and summary of the models.</p></dd>
-
-  <dt><code>max_x</code></dt>
-<dd><p>Maximum x value used for calculating the AUC.</p></dd>
 
   <dt><code>execution</code></dt>
 <dd><p>Execution time.</p></dd>
@@ -203,7 +190,7 @@ Default is <code>c("subplex", "pracmanm", "anms")</code>.</p></dd>
 <dd><p>Metadata to keep across.</p></dd>
 
   <dt><code>fun</code></dt>
-<dd><p>Function being optimized</p></dd>
+<dd><p>Name of the function.</p></dd>
 
   <dt><code>fit</code></dt>
 <dd><p>List with the fitted models.</p></dd>
@@ -239,12 +226,12 @@ Default is <code>c("subplex", "pracmanm", "anms")</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> -0.011076 -0.002262  0.000000 -0.001676  0.000000  0.002262 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Optimization Results `head()`:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  uid   t1   t2   t3     k  beta      sse  auc</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  195 39.6 68.3 93.3 0.323 -0.01 0.000149 16.4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  uid   t1   t2   t3     k  beta      sse</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  195 39.6 68.3 93.3 0.323 -0.01 0.000149</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Groups      Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       1 1.3325 secs        100%   901 (id)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Groups     Timing Convergence Iterations</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       1 0.937 secs        100%   901 (id)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="co"># Example 2</span></span></span>
 <span class="r-in"><span><span class="va">mod_2</span> <span class="op">&lt;-</span> <span class="va">dt_potato</span> <span class="op">|&gt;</span></span></span>
@@ -270,12 +257,12 @@ Default is <code>c("subplex", "pracmanm", "anms")</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> -1.340e-09  0.000e+00  0.000e+00 -9.481e-11  1.391e-10  1.391e-10 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Optimization Results `head()`:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  uid   t1 t2   k      sse  auc</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  195 38.7 62 100 1.88e-18 5765</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  uid   t1 t2   k      sse</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  195 38.7 62 100 1.88e-18</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Groups      Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       1 0.8637 secs        100%   349 (id)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       1 0.5992 secs        100%   349 (id)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>

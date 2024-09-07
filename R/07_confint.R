@@ -44,7 +44,7 @@ confint.modeler <- function(x, parm = NULL, level = 0.95, id = NULL, ...) {
   } else {
     uid <- unique(dt$uid)
   }
-  ci_table <- coef.modeler(x, df = TRUE, id = id) |>
+  ci_table <- coef.modeler(x, df = TRUE, id = uid) |>
     mutate(
       t_value = qt(1 - (1 - level) / 2, df = rdf),
       ci_lower = solution - t_value * std.error,

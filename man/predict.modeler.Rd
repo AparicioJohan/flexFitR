@@ -18,7 +18,9 @@
 \item{object}{An object inheriting from class \code{modeler} resulting of
 executing the function \code{modeler()}}
 
-\item{x}{A numeric time point to make the prediction. Can be more than one.}
+\item{x}{A numeric time point to make the prediction. Can be more than one.
+If type = "auc", x needs to be of size 2, which specifies the interval for
+calculating the AUC.}
 
 \item{id}{A unique identifier to filter by. \code{NULL} by default.}
 
@@ -35,7 +37,7 @@ not when making the predictions.}
 \item{...}{Further parameters. For future improvements.}
 }
 \value{
-A data.frame object with predicted values.
+A data.frame object with predicted values and standard errors.
 }
 \description{
 Model predictions for an object of class \code{modeler}
@@ -43,7 +45,6 @@ Model predictions for an object of class \code{modeler}
 \examples{
 library(flexFitR)
 data(dt_potato)
-explorer <- explorer(dt_potato, x = DAP, y = c(Canopy, GLI_2), id = Plot)
 mod_1 <- dt_potato |>
   modeler(
     x = DAP,
@@ -56,7 +57,10 @@ mod_1 <- dt_potato |>
     max_as_last = TRUE
   )
 print(mod_1)
-predict(mod_1, x = 45, id = 2)
+# Point Prediction
+predict(mod_1, x = 45, type = "point", id = 2)
+# AUC Prediction
+predict(mod_1, x = c(0, 108), type = "auc", id = 2)
 }
 \author{
 Johan Aparicio [aut]
