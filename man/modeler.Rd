@@ -22,8 +22,6 @@ modeler(
   add_zero = FALSE,
   check_negative = FALSE,
   max_as_last = FALSE,
-  n_points = 1000,
-  max_x = NULL,
   progress = FALSE,
   parallel = FALSE,
   workers = max(1, parallel::detectCores(), na.rm = TRUE),
@@ -66,10 +64,6 @@ Default is \code{c("subplex", "pracmanm", "anms")}.}
 
 \item{max_as_last}{Logical. If \code{TRUE}, appends the maximum value after reaching the maximum. Default is \code{FALSE}.}
 
-\item{n_points}{An integer specifying the number of x points to use for approximating the Area Under the Curve (AUC). Default is \code{1000}.}
-
-\item{max_x}{Numeric. The maximum x value to use for calculating the AUC. Default is \code{NULL}, which uses the last x value in the data.}
-
 \item{progress}{Logical. If \code{TRUE} a progress bar is displayed. Default is \code{FALSE}. Try this before running the function: \code{progressr::handlers("progress", "beepr")}.}
 
 \item{parallel}{Logical. If \code{TRUE} the model fit is performed in parallel. Default is \code{FALSE}.}
@@ -85,7 +79,6 @@ An object of class \code{modeler}, which is a list containing the following elem
   \item{\code{dt}}{A data frame with data used and fitted values.}
   \item{\code{fn}}{The call used to calculate the AUC.}
   \item{\code{metrics}}{Metrics and summary of the models.}
-  \item{\code{max_x}}{Maximum x value used for calculating the AUC.}
   \item{\code{execution}}{Execution time.}
   \item{\code{response}}{Response variable.}
   \item{\code{keep}}{Metadata to keep across.}

@@ -4,7 +4,15 @@
 \alias{predict.modeler}
 \title{Predict an object of class \code{modeler}}
 \usage{
-\method{predict}{modeler}(object, x = NULL, id = NULL, metadata = FALSE, ...)
+\method{predict}{modeler}(
+  object,
+  x = NULL,
+  id = NULL,
+  type = c("point", "auc"),
+  n_points = 1000,
+  metadata = FALSE,
+  ...
+)
 }
 \arguments{
 \item{object}{An object inheriting from class \code{modeler} resulting of
@@ -14,7 +22,15 @@ executing the function \code{modeler()}}
 
 \item{id}{A unique identifier to filter by. \code{NULL} by default.}
 
-\item{metadata}{\code{TRUE} or \code{FALSE}. Whether to bring the metadata or not when calculating the coefficients.}
+\item{type}{A character string specifying the type of prediction. If "point"
+it will predict the value of y for a given x. If "auc" it will return the
+area under the curve (AUC) for the fitted curve.}
+
+\item{n_points}{An integer specifying the number of x points to use for
+approximating the Area Under the Curve (AUC). Default is \code{1000}.}
+
+\item{metadata}{\code{TRUE} or \code{FALSE}. Whether to bring the metadata or
+not when making the predictions.}
 
 \item{...}{Further parameters. For future improvements.}
 }

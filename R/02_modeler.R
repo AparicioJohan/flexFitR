@@ -21,8 +21,6 @@
 #' @param add_zero Logical. If \code{TRUE}, adds a zero value to the series at the start. Default is \code{FALSE}.
 #' @param check_negative Logical. If \code{TRUE}, converts negative values in the data to zero. Default is \code{FALSE}.
 #' @param max_as_last Logical. If \code{TRUE}, appends the maximum value after reaching the maximum. Default is \code{FALSE}.
-#' @param n_points An integer specifying the number of x points to use for approximating the Area Under the Curve (AUC). Default is \code{1000}.
-#' @param max_x Numeric. The maximum x value to use for calculating the AUC. Default is \code{NULL}, which uses the last x value in the data.
 #' @param progress Logical. If \code{TRUE} a progress bar is displayed. Default is \code{FALSE}. Try this before running the function: \code{progressr::handlers("progress", "beepr")}.
 #' @param parallel Logical. If \code{TRUE} the model fit is performed in parallel. Default is \code{FALSE}.
 #' @param workers The number of parallel processes to use. `parallel::detectCores()`
@@ -33,7 +31,6 @@
 #'   \item{\code{dt}}{A data frame with data used and fitted values.}
 #'   \item{\code{fn}}{The call used to calculate the AUC.}
 #'   \item{\code{metrics}}{Metrics and summary of the models.}
-#'   \item{\code{max_x}}{Maximum x value used for calculating the AUC.}
 #'   \item{\code{execution}}{Execution time.}
 #'   \item{\code{response}}{Response variable.}
 #'   \item{\code{keep}}{Metadata to keep across.}
@@ -94,8 +91,6 @@ modeler <- function(data,
                     add_zero = FALSE,
                     check_negative = FALSE,
                     max_as_last = FALSE,
-                    n_points = 1000,
-                    max_x = NULL,
                     progress = FALSE,
                     parallel = FALSE,
                     workers = max(1, parallel::detectCores(), na.rm = TRUE),
@@ -146,13 +141,6 @@ modeler <- function(data,
     if (sum(nam_fix_params[-c(1)] %in% args) == length(args)) {
       stop("fixed_params cannot contain all parameters of the function: ", fn)
     }
-  }
-  # Validate n_points and max_x
-  if (!is.numeric(n_points) || n_points <= 0) {
-    stop("n_points should be a positive numeric value.")
-  }
-  if (!is.null(max_x) && (!is.numeric(max_x) || max_x <= 0)) {
-    stop("max_x should be a positive numeric value if specified.")
   }
   # Validate parameters and initial_vals
   if (is.null(parameters) && is.null(initial_vals)) {
@@ -279,25 +267,8 @@ modeler <- function(data,
   if (is.null(fixed_params)) {
     param_mat <- param_mat |> select(-`t(fx_params)`)
   }
-  if (is.null(max_x)) {
-    max_x <- max(dt$x, na.rm = TRUE)
-  }
-  # AUC
-  density <- create_call(fn)
-  sq <- seq(0, max_x, length.out = n_points)
-  auc <- full_join(
-    x = expand.grid(x = sq, uid = unique(dt$uid)),
-    y = param_mat,
-    by = "uid"
-  ) |>
-    group_by(x, uid) |>
-    mutate(hat = !!density) |>
-    group_by(uid) |>
-    mutate(trapezoid_area = (lead(hat) + hat) / 2 * (lead(x) - x)) |>
-    filter(!is.na(trapezoid_area)) |>
-    summarise(auc = sum(trapezoid_area))
-  param_mat <- full_join(param_mat, auc, by = "uid")
   # Fitted values
+  density <- create_call(fn)
   fitted_vals <- dt |>
     select(x, uid) |>
     full_join(param_mat, by = "uid") |>
@@ -308,7 +279,7 @@ modeler <- function(data,
   dt <- suppressWarnings({
     dt |>
       full_join(y = fitted_vals, by = c("x", "uid")) |>
-      mutate(.error = y - .fitted)
+      mutate(.residual = y - .fitted)
   })
   # Output
   if (!return_method) {
@@ -319,7 +290,6 @@ modeler <- function(data,
     dt = dt,
     fn = density,
     metrics = metrics,
-    max_x = max_x,
     execution = end_time - init_time,
     response = variable,
     keep = .keep,
@@ -329,7 +299,6 @@ modeler <- function(data,
   class(out) <- "modeler"
   return(invisible(out))
 }
-
 
 #' General-purpose optimization
 #'
