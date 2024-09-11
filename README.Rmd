@@ -15,7 +15,13 @@ knitr::opts_chunk$set(
 )
 ```
 
-# flexFitR <a href="https://apariciojohan.github.io/flexFitR/"><img src="man/figures/logo.png" align="right" height="160" alt="flexFitR website" /></a>
+
+<a href="https://apariciojohan.github.io/flexFitR/"><img src="man/figures/logo.png" align="right" height="160" alt="flexFitR website" /></a>
+
+<br>
+<br>
+
+# flexFitR 
 
 
 <!-- badges: start -->

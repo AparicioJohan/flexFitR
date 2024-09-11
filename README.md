@@ -1,7 +1,11 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# flexFitR <a href="https://apariciojohan.github.io/flexFitR/"><img src="man/figures/logo.png" align="right" height="160" alt="flexFitR website" /></a>
+<a href="https://apariciojohan.github.io/flexFitR/"><img src="man/figures/logo.png" align="right" height="160" alt="flexFitR website" /></a>
+
+<br> <br>
+
+# flexFitR
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -92,12 +96,12 @@ Residuals:
 0.00000 0.00000 0.00000 0.07444 0.00000 0.67000 
 
 Optimization Results `head()`:
- uid   t1 t2    k   sse  auc
-   1 38.6 61 99.8 0.449 5807
+ uid   t1 t2    k   sse
+   1 38.6 61 99.8 0.449
 
 Metrics:
  Groups      Timing Convergence Iterations
-      1 0.3475 secs        100%   511 (id)
+      1 0.3773 secs        100%   511 (id)
 ```
 
 ``` r
