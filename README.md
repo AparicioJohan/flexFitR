@@ -1,16 +1,18 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+<br>
+
 # {flexFitR} <img src='man/figures/logo.png' width = "140px" align="right"/>
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-flexFitR is an R package designed for efficient modeling and analysis of
-large and complex datasets. It offers powerful tools for parameter
-estimation, model fitting, and visualization, leveraging the `{optimx}`
-package for optimization and the `{future}` package for parallel
-processing.
+`{flexFitR}` is an R package designed for efficient modeling and
+analysis of large and complex datasets. It offers powerful tools for
+parameter estimation, model fitting, and visualization, leveraging the
+`{optimx}` package for optimization and the `{future}` package for
+parallel processing.
 
 ## Installation
 
@@ -96,8 +98,8 @@ Optimization Results `head()`:
    1 38.6 61 99.8 0.449
 
 Metrics:
- Groups     Timing Convergence Iterations
-      1 0.414 secs        100%   511 (id)
+ Groups      Timing Convergence Iterations
+      1 0.3956 secs        100%   511 (id)
 ```
 
 ``` r
