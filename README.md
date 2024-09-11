@@ -1,17 +1,15 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# flexFitR <a href="https://apariciojohan.github.io/flexFitR/"><img src="man/figures/logo.png" align="right" width="120" alt="flexFitR website" /></a>
-
-<br>
+# {flexFitR} <img src='man/figures/logo.png' width = "140px" align="right"/>
 
 <!-- badges: start -->
 <!-- badges: end -->
 
 flexFitR is an R package designed for efficient modeling and analysis of
 large and complex datasets. It offers powerful tools for parameter
-estimation, model fitting, and visualization, leveraging the `optimx`
-package for optimization and the `future` package for parallel
+estimation, model fitting, and visualization, leveraging the `{optimx}`
+package for optimization and the `{future}` package for parallel
 processing.
 
 ## Installation
@@ -26,9 +24,9 @@ devtools::install_github("AparicioJohan/flexFitR")
 
 ## Features
 
-- Parameter Estimation: Utilizes `optimx` and derivative-free algorithms
-  to solve and estimate parameters for a given function.
-- Parallelization: Implements parallel processing using the `future`
+- Parameter Estimation: Utilizes `{optimx}` and derivative-free
+  algorithms to solve and estimate parameters for a given function.
+- Parallelization: Implements parallel processing using the `{future}`
   package, enabling efficient fitting of hundreds of curves
   simultaneously.
 - Visualization Tools: Provides a variety of plots to visualize model
@@ -44,8 +42,8 @@ devtools::install_github("AparicioJohan/flexFitR")
 
 ## Example
 
-Here’s a simple example to get you started with flexFitR. This example
-demonstrates fitting a piecewise regression model:
+Here’s a simple example to get you started with `{flexFitR}`. This
+example demonstrates fitting a piecewise regression model:
 
 ``` r
 library(flexFitR)
@@ -99,7 +97,7 @@ Optimization Results `head()`:
 
 Metrics:
  Groups     Timing Convergence Iterations
-      1 0.352 secs        100%   511 (id)
+      1 0.414 secs        100%   511 (id)
 ```
 
 ``` r
