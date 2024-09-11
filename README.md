@@ -1,9 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-<br>
-
-# {flexFitR} <img src='man/figures/logo.png' width = "140px" align="right"/>
+# {flexFitR} <img src='man/figures/logo.png' width = "120px" align="right"/>
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -57,7 +55,7 @@ dt <- data.frame(
 plot(explorer(dt, time, variable), type = "xy")
 ```
 
-<img src="man/figures/README_unnamed-chunk-2-1.png" alt="plot xy"  />
+<img src="man/figures/README_unnamed-chunk-2-1.png" alt="plot xy" width="100%" />
 
 ``` r
 fun <- function(t, t1 = 45, t2 = 80, k = 0.9) {
@@ -99,7 +97,7 @@ Optimization Results `head()`:
 
 Metrics:
  Groups      Timing Convergence Iterations
-      1 0.3956 secs        100%   511 (id)
+      1 0.4068 secs        100%   511 (id)
 ```
 
 ``` r
@@ -107,7 +105,7 @@ Metrics:
 plot(mod_1)
 ```
 
-<img src="man/figures/README_unnamed-chunk-6-1.png" alt="plot fin"  />
+<img src="man/figures/README_unnamed-chunk-6-1.png" alt="plot fin" width="100%" />
 
 ``` r
 # Coefficients

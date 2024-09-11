@@ -10,14 +10,13 @@ knitr::opts_chunk$set(
   comment = "",
   fig.path = "man/figures/README_",
   fig.dpi = 600,
+  out.width = "100%",
   warning = FALSE,
   message = FALSE
 )
 ```
 
-<br>
-
-# {flexFitR} <img src='man/figures/logo.png' width = "140px" align="right"/>
+# {flexFitR} <img src='man/figures/logo.png' width = "120px" align="right"/>
 
 <!-- badges: start -->
 <!-- badges: end -->
