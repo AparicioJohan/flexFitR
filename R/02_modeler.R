@@ -155,7 +155,12 @@ modeler <- function(data,
     filter(!is.na(y)) |>
     droplevels()
   if (max_as_last) {
-    dt <- max_as_last(dt, .keep = .keep)
+    dt <- dt |>
+      group_by(uid, across(all_of(.keep))) |>
+      mutate(max = max(y, na.rm = TRUE), pos = x[which.max(y)]) |>
+      mutate(y = ifelse(x <= pos, y, max)) |>
+      select(-max, -pos) |>
+      ungroup() # max_as_last(dt, .keep = .keep)
   }
   if (check_negative) {
     dt <- mutate(dt, y = ifelse(y < 0, 0, y))
@@ -416,9 +421,7 @@ max_as_last <- function(data, .keep) {
       loc_max = as.numeric(local_min_max(y, x)$days_max[1])
     ) |>
     mutate(loc_max = ifelse(is.na(loc_max), max(x, na.rm = TRUE), loc_max)) |>
-    mutate(
-      y = ifelse(x <= loc_max, y, y[x == loc_max])
-    ) |>
+    mutate(y = ifelse(x <= loc_max, y, y[x == loc_max])) |>
     select(-loc_max_at, -loc_max) |>
     ungroup()
   return(dt_can)

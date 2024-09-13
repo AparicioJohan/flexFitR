@@ -74,6 +74,7 @@ utils::globalVariables(
     "ci_lower",
     "ci_upper",
     ".id",
-    "BIC"
+    "BIC",
+    "pos"
   )
 )
