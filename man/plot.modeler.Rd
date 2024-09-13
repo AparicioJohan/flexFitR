@@ -4,7 +4,16 @@
 \alias{plot.modeler}
 \title{Plot an object of class \code{modeler}}
 \usage{
-\method{plot}{modeler}(x, id = NULL, type = 1, label_size = 4, base_size = 14, parm = NULL, ...)
+\method{plot}{modeler}(
+  x,
+  id = NULL,
+  type = 1,
+  label_size = 4,
+  base_size = 14,
+  color = "red",
+  parm = NULL,
+  ...
+)
 }
 \arguments{
 \item{x}{An object inheriting from class \code{modeler} resulting of
@@ -17,6 +26,8 @@ executing the function \code{modeler()}}
 \item{label_size}{Label size. 3 by default.}
 
 \item{base_size}{Base font size, given in pts.}
+
+\item{color}{color for geom_line when type 1. Default is "red".}
 
 \item{parm}{If type is equal to 2 it must be a vector of names of the parameters. If NULL, all parameters are considered.}
 

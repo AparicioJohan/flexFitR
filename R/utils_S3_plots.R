@@ -103,9 +103,10 @@ plot_fn <- function(fn = "fn_piwise",
 #' executing the function \code{modeler()}
 #' @param id To avoid too many plots in one figure. Filter by group Id.
 #' @param type Numeric 1, 2, or 3. To specify the type of plot. Default is 1.
-#' @param parm If type is equal to 2 it must be a vector of names of the parameters. If NULL, all parameters are considered.
 #' @param label_size Label size. 3 by default.
 #' @param base_size Base font size, given in pts.
+#' @param color color for geom_line when type 1. Default is "red".
+#' @param parm If type is equal to 2 it must be a vector of names of the parameters. If NULL, all parameters are considered.
 #' @param ... Further graphical parameters. For future improvements.
 #' @author Johan Aparicio [aut]
 #' @method plot modeler
@@ -139,6 +140,7 @@ plot.modeler <- function(x,
                          type = 1,
                          label_size = 4,
                          base_size = 14,
+                         color = "red",
                          parm = NULL, ...) {
   data <- x$dt |> select(uid, var, x, y, .fitted)
   param <- x$param
@@ -177,7 +179,7 @@ plot.modeler <- function(x,
     p0 <- dt |>
       ggplot() +
       geom_point(aes(x = x, y = y)) +
-      geom_line(data = func_dt, aes(x = x, y = dens), color = "red") +
+      geom_line(data = func_dt, aes(x = x, y = dens), color = color) +
       theme_classic(base_size = base_size) +
       facet_wrap(~uid) +
       labs(y = label)
