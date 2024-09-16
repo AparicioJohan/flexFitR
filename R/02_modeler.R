@@ -35,6 +35,7 @@
 #'   \item{\code{response}}{Response variable.}
 #'   \item{\code{keep}}{Metadata to keep across.}
 #'   \item{\code{fun}}{Name of the function.}
+#'   \item{\code{parallel}}{List returning parallel and workers.}
 #'   \item{\code{fit}}{List with the fitted models.}
 #' }
 #' @export
@@ -299,6 +300,7 @@ modeler <- function(data,
     response = variable,
     keep = .keep,
     fun = fn,
+    parallel = list("parallel" = parallel, "workers" = workers),
     fit = objt
   )
   class(out) <- "modeler"
