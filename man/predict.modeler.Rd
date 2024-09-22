@@ -8,7 +8,7 @@
   object,
   x = NULL,
   id = NULL,
-  type = c("point", "auc"),
+  type = c("point", "auc", "fd", "sd"),
   n_points = 1000,
   metadata = FALSE,
   ...
@@ -26,7 +26,9 @@ calculating the AUC.}
 
 \item{type}{A character string specifying the type of prediction. If "point"
 it will predict the value of y for a given x. If "auc" it will return the
-area under the curve (AUC) for the fitted curve.}
+area under the curve (AUC) for the fitted curve. If "fd" the first order
+derivative at the x value is returned. If "sd" the second order derivative
+at the x value is returned.}
 
 \item{n_points}{An integer specifying the number of x points to use for
 approximating the Area Under the Curve (AUC). Default is \code{1000}.}
@@ -61,6 +63,10 @@ print(mod_1)
 predict(mod_1, x = 45, type = "point", id = 2)
 # AUC Prediction
 predict(mod_1, x = c(0, 108), type = "auc", id = 2)
+# First Derivative
+predict(mod_1, x = 45, type = "fd", id = 2)
+# Second Derivative
+predict(mod_1, x = 45, type = "sd", id = 2)
 }
 \author{
 Johan Aparicio [aut]

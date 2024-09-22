@@ -83,6 +83,7 @@ An object of class \code{modeler}, which is a list containing the following elem
   \item{\code{response}}{Response variable.}
   \item{\code{keep}}{Metadata to keep across.}
   \item{\code{fun}}{Name of the function.}
+  \item{\code{parallel}}{List returning parallel and workers.}
   \item{\code{fit}}{List with the fitted models.}
 }
 }

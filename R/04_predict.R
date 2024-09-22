@@ -10,7 +10,9 @@
 #' @param id A unique identifier to filter by. \code{NULL} by default.
 #' @param type A character string specifying the type of prediction. If "point"
 #' it will predict the value of y for a given x. If "auc" it will return the
-#' area under the curve (AUC) for the fitted curve.
+#' area under the curve (AUC) for the fitted curve. If "fd" the first order
+#' derivative at the x value is returned. If "sd" the second order derivative
+#' at the x value is returned.
 #' @param n_points An integer specifying the number of x points to use for
 #' approximating the Area Under the Curve (AUC). Default is \code{1000}.
 #' @param metadata \code{TRUE} or \code{FALSE}. Whether to bring the metadata or
@@ -39,12 +41,16 @@
 #' predict(mod_1, x = 45, type = "point", id = 2)
 #' # AUC Prediction
 #' predict(mod_1, x = c(0, 108), type = "auc", id = 2)
+#' # First Derivative
+#' predict(mod_1, x = 45, type = "fd", id = 2)
+#' # Second Derivative
+#' predict(mod_1, x = 45, type = "sd", id = 2)
 #' @import ggplot2
 #' @import dplyr
 predict.modeler <- function(object,
                             x = NULL,
                             id = NULL,
-                            type = c("point", "auc"),
+                            type = c("point", "auc", "fd", "sd"),
                             n_points = 1000,
                             metadata = FALSE, ...) {
   # Check the class of object
@@ -108,6 +114,32 @@ predict.modeler <- function(object,
           x_new = x,
           curve = object$fun,
           n_points = n_points
+        )
+      )
+    ) |>
+      as_tibble()
+  }
+  # Derivatives
+  if (type %in% c("fd", "sd")) {
+    if (is.null(x)) {
+      stop("Argument x is required for predictions.")
+    } else {
+      stopifnot("x must be of lenght 1 for derivatives." = length(x) == 1)
+    }
+    limit_inf <- min(data$x, na.rm = TRUE)
+    limit_sup <- max(data$x, na.rm = TRUE)
+    if (!all(limit_inf <= x & x <= limit_sup)) {
+      stop("x needs to be in the interval <", limit_inf, ", ", limit_sup, ">")
+    }
+    predictions <- do.call(
+      what = rbind,
+      args = suppressWarnings(
+        lapply(
+          X = fit_list,
+          FUN = .delta_method_deriv,
+          x_new = x,
+          curve = object$fun,
+          which = type
         )
       )
     ) |>
@@ -263,4 +295,83 @@ ff_auc <- function(params, x_new, curve, fixed_params = NA, n_points = 1000) {
   trapezoid_area <- (lead(y_hat) + y_hat) / 2 * (lead(x) - x)
   auc <- sum(trapezoid_area, na.rm = TRUE)
   return(auc)
+}
+
+# Delta method for derivative estimation
+.delta_method_deriv <- function(fit, x_new, curve, which = "fd") {
+  tt <- fit$hessian
+  rdf <- (fit$n_obs - fit$p)
+  varerr <- fit$param$sse / rdf
+  vcov_mat <- try(solve(tt) * 2 * varerr, silent = TRUE)
+  best <- fit$details$method
+  estimated_params <- coef(fit$kkopt)[best, ]
+  uid <- fit$uid
+  fix_params <- fit$type |>
+    filter(type == "fixed") |>
+    pull(value, name = parameter)
+  if (length(fix_params) == 0) fix_params <- NA
+  jac_matrix <- numDeriv::jacobian(
+    func = ff_deriv,
+    x = estimated_params,
+    x_new = x_new,
+    curve = curve,
+    fixed_params = fix_params,
+    which = which
+  )
+  if (!inherits(vcov_mat, "try-error")) {
+    std_errors <- sqrt(diag(jac_matrix %*% vcov_mat %*% t(jac_matrix)))
+  } else {
+    std_errors <- NA
+  }
+  # Predictions
+  predicted_values <- ff_deriv(
+    params = estimated_params,
+    x_new = x_new,
+    curve = curve,
+    fixed_params = fix_params,
+    which = which
+  )
+  # Combine results
+  results <- data.frame(
+    uid = uid,
+    x_new = x_new,
+    predicted.value = predicted_values,
+    std.error = std_errors
+  )
+  results <- full_join(
+    x = select(fit$param, uid),
+    y = results,
+    by = "uid"
+  )
+}
+
+# Function for derivatives
+ff_deriv <- function(params, x_new, curve, fixed_params = NA, which = "fd") {
+  arg <- names(formals(curve))[-1]
+  values <- paste(params, collapse = ", ")
+  if (!any(is.na(fixed_params))) {
+    names(params) <- arg[!arg %in% names(fixed_params)]
+    values <- paste(
+      paste(names(params), params, sep = " = "),
+      collapse = ", "
+    )
+    fix <- paste(
+      paste(names(fixed_params), fixed_params, sep = " = "),
+      collapse = ", "
+    )
+    values <- paste(values, fix, sep = ", ")
+  } else {
+    values <- paste(
+      paste(names(params), params, sep = " = "),
+      collapse = ", "
+    )
+  }
+  x <- paste0("c(", paste(x_new, collapse = ", "), ")")
+  string <- paste0("numDeriv::genD(", curve, ", x = ", x, ", ", values, ")")
+  fd <- eval(parse(text = string))$D
+  if (which == "fd") {
+    return(fd[1])
+  } else if (which == "sd") {
+    return(fd[2])
+  }
 }
