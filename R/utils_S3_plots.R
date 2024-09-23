@@ -103,27 +103,29 @@ plot_fn <- function(fn = "fn_piwise",
 #' executing the function \code{modeler()}
 #' @param id To avoid too many plots in one figure. Filter by group Id.
 #' @param type Numeric 1, 2, or 3. To specify the type of plot. Default is 1.
-#'  Type 4, 5 and 6 are experimental. See details.
+#'  Type 4, 5 and 6 are experimental.
+#' \describe{
+#'   \item{\code{type = 1}}{Raw Data + Fitted Curve}
+#'   \item{\code{type = 2}}{Coefficients + Confindence Intervals}
+#'   \item{\code{type = 3}}{Fitted Curve + Color by Group}
+#'   \item{\code{type = 4}}{Fitted curve + Confindence Intervals}
+#'   \item{\code{type = 5}}{First Derivative + Confindence Intervals}
+#'   \item{\code{type = 6}}{Second Derivative + Confindence Intervals}
+#' }
 #' @param label_size Label size. 3 by default.
 #' @param base_size Base font size, given in pts.
 #' @param color color for geom_line when type 1. Default is "red".
 #' @param parm If type is equal to 2 it must be a vector of names of the parameters. If NULL, all parameters are considered.
 #' @param n_points Number of points to interpolate along the x axis. Default is 2000.
 #' @param title Optional string character to add a title to the plot.
+#' @param add_ci Add confidence interval for type in c(4, 5, 6).TRUE or FALSE. TRUE by default.
+#' @param add_ribbon Add geom_ribbon for type in c(4, 5, 6).TRUE or FALSE. TRUE by default.
+#' @param color_ribbon Ribbon color. "blue" by default.
 #' @param ... Further graphical parameters. For future improvements.
 #' @author Johan Aparicio [aut]
 #' @method plot modeler
 #' @return A ggplot object.
 #' @export
-#' @details
-#' \describe{
-#'   \item{\code{type = 1}}{Raw Data + Fitted Curve}
-#'   \item{\code{type = 2}}{Coefficients + Confindence Intervals}
-#'   \item{\code{type = 3}}{Fitted Curve + Group by Color}
-#'   \item{\code{type = 4}}{Fitted curve + Confindence Intervals}
-#'   \item{\code{type = 5}}{First Derivative + Confindence Intervals}
-#'   \item{\code{type = 6}}{Second Derivative + Confindence Intervals}
-#' }
 #' @examples
 #' library(flexFitR)
 #' data(dt_potato)
@@ -155,7 +157,10 @@ plot.modeler <- function(x,
                          color = "red",
                          parm = NULL,
                          n_points = 2000,
-                         title = NULL, ...) {
+                         title = NULL,
+                         add_ci = TRUE,
+                         add_ribbon = FALSE,
+                         color_ribbon = "blue", ...) {
   data <- x$dt |> select(uid, var, x, y, .fitted)
   param <- x$param
   fn <- x$fn
@@ -226,25 +231,88 @@ plot.modeler <- function(x,
       `5` = "fd",
       `6` = "sd"
     )
+    title_tmp <- switch(
+      EXPR = as.character(type),
+      `4` = "Fitted Curve",
+      `5` = "1st Derivative",
+      `6` = "2nd Derivative"
+    )
+    mse_dt <- do.call(
+      what = rbind,
+      args = lapply(x$fit, \(x) {
+        n <- x$n_obs
+        p <- x$p
+        df <- n - p
+        data.frame(uid = x$uid, n = n, p = p, df = df, mse = x$param$sse / df)
+      })
+    )
     dt_ci <- predict.modeler(object = x, x = sq, type = tp, id = id) |>
+      left_join(y = mse_dt, by = "uid") |>
+      mutate(std.error.p = sqrt(mse + std.error^2)) |>
       mutate(
-        ci_lower = predicted.value - 1.96 * std.error,
-        ci_upper = predicted.value + 1.96 * std.error
+        ci_lower = predicted.value + qt((1 - 0.95) / 2, df) * std.error,
+        ci_upper = predicted.value - qt((1 - 0.95) / 2, df) * std.error,
+        pi_lower = predicted.value + qt((1 - 0.95) / 2, df) * std.error.p,
+        pi_upper = predicted.value - qt((1 - 0.95) / 2, df) * std.error.p
       )
     p0 <- dt_ci |>
       ggplot() +
-      geom_ribbon(
-        mapping = aes(x = x_new, ymin = ci_lower, ymax = ci_upper),
-        fill = "blue",
-        alpha = 0.5
-      ) +
       geom_line(
         mapping = aes(x = x_new, y = predicted.value, group = uid),
         color = color
       ) +
+      {
+        if (add_ribbon & add_ci) {
+          geom_ribbon(
+            mapping = aes(x = x_new, ymin = ci_lower, ymax = ci_upper),
+            fill = color_ribbon,
+            alpha = 0.2
+          )
+        }
+      } +
+      {
+        if (add_ci) {
+          geom_line(
+            mapping = aes(x = x_new, y = ci_lower, group = uid),
+            linetype = 2,
+            color = "blue"
+          )
+        }
+      } +
+      {
+        if (add_ci) {
+          geom_line(
+            mapping = aes(x = x_new, y = ci_upper, group = uid),
+            linetype = 2,
+            color = "blue"
+          )
+        }
+      } +
+      {
+        if (add_ci && type == 4) {
+          geom_line(
+            mapping = aes(x = x_new, y = pi_lower, group = uid),
+            linetype = 2,
+            color = "red"
+          )
+        }
+      } +
+      {
+        if (add_ci && type == 4) {
+          geom_line(
+            mapping = aes(x = x_new, y = pi_upper, group = uid),
+            linetype = 2,
+            color = "red"
+          )
+        }
+      } +
       theme_classic(base_size = base_size) +
       facet_wrap(~uid) +
-      labs(y = label, x = "x", title = title)
+      labs(
+        y = label,
+        x = "x",
+        title = ifelse(is.null(title), title_tmp, title)
+      )
   }
   return(p0)
 }
