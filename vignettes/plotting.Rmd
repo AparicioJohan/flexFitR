@@ -52,7 +52,7 @@ mod
 ## Plotting predictions and derivatives
 
 ```{r,  fig.width= 8, fig.height=8, fig.alt="plot derivatives"}
-a <- plot(mod, color = "blue", title = "Raw - data")
+a <- plot(mod, color = "blue", title = "Raw data")
 b <- plot(mod, type = 4, n_points = 200, color = "black")
 c <- plot(mod, type = 5, n_points = 200, color = "black")
 d <- plot(mod, type = 6, n_points = 200, color = "black")
