@@ -13,6 +13,8 @@
 #' area under the curve (AUC) for the fitted curve. If "fd" the first order
 #' derivative at the x value is returned. If "sd" the second order derivative
 #' at the x value is returned.
+#' @param se_interval Type of standard error calculation for intervals.
+#' "confidence" or "prediction". "confidence" by default.
 #' @param n_points An integer specifying the number of x points to use for
 #' approximating the Area Under the Curve (AUC). Default is \code{1000}.
 #' @param metadata \code{TRUE} or \code{FALSE}. Whether to bring the metadata or
@@ -51,12 +53,14 @@ predict.modeler <- function(object,
                             x = NULL,
                             id = NULL,
                             type = c("point", "auc", "fd", "sd"),
+                            se_interval = c("confidence", "prediction"),
                             n_points = 1000,
                             metadata = FALSE, ...) {
   # Check the class of object
   if (!inherits(object, "modeler")) {
     stop("The object should be of class 'modeler'.")
   }
+  se_interval <- match.arg(se_interval)
   type <- match.arg(type)
   keep <- object$keep
   data <- object$dt
@@ -90,6 +94,21 @@ predict.modeler <- function(object,
       )
     ) |>
       as_tibble()
+    if (se_interval == "prediction") {
+      mse_dt <- do.call(
+        what = rbind,
+        args = lapply(fit_list, \(x) {
+          n <- x$n_obs
+          p <- x$p
+          df <- n - p
+          data.frame(uid = x$uid, mse = x$param$sse / df)
+        })
+      )
+      predictions <- predictions |>
+        left_join(y = mse_dt, by = "uid") |>
+        mutate(std.error = sqrt(mse + std.error^2)) |>
+        select(-mse)
+    }
   }
   # Area under the curve
   if (type == "auc") {
