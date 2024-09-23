@@ -1,0 +1,60 @@
+---
+title: "Plotting Options"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Plotting Options}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>", 
+  warning = FALSE, 
+  message = FALSE
+)
+```
+
+## Example dataset and libraries
+
+```{r setup}
+library(flexFitR)
+library(dplyr)
+library(ggpubr)
+
+dt <- data.frame(
+  time = c(0, 29, 36, 42, 56, 76, 92, 100, 108),
+  variable = c(0, 0, 0.67, 15.11, 77.38, 99.81, 99.81, 99.81, 99.81)
+) |>
+  mutate(variable = variable + rnorm(n = n(), mean = 5, sd = 5))
+```
+
+## Expectation function and modeling
+
+```{r,  fig.width= 8, fig.height=8, fig.alt="plot derivatives"}
+fn <- function(t, t0, t1, t2) {
+  t0 / (1 + exp((t1 - t) / t2))
+}
+
+mod <- dt |>
+  modeler(
+    x = time,
+    y = variable,
+    fn = "fn",
+    parameters = c(t0 = 100, t1 = 50, t2 = 5)
+  )
+mod
+```
+
+## Plotting predictions and derivatives
+
+```{r,  fig.width= 8, fig.height=8, fig.alt="plot derivatives"}
+a <- plot(mod, color = "blue", title = "Raw - data")
+b <- plot(mod, type = 4, n_points = 200, color = "black", title = "Fitted Curve")
+c <- plot(mod, type = 5, n_points = 200, color = "black", title = "1st Derivative")
+d <- plot(mod, type = 6, n_points = 200, color = "black", title = "2nd Derivative")
+
+ggarrange(a, b, c, d)
+```
+

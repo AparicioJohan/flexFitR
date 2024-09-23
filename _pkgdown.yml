@@ -33,6 +33,8 @@ navbar:
         href: articles/height-model.html
       - text: Modeling HTP Data 3
         href: articles/maturity-model.html
+      - text: Plotting Options
+        href: articles/plotting.html
   - icon:
     text: News
     href: news/index.html

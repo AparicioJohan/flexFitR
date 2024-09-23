@@ -23,6 +23,7 @@
     <li><a class="dropdown-item" href="../articles/canopy-model.html">Modeling HTP Data 1</a></li>
     <li><a class="dropdown-item" href="../articles/height-model.html">Modeling HTP Data 2</a></li>
     <li><a class="dropdown-item" href="../articles/maturity-model.html">Modeling HTP Data 3</a></li>
+    <li><a class="dropdown-item" href="../articles/plotting.html">Plotting Options</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">News</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -57,7 +58,7 @@
 <span>  <span class="va">object</span>,</span>
 <span>  x <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  id <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"point"</span>, <span class="st">"auc"</span><span class="op">)</span>,</span>
+<span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"point"</span>, <span class="st">"auc"</span>, <span class="st">"fd"</span>, <span class="st">"sd"</span><span class="op">)</span>,</span>
 <span>  n_points <span class="op">=</span> <span class="fl">1000</span>,</span>
 <span>  metadata <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">...</span></span>
@@ -86,7 +87,9 @@ calculating the AUC.</p></dd>
 <dt id="arg-type">type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>
 <dd><p>A character string specifying the type of prediction. If "point"
 it will predict the value of y for a given x. If "auc" it will return the
-area under the curve (AUC) for the fitted curve.</p></dd>
+area under the curve (AUC) for the fitted curve. If "fd" the first order
+derivative at the x value is returned. If "sd" the second order derivative
+at the x value is returned.</p></dd>
 
 
 <dt id="arg-n-points">n_points<a class="anchor" aria-label="anchor" href="#arg-n-points"></a></dt>
@@ -144,7 +147,7 @@ not when making the predictions.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Groups      Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       3 1.9299 secs        100%   414 (id)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       3 2.0822 secs        100%   414 (id)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="co"># Point Prediction</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">mod_1</span>, x <span class="op">=</span> <span class="fl">45</span>, type <span class="op">=</span> <span class="st">"point"</span>, id <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
@@ -158,6 +161,18 @@ not when making the predictions.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     uid x_min x_max predicted.value std.error</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     2     0   108           <span style="text-decoration: underline;">6</span>004.      30.8</span>
+<span class="r-in"><span><span class="co"># First Derivative</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">mod_1</span>, x <span class="op">=</span> <span class="fl">45</span>, type <span class="op">=</span> <span class="st">"fd"</span>, id <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 4</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     uid x_new predicted.value std.error</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     2    45            3.91    0.074<span style="text-decoration: underline;">1</span></span>
+<span class="r-in"><span><span class="co"># Second Derivative</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">mod_1</span>, x <span class="op">=</span> <span class="fl">45</span>, type <span class="op">=</span> <span class="st">"sd"</span>, id <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 4</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     uid x_new predicted.value std.error</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     2    45   -<span style="color: #BB0000;">0.000</span><span style="color: #BB0000; text-decoration: underline;">000</span><span style="color: #BB0000;">029</span><span style="color: #BB0000; text-decoration: underline;">8</span> 0.000<span style="text-decoration: underline;">027</span>4</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

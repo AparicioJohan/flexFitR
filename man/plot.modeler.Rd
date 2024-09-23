@@ -12,6 +12,8 @@
   base_size = 14,
   color = "red",
   parm = NULL,
+  n_points = 2000,
+  title = NULL,
   ...
 )
 }
@@ -21,7 +23,8 @@ executing the function \code{modeler()}}
 
 \item{id}{To avoid too many plots in one figure. Filter by group Id.}
 
-\item{type}{Numeric 1, 2, or 3. To specify the type of plot. Default is 1.}
+\item{type}{Numeric 1, 2, or 3. To specify the type of plot. Default is 1.
+Type 4, 5 and 6 are experimental. See description.}
 
 \item{label_size}{Label size. 3 by default.}
 
@@ -31,6 +34,10 @@ executing the function \code{modeler()}}
 
 \item{parm}{If type is equal to 2 it must be a vector of names of the parameters. If NULL, all parameters are considered.}
 
+\item{n_points}{Number of points to interpolate along the x axis. Default is 2000.}
+
+\item{title}{Optional string character to add a title to the plot.}
+
 \item{...}{Further graphical parameters. For future improvements.}
 }
 \value{
@@ -38,6 +45,16 @@ A ggplot object.
 }
 \description{
 Create several plots for an object of class \code{modeler}
+}
+\details{
+\describe{
+  \item{\code{type = 1}}{Raw Data + Fitted Curve}
+  \item{\code{type = 2}}{Coefficients + Confindence Intervals}
+  \item{\code{type = 3}}{Fitted Curve with color}
+  \item{\code{type = 4}}{Fitted curve + Confindence Intervals}
+  \item{\code{type = 5}}{First Derivative + Confindence Intervals}
+  \item{\code{type = 6}}{Second Derivative + Confindence Intervals}
+}
 }
 \examples{
 library(flexFitR)

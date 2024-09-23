@@ -103,15 +103,27 @@ plot_fn <- function(fn = "fn_piwise",
 #' executing the function \code{modeler()}
 #' @param id To avoid too many plots in one figure. Filter by group Id.
 #' @param type Numeric 1, 2, or 3. To specify the type of plot. Default is 1.
+#'  Type 4, 5 and 6 are experimental. See details.
 #' @param label_size Label size. 3 by default.
 #' @param base_size Base font size, given in pts.
 #' @param color color for geom_line when type 1. Default is "red".
 #' @param parm If type is equal to 2 it must be a vector of names of the parameters. If NULL, all parameters are considered.
+#' @param n_points Number of points to interpolate along the x axis. Default is 2000.
+#' @param title Optional string character to add a title to the plot.
 #' @param ... Further graphical parameters. For future improvements.
 #' @author Johan Aparicio [aut]
 #' @method plot modeler
 #' @return A ggplot object.
 #' @export
+#' @details
+#' \describe{
+#'   \item{\code{type = 1}}{Raw Data + Fitted Curve}
+#'   \item{\code{type = 2}}{Coefficients + Confindence Intervals}
+#'   \item{\code{type = 3}}{Fitted Curve + Group by Color}
+#'   \item{\code{type = 4}}{Fitted curve + Confindence Intervals}
+#'   \item{\code{type = 5}}{First Derivative + Confindence Intervals}
+#'   \item{\code{type = 6}}{Second Derivative + Confindence Intervals}
+#' }
 #' @examples
 #' library(flexFitR)
 #' data(dt_potato)
@@ -141,7 +153,9 @@ plot.modeler <- function(x,
                          label_size = 4,
                          base_size = 14,
                          color = "red",
-                         parm = NULL, ...) {
+                         parm = NULL,
+                         n_points = 2000,
+                         title = NULL, ...) {
   data <- x$dt |> select(uid, var, x, y, .fitted)
   param <- x$param
   fn <- x$fn
@@ -162,7 +176,7 @@ plot.modeler <- function(x,
 
   max_x <- max(dt$x, na.rm = TRUE)
   min_x <- min(dt$x, na.rm = TRUE)
-  sq <- seq(min_x, max_x, by = 0.05)
+  sq <- seq(min_x, max_x, length.out = n_points)
 
   func_dt <- full_join(
     x = expand.grid(x = sq, uid = unique(dt$uid)),
@@ -182,7 +196,7 @@ plot.modeler <- function(x,
       geom_line(data = func_dt, aes(x = x, y = dens), color = color) +
       theme_classic(base_size = base_size) +
       facet_wrap(~uid) +
-      labs(y = label)
+      labs(y = label, title = title)
   }
   if (type == 2) {
     cc_table <- confint.modeler(x, parm = parm, id = id)
@@ -191,7 +205,7 @@ plot.modeler <- function(x,
       geom_point() +
       geom_errorbar(aes(ymin = ci_lower, ymax = ci_upper), width = 0.25) +
       facet_wrap(~coefficient, scales = "free_y") +
-      labs(x = "Group") +
+      labs(x = "Group", title = title) +
       theme_classic(base_size = base_size) +
       theme(axis.text.x = element_text(size = label_size))
   }
@@ -203,20 +217,35 @@ plot.modeler <- function(x,
         mapping = aes(x = x, y = dens, group = uid, color = as.factor(uid)),
       ) +
       theme_classic(base_size = base_size) +
-      labs(y = label, color = "uid")
+      labs(y = label, color = "uid", title = title)
   }
-
-  # We can enable the prediction to be plotted
-  # pp <- predict(mod_1, time = 50, id = 2)
-  # geom_errorbar(
-  #   data = pp,
-  #   mapping = aes(
-  #     x = 50,
-  #     ymin = predicted.value - 1.96 * std.error,
-  #     ymax = predicted.value + 1.96 * std.error
-  #   )
-  # )
-
+  if (type %in% c(4, 5, 6)) {
+    tp <- switch(
+      EXPR = as.character(type),
+      `4` = "point",
+      `5` = "fd",
+      `6` = "sd"
+    )
+    dt_ci <- predict.modeler(object = x, x = sq, type = tp, id = id) |>
+      mutate(
+        ci_lower = predicted.value - 1.96 * std.error,
+        ci_upper = predicted.value + 1.96 * std.error
+      )
+    p0 <- dt_ci |>
+      ggplot() +
+      geom_ribbon(
+        mapping = aes(x = x_new, ymin = ci_lower, ymax = ci_upper),
+        fill = "blue",
+        alpha = 0.5
+      ) +
+      geom_line(
+        mapping = aes(x = x_new, y = predicted.value, group = uid),
+        color = color
+      ) +
+      theme_classic(base_size = base_size) +
+      facet_wrap(~uid) +
+      labs(y = label, x = "x", title = title)
+  }
   return(p0)
 }
 

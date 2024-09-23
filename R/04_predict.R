@@ -123,8 +123,6 @@ predict.modeler <- function(object,
   if (type %in% c("fd", "sd")) {
     if (is.null(x)) {
       stop("Argument x is required for predictions.")
-    } else {
-      stopifnot("x must be of lenght 1 for derivatives." = length(x) == 1)
     }
     limit_inf <- min(data$x, na.rm = TRUE)
     limit_sup <- max(data$x, na.rm = TRUE)
@@ -366,12 +364,16 @@ ff_deriv <- function(params, x_new, curve, fixed_params = NA, which = "fd") {
       collapse = ", "
     )
   }
-  x <- paste0("c(", paste(x_new, collapse = ", "), ")")
-  string <- paste0("numDeriv::genD(", curve, ", x = ", x, ", ", values, ")")
-  fd <- eval(parse(text = string))$D
+  string <- paste0(
+    "lapply(x_new, FUN = numDeriv::genD, func = ",
+    curve, ", ",
+    values, ")"
+  )
+  res <- eval(parse(text = string))
+  res <- do.call(what = rbind, args = lapply(res, \(x) x$D))
   if (which == "fd") {
-    return(fd[1])
+    return(res[, 1])
   } else if (which == "sd") {
-    return(fd[2])
+    return(res[, 2])
   }
 }
