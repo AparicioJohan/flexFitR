@@ -9,6 +9,7 @@
   x = NULL,
   id = NULL,
   type = c("point", "auc", "fd", "sd"),
+  se_interval = c("confidence", "prediction"),
   n_points = 1000,
   metadata = FALSE,
   ...
@@ -29,6 +30,9 @@ it will predict the value of y for a given x. If "auc" it will return the
 area under the curve (AUC) for the fitted curve. If "fd" the first order
 derivative at the x value is returned. If "sd" the second order derivative
 at the x value is returned.}
+
+\item{se_interval}{Type of standard error calculation for intervals.
+"confidence" or "prediction". "confidence" by default.}
 
 \item{n_points}{An integer specifying the number of x points to use for
 approximating the Area Under the Curve (AUC). Default is \code{1000}.}

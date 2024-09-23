@@ -10,33 +10,34 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>", 
-  warning = FALSE, 
+  comment = "#>",
+  warning = FALSE,
   message = FALSE
 )
 ```
 
-## Example dataset and libraries
+## Example dataset and loading libraries
 
 ```{r setup}
 library(flexFitR)
 library(dplyr)
 library(ggpubr)
+set.seed(10)
 
 dt <- data.frame(
   time = c(0, 29, 36, 42, 56, 76, 92, 100, 108),
   variable = c(0, 0, 0.67, 15.11, 77.38, 99.81, 99.81, 99.81, 99.81)
 ) |>
-  mutate(variable = variable + rnorm(n = n(), mean = 5, sd = 5))
+  mutate(variable = variable + rnorm(n = n(), mean = 5, sd = 6))
 ```
 
 ## Expectation function and modeling
 
 ```{r,  fig.width= 8, fig.height=8, fig.alt="plot derivatives"}
-fn <- function(t, t0, t1, t2) {
-  t0 / (1 + exp((t1 - t) / t2))
-}
+fn <- function(t, t0, t1, t2) t0 / (1 + exp((t1 - t) / t2))
+```
 
+```{r}
 mod <- dt |>
   modeler(
     x = time,
@@ -47,14 +48,14 @@ mod <- dt |>
 mod
 ```
 
+
 ## Plotting predictions and derivatives
 
 ```{r,  fig.width= 8, fig.height=8, fig.alt="plot derivatives"}
 a <- plot(mod, color = "blue", title = "Raw - data")
-b <- plot(mod, type = 4, n_points = 200, color = "black", title = "Fitted Curve")
-c <- plot(mod, type = 5, n_points = 200, color = "black", title = "1st Derivative")
-d <- plot(mod, type = 6, n_points = 200, color = "black", title = "2nd Derivative")
+b <- plot(mod, type = 4, n_points = 200, color = "black")
+c <- plot(mod, type = 5, n_points = 200, color = "black")
+d <- plot(mod, type = 6, n_points = 200, color = "black")
 
 ggarrange(a, b, c, d)
 ```
-

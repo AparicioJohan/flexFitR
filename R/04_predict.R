@@ -90,25 +90,16 @@ predict.modeler <- function(object,
     predictions <- do.call(
       what = rbind,
       args = suppressWarnings(
-        lapply(fit_list, FUN = .delta_method, x_new = x, curve = object$fun)
+        lapply(
+          X = fit_list,
+          FUN = .delta_method,
+          x_new = x,
+          curve = object$fun,
+          se_interval = se_interval
+        )
       )
     ) |>
       as_tibble()
-    if (se_interval == "prediction") {
-      mse_dt <- do.call(
-        what = rbind,
-        args = lapply(fit_list, \(x) {
-          n <- x$n_obs
-          p <- x$p
-          df <- n - p
-          data.frame(uid = x$uid, mse = x$param$sse / df)
-        })
-      )
-      predictions <- predictions |>
-        left_join(y = mse_dt, by = "uid") |>
-        mutate(std.error = sqrt(mse + std.error^2)) |>
-        select(-mse)
-    }
   }
   # Area under the curve
   if (type == "auc") {
@@ -175,7 +166,7 @@ predict.modeler <- function(object,
 }
 
 # Delta method point estimation
-.delta_method <- function(fit, x_new, curve) {
+.delta_method <- function(fit, x_new, curve, se_interval = "confidence") {
   tt <- fit$hessian
   rdf <- (fit$n_obs - fit$p)
   varerr <- fit$param$sse / rdf
@@ -196,6 +187,9 @@ predict.modeler <- function(object,
   )
   if (!inherits(vcov_mat, "try-error")) {
     std_errors <- sqrt(diag(jac_matrix %*% vcov_mat %*% t(jac_matrix)))
+    if (se_interval == "prediction") {
+      std_errors <- sqrt(varerr + std_errors^2)
+    }
   } else {
     std_errors <- NA
   }

@@ -14,6 +14,9 @@
   parm = NULL,
   n_points = 2000,
   title = NULL,
+  add_ci = TRUE,
+  add_ribbon = FALSE,
+  color_ribbon = "blue",
   ...
 )
 }
@@ -24,7 +27,15 @@ executing the function \code{modeler()}}
 \item{id}{To avoid too many plots in one figure. Filter by group Id.}
 
 \item{type}{Numeric 1, 2, or 3. To specify the type of plot. Default is 1.
-Type 4, 5 and 6 are experimental. See description.}
+ Type 4, 5 and 6 are experimental.
+\describe{
+  \item{\code{type = 1}}{Raw Data + Fitted Curve}
+  \item{\code{type = 2}}{Coefficients + Confindence Intervals}
+  \item{\code{type = 3}}{Fitted Curve + Color by Group}
+  \item{\code{type = 4}}{Fitted curve + Confindence Intervals}
+  \item{\code{type = 5}}{First Derivative + Confindence Intervals}
+  \item{\code{type = 6}}{Second Derivative + Confindence Intervals}
+}}
 
 \item{label_size}{Label size. 3 by default.}
 
@@ -38,6 +49,12 @@ Type 4, 5 and 6 are experimental. See description.}
 
 \item{title}{Optional string character to add a title to the plot.}
 
+\item{add_ci}{Add confidence interval for type in c(4, 5, 6).TRUE or FALSE. TRUE by default.}
+
+\item{add_ribbon}{Add geom_ribbon for type in c(4, 5, 6).TRUE or FALSE. TRUE by default.}
+
+\item{color_ribbon}{Ribbon color. "blue" by default.}
+
 \item{...}{Further graphical parameters. For future improvements.}
 }
 \value{
@@ -45,16 +62,6 @@ A ggplot object.
 }
 \description{
 Create several plots for an object of class \code{modeler}
-}
-\details{
-\describe{
-  \item{\code{type = 1}}{Raw Data + Fitted Curve}
-  \item{\code{type = 2}}{Coefficients + Confindence Intervals}
-  \item{\code{type = 3}}{Fitted Curve with color}
-  \item{\code{type = 4}}{Fitted curve + Confindence Intervals}
-  \item{\code{type = 5}}{First Derivative + Confindence Intervals}
-  \item{\code{type = 6}}{Second Derivative + Confindence Intervals}
-}
 }
 \examples{
 library(flexFitR)

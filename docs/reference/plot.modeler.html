@@ -64,6 +64,9 @@
 <span>  parm <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  n_points <span class="op">=</span> <span class="fl">2000</span>,</span>
 <span>  title <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  add_ci <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  add_ribbon <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  color_ribbon <span class="op">=</span> <span class="st">"blue"</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -83,7 +86,26 @@ executing the function <code><a href="modeler.html">modeler()</a></code></p></dd
 
 <dt id="arg-type">type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>
 <dd><p>Numeric 1, 2, or 3. To specify the type of plot. Default is 1.
-Type 4, 5 and 6 are experimental. See description.</p></dd>
+ Type 4, 5 and 6 are experimental.</p><dl><dt><code>type = 1</code></dt>
+<dd><p>Raw Data + Fitted Curve</p></dd>
+
+  <dt><code>type = 2</code></dt>
+<dd><p>Coefficients + Confindence Intervals</p></dd>
+
+  <dt><code>type = 3</code></dt>
+<dd><p>Fitted Curve + Color by Group</p></dd>
+
+  <dt><code>type = 4</code></dt>
+<dd><p>Fitted curve + Confindence Intervals</p></dd>
+
+  <dt><code>type = 5</code></dt>
+<dd><p>First Derivative + Confindence Intervals</p></dd>
+
+  <dt><code>type = 6</code></dt>
+<dd><p>Second Derivative + Confindence Intervals</p></dd>
+
+
+</dl></dd>
 
 
 <dt id="arg-label-size">label_size<a class="anchor" aria-label="anchor" href="#arg-label-size"></a></dt>
@@ -110,6 +132,18 @@ Type 4, 5 and 6 are experimental. See description.</p></dd>
 <dd><p>Optional string character to add a title to the plot.</p></dd>
 
 
+<dt id="arg-add-ci">add_ci<a class="anchor" aria-label="anchor" href="#arg-add-ci"></a></dt>
+<dd><p>Add confidence interval for type in c(4, 5, 6).TRUE or FALSE. TRUE by default.</p></dd>
+
+
+<dt id="arg-add-ribbon">add_ribbon<a class="anchor" aria-label="anchor" href="#arg-add-ribbon"></a></dt>
+<dd><p>Add geom_ribbon for type in c(4, 5, 6).TRUE or FALSE. TRUE by default.</p></dd>
+
+
+<dt id="arg-color-ribbon">color_ribbon<a class="anchor" aria-label="anchor" href="#arg-color-ribbon"></a></dt>
+<dd><p>Ribbon color. "blue" by default.</p></dd>
+
+
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Further graphical parameters. For future improvements.</p></dd>
 
@@ -118,29 +152,6 @@ Type 4, 5 and 6 are experimental. See description.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A ggplot object.</p>
     </div>
-    <div class="section level2">
-    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-
-<dl><dt><code>type = 1</code></dt>
-<dd><p>Raw Data + Fitted Curve</p></dd>
-
-  <dt><code>type = 2</code></dt>
-<dd><p>Coefficients + Confindence Intervals</p></dd>
-
-  <dt><code>type = 3</code></dt>
-<dd><p>Fitted Curve with color</p></dd>
-
-  <dt><code>type = 4</code></dt>
-<dd><p>Fitted curve + Confindence Intervals</p></dd>
-
-  <dt><code>type = 5</code></dt>
-<dd><p>First Derivative + Confindence Intervals</p></dd>
-
-  <dt><code>type = 6</code></dt>
-<dd><p>Second Derivative + Confindence Intervals</p></dd>
-
-
-</dl></div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
     <p>Johan Aparicio [aut]</p>
@@ -180,7 +191,7 @@ Type 4, 5 and 6 are experimental. See description.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Groups      Timing Convergence  Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       3 2.2135 secs        100% 499.67 (id)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       3 1.5726 secs        100% 499.67 (id)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span>, id <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot.modeler-1.png" alt="" width="700" height="433"></span>

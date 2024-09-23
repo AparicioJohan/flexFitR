@@ -59,6 +59,7 @@
 <span>  x <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  id <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"point"</span>, <span class="st">"auc"</span>, <span class="st">"fd"</span>, <span class="st">"sd"</span><span class="op">)</span>,</span>
+<span>  se_interval <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"confidence"</span>, <span class="st">"prediction"</span><span class="op">)</span>,</span>
 <span>  n_points <span class="op">=</span> <span class="fl">1000</span>,</span>
 <span>  metadata <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">...</span></span>
@@ -90,6 +91,11 @@ it will predict the value of y for a given x. If "auc" it will return the
 area under the curve (AUC) for the fitted curve. If "fd" the first order
 derivative at the x value is returned. If "sd" the second order derivative
 at the x value is returned.</p></dd>
+
+
+<dt id="arg-se-interval">se_interval<a class="anchor" aria-label="anchor" href="#arg-se-interval"></a></dt>
+<dd><p>Type of standard error calculation for intervals.
+"confidence" or "prediction". "confidence" by default.</p></dd>
 
 
 <dt id="arg-n-points">n_points<a class="anchor" aria-label="anchor" href="#arg-n-points"></a></dt>
@@ -147,7 +153,7 @@ not when making the predictions.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Groups      Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       3 2.0822 secs        100%   414 (id)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       3 1.4683 secs        100%   414 (id)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="co"># Point Prediction</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">mod_1</span>, x <span class="op">=</span> <span class="fl">45</span>, type <span class="op">=</span> <span class="st">"point"</span>, id <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
