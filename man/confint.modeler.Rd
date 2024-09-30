@@ -2,27 +2,33 @@
 % Please edit documentation in R/07_confint.R
 \name{confint.modeler}
 \alias{confint.modeler}
-\title{Confidence Intervals for an object of class \code{modeler}}
+\title{Confidence Intervals for a modeler Object}
 \usage{
 \method{confint}{modeler}(x, parm = NULL, level = 0.95, id = NULL, ...)
 }
 \arguments{
-\item{x}{An object inheriting from class \code{modeler} resulting of
-executing the function \code{modeler()}}
+\item{x}{An object of class \code{modeler}, typically the result of calling
+the \code{modeler()} function.}
 
-\item{parm}{A specification of which parameters are to be given confidence intervals, must be a vector of names. If missing, all parameters are considered.}
+\item{parm}{A character vector specifying which parameters should have
+confidence intervals calculated. If \code{NULL}, confidence intervals for all
+parameters are returned. Default is \code{NULL}.}
 
-\item{level}{The confidence level required. Default is 0.95.}
+\item{level}{A numeric value indicating the confidence level for the intervals.
+Default is 0.95, corresponding to a 95\% confidence interval.}
 
-\item{id}{A unique identifier to filter by. \code{NULL} by default.}
+\item{id}{An optional unique identifier to filter by a specific group.
+Default is \code{NULL}.}
 
-\item{...}{Further parameters. For future improvements.}
+\item{...}{Additional parameters for future functionality.}
 }
 \value{
-A tibble with columns giving lower and upper confidence limits for each parameter.
+A \code{tibble} containing the lower and upper confidence limits for
+each specified parameter.
 }
 \description{
-confint for an object of class \code{modeler}
+Extract confidence intervals for the estimated parameters of an
+object of class \code{modeler}.
 }
 \examples{
 library(flexFitR)

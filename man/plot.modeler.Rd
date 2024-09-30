@@ -21,44 +21,42 @@
 )
 }
 \arguments{
-\item{x}{An object inheriting from class \code{modeler} resulting of
-executing the function \code{modeler()}}
+\item{x}{An object of class \code{modeler}, typically the result of calling \code{modeler()}.}
 
-\item{id}{To avoid too many plots in one figure. Filter by group Id.}
+\item{id}{An optional group ID to filter the data for plotting, useful for avoiding overcrowded plots.}
 
-\item{type}{Numeric 1, 2, or 3. To specify the type of plot. Default is 1.
- Type 4, 5 and 6 are experimental.
+\item{type}{Numeric value (1-6) to specify the type of plot to generate. Default is 1.
 \describe{
-  \item{\code{type = 1}}{Raw Data + Fitted Curve}
-  \item{\code{type = 2}}{Coefficients + Confindence Intervals}
-  \item{\code{type = 3}}{Fitted Curve + Color by Group}
-  \item{\code{type = 4}}{Fitted curve + Confindence Intervals}
-  \item{\code{type = 5}}{First Derivative + Confindence Intervals}
-  \item{\code{type = 6}}{Second Derivative + Confindence Intervals}
+  \item{\code{type = 1}}{Plot of raw data with fitted curves.}
+  \item{\code{type = 2}}{Plot of coefficients with confidence intervals.}
+  \item{\code{type = 3}}{Plot of fitted curves, colored by group.}
+  \item{\code{type = 4}}{Plot of fitted curves with confidence intervals.}
+  \item{\code{type = 5}}{Plot of first derivative with confidence intervals.}
+  \item{\code{type = 6}}{Plot of second derivative with confidence intervals.}
 }}
 
-\item{label_size}{Label size. 3 by default.}
+\item{label_size}{Numeric value for the size of labels. Default is 4.}
 
-\item{base_size}{Base font size, given in pts.}
+\item{base_size}{Numeric value for the base font size in pts. Default is 14.}
 
-\item{color}{color for geom_line when type 1. Default is "red".}
+\item{color}{Character string specifying the color for the fitted line when \code{type = 1}. Default is "red".}
 
-\item{parm}{If type is equal to 2 it must be a vector of names of the parameters. If NULL, all parameters are considered.}
+\item{parm}{Character vector specifying the parameters to plot for \code{type = 2}. If \code{NULL}, all parameters are included.}
 
-\item{n_points}{Number of points to interpolate along the x axis. Default is 2000.}
+\item{n_points}{Numeric value specifying the number of points for interpolation along the x-axis. Default is 2000.}
 
-\item{title}{Optional string character to add a title to the plot.}
+\item{title}{Optional character string to add a title to the plot.}
 
-\item{add_ci}{Add confidence interval for type in c(4, 5, 6).TRUE or FALSE. TRUE by default.}
+\item{add_ci}{Logical value indicating whether to add confidence intervals for \code{type = 4, 5, 6}. Default is \code{TRUE}.}
 
-\item{add_ribbon}{Add geom_ribbon for type in c(4, 5, 6).TRUE or FALSE. TRUE by default.}
+\item{add_ribbon}{Logical value indicating whether to add a ribbon for confidence intervals in \code{type = 4, 5, 6}. Default is \code{FALSE}.}
 
-\item{color_ribbon}{Ribbon color. "blue" by default.}
+\item{color_ribbon}{Character string specifying the color of the ribbon. Default is "blue".}
 
-\item{...}{Further graphical parameters. For future improvements.}
+\item{...}{Additional graphical parameters for future extensions.}
 }
 \value{
-A ggplot object.
+A \code{ggplot} object representing the specified plot.
 }
 \description{
 Create several plots for an object of class \code{modeler}

@@ -1,14 +1,17 @@
 #' Variance-Covariance matrix for an object of class \code{modeler}
 #'
-#' @description vcov for an object of class \code{modeler}
+#' @description Extract the variance-covariance matrix for the parameter estimates
+#' from an object of class \code{modeler}.
 #' @aliases vcov.modeler
-#' @param x An object inheriting from class \code{modeler} resulting of
-#' executing the function \code{modeler()}
-#' @param id A unique identifier to filter by. \code{NULL} by default.
-#' @param ... Further parameters. For future improvements.
+#' @param x An object of class \code{modeler}, typically the result of calling
+#' the \code{modeler()} function.
+#' @param id An optional unique identifier to filter by a specific group.
+#' Default is \code{NULL}.
+#' @param ... Additional parameters for future functionality.
 #' @author Johan Aparicio [aut]
 #' @method vcov modeler
-#' @return A list object with matrices of the estimated covariances between the parameter estimates.
+#' @return A list of matrices, where each matrix represents the variance-covariance
+#' matrix of the estimated parameters for each group or fit.
 #' @export
 #' @examples
 #' library(flexFitR)

@@ -1,16 +1,22 @@
-#'  Confidence Intervals for an object of class \code{modeler}
+#' Confidence Intervals for a modeler Object
 #'
-#' @description confint for an object of class \code{modeler}
+#' @description Extract confidence intervals for the estimated parameters of an
+#' object of class \code{modeler}.
 #' @aliases confint.modeler
-#' @param x An object inheriting from class \code{modeler} resulting of
-#' executing the function \code{modeler()}
-#' @param parm A specification of which parameters are to be given confidence intervals, must be a vector of names. If missing, all parameters are considered.
-#' @param level The confidence level required. Default is 0.95.
-#' @param id A unique identifier to filter by. \code{NULL} by default.
-#' @param ... Further parameters. For future improvements.
+#' @param x An object of class \code{modeler}, typically the result of calling
+#' the \code{modeler()} function.
+#' @param parm A character vector specifying which parameters should have
+#' confidence intervals calculated. If \code{NULL}, confidence intervals for all
+#' parameters are returned. Default is \code{NULL}.
+#' @param level A numeric value indicating the confidence level for the intervals.
+#' Default is 0.95, corresponding to a 95\% confidence interval.
+#' @param id An optional unique identifier to filter by a specific group.
+#' Default is \code{NULL}.
+#' @param ... Additional parameters for future functionality.
 #' @author Johan Aparicio [aut]
 #' @method confint modeler
-#' @return A tibble with columns giving lower and upper confidence limits for each parameter.
+#' @return A \code{tibble} containing the lower and upper confidence limits for
+#' each specified parameter.
 #' @export
 #' @examples
 #' library(flexFitR)

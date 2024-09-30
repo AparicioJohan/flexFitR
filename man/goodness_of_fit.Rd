@@ -20,7 +20,7 @@ executing the function \code{modeler()}}
 the classical AIC.}
 }
 \value{
-A tibble with columns giving the corresponding AIC and BIC.
+A \code{tibble} with columns giving the corresponding AIC and BIC.
 }
 \description{
 Generic function calculating Akaike's ‘An Information Criterion’
@@ -33,6 +33,8 @@ mo_1 <- modeler(dt, X, Y, fn = "fn_lin", param = c(m = 10, b = -5))
 mo_2 <- modeler(dt, X, Y, fn = "fn_quad", param = c(a = 1, b = 10, c = 5))
 AIC(mo_1)
 AIC(mo_2)
+BIC(mo_1)
+BIC(mo_2)
 }
 \author{
 Johan Aparicio [aut]

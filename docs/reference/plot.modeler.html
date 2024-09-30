@@ -76,81 +76,79 @@
 
 
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p>An object inheriting from class <code>modeler</code> resulting of
-executing the function <code><a href="modeler.html">modeler()</a></code></p></dd>
+<dd><p>An object of class <code>modeler</code>, typically the result of calling <code><a href="modeler.html">modeler()</a></code>.</p></dd>
 
 
 <dt id="arg-id">id<a class="anchor" aria-label="anchor" href="#arg-id"></a></dt>
-<dd><p>To avoid too many plots in one figure. Filter by group Id.</p></dd>
+<dd><p>An optional group ID to filter the data for plotting, useful for avoiding overcrowded plots.</p></dd>
 
 
 <dt id="arg-type">type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>
-<dd><p>Numeric 1, 2, or 3. To specify the type of plot. Default is 1.
- Type 4, 5 and 6 are experimental.</p><dl><dt><code>type = 1</code></dt>
-<dd><p>Raw Data + Fitted Curve</p></dd>
+<dd><p>Numeric value (1-6) to specify the type of plot to generate. Default is 1.</p><dl><dt><code>type = 1</code></dt>
+<dd><p>Plot of raw data with fitted curves.</p></dd>
 
   <dt><code>type = 2</code></dt>
-<dd><p>Coefficients + Confindence Intervals</p></dd>
+<dd><p>Plot of coefficients with confidence intervals.</p></dd>
 
   <dt><code>type = 3</code></dt>
-<dd><p>Fitted Curve + Color by Group</p></dd>
+<dd><p>Plot of fitted curves, colored by group.</p></dd>
 
   <dt><code>type = 4</code></dt>
-<dd><p>Fitted curve + Confindence Intervals</p></dd>
+<dd><p>Plot of fitted curves with confidence intervals.</p></dd>
 
   <dt><code>type = 5</code></dt>
-<dd><p>First Derivative + Confindence Intervals</p></dd>
+<dd><p>Plot of first derivative with confidence intervals.</p></dd>
 
   <dt><code>type = 6</code></dt>
-<dd><p>Second Derivative + Confindence Intervals</p></dd>
+<dd><p>Plot of second derivative with confidence intervals.</p></dd>
 
 
 </dl></dd>
 
 
 <dt id="arg-label-size">label_size<a class="anchor" aria-label="anchor" href="#arg-label-size"></a></dt>
-<dd><p>Label size. 3 by default.</p></dd>
+<dd><p>Numeric value for the size of labels. Default is 4.</p></dd>
 
 
 <dt id="arg-base-size">base_size<a class="anchor" aria-label="anchor" href="#arg-base-size"></a></dt>
-<dd><p>Base font size, given in pts.</p></dd>
+<dd><p>Numeric value for the base font size in pts. Default is 14.</p></dd>
 
 
 <dt id="arg-color">color<a class="anchor" aria-label="anchor" href="#arg-color"></a></dt>
-<dd><p>color for geom_line when type 1. Default is "red".</p></dd>
+<dd><p>Character string specifying the color for the fitted line when <code>type = 1</code>. Default is "red".</p></dd>
 
 
 <dt id="arg-parm">parm<a class="anchor" aria-label="anchor" href="#arg-parm"></a></dt>
-<dd><p>If type is equal to 2 it must be a vector of names of the parameters. If NULL, all parameters are considered.</p></dd>
+<dd><p>Character vector specifying the parameters to plot for <code>type = 2</code>. If <code>NULL</code>, all parameters are included.</p></dd>
 
 
 <dt id="arg-n-points">n_points<a class="anchor" aria-label="anchor" href="#arg-n-points"></a></dt>
-<dd><p>Number of points to interpolate along the x axis. Default is 2000.</p></dd>
+<dd><p>Numeric value specifying the number of points for interpolation along the x-axis. Default is 2000.</p></dd>
 
 
 <dt id="arg-title">title<a class="anchor" aria-label="anchor" href="#arg-title"></a></dt>
-<dd><p>Optional string character to add a title to the plot.</p></dd>
+<dd><p>Optional character string to add a title to the plot.</p></dd>
 
 
 <dt id="arg-add-ci">add_ci<a class="anchor" aria-label="anchor" href="#arg-add-ci"></a></dt>
-<dd><p>Add confidence interval for type in c(4, 5, 6).TRUE or FALSE. TRUE by default.</p></dd>
+<dd><p>Logical value indicating whether to add confidence intervals for <code>type = 4, 5, 6</code>. Default is <code>TRUE</code>.</p></dd>
 
 
 <dt id="arg-add-ribbon">add_ribbon<a class="anchor" aria-label="anchor" href="#arg-add-ribbon"></a></dt>
-<dd><p>Add geom_ribbon for type in c(4, 5, 6).TRUE or FALSE. TRUE by default.</p></dd>
+<dd><p>Logical value indicating whether to add a ribbon for confidence intervals in <code>type = 4, 5, 6</code>. Default is <code>FALSE</code>.</p></dd>
 
 
 <dt id="arg-color-ribbon">color_ribbon<a class="anchor" aria-label="anchor" href="#arg-color-ribbon"></a></dt>
-<dd><p>Ribbon color. "blue" by default.</p></dd>
+<dd><p>Character string specifying the color of the ribbon. Default is "blue".</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>Further graphical parameters. For future improvements.</p></dd>
+<dd><p>Additional graphical parameters for future extensions.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A ggplot object.</p>
+    <p>A <code>ggplot</code> object representing the specified plot.</p>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
@@ -191,7 +189,7 @@ executing the function <code><a href="modeler.html">modeler()</a></code></p></dd
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Groups      Timing Convergence  Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       3 1.8776 secs        100% 499.67 (id)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       3 1.5806 secs        100% 499.67 (id)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span>, id <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot.modeler-1.png" alt="" width="700" height="433"></span>

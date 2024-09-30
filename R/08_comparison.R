@@ -7,7 +7,7 @@
 #' @param ... Further parameters. For future improvements.
 #' @author Johan Aparicio [aut]
 #' @method logLik modeler
-#' @return A tibble with columns the Log-Likelihood for the fitted models.
+#' @return A \code{tibble} with the Log-Likelihood for the fitted models.
 #' @export
 #' @examples
 #' library(flexFitR)
@@ -37,7 +37,7 @@ logLik.modeler <- function(object, ...) {
 #' @param k Numeric, the penalty per parameter to be used; the default k = 2 is
 #' the classical AIC.
 #' @author Johan Aparicio [aut]
-#' @return A tibble with columns giving the corresponding AIC and BIC.
+#' @return A \code{tibble} with columns giving the corresponding AIC and BIC.
 #' @examples
 #' library(flexFitR)
 #' dt <- data.frame(X = 1:6, Y = c(12, 16, 44, 50, 95, 100))
@@ -45,6 +45,8 @@ logLik.modeler <- function(object, ...) {
 #' mo_2 <- modeler(dt, X, Y, fn = "fn_quad", param = c(a = 1, b = 10, c = 5))
 #' AIC(mo_1)
 #' AIC(mo_2)
+#' BIC(mo_1)
+#' BIC(mo_2)
 NULL
 #> NULL
 
@@ -69,16 +71,23 @@ BIC.modeler <- function(object, ...) {
   return(logdt)
 }
 
-#'  Extra sum-of-squares F-test for objects of class \code{modeler}
+#'  Extra Sum-of-Squares F-Test for modeler Objects
 #'
-#' @description anova for objects of class \code{modeler}
+#' @description Perform an extra sum-of-squares F-test to compare two nested
+#' models of class \code{modeler}. This test assesses whether the additional
+#' parameters in the full model significantly improve the fit compared to the
+#' reduced model.
 #' @aliases anova.modeler
-#' @param reduced_model An object of class `modeler` with reduced number of parameters.
-#' @param full_model An object of class `modeler` with more number of parameters.
-#' @param ... Further parameters. For future improvements.
+#' @param reduced_model An object of class \code{modeler} representing the
+#' reduced model with fewer parameters.
+#' @param full_model An optional object of class \code{modeler} representing
+#' the full model with more parameters.
+#' @param ... Additional parameters for future functionality.
 #' @author Johan Aparicio [aut]
 #' @method anova modeler
-#' @return A tibble with columns giving F test and p values.
+#' @return A \code{tibble} containing columns with the F-statistic and
+#' corresponding p-values, indicating whether the full model provides a
+#' significantly better fit than the reduced model.
 #' @export
 #' @examples
 #' library(flexFitR)

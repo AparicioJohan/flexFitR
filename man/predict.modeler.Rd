@@ -16,37 +16,43 @@
 )
 }
 \arguments{
-\item{object}{An object inheriting from class \code{modeler} resulting of
-executing the function \code{modeler()}}
+\item{object}{An object of class \code{modeler}, typically the result of calling
+the \code{modeler()} function.}
 
-\item{x}{A numeric time point to make the prediction. Can be more than one.
-If type = "auc", x needs to be of size 2, which specifies the interval for
-calculating the AUC.}
+\item{x}{A numeric value or vector specifying the points at which predictions
+are made. For \code{type = "auc"}, \code{x} must be a vector of length 2 that
+specifies the interval over which to calculate the AUC.}
 
-\item{id}{A unique identifier to filter by. \code{NULL} by default.}
+\item{id}{Optional unique identifier to filter predictions by a specific group. Default is \code{NULL}.}
 
-\item{type}{A character string specifying the type of prediction. If "point"
-it will predict the value of y for a given x. If "auc" it will return the
-area under the curve (AUC) for the fitted curve. If "fd" the first order
-derivative at the x value is returned. If "sd" the second order derivative
-at the x value is returned.}
+\item{type}{A character string specifying the type of prediction. Default is "point".
+\describe{
+  \item{\code{"point"}}{Predicts the value of \code{y} for the given \code{x}.}
+  \item{\code{"auc"}}{Calculates the area under the curve (AUC) for the fitted model over the interval specified by \code{x}.}
+  \item{\code{"fd"}}{Returns the first derivative (rate of change) of the model at the given \code{x} value(s).}
+  \item{\code{"sd"}}{Returns the second derivative of the model at the given \code{x} value(s).}
+}}
 
-\item{se_interval}{Type of standard error calculation for intervals.
-"confidence" or "prediction". "confidence" by default.}
+\item{se_interval}{A character string specifying the type of interval for
+standard error calculation. Options are \code{"confidence"} (default) or
+\code{"prediction"}.}
 
-\item{n_points}{An integer specifying the number of x points to use for
-approximating the Area Under the Curve (AUC). Default is \code{1000}.}
+\item{n_points}{An integer specifying the number of points used to approximate
+the area under the curve (AUC) when \code{type = "auc"}. Default is \code{1000}.}
 
-\item{metadata}{\code{TRUE} or \code{FALSE}. Whether to bring the metadata or
-not when making the predictions.}
+\item{metadata}{Logical. If \code{TRUE}, metadata is included with the
+predictions. Default is \code{FALSE}.}
 
-\item{...}{Further parameters. For future improvements.}
+\item{...}{Additional parameters for future functionality.}
 }
 \value{
-A data.frame object with predicted values and standard errors.
+A \code{data.frame} containing the predicted values,
+their associated standard errors, and optionally the metadata.
 }
 \description{
-Model predictions for an object of class \code{modeler}
+Generate model predictions from an object of class \code{modeler}.
+This function allows for flexible prediction types, including point predictions,
+area under the curve (AUC), and first or second order derivatives.
 }
 \examples{
 library(flexFitR)

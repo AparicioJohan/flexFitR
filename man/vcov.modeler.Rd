@@ -7,18 +7,21 @@
 \method{vcov}{modeler}(x, id = NULL, ...)
 }
 \arguments{
-\item{x}{An object inheriting from class \code{modeler} resulting of
-executing the function \code{modeler()}}
+\item{x}{An object of class \code{modeler}, typically the result of calling
+the \code{modeler()} function.}
 
-\item{id}{A unique identifier to filter by. \code{NULL} by default.}
+\item{id}{An optional unique identifier to filter by a specific group.
+Default is \code{NULL}.}
 
-\item{...}{Further parameters. For future improvements.}
+\item{...}{Additional parameters for future functionality.}
 }
 \value{
-A list object with matrices of the estimated covariances between the parameter estimates.
+A list of matrices, where each matrix represents the variance-covariance
+matrix of the estimated parameters for each group or fit.
 }
 \description{
-vcov for an object of class \code{modeler}
+Extract the variance-covariance matrix for the parameter estimates
+from an object of class \code{modeler}.
 }
 \examples{
 library(flexFitR)

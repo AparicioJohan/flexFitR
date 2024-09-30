@@ -99,32 +99,30 @@ plot_fn <- function(fn = "fn_piwise",
 #'
 #' @description Create several plots for an object of class \code{modeler}
 #' @aliases plot.modeler
-#' @param x An object inheriting from class \code{modeler} resulting of
-#' executing the function \code{modeler()}
-#' @param id To avoid too many plots in one figure. Filter by group Id.
-#' @param type Numeric 1, 2, or 3. To specify the type of plot. Default is 1.
-#'  Type 4, 5 and 6 are experimental.
+#' @param x An object of class \code{modeler}, typically the result of calling \code{modeler()}.
+#' @param id An optional group ID to filter the data for plotting, useful for avoiding overcrowded plots.
+#' @param type Numeric value (1-6) to specify the type of plot to generate. Default is 1.
 #' \describe{
-#'   \item{\code{type = 1}}{Raw Data + Fitted Curve}
-#'   \item{\code{type = 2}}{Coefficients + Confindence Intervals}
-#'   \item{\code{type = 3}}{Fitted Curve + Color by Group}
-#'   \item{\code{type = 4}}{Fitted curve + Confindence Intervals}
-#'   \item{\code{type = 5}}{First Derivative + Confindence Intervals}
-#'   \item{\code{type = 6}}{Second Derivative + Confindence Intervals}
+#'   \item{\code{type = 1}}{Plot of raw data with fitted curves.}
+#'   \item{\code{type = 2}}{Plot of coefficients with confidence intervals.}
+#'   \item{\code{type = 3}}{Plot of fitted curves, colored by group.}
+#'   \item{\code{type = 4}}{Plot of fitted curves with confidence intervals.}
+#'   \item{\code{type = 5}}{Plot of first derivative with confidence intervals.}
+#'   \item{\code{type = 6}}{Plot of second derivative with confidence intervals.}
 #' }
-#' @param label_size Label size. 3 by default.
-#' @param base_size Base font size, given in pts.
-#' @param color color for geom_line when type 1. Default is "red".
-#' @param parm If type is equal to 2 it must be a vector of names of the parameters. If NULL, all parameters are considered.
-#' @param n_points Number of points to interpolate along the x axis. Default is 2000.
-#' @param title Optional string character to add a title to the plot.
-#' @param add_ci Add confidence interval for type in c(4, 5, 6).TRUE or FALSE. TRUE by default.
-#' @param add_ribbon Add geom_ribbon for type in c(4, 5, 6).TRUE or FALSE. TRUE by default.
-#' @param color_ribbon Ribbon color. "blue" by default.
-#' @param ... Further graphical parameters. For future improvements.
+#' @param label_size Numeric value for the size of labels. Default is 4.
+#' @param base_size Numeric value for the base font size in pts. Default is 14.
+#' @param color Character string specifying the color for the fitted line when \code{type = 1}. Default is "red".
+#' @param parm Character vector specifying the parameters to plot for \code{type = 2}. If \code{NULL}, all parameters are included.
+#' @param n_points Numeric value specifying the number of points for interpolation along the x-axis. Default is 2000.
+#' @param title Optional character string to add a title to the plot.
+#' @param add_ci Logical value indicating whether to add confidence intervals for \code{type = 4, 5, 6}. Default is \code{TRUE}.
+#' @param add_ribbon Logical value indicating whether to add a ribbon for confidence intervals in \code{type = 4, 5, 6}. Default is \code{FALSE}.
+#' @param color_ribbon Character string specifying the color of the ribbon. Default is "blue".
+#' @param ... Additional graphical parameters for future extensions.
 #' @author Johan Aparicio [aut]
 #' @method plot modeler
-#' @return A ggplot object.
+#' @return A \code{ggplot} object representing the specified plot.
 #' @export
 #' @examples
 #' library(flexFitR)
@@ -262,7 +260,7 @@ plot.modeler <- function(x,
         color = color
       ) +
       {
-        if (add_ribbon & add_ci) {
+        if (add_ribbon && add_ci) {
           geom_ribbon(
             mapping = aes(x = x_new, ymin = ci_lower, ymax = ci_upper),
             fill = color_ribbon,

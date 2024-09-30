@@ -13,7 +13,7 @@ executing the function \code{modeler()}}
 \item{...}{Further parameters. For future improvements.}
 }
 \value{
-A tibble with columns the Log-Likelihood for the fitted models.
+A \code{tibble} with the Log-Likelihood for the fitted models.
 }
 \description{
 logLik for an object of class \code{modeler}

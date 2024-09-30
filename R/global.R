@@ -76,6 +76,10 @@ utils::globalVariables(
     ".id",
     "BIC",
     "pos",
-    "x_new"
+    "x_new",
+    "std.error.p",
+    "pi_lower",
+    "pi_upper",
+    "df"
   )
 )

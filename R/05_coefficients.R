@@ -1,16 +1,18 @@
-#' Coefficients of an object of class \code{modeler}
+#' Coefficients of a Modeler Object
 #'
-#' @description Coefficients for an object of class \code{modeler}
+#' @description Extract the estimated coefficients from an object of class \code{modeler}.
 #' @aliases coef.modeler
-#' @param x An object inheriting from class \code{modeler} resulting of
-#' executing the function \code{modeler()}
-#' @param id A unique identifier to filter by. \code{NULL} by default.
-#' @param metadata TRUE or FALSE. Whether to bring the metadata or not when calculating the coefficients.
-#' @param df TRUE or FALSE. Whether to return the degrees of freedom or not when calculating the coefficients. \code{FALSE} by default.
-#' @param ... Further parameters. For future improvements.
+#' @param x An object of class \code{modeler}, typically the result of calling
+#' the \code{modeler()} function.
+#' @param id An optional unique identifier to filter by a specific group. Default is \code{NULL}.
+#' @param metadata Logical. If \code{TRUE}, metadata is included along with the coefficients. Default is \code{FALSE}.
+#' @param df Logical. If \code{TRUE}, the degrees of freedom for the fitted model
+#' are returned alongside the coefficients. Default is \code{FALSE}.
+#' @param ... Additional parameters for future functionality.
 #' @author Johan Aparicio [aut]
 #' @method coef modeler
-#' @return A data.frame object with coefficients and standard errors.
+#' @return A \code{data.frame} containing the model's estimated coefficients,
+#' standard errors, and optional metadata or degrees of freedom if specified.
 #' @export
 #' @examples
 #' library(flexFitR)

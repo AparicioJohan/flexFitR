@@ -2,22 +2,29 @@
 % Please edit documentation in R/08_comparison.R
 \name{anova.modeler}
 \alias{anova.modeler}
-\title{Extra sum-of-squares F-test for objects of class \code{modeler}}
+\title{Extra Sum-of-Squares F-Test for modeler Objects}
 \usage{
 \method{anova}{modeler}(reduced_model, full_model = NULL, ...)
 }
 \arguments{
-\item{reduced_model}{An object of class `modeler` with reduced number of parameters.}
+\item{reduced_model}{An object of class \code{modeler} representing the
+reduced model with fewer parameters.}
 
-\item{full_model}{An object of class `modeler` with more number of parameters.}
+\item{full_model}{An optional object of class \code{modeler} representing
+the full model with more parameters.}
 
-\item{...}{Further parameters. For future improvements.}
+\item{...}{Additional parameters for future functionality.}
 }
 \value{
-A tibble with columns giving F test and p values.
+A \code{tibble} containing columns with the F-statistic and
+corresponding p-values, indicating whether the full model provides a
+significantly better fit than the reduced model.
 }
 \description{
-anova for objects of class \code{modeler}
+Perform an extra sum-of-squares F-test to compare two nested
+models of class \code{modeler}. This test assesses whether the additional
+parameters in the full model significantly improve the fit compared to the
+reduced model.
 }
 \examples{
 library(flexFitR)
