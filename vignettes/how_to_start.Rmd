@@ -62,7 +62,7 @@ mod
 ```
 Once the model is fitted, we can examine the output, extract the estimated parameters, make some plots, and predict new x values.
 
-```{r, fig.alt = "Plot evolution"}
+```{r, fig.alt = "Plot evolution", fig.width= 8, fig.height=4}
 a <- plot(mod, color = "blue", title = "Raw data")
 b <- plot(mod, type = 4, n_points = 200, color = "black")
 ggarrange(a, b)
@@ -99,7 +99,7 @@ vcov(mo)
 predict(mo, newdata = data.frame(X = 4.5), se.fit = TRUE)
 ```
 
-While the previous example was fairly simple, we can consider a more complex scenario where we need to fit not just one function, but hundreds of functions for several groups. This can be achieved using the `group_by` argument in the `modeler` function. Additionally, we can parallelize these processes by setting the `parallel` argument to `TRUE` and defining the number of cores to use.
+While the previous example was fairly simple, we can consider a more complex scenario where we need to fit not just one function, but hundreds of functions for several groups. This can be achieved using the `grp` argument in the `modeler` function. Additionally, we can parallelize these processes by setting the `parallel` argument to `TRUE` and defining the number of cores to use.
 
 It’s important to note that depending on the functions defined by the user, some parameters may need to be constrained, such as being required to be greater than or less than zero. In other cases, certain parameters might need to be fixed at known values. In these more complex situations, where we have many curves to fit and are working with complex functions—whether non linear regressions with specific parameter constraints or cases where some parameters are fixed for each group—modeler offers extensive flexibility.
 
