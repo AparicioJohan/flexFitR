@@ -25,6 +25,7 @@ In this example, we'll work with a small dataset consisting of 6 observations, w
 ```{r, warning=FALSE, message=FALSE}
 library(flexFitR)
 library(dplyr)
+library(ggpubr)
 ```
 
 ```{r , warning=FALSE, message=FALSE, fig.alt = "Plot x,y"}
@@ -62,7 +63,9 @@ mod
 Once the model is fitted, we can examine the output, extract the estimated parameters, make some plots, and predict new x values.
 
 ```{r, fig.alt = "Plot evolution"}
-plot(mod)
+a <- plot(mod, color = "blue", title = "Raw data")
+b <- plot(mod, type = 4, n_points = 200, color = "black")
+ggarrange(a, b)
 ```
 
 In order to get the coefficients with their variance-covariance matrix we make use of the `coef` and `vcov` function, which only takes the model object as an argument.
@@ -85,13 +88,11 @@ We can compare this with the lm function in R, which will give results similar t
 
 ```{r, warning=FALSE, message=FALSE}
 mo <- lm(Y ~ X, data = dt)
-mo
 ```
 
 ```{r}
 summary(mo)$coefficients
 ```
-
 
 ```{r}
 vcov(mo)
