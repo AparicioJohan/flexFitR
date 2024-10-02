@@ -387,7 +387,10 @@ ff_deriv <- function(params, x_new, curve, fixed_params = NA, which = "fd") {
   string <- paste0(
     "lapply(x_new, FUN = numDeriv::genD, func = ",
     curve, ", ",
-    values, ")"
+    values,
+    ", method = 'Richardson', ",
+    "method.args = list()",
+    ")"
   )
   res <- eval(parse(text = string))
   res <- do.call(what = rbind, args = lapply(res, \(x) x$D))
