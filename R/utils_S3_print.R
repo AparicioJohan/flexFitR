@@ -27,13 +27,14 @@
 #'     add_zero = TRUE,
 #'     max_as_last = TRUE
 #'   )
-#' plot(mod_1, id = c(1:5))
+#' plot(mod_1, id = c(1:4))
 #' print(mod_1)
 print.modeler <- function(x, ...) {
   param <- select(x$param, -all_of(x$keep))
   trait <- unique(x$dt$var)
+  chr <- paste(trait, "~", deparse(x$fn))
   cat("\nCall:\n")
-  cat(paste(trait, "~", deparse(x$fn)), "\n")
+  cat(sub("x", replacement = x$x_var, x = chr, fixed = TRUE), "\n")
   cat("\n")
   if (nrow(param) == 1) {
     cat("Residuals:\n")

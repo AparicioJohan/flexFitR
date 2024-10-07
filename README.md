@@ -32,7 +32,8 @@ devtools::install_github("AparicioJohan/flexFitR")
 - Visualization Tools: Provides a variety of plots to visualize model
   fits, correlations, predictions, and more.
 - Statistical Rigor: Offers standard errors and p-values for
-  coefficients, supporting robust conclusions and interpretations.
+  coefficients, as well as for predictions, supporting robust
+  conclusions and interpretations.
 - Prediction: Facilitates the prediction of non-observed data points.
 - Flexibility: Allows users to fix certain parameters in the model and
   specify different initial values per grouping factor.
@@ -85,7 +86,7 @@ mod_1 <- dt |>
 print(mod_1)
 
 Call:
-variable ~ fun(x, t1, t2, k) 
+variable ~ fun(time, t1, t2, k) 
 
 Residuals:
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
@@ -96,8 +97,8 @@ Optimization Results `head()`:
    1 38.6 61 99.8 0.449
 
 Metrics:
- Groups      Timing Convergence Iterations
-      1 0.4068 secs        100%   511 (id)
+ Groups     Timing Convergence Iterations
+      1 0.354 secs        100%   511 (id)
 ```
 
 ``` r

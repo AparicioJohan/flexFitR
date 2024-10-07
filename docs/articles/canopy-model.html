@@ -102,7 +102,7 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">explorer</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "summ_vars"      "summ_metadata"  "locals_min_max" "dt_long"       </span></span>
-<span><span class="co">#&gt; [5] "metadata"</span></span></code></pre></div>
+<span><span class="co">#&gt; [5] "metadata"       "x_var"</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="data-exploration">Data exploration<a class="anchor" aria-label="anchor" href="#data-exploration"></a>
@@ -289,7 +289,7 @@ k &amp; \text{if } t &gt; t_2
 <span><span class="va">mod_1</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Call:</span></span>
-<span><span class="co">#&gt; Canopy ~ fn_piwise(x, t1, t2, k) </span></span>
+<span><span class="co">#&gt; Canopy ~ fn_piwise(DAP, t1, t2, k) </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Sum of Squares Error:</span></span>
 <span><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
@@ -302,7 +302,7 @@ k &amp; \text{if } t &gt; t_2
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
 <span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;       2 0.8683 secs        100%   547 (id)</span></span></code></pre></div>
+<span><span class="co">#&gt;       2 0.8897 secs        100%   547 (id)</span></span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="canopy-model_files/figure-html/unnamed-chunk-9-1.png" alt="plot fit" width="768"></p>

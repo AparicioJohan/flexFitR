@@ -104,7 +104,8 @@ explorer <- function(data, x, y, id, metadata) {
     summ_metadata = resum,
     locals_min_max = max_min,
     dt_long = dt_long,
-    metadata = .keep
+    metadata = .keep,
+    x_var = x
   )
   class(out) <- "explorer"
   return(out)

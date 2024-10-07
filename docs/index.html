@@ -95,7 +95,7 @@
 <li>Parameter Estimation: Utilizes <code>{optimx}</code> and derivative-free algorithms to solve and estimate parameters for a given function.</li>
 <li>Parallelization: Implements parallel processing using the <a href="https://future.futureverse.org" class="external-link">future</a> package, enabling efficient fitting of hundreds of curves simultaneously.</li>
 <li>Visualization Tools: Provides a variety of plots to visualize model fits, correlations, predictions, and more.</li>
-<li>Statistical Rigor: Offers standard errors and p-values for coefficients, supporting robust conclusions and interpretations.</li>
+<li>Statistical Rigor: Offers standard errors and p-values for coefficients, as well as for predictions, supporting robust conclusions and interpretations.</li>
 <li>Prediction: Facilitates the prediction of non-observed data points.</li>
 <li>Flexibility: Allows users to fix certain parameters in the model and specify different initial values per grouping factor.</li>
 <li>Custom Modeling Functions: Equipped with built-in modeling functions for common analysis tasks, while also permitting users to supply their own custom functions.</li>
@@ -137,7 +137,7 @@
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">print</span>(mod_1)</span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>Call<span class="sc">:</span></span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>variable <span class="sc">~</span> <span class="fu">fun</span>(x, t1, t2, k) </span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>variable <span class="sc">~</span> <span class="fu">fun</span>(time, t1, t2, k) </span>
 <span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a></span>
 <span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>Residuals<span class="sc">:</span></span>
 <span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>   Min. <span class="dv">1</span>st Qu.  Median    Mean <span class="dv">3</span>rd Qu.    Max. </span>
@@ -148,8 +148,8 @@
 <span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>   <span class="dv">1</span> <span class="fl">38.6</span> <span class="dv">61</span> <span class="fl">99.8</span> <span class="fl">0.449</span></span>
 <span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a></span>
 <span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>Metrics<span class="sc">:</span></span>
-<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a> Groups      Timing Convergence Iterations</span>
-<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>      <span class="dv">1</span> <span class="fl">0.4068</span> secs        <span class="dv">100</span>%   <span class="dv">511</span> (id)</span></code></pre></div>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a> Groups     Timing Convergence Iterations</span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>      <span class="dv">1</span> <span class="fl">0.354</span> secs        <span class="dv">100</span>%   <span class="dv">511</span> (id)</span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Auto plot</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">)</span></span></code></pre></div>

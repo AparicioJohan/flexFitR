@@ -220,7 +220,7 @@ Default is <code>c("subplex", "pracmanm", "anms")</code>.</p></dd>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> GLI_2 ~ fn_lin_pl_lin(x, t1, t2, t3, k, beta) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> GLI_2 ~ fn_lin_pl_lin(DAP, t1, t2, t3, k, beta) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Residuals:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. </span>
@@ -231,8 +231,8 @@ Default is <code>c("subplex", "pracmanm", "anms")</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  195 39.6 68.3 93.3 0.323 -0.01 0.000149</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Groups      Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       1 0.8988 secs        100%   901 (id)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Groups     Timing Convergence Iterations</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       1 0.863 secs        100%   901 (id)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="co"># Example 2</span></span></span>
 <span class="r-in"><span><span class="va">mod_2</span> <span class="op">&lt;-</span> <span class="va">dt_potato</span> <span class="op">|&gt;</span></span></span>
@@ -251,7 +251,7 @@ Default is <code>c("subplex", "pracmanm", "anms")</code>.</p></dd>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">mod_2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Canopy ~ fn_piwise(x, t1, t2, k) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Canopy ~ fn_piwise(DAP, t1, t2, k) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Residuals:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       Min.    1st Qu.     Median       Mean    3rd Qu.       Max. </span>
@@ -263,7 +263,7 @@ Default is <code>c("subplex", "pracmanm", "anms")</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Groups      Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       1 0.5793 secs        100%   349 (id)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       1 0.5927 secs        100%   349 (id)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>
