@@ -9,10 +9,11 @@
 #' @param grp The names of the columns in `data` that contains a grouping variable. (Optional).
 #' @param keep The names of the columns in `data` to keep across the analysis.
 #' @param fn A string specifying the name of the function to be used for the curve fitting. Default is \code{"fn_piwise"}.
-#' @param parameters A named numeric vector specifying the initial values for the parameters to be optimized. Default is \code{NULL}.
+#' @param parameters Can be a named numeric vector specifying the initial values for the parameters to be optimized,
+#' or a data frame with columns \code{uid}, and the initial parameter values for each group id. Used for providing specific
+#' initial values per group id. Default is \code{NULL}.
 #' @param lower Numeric vector specifying the lower bounds for the parameters. Default is \code{-Inf} for all parameters.
 #' @param upper Numeric vector specifying the upper bounds for the parameters. Default is \code{Inf} for all parameters.
-#' @param initial_vals A data frame with columns \code{uid}, and the initial parameter values for each group id. Used for providing specific initial values per group id.
 #' @param fixed_params A data frame with columns \code{uid}, and the fixed parameter values for each group id. Used for fixing certain parameters during optimization.
 #' @param method A character vector specifying the optimization methods to be used. Check `optimx::checkallsolvers()` for available methods.
 #' Default is \code{c("subplex", "pracmanm", "anms")}.
@@ -84,7 +85,6 @@ modeler <- function(data,
                     parameters = NULL,
                     lower = -Inf,
                     upper = Inf,
-                    initial_vals = NULL,
                     fixed_params = NULL,
                     method = c("subplex", "pracmanm", "anms"),
                     return_method = FALSE,
@@ -112,25 +112,11 @@ modeler <- function(data,
   if (inherits(args, "try-error")) {
     stop("Please verify the function: '", fn, "'. It was not found.")
   }
-  # Validate initial_vals
-  if (!is.null(initial_vals)) {
-    nam_ini_vals <- colnames(initial_vals)
-    if (!all(c("uid") %in% colnames(initial_vals))) {
-      stop("initial_vals should contain columns 'uid'.")
-    }
-    if (!sum(nam_ini_vals[-c(1)] %in% args) == length(args)) {
-      stop("initial_vals should have the same parameters as the function: ", fn)
-    }
-  }
-  # Validate parameters
-  if (!is.null(parameters) && !is.numeric(parameters)) {
-    stop("Parameters should be a named numeric vector.")
-  }
   # Validate lower and upper
   if (!is.numeric(lower) || !is.numeric(upper)) {
     stop("Lower and upper bounds should be numeric.")
   }
-  # Validate fixed_params
+  # Validate fixed parameters
   if (!is.null(fixed_params)) {
     nam_fix_params <- colnames(fixed_params)
     if (!all(c("uid") %in% colnames(fixed_params))) {
@@ -143,14 +129,7 @@ modeler <- function(data,
       stop("fixed_params cannot contain all parameters of the function: ", fn)
     }
   }
-  # Validate parameters and initial_vals
-  if (is.null(parameters) && is.null(initial_vals)) {
-    stop("You have to provide initial values for the optimization procedure")
-  } else if (!is.null(parameters)) {
-    if (!sum(names(parameters) %in% args) == length(args)) {
-      stop("names of parameters have to be in: ", fn)
-    }
-  }
+  # Data transformation
   dt <- x$dt_long |>
     filter(var %in% variable) |>
     filter(!is.na(y)) |>
@@ -173,12 +152,13 @@ modeler <- function(data,
       rbind.data.frame(dt) |>
       arrange(uid, x)
   }
-  if (!is.null(initial_vals)) {
-    init <- initial_vals |>
-      pivot_longer(cols = -c(uid), names_to = "coef") |>
-      nest_by(uid, .key = "initials") |>
-      mutate(initials = list(pull(initials, value, coef)))
-  } else {
+  # Validate initial values
+  if (is.null(parameters)) {
+    stop("Initial parameters need to be provided.")
+  } else if (is.numeric(parameters)) {
+    if (!sum(names(parameters) %in% args) == length(args)) {
+      stop("names of parameters have to be in: ", fn)
+    }
     init <- dt |>
       select(uid) |>
       unique.data.frame() |>
@@ -186,7 +166,20 @@ modeler <- function(data,
       pivot_longer(cols = -c(uid), names_to = "coef") |>
       nest_by(uid, .key = "initials") |>
       mutate(initials = list(pull(initials, value, coef)))
+  } else if ("data.frame" %in% class(parameters)) {
+    nam_ini_vals <- colnames(parameters)
+    if (!"uid" %in% nam_ini_vals) {
+      stop("parameters should contain columns 'uid'.")
+    }
+    if (!sum(nam_ini_vals[-c(1)] %in% args) == length(args)) {
+      stop("parameters should have the same parameters as the function: ", fn)
+    }
+    init <- parameters |>
+      pivot_longer(cols = -c(uid), names_to = "coef") |>
+      nest_by(uid, .key = "initials") |>
+      mutate(initials = list(pull(initials, value, coef)))
   }
+  # Merging with fixed parameters
   if (!is.null(fixed_params)) {
     fixed <- fixed_params |>
       pivot_longer(cols = -c(uid), names_to = "coef") |>

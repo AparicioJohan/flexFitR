@@ -183,8 +183,7 @@ mod_2 <- dt |>
     x = time,
     y = variable,
     fn = "fun",
-    parameters = c(t1 = 45, t2 = 80, k = 90),
-    initial_vals = init
+    parameters = init
   )
 mod_2
 coef(mod_2)

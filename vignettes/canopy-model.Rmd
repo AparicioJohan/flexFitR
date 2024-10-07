@@ -99,8 +99,8 @@ kable(mod_1$param)
 ```{r}
 initials <- data.frame(
   uid = c(195, 40),
-  t1 = c(40, 60),
-  t2 = c(70, 80),
+  t1 = c(70, 60),
+  t2 = c(40, 80),
   k = c(100, 100)
 )
 ```
@@ -116,8 +116,7 @@ mod_2 <- dt_potato |>
     y = Canopy,
     grp = Plot,
     fn = "fn_piwise",
-    parameters = c(t1 = 45, t2 = 80, k = 0.9),
-    initial_vals = initials,
+    parameters = initials,
     subset = c(195, 40),
     add_zero = TRUE
   )
@@ -184,12 +183,12 @@ kable(mod_4$param)
 
 ```{r}
 rbind.data.frame(
-  mutate(mod_1$param, mod = "1"),
-  mutate(mod_2$param, mod = "2"),
-  mutate(mod_3$param, mod = "3"),
-  mutate(mod_4$param, mod = "4")
+  mutate(mod_1$param, model = "1", .before = uid),
+  mutate(mod_2$param, model = "2", .before = uid),
+  mutate(mod_3$param, model = "3", .before = uid),
+  mutate(mod_4$param, model = "4", .before = uid)
 ) |>
-  filter(uid %in% 40) |>
+  filter(uid %in% 195) |>
   kable()
 ```
 

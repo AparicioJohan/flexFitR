@@ -68,11 +68,7 @@ plot_fn(
 ## Fitting models for canopy
 
 ```{r}
-fixed_params <- results |>
-  pluck("dt_long") |>
-  filter(var %in% "Canopy" & uid %in% c(195, 40)) |>
-  group_by(uid) |>
-  summarise(k = max(y), .groups = "drop")
+fixed_params <- data.frame(uid = c(195, 40), k = c(100, 100))
 ```
 
 ```{r, warning=FALSE, message=FALSE}
@@ -148,7 +144,7 @@ mod_2 <- dt_chips |>
     y = PH,
     grp = Plot,
     fn = "fn_exp2_exp",
-    initial_vals = initials,
+    parameters = initials,
     fixed_params = fixed_params,
     subset = c(195, 40),
     add_zero = TRUE

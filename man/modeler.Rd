@@ -14,7 +14,6 @@ modeler(
   parameters = NULL,
   lower = -Inf,
   upper = Inf,
-  initial_vals = NULL,
   fixed_params = NULL,
   method = c("subplex", "pracmanm", "anms"),
   return_method = FALSE,
@@ -41,13 +40,13 @@ modeler(
 
 \item{fn}{A string specifying the name of the function to be used for the curve fitting. Default is \code{"fn_piwise"}.}
 
-\item{parameters}{A named numeric vector specifying the initial values for the parameters to be optimized. Default is \code{NULL}.}
+\item{parameters}{Can be a named numeric vector specifying the initial values for the parameters to be optimized,
+or a data frame with columns \code{uid}, and the initial parameter values for each group id. Used for providing specific
+initial values per group id. Default is \code{NULL}.}
 
 \item{lower}{Numeric vector specifying the lower bounds for the parameters. Default is \code{-Inf} for all parameters.}
 
 \item{upper}{Numeric vector specifying the upper bounds for the parameters. Default is \code{Inf} for all parameters.}
-
-\item{initial_vals}{A data frame with columns \code{uid}, and the initial parameter values for each group id. Used for providing specific initial values per group id.}
 
 \item{fixed_params}{A data frame with columns \code{uid}, and the fixed parameter values for each group id. Used for fixing certain parameters during optimization.}
 
