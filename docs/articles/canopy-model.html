@@ -302,7 +302,7 @@ k &amp; \text{if } t &gt; t_2
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
 <span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;       2 0.9051 secs        100%   547 (id)</span></span></code></pre></div>
+<span><span class="co">#&gt;       2 0.8683 secs        100%   547 (id)</span></span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="canopy-model_files/figure-html/unnamed-chunk-9-1.png" alt="plot fit" width="768"></p>
@@ -340,8 +340,8 @@ k &amp; \text{if } t &gt; t_2
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">initials</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  uid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span>,</span>
-<span>  t1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">40</span>, <span class="fl">60</span><span class="op">)</span>,</span>
-<span>  t2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">70</span>, <span class="fl">80</span><span class="op">)</span>,</span>
+<span>  t1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">70</span>, <span class="fl">60</span><span class="op">)</span>,</span>
+<span>  t2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">40</span>, <span class="fl">80</span><span class="op">)</span>,</span>
 <span>  k <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">100</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
@@ -356,8 +356,8 @@ k &amp; \text{if } t &gt; t_2
 <tbody>
 <tr class="odd">
 <td align="right">195</td>
-<td align="right">40</td>
 <td align="right">70</td>
+<td align="right">40</td>
 <td align="right">100</td>
 </tr>
 <tr class="even">
@@ -375,8 +375,7 @@ k &amp; \text{if } t &gt; t_2
 <span>    y <span class="op">=</span> <span class="va">Canopy</span>,</span>
 <span>    grp <span class="op">=</span> <span class="va">Plot</span>,</span>
 <span>    fn <span class="op">=</span> <span class="st">"fn_piwise"</span>,</span>
-<span>    parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">45</span>, t2 <span class="op">=</span> <span class="fl">80</span>, k <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>,</span>
-<span>    initial_vals <span class="op">=</span> <span class="va">initials</span>,</span>
+<span>    parameters <span class="op">=</span> <span class="va">initials</span>,</span>
 <span>    subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span>,</span>
 <span>    add_zero <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
@@ -399,14 +398,14 @@ k &amp; \text{if } t &gt; t_2
 <td align="right">34.79943</td>
 <td align="right">53.73295</td>
 <td align="right">72.5438</td>
-<td align="right">2845.5421</td>
+<td align="right">2845.542</td>
 </tr>
 <tr class="even">
 <td align="right">195</td>
-<td align="right">38.72534</td>
-<td align="right">60.04934</td>
+<td align="right">72.48588</td>
+<td align="right">41.90441</td>
 <td align="right">91.7450</td>
-<td align="right">390.4596</td>
+<td align="right">6112.868</td>
 </tr>
 </tbody>
 </table>
@@ -529,54 +528,54 @@ k &amp; \text{if } t &gt; t_2
 </h2>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind.data.frame</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">$</span><span class="va">param</span>, mod <span class="op">=</span> <span class="st">"1"</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="va">mod_2</span><span class="op">$</span><span class="va">param</span>, mod <span class="op">=</span> <span class="st">"2"</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="va">mod_3</span><span class="op">$</span><span class="va">param</span>, mod <span class="op">=</span> <span class="st">"3"</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="va">mod_4</span><span class="op">$</span><span class="va">param</span>, mod <span class="op">=</span> <span class="st">"4"</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">$</span><span class="va">param</span>, model <span class="op">=</span> <span class="st">"1"</span>, .before <span class="op">=</span> <span class="va">uid</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="va">mod_2</span><span class="op">$</span><span class="va">param</span>, model <span class="op">=</span> <span class="st">"2"</span>, .before <span class="op">=</span> <span class="va">uid</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="va">mod_3</span><span class="op">$</span><span class="va">param</span>, model <span class="op">=</span> <span class="st">"3"</span>, .before <span class="op">=</span> <span class="va">uid</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="va">mod_4</span><span class="op">$</span><span class="va">param</span>, model <span class="op">=</span> <span class="st">"4"</span>, .before <span class="op">=</span> <span class="va">uid</span><span class="op">)</span></span>
 <span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">uid</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fl">40</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">uid</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fl">195</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
+<th align="left">model</th>
 <th align="right">uid</th>
 <th align="right">t1</th>
 <th align="right">t2</th>
 <th align="right">k</th>
 <th align="right">sse</th>
-<th align="left">mod</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="right">40</td>
-<td align="right">34.79943</td>
-<td align="right">53.73295</td>
-<td align="right">72.5438</td>
-<td align="right">2845.5421388</td>
 <td align="left">1</td>
+<td align="right">195</td>
+<td align="right">38.72534</td>
+<td align="right">60.04934</td>
+<td align="right">91.745</td>
+<td align="right">390.4596</td>
 </tr>
 <tr class="even">
-<td align="right">40</td>
-<td align="right">34.79943</td>
-<td align="right">53.73295</td>
-<td align="right">72.5438</td>
-<td align="right">2845.5421388</td>
 <td align="left">2</td>
+<td align="right">195</td>
+<td align="right">72.48588</td>
+<td align="right">41.90441</td>
+<td align="right">91.745</td>
+<td align="right">6112.8678</td>
 </tr>
 <tr class="odd">
-<td align="right">40</td>
-<td align="right">34.80771</td>
-<td align="right">60.84828</td>
-<td align="right">100.0000</td>
-<td align="right">6268.4633265</td>
 <td align="left">3</td>
+<td align="right">195</td>
+<td align="right">38.72534</td>
+<td align="right">61.96802</td>
+<td align="right">100.000</td>
+<td align="right">663.0397</td>
 </tr>
 <tr class="even">
-<td align="right">40</td>
-<td align="right">34.80771</td>
-<td align="right">60.84828</td>
-<td align="right">100.0000</td>
-<td align="right">0.0014765</td>
 <td align="left">4</td>
+<td align="right">195</td>
+<td align="right">38.72534</td>
+<td align="right">61.96802</td>
+<td align="right">100.000</td>
+<td align="right">0.0000</td>
 </tr>
 </tbody>
 </table>

@@ -63,7 +63,6 @@
 <span>  parameters <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  lower <span class="op">=</span> <span class="op">-</span><span class="cn">Inf</span>,</span>
 <span>  upper <span class="op">=</span> <span class="cn">Inf</span>,</span>
-<span>  initial_vals <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  fixed_params <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"subplex"</span>, <span class="st">"pracmanm"</span>, <span class="st">"anms"</span><span class="op">)</span>,</span>
 <span>  return_method <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -107,7 +106,9 @@
 
 
 <dt id="arg-parameters">parameters<a class="anchor" aria-label="anchor" href="#arg-parameters"></a></dt>
-<dd><p>A named numeric vector specifying the initial values for the parameters to be optimized. Default is <code>NULL</code>.</p></dd>
+<dd><p>Can be a named numeric vector specifying the initial values for the parameters to be optimized,
+or a data frame with columns <code>uid</code>, and the initial parameter values for each group id. Used for providing specific
+initial values per group id. Default is <code>NULL</code>.</p></dd>
 
 
 <dt id="arg-lower">lower<a class="anchor" aria-label="anchor" href="#arg-lower"></a></dt>
@@ -116,10 +117,6 @@
 
 <dt id="arg-upper">upper<a class="anchor" aria-label="anchor" href="#arg-upper"></a></dt>
 <dd><p>Numeric vector specifying the upper bounds for the parameters. Default is <code>Inf</code> for all parameters.</p></dd>
-
-
-<dt id="arg-initial-vals">initial_vals<a class="anchor" aria-label="anchor" href="#arg-initial-vals"></a></dt>
-<dd><p>A data frame with columns <code>uid</code>, and the initial parameter values for each group id. Used for providing specific initial values per group id.</p></dd>
 
 
 <dt id="arg-fixed-params">fixed_params<a class="anchor" aria-label="anchor" href="#arg-fixed-params"></a></dt>
@@ -235,7 +232,7 @@ Default is <code>c("subplex", "pracmanm", "anms")</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Groups      Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       1 0.9031 secs        100%   901 (id)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       1 0.8988 secs        100%   901 (id)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="co"># Example 2</span></span></span>
 <span class="r-in"><span><span class="va">mod_2</span> <span class="op">&lt;-</span> <span class="va">dt_potato</span> <span class="op">|&gt;</span></span></span>
@@ -266,7 +263,7 @@ Default is <code>c("subplex", "pracmanm", "anms")</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Groups      Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       1 0.5985 secs        100%   349 (id)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       1 0.5793 secs        100%   349 (id)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>

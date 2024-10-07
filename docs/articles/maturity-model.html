@@ -181,7 +181,7 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 </table>
 </div>
 <div class="section level2">
-<h2 id="providing-initial-parameters-from-the-canopy-model">Providing initial parameters from the canopy model<a class="anchor" aria-label="anchor" href="#providing-initial-parameters-from-the-canopy-model"></a>
+<h2 id="fixing-parameters-from-the-canopy-model">Fixing parameters from the canopy model<a class="anchor" aria-label="anchor" href="#fixing-parameters-from-the-canopy-model"></a>
 </h2>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fixed_params</span> <span class="op">&lt;-</span> <span class="va">results</span> <span class="op">|&gt;</span></span>
@@ -277,7 +277,7 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <span>    y <span class="op">=</span> <span class="va">GLI_2</span>,</span>
 <span>    grp <span class="op">=</span> <span class="va">Plot</span>,</span>
 <span>    fn <span class="op">=</span> <span class="st">"fn_lin_pl_lin"</span>,</span>
-<span>    initial_vals <span class="op">=</span> <span class="va">initials</span>,</span>
+<span>    parameters <span class="op">=</span> <span class="va">initials</span>,</span>
 <span>    subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span>,</span>
 <span>    add_zero <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
