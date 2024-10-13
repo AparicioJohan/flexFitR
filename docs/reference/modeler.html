@@ -65,14 +65,8 @@
 <span>  upper <span class="op">=</span> <span class="cn">Inf</span>,</span>
 <span>  fixed_params <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"subplex"</span>, <span class="st">"pracmanm"</span>, <span class="st">"anms"</span><span class="op">)</span>,</span>
-<span>  return_method <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  subset <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  add_zero <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  check_negative <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  max_as_last <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  progress <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  parallel <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  workers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span><span class="op">)</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>  options <span class="op">=</span> <span class="fu">modeler.options</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  control <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -128,36 +122,37 @@ initial values per group id. Default is <code>NULL</code>.</p></dd>
 Default is <code>c("subplex", "pracmanm", "anms")</code>.</p></dd>
 
 
-<dt id="arg-return-method">return_method<a class="anchor" aria-label="anchor" href="#arg-return-method"></a></dt>
-<dd><p>Logical. If <code>TRUE</code>, includes the optimization method used in the result. Default is <code>FALSE</code>.</p></dd>
-
-
 <dt id="arg-subset">subset<a class="anchor" aria-label="anchor" href="#arg-subset"></a></dt>
 <dd><p>An optional vector with levels of `grp` to filter the data. Default is <code>NULL</code>, meaning all groups are used.</p></dd>
 
 
-<dt id="arg-add-zero">add_zero<a class="anchor" aria-label="anchor" href="#arg-add-zero"></a></dt>
+<dt id="arg-options">options<a class="anchor" aria-label="anchor" href="#arg-options"></a></dt>
+<dd><p>A list of additional options. See `modeler.options()`</p><dl><dt><code>add_zero</code></dt>
 <dd><p>Logical. If <code>TRUE</code>, adds a zero value to the series at the start. Default is <code>FALSE</code>.</p></dd>
 
-
-<dt id="arg-check-negative">check_negative<a class="anchor" aria-label="anchor" href="#arg-check-negative"></a></dt>
+  <dt><code>check_negative</code></dt>
 <dd><p>Logical. If <code>TRUE</code>, converts negative values in the data to zero. Default is <code>FALSE</code>.</p></dd>
 
-
-<dt id="arg-max-as-last">max_as_last<a class="anchor" aria-label="anchor" href="#arg-max-as-last"></a></dt>
+  <dt><code>max_as_last</code></dt>
 <dd><p>Logical. If <code>TRUE</code>, appends the maximum value after reaching the maximum. Default is <code>FALSE</code>.</p></dd>
 
-
-<dt id="arg-progress">progress<a class="anchor" aria-label="anchor" href="#arg-progress"></a></dt>
+  <dt><code>progress</code></dt>
 <dd><p>Logical. If <code>TRUE</code> a progress bar is displayed. Default is <code>FALSE</code>. Try this before running the function: <code>progressr::handlers("progress", "beepr")</code>.</p></dd>
 
-
-<dt id="arg-parallel">parallel<a class="anchor" aria-label="anchor" href="#arg-parallel"></a></dt>
+  <dt><code>parallel</code></dt>
 <dd><p>Logical. If <code>TRUE</code> the model fit is performed in parallel. Default is <code>FALSE</code>.</p></dd>
 
-
-<dt id="arg-workers">workers<a class="anchor" aria-label="anchor" href="#arg-workers"></a></dt>
+  <dt><code>workers</code></dt>
 <dd><p>The number of parallel processes to use. `parallel::detectCores()`</p></dd>
+
+  <dt><code>trace</code></dt>
+<dd><p>If <code>TRUE</code> , convergence monitoring of the current fit is reported in the console. <code>FALSE</code> by default.</p></dd>
+
+  <dt><code>return_method</code></dt>
+<dd><p>Logical. If <code>TRUE</code>, includes the optimization method used in the result. Default is <code>FALSE</code>.</p></dd>
+
+
+</dl></dd>
 
 
 <dt id="arg-control">control<a class="anchor" aria-label="anchor" href="#arg-control"></a></dt>
@@ -213,7 +208,7 @@ Default is <code>c("subplex", "pracmanm", "anms")</code>.</p></dd>
 <span class="r-in"><span>    fn <span class="op">=</span> <span class="st">"fn_lin_pl_lin"</span>,</span></span>
 <span class="r-in"><span>    parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">38.7</span>, t2 <span class="op">=</span> <span class="fl">62</span>, t3 <span class="op">=</span> <span class="fl">90</span>, k <span class="op">=</span> <span class="fl">0.32</span>, beta <span class="op">=</span> <span class="op">-</span><span class="fl">0.01</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    subset <span class="op">=</span> <span class="fl">195</span>,</span></span>
-<span class="r-in"><span>    add_zero <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>    options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>add_zero <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span>, id <span class="op">=</span> <span class="fl">195</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="modeler-1.png" alt="" width="700" height="433"></span>
@@ -231,8 +226,8 @@ Default is <code>c("subplex", "pracmanm", "anms")</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  195 39.6 68.3 93.3 0.323 -0.01 0.000149</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Groups     Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       1 0.863 secs        100%   901 (id)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Groups      Timing Convergence Iterations</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       1 0.9051 secs        100%   901 (id)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="co"># Example 2</span></span></span>
 <span class="r-in"><span><span class="va">mod_2</span> <span class="op">&lt;-</span> <span class="va">dt_potato</span> <span class="op">|&gt;</span></span></span>
@@ -243,8 +238,7 @@ Default is <code>c("subplex", "pracmanm", "anms")</code>.</p></dd>
 <span class="r-in"><span>    fn <span class="op">=</span> <span class="st">"fn_piwise"</span>,</span></span>
 <span class="r-in"><span>    parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">45</span>, t2 <span class="op">=</span> <span class="fl">80</span>, k <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    subset <span class="op">=</span> <span class="fl">195</span>,</span></span>
-<span class="r-in"><span>    add_zero <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
-<span class="r-in"><span>    max_as_last <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>    options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>add_zero <span class="op">=</span> <span class="cn">TRUE</span>, max_as_last <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_2</span>, id <span class="op">=</span> <span class="fl">195</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="modeler-2.png" alt="" width="700" height="433"></span>
@@ -263,7 +257,7 @@ Default is <code>c("subplex", "pracmanm", "anms")</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Groups      Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       1 0.5927 secs        100%   349 (id)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       1 0.6073 secs        100%   349 (id)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>

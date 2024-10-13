@@ -531,7 +531,8 @@ minimizer <- function(params,
                       y,
                       curve,
                       fixed_params = NA,
-                      metric = "sse") {
+                      metric = "sse",
+                      trace = FALSE) {
   arg <- names(formals(curve))[-1]
   values <- paste(params, collapse = ", ")
   if (!any(is.na(fixed_params))) {
@@ -549,6 +550,7 @@ minimizer <- function(params,
   string <- paste("sapply(t, FUN = ", curve, ", ", values, ")", sep = "")
   y_hat <- eval(parse(text = string))
   sse <- eval(parse(text = paste0(metric, "(y, y_hat)"))) # sum((y - y_hat)^2)
+  if (trace) cat(paste0("\t", values, ", sse = ", sse, "\n"))
   return(sse)
 }
 

@@ -24,8 +24,7 @@
 #'     fn = "fn_piwise",
 #'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
 #'     subset = c(1:5),
-#'     add_zero = TRUE,
-#'     max_as_last = TRUE
+#'     options = list(add_zero = TRUE, max_as_last = TRUE)
 #'   )
 #' plot(mod_1, id = c(1:4))
 #' print(mod_1)

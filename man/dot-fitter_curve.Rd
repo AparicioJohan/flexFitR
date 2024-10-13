@@ -4,7 +4,7 @@
 \alias{.fitter_curve}
 \title{General-purpose optimization}
 \usage{
-.fitter_curve(data, id, fn, method, lower, upper, control, .keep)
+.fitter_curve(data, id, fn, method, lower, upper, control, .keep, trace)
 }
 \arguments{
 \item{data}{A nested data.frame with columns <plot, genotype, row, range, data, initials, fx_params>.}
@@ -20,6 +20,8 @@
 \item{upper}{Numeric vector specifying the upper bounds for the parameters. Default is \code{Inf} for all parameters.}
 
 \item{control}{A list of control parameters to be passed to the optimization function. For example, \code{list(maxit = 500)}.}
+
+\item{trace}{If \code{TRUE} , convergence monitoring of the current fit is reported in the console. \code{FALSE} by default.}
 }
 \description{
 The function .fitter_curve is used internally to find the parameters requested.
@@ -36,7 +38,7 @@ mod_1 <- dt_potato |>
     fn = "fn_lin_pl_lin",
     parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
     subset = 195,
-    add_zero = TRUE
+    options = list(add_zero = TRUE)
   )
 }
 \keyword{internal}

@@ -81,8 +81,7 @@ mod_1 <- dt_chips |>
     parameters = c(t1 = 45, t2 = 80, k = 0.9),
     fixed_params = fixed_params,
     subset = c(195, 40),
-    add_zero = TRUE,
-    max_as_last = TRUE
+    options = list(add_zero = TRUE, max_as_last = TRUE)
   )
 ```
 
@@ -147,7 +146,7 @@ mod_2 <- dt_chips |>
     parameters = initials,
     fixed_params = fixed_params,
     subset = c(195, 40),
-    add_zero = TRUE
+    options = list(add_zero = TRUE)
   )
 ```
 

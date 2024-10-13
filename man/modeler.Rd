@@ -16,14 +16,8 @@ modeler(
   upper = Inf,
   fixed_params = NULL,
   method = c("subplex", "pracmanm", "anms"),
-  return_method = FALSE,
   subset = NULL,
-  add_zero = FALSE,
-  check_negative = FALSE,
-  max_as_last = FALSE,
-  progress = FALSE,
-  parallel = FALSE,
-  workers = max(1, parallel::detectCores(), na.rm = TRUE),
+  options = modeler.options(),
   control = list()
 )
 }
@@ -53,21 +47,19 @@ initial values per group id. Default is \code{NULL}.}
 \item{method}{A character vector specifying the optimization methods to be used. Check `optimx::checkallsolvers()` for available methods.
 Default is \code{c("subplex", "pracmanm", "anms")}.}
 
-\item{return_method}{Logical. If \code{TRUE}, includes the optimization method used in the result. Default is \code{FALSE}.}
-
 \item{subset}{An optional vector with levels of `grp` to filter the data. Default is \code{NULL}, meaning all groups are used.}
 
-\item{add_zero}{Logical. If \code{TRUE}, adds a zero value to the series at the start. Default is \code{FALSE}.}
-
-\item{check_negative}{Logical. If \code{TRUE}, converts negative values in the data to zero. Default is \code{FALSE}.}
-
-\item{max_as_last}{Logical. If \code{TRUE}, appends the maximum value after reaching the maximum. Default is \code{FALSE}.}
-
-\item{progress}{Logical. If \code{TRUE} a progress bar is displayed. Default is \code{FALSE}. Try this before running the function: \code{progressr::handlers("progress", "beepr")}.}
-
-\item{parallel}{Logical. If \code{TRUE} the model fit is performed in parallel. Default is \code{FALSE}.}
-
-\item{workers}{The number of parallel processes to use. `parallel::detectCores()`}
+\item{options}{A list of additional options. See `modeler.options()`
+\describe{
+  \item{\code{add_zero}}{Logical. If \code{TRUE}, adds a zero value to the series at the start. Default is \code{FALSE}.}
+  \item{\code{check_negative}}{Logical. If \code{TRUE}, converts negative values in the data to zero. Default is \code{FALSE}.}
+  \item{\code{max_as_last}}{Logical. If \code{TRUE}, appends the maximum value after reaching the maximum. Default is \code{FALSE}.}
+  \item{\code{progress}}{Logical. If \code{TRUE} a progress bar is displayed. Default is \code{FALSE}. Try this before running the function: \code{progressr::handlers("progress", "beepr")}.}
+  \item{\code{parallel}}{Logical. If \code{TRUE} the model fit is performed in parallel. Default is \code{FALSE}.}
+  \item{\code{workers}}{The number of parallel processes to use. `parallel::detectCores()`}
+  \item{\code{trace}}{If \code{TRUE} , convergence monitoring of the current fit is reported in the console. \code{FALSE} by default.}
+  \item{\code{return_method}}{ Logical. If \code{TRUE}, includes the optimization method used in the result. Default is \code{FALSE}.}
+}}
 
 \item{control}{A list of control parameters to be passed to the optimization function. For example: \code{list(maxit = 500)}.}
 }
@@ -102,7 +94,7 @@ mod_1 <- dt_potato |>
     fn = "fn_lin_pl_lin",
     parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
     subset = 195,
-    add_zero = TRUE
+    options = list(add_zero = TRUE)
   )
 plot(mod_1, id = 195)
 print(mod_1)
@@ -115,8 +107,7 @@ mod_2 <- dt_potato |>
     fn = "fn_piwise",
     parameters = c(t1 = 45, t2 = 80, k = 0.9),
     subset = 195,
-    add_zero = TRUE,
-    max_as_last = TRUE
+    options = list(add_zero = TRUE, max_as_last = TRUE)
   )
 plot(mod_2, id = 195)
 print(mod_2)

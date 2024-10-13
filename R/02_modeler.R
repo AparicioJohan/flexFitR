@@ -17,14 +17,18 @@
 #' @param fixed_params A data frame with columns \code{uid}, and the fixed parameter values for each group id. Used for fixing certain parameters during optimization.
 #' @param method A character vector specifying the optimization methods to be used. Check `optimx::checkallsolvers()` for available methods.
 #' Default is \code{c("subplex", "pracmanm", "anms")}.
-#' @param return_method Logical. If \code{TRUE}, includes the optimization method used in the result. Default is \code{FALSE}.
 #' @param subset An optional vector with levels of `grp` to filter the data. Default is \code{NULL}, meaning all groups are used.
-#' @param add_zero Logical. If \code{TRUE}, adds a zero value to the series at the start. Default is \code{FALSE}.
-#' @param check_negative Logical. If \code{TRUE}, converts negative values in the data to zero. Default is \code{FALSE}.
-#' @param max_as_last Logical. If \code{TRUE}, appends the maximum value after reaching the maximum. Default is \code{FALSE}.
-#' @param progress Logical. If \code{TRUE} a progress bar is displayed. Default is \code{FALSE}. Try this before running the function: \code{progressr::handlers("progress", "beepr")}.
-#' @param parallel Logical. If \code{TRUE} the model fit is performed in parallel. Default is \code{FALSE}.
-#' @param workers The number of parallel processes to use. `parallel::detectCores()`
+#' @param options A list of additional options. See `modeler.options()`
+#' \describe{
+#'   \item{\code{add_zero}}{Logical. If \code{TRUE}, adds a zero value to the series at the start. Default is \code{FALSE}.}
+#'   \item{\code{check_negative}}{Logical. If \code{TRUE}, converts negative values in the data to zero. Default is \code{FALSE}.}
+#'   \item{\code{max_as_last}}{Logical. If \code{TRUE}, appends the maximum value after reaching the maximum. Default is \code{FALSE}.}
+#'   \item{\code{progress}}{Logical. If \code{TRUE} a progress bar is displayed. Default is \code{FALSE}. Try this before running the function: \code{progressr::handlers("progress", "beepr")}.}
+#'   \item{\code{parallel}}{Logical. If \code{TRUE} the model fit is performed in parallel. Default is \code{FALSE}.}
+#'   \item{\code{workers}}{The number of parallel processes to use. `parallel::detectCores()`}
+#'   \item{\code{trace}}{If \code{TRUE} , convergence monitoring of the current fit is reported in the console. \code{FALSE} by default.}
+#'   \item{\code{return_method}}{ Logical. If \code{TRUE}, includes the optimization method used in the result. Default is \code{FALSE}.}
+#' }
 #' @param control A list of control parameters to be passed to the optimization function. For example: \code{list(maxit = 500)}.
 #' @return An object of class \code{modeler}, which is a list containing the following elements:
 #' \describe{
@@ -54,7 +58,7 @@
 #'     fn = "fn_lin_pl_lin",
 #'     parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
 #'     subset = 195,
-#'     add_zero = TRUE
+#'     options = list(add_zero = TRUE)
 #'   )
 #' plot(mod_1, id = 195)
 #' print(mod_1)
@@ -67,8 +71,7 @@
 #'     fn = "fn_piwise",
 #'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
 #'     subset = 195,
-#'     add_zero = TRUE,
-#'     max_as_last = TRUE
+#'     options = list(add_zero = TRUE, max_as_last = TRUE)
 #'   )
 #' plot(mod_2, id = 195)
 #' print(mod_2)
@@ -87,14 +90,8 @@ modeler <- function(data,
                     upper = Inf,
                     fixed_params = NULL,
                     method = c("subplex", "pracmanm", "anms"),
-                    return_method = FALSE,
                     subset = NULL,
-                    add_zero = FALSE,
-                    check_negative = FALSE,
-                    max_as_last = FALSE,
-                    progress = FALSE,
-                    parallel = FALSE,
-                    workers = max(1, parallel::detectCores(), na.rm = TRUE),
+                    options = modeler.options(),
                     control = list()) {
   if (is.null(data)) {
     stop("Error: data not found")
@@ -107,6 +104,26 @@ modeler <- function(data,
   .keep <- x$metadata
   variable <- unique(x$summ_vars$var)
   if (length(variable) != 1) stop("Only single response is allowed.")
+  # Validate options
+  if (!is.null(options) && inherits(options, what = "list")) {
+    if (any(!names(options) %in% names(modeler.options()))) {
+      stop(
+        "Options availables in modeler.options() \n \t",
+        paste(names(modeler.options()), collapse = ", ")
+      )
+    } else {
+      opt.list <- modeler.options()
+      opt.list[names(options)] <- options[names(options) %in% names(opt.list)]
+      add_zero <- opt.list[["add_zero"]]
+      check_negative <- opt.list[["check_negative"]]
+      max_as_last <- opt.list[["max_as_last"]]
+      progress <- opt.list[["progress"]]
+      parallel <- opt.list[["parallel"]]
+      workers <- opt.list[["workers"]]
+      trace <- opt.list[["trace"]]
+      return_method <- opt.list[["return_method"]]
+    }
+  }
   # Validate and extract argument names for the function
   args <- try(expr = names(formals(fn))[-1], silent = TRUE)
   if (inherits(args, "try-error")) {
@@ -247,6 +264,7 @@ modeler <- function(data,
       method = method,
       lower = lower,
       upper = upper,
+      trace = trace,
       control = control,
       .keep = .keep
     )
@@ -313,6 +331,7 @@ modeler <- function(data,
 #' @param lower Numeric vector specifying the lower bounds for the parameters. Default is \code{-Inf} for all parameters.
 #' @param upper Numeric vector specifying the upper bounds for the parameters. Default is \code{Inf} for all parameters.
 #' @param control A list of control parameters to be passed to the optimization function. For example, \code{list(maxit = 500)}.
+#' @param trace  If \code{TRUE} , convergence monitoring of the current fit is reported in the console. \code{FALSE} by default.
 #' @export
 #' @keywords internal
 #'
@@ -328,7 +347,7 @@ modeler <- function(data,
 #'     fn = "fn_lin_pl_lin",
 #'     parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
 #'     subset = 195,
-#'     add_zero = TRUE
+#'     options = list(add_zero = TRUE)
 #'   )
 #' @import optimx
 #' @import tibble
@@ -344,7 +363,8 @@ modeler <- function(data,
                           lower,
                           upper,
                           control,
-                          .keep) {
+                          .keep,
+                          trace) {
   dt <- data[data$uid == id, ]
   initials <- unlist(dt$initials)
   fx_params <- unlist(dt$fx_params)
@@ -359,6 +379,7 @@ modeler <- function(data,
     fixed_params = fx_params,
     metric = "sse",
     method = method,
+    trace = trace,
     lower = lower,
     upper = upper,
     control = control
@@ -435,5 +456,26 @@ local_min_max <- function(x, days) {
     days_min = days[minima],
     maxima = maxima,
     days_max = days[maxima]
+  )
+}
+
+modeler.options <- function(
+    add_zero = FALSE,
+    check_negative = FALSE,
+    max_as_last = FALSE,
+    progress = FALSE,
+    parallel = FALSE,
+    workers = max(1, parallel::detectCores(), na.rm = TRUE),
+    trace = FALSE,
+    return_method = FALSE) {
+  list(
+    add_zero = add_zero,
+    check_negative = check_negative,
+    max_as_last = max_as_last,
+    progress = progress,
+    parallel = parallel,
+    workers = workers,
+    trace = trace,
+    return_method = return_method
   )
 }

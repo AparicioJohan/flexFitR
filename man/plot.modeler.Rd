@@ -74,8 +74,7 @@ mod_1 <- dt_potato |>
     fn = "fn_piwise",
     parameters = c(t1 = 45, t2 = 80, k = 0.9),
     subset = c(1:3),
-    add_zero = TRUE,
-    max_as_last = TRUE
+    options = list(add_zero = TRUE, max_as_last = TRUE)
   )
 print(mod_1)
 plot(mod_1, id = 1:2)

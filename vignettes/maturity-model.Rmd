@@ -78,7 +78,7 @@ mod_1 <- dt_potato |>
     fn = "fn_lin_pl_lin",
     parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
     subset = c(195, 40),
-    add_zero = TRUE
+    options = list(add_zero = TRUE)
   )
 ```
 
@@ -108,8 +108,7 @@ mod_2 <- dt_potato |>
     parameters = c(t1 = 45, t2 = 80, k = 0.9),
     fixed_params = fixed_params,
     subset = c(195, 40),
-    add_zero = TRUE,
-    max_as_last = TRUE
+    options = list(add_zero = TRUE, max_as_last = TRUE)
   )
 ```
 
@@ -137,7 +136,7 @@ mod_3 <- dt_potato |>
     fn = "fn_lin_pl_lin",
     parameters = initials,
     subset = c(195, 40),
-    add_zero = TRUE
+    options = list(add_zero = TRUE)
   )
 ```
 
@@ -161,7 +160,7 @@ mod_4 <- dt_potato |>
     upper = c(Inf, Inf, Inf, Inf, 0),
     method = c("nlminb", "L-BFGS-B"),
     subset = c(195, 40),
-    add_zero = TRUE
+    options = list(add_zero = TRUE)
   )
 ```
 
