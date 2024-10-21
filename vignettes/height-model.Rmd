@@ -1,8 +1,8 @@
 ---
-title: "Modelling plant height"
+title: "Modeling plant height"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Modelling plant height}
+  %\VignetteIndexEntry{Modeling plant height}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

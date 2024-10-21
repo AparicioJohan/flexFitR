@@ -1,8 +1,8 @@
 ---
-title: "Modelling vegetation index (VI)"
+title: "Modeling vegetation index (VI)"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Modelling vegetation index (VI)}
+  %\VignetteIndexEntry{Modeling vegetation index (VI)}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
