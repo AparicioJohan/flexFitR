@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Modelling Maturity • flexFitR</title>
+<title>Modelling vegetation index (VI) • flexFitR</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -16,7 +16,7 @@
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><script src="../deps/MathJax-3.2.2/tex-chtml.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Modelling Maturity">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><script src="../deps/MathJax-3.2.2/tex-chtml.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Modelling vegetation index (VI)">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -74,7 +74,7 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>Modelling Maturity</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>Modelling vegetation index (VI)</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/AparicioJohan/flexFitR/blob/HEAD/vignettes/maturity-model.Rmd" class="external-link"><code>vignettes/maturity-model.Rmd</code></a></small>
@@ -83,6 +83,17 @@
 
     
     
+<p>This vignette demonstrates how to use the flexFitR package to model a
+vegetation index derived from UAV imagery. We will focus on the Green
+Leaf Index (GLI) to estimate three key events in plant development:</p>
+<ul>
+<li>t1: The day of plant emergence.</li>
+<li>t2: The number of days it takes to reach canopy closure.</li>
+<li>t3: The number of days it takes to onset of senescence.</li>
+</ul>
+<p>The data presented here are part of Professor Jeff Endelman’s
+breeding program, specifically for a partially replicated experiment.
+The UAV images were collected in 2020 and processed in 2024.</p>
 <div class="section level2">
 <h2 id="loading-libraries">Loading libraries<a class="anchor" aria-label="anchor" href="#loading-libraries"></a>
 </h2>
@@ -94,28 +105,176 @@
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/" class="external-link">purrr</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="exploring-data-explorer">Exploring data <code>explorer()</code><a class="anchor" aria-label="anchor" href="#exploring-data-explorer"></a>
+<h2 id="exploring-data">1. Exploring data<a class="anchor" aria-label="anchor" href="#exploring-data"></a>
 </h2>
+<p>We begin by exploring the data using the <code>explorer</code>
+function. This function provides basic statistical summaries and
+visualizations, helping us understand the temporal evolution of each
+plot and the correlations among the variables.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">dt_potato</span><span class="op">)</span></span>
-<span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/explorer.html">explorer</a></span><span class="op">(</span><span class="va">dt_potato</span>, x <span class="op">=</span> <span class="va">DAP</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">Canopy</span>, <span class="va">GLI_2</span><span class="op">)</span>, id <span class="op">=</span> <span class="va">Plot</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">explorer</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/explorer.html">explorer</a></span><span class="op">(</span><span class="va">dt_potato</span>, x <span class="op">=</span> <span class="va">DAP</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">Canopy</span>, <span class="va">GLI_2</span><span class="op">)</span>, id <span class="op">=</span> <span class="va">Plot</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">results</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">explorer</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "summ_vars"      "summ_metadata"  "locals_min_max" "dt_long"       </span></span>
 <span><span class="co">#&gt; [5] "metadata"       "x_var"</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="data-exploration">Data exploration<a class="anchor" aria-label="anchor" href="#data-exploration"></a>
-</h2>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">results</span>, type <span class="op">=</span> <span class="st">"evolution"</span>, return_gg <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">results</span>, type <span class="op">=</span> <span class="st">"x_by_var"</span>, return_gg <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">explorer</span>, type <span class="op">=</span> <span class="st">"evolution"</span>, return_gg <span class="op">=</span> <span class="cn">TRUE</span>, add_avg <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">explorer</span>, type <span class="op">=</span> <span class="st">"x_by_var"</span>, return_gg <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rpkgs.datanovia.com/ggpubr/reference/ggarrange.html" class="external-link">ggarrange</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, nrow <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <p><img src="maturity-model_files/figure-html/unnamed-chunk-5-1.png" alt="plot corr" width="768"></p>
+<table class="table">
+<colgroup>
+<col width="9%">
+<col width="6%">
+<col width="9%">
+<col width="7%">
+<col width="10%">
+<col width="7%">
+<col width="7%">
+<col width="9%">
+<col width="6%">
+<col width="7%">
+<col width="9%">
+<col width="7%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">var</th>
+<th align="right">x</th>
+<th align="right">Min</th>
+<th align="right">Mean</th>
+<th align="right">Median</th>
+<th align="right">Max</th>
+<th align="right">SD</th>
+<th align="right">CV</th>
+<th align="right">n</th>
+<th align="right">miss</th>
+<th align="right">miss%</th>
+<th align="right">neg%</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">GLI_2</td>
+<td align="right">29</td>
+<td align="right">-0.01</td>
+<td align="right">0.00</td>
+<td align="right">0.00</td>
+<td align="right">0.01</td>
+<td align="right">0.00</td>
+<td align="right">-2.01</td>
+<td align="right">196</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.69</td>
+</tr>
+<tr class="even">
+<td align="left">GLI_2</td>
+<td align="right">36</td>
+<td align="right">-0.02</td>
+<td align="right">0.00</td>
+<td align="right">0.00</td>
+<td align="right">0.03</td>
+<td align="right">0.01</td>
+<td align="right">-2.90</td>
+<td align="right">196</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.69</td>
+</tr>
+<tr class="odd">
+<td align="left">GLI_2</td>
+<td align="right">42</td>
+<td align="right">0.00</td>
+<td align="right">0.06</td>
+<td align="right">0.05</td>
+<td align="right">0.13</td>
+<td align="right">0.03</td>
+<td align="right">0.46</td>
+<td align="right">196</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.02</td>
+</tr>
+<tr class="even">
+<td align="left">GLI_2</td>
+<td align="right">56</td>
+<td align="right">0.09</td>
+<td align="right">0.22</td>
+<td align="right">0.21</td>
+<td align="right">0.32</td>
+<td align="right">0.04</td>
+<td align="right">0.19</td>
+<td align="right">196</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.00</td>
+</tr>
+<tr class="odd">
+<td align="left">GLI_2</td>
+<td align="right">76</td>
+<td align="right">0.27</td>
+<td align="right">0.36</td>
+<td align="right">0.36</td>
+<td align="right">0.42</td>
+<td align="right">0.02</td>
+<td align="right">0.06</td>
+<td align="right">196</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.00</td>
+</tr>
+<tr class="even">
+<td align="left">GLI_2</td>
+<td align="right">92</td>
+<td align="right">0.16</td>
+<td align="right">0.30</td>
+<td align="right">0.31</td>
+<td align="right">0.39</td>
+<td align="right">0.03</td>
+<td align="right">0.11</td>
+<td align="right">196</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.00</td>
+</tr>
+<tr class="odd">
+<td align="left">GLI_2</td>
+<td align="right">100</td>
+<td align="right">0.07</td>
+<td align="right">0.22</td>
+<td align="right">0.22</td>
+<td align="right">0.32</td>
+<td align="right">0.05</td>
+<td align="right">0.23</td>
+<td align="right">196</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.00</td>
+</tr>
+<tr class="even">
+<td align="left">GLI_2</td>
+<td align="right">108</td>
+<td align="right">0.02</td>
+<td align="right">0.17</td>
+<td align="right">0.17</td>
+<td align="right">0.29</td>
+<td align="right">0.05</td>
+<td align="right">0.32</td>
+<td align="right">196</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.00</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section level2">
-<h2 id="target-function-for-maturity">Target function for maturity<a class="anchor" aria-label="anchor" href="#target-function-for-maturity"></a>
+<h2 id="expectation-function">2. Expectation function<a class="anchor" aria-label="anchor" href="#expectation-function"></a>
 </h2>
+<p>After exploring the data, we define the expectation function. In this
+case, we utilize a linear-plateau-linear function characterized by five
+parameters: t1, t2, t3, k, and <span class="math inline">\(\beta\)</span>. The function can be expressed
+mathematically as follows:</p>
 <p><code><a href="../reference/fn_lin_pl_lin.html">fn_lin_pl_lin()</a></code></p>
 <p><span class="math display">\[\begin{equation}
 f(t; t_1, t_2, t_3, k, \beta) =
@@ -127,11 +286,23 @@ k &amp; \text{if } t_2 \leq t \leq t_3 \\
 k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 \end{cases}
 \end{equation}\]</span></p>
-<p><img src="maturity-model_files/figure-html/unnamed-chunk-6-1.png" alt="plot fn" width="768"></p>
+<p><img src="maturity-model_files/figure-html/unnamed-chunk-7-1.png" alt="plot fn" width="480"></p>
 </div>
 <div class="section level2">
-<h2 id="fitting-models-for-maturity">Fitting models for maturity<a class="anchor" aria-label="anchor" href="#fitting-models-for-maturity"></a>
+<h2 id="fitting-models">3. Fitting Models<a class="anchor" aria-label="anchor" href="#fitting-models"></a>
 </h2>
+<p>To fit the model, we use the modeler function. Here:</p>
+<ul>
+<li>x specifies the days after planting (DAP),</li>
+<li>y the GLI_2 variable that we aim to model.</li>
+<li>grp Allows for group analysis, enabling us to analyze multiple
+plots.</li>
+</ul>
+<p>In this vignette, we will fit the model for plots 195 and 40 as a
+subset, out of a total of 196 plots. We will define the
+linear-plateau-linear function <code>fn_lin_pl_lin</code> and set
+initial values for the parameters. Additionally, we can include a zero
+value in the time series if needed.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mod_1</span> <span class="op">&lt;-</span> <span class="va">dt_potato</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/modeler.html">modeler</a></span><span class="op">(</span></span>
@@ -143,9 +314,11 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <span>    subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span>,</span>
 <span>    options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>add_zero <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
+<p>After fitting, we can inspect the model summary and visualize the fit
+using the plot function:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="maturity-model_files/figure-html/unnamed-chunk-8-1.png" alt="plot fit 1" width="768"></p>
+<p><img src="maturity-model_files/figure-html/unnamed-chunk-9-1.png" alt="plot fit 1" width="768"></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">$</span><span class="va">param</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
@@ -181,147 +354,98 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 </table>
 </div>
 <div class="section level2">
-<h2 id="fixing-parameters-from-the-canopy-model">Fixing parameters from the canopy model<a class="anchor" aria-label="anchor" href="#fixing-parameters-from-the-canopy-model"></a>
+<h2 id="extracting-model-coefficients-and-uncertainty-measures">3.1. Extracting model coefficients and uncertainty measures<a class="anchor" aria-label="anchor" href="#extracting-model-coefficients-and-uncertainty-measures"></a>
 </h2>
+<p>Once the model is fitted, we can extract essential statistical
+information, including coefficients, standard errors, confidence
+intervals, and the variance-covariance matrix for each plot. These
+metrics help us evaluate the reliability of the parameter estimates and
+assess the uncertainty around them.</p>
+<p>The functions <code>coef</code>, <code>confint</code>, and
+<code>vcov</code> are used as follows:</p>
+<ul>
+<li>
+<strong>coef</strong>: Extracts the estimated coefficients for each
+group.</li>
+<li>
+<strong>confint</strong>: Provides the confidence intervals for the
+parameter estimates.</li>
+<li>
+<strong>vcov</strong>: Returns the variance-covariance matrix, which
+can be used to understand the relationships between the estimates and
+their variability.</li>
+</ul>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fixed_params</span> <span class="op">&lt;-</span> <span class="va">results</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html" class="external-link">pluck</a></span><span class="op">(</span><span class="st">"dt_long"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">var</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="st">"Canopy"</span> <span class="op">&amp;</span> <span class="va">uid</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">uid</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>k <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 6</span></span></span>
+<span><span class="co">#&gt;      uid coefficient solution std.error `t value`  `Pr(&gt;|t|)`</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>    40 t1           36.9      1.49        24.7  0.000<span style="text-decoration: underline;">015</span>9  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>    40 t2           66.4      2.26        29.4  0.000<span style="text-decoration: underline;">007</span>97 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>    40 t3           79.9      2.64        30.2  0.000<span style="text-decoration: underline;">007</span>16 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>    40 k             0.369    0.013<span style="text-decoration: underline;">2</span>      28.0  0.000<span style="text-decoration: underline;">009</span>63 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>    40 beta         -<span style="color: #BB0000;">0.010</span><span style="color: #BB0000; text-decoration: underline;">6</span>   0.001<span style="text-decoration: underline;">16</span>     -<span style="color: #BB0000;">9.09</span> 0.000<span style="text-decoration: underline;">813</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>   195 t1           39.6      0.642       61.6  0.000<span style="text-decoration: underline;">000</span>415</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>   195 t2           68.3      1.18        57.7  0.000<span style="text-decoration: underline;">000</span>540</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>   195 t3           93.3      1.28        73.0  0.000<span style="text-decoration: underline;">000</span>211</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>   195 k             0.323    0.004<span style="text-decoration: underline;">17</span>     77.4  0.000<span style="text-decoration: underline;">000</span>167</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>   195 beta         -<span style="color: #BB0000;">0.010</span><span style="color: #BB0000; text-decoration: underline;">0</span>   0.001<span style="text-decoration: underline;">10</span>     -<span style="color: #BB0000;">9.13</span> 0.000<span style="text-decoration: underline;">800</span></span></span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mod_2</span> <span class="op">&lt;-</span> <span class="va">dt_potato</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/modeler.html">modeler</a></span><span class="op">(</span></span>
-<span>    x <span class="op">=</span> <span class="va">DAP</span>,</span>
-<span>    y <span class="op">=</span> <span class="va">Canopy</span>,</span>
-<span>    grp <span class="op">=</span> <span class="va">Plot</span>,</span>
-<span>    fn <span class="op">=</span> <span class="st">"fn_piwise"</span>,</span>
-<span>    parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">45</span>, t2 <span class="op">=</span> <span class="fl">80</span>, k <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>,</span>
-<span>    fixed_params <span class="op">=</span> <span class="va">fixed_params</span>,</span>
-<span>    subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span>,</span>
-<span>    options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>add_zero <span class="op">=</span> <span class="cn">TRUE</span>, max_as_last <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/confint.html" class="external-link">confint</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 6</span></span></span>
+<span><span class="co">#&gt;      uid coefficient solution std.error ci_lower ci_upper</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>    40 t1           36.9      1.49     32.7    41.0    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>    40 t2           66.4      2.26     60.1    72.7    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>    40 t3           79.9      2.64     72.5    87.2    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>    40 k             0.369    0.013<span style="text-decoration: underline;">2</span>    0.333   0.406  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>    40 beta         -<span style="color: #BB0000;">0.010</span><span style="color: #BB0000; text-decoration: underline;">6</span>   0.001<span style="text-decoration: underline;">16</span>  -<span style="color: #BB0000;">0.013</span><span style="color: #BB0000; text-decoration: underline;">8</span> -<span style="color: #BB0000;">0.007</span><span style="color: #BB0000; text-decoration: underline;">34</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>   195 t1           39.6      0.642    37.8    41.4    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>   195 t2           68.3      1.18     65.0    71.6    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>   195 t3           93.3      1.28     89.8    96.9    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>   195 k             0.323    0.004<span style="text-decoration: underline;">17</span>   0.311   0.334  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>   195 beta         -<span style="color: #BB0000;">0.010</span><span style="color: #BB0000; text-decoration: underline;">0</span>   0.001<span style="text-decoration: underline;">10</span>  -<span style="color: #BB0000;">0.013</span><span style="color: #BB0000; text-decoration: underline;">1</span> -<span style="color: #BB0000;">0.006</span><span style="color: #BB0000; text-decoration: underline;">99</span></span></span></code></pre></div>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_2</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="maturity-model_files/figure-html/unnamed-chunk-11-1.png" alt="plot fit 2" width="768"></p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/vcov.html" class="external-link">vcov</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $`40`</span></span>
+<span><span class="co">#&gt;                 t1            t2            t3             k          beta</span></span>
+<span><span class="co">#&gt; t1    2.225220e+00 -1.842123e+00  7.504853e-05 -7.920036e-07 -5.438244e-11</span></span>
+<span><span class="co">#&gt; t2   -1.842123e+00  5.103540e+00 -1.314304e+00  1.387014e-02  9.523845e-07</span></span>
+<span><span class="co">#&gt; t3    7.504853e-05 -1.314304e+00  6.988888e+00 -1.642546e-02 -2.580093e-03</span></span>
+<span><span class="co">#&gt; k    -7.920036e-07  1.387014e-02 -1.642546e-02  1.733414e-04  1.190238e-08</span></span>
+<span><span class="co">#&gt; beta -5.438244e-11  9.523845e-07 -2.580093e-03  1.190238e-08  1.353033e-06</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $`195`</span></span>
+<span><span class="co">#&gt;                 t1            t2            t3             k          beta</span></span>
+<span><span class="co">#&gt; t1    4.125816e-01 -0.3971638781  2.496490e-07 -3.724881e-09  1.004366e-10</span></span>
+<span><span class="co">#&gt; t2   -3.971639e-01  1.3995439417 -1.036911e-01  1.547120e-03 -4.171610e-05</span></span>
+<span><span class="co">#&gt; t3    2.496490e-07 -0.1036910914  1.632896e+00 -1.167033e-03 -1.250043e-03</span></span>
+<span><span class="co">#&gt; k    -3.724881e-09  0.0015471202 -1.167033e-03  1.741269e-05 -4.695107e-07</span></span>
+<span><span class="co">#&gt; beta  1.004366e-10 -0.0000417161 -1.250043e-03 -4.695107e-07  1.212576e-06</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="adding-constrains-to-the-optimization">4. Adding constrains to the optimization<a class="anchor" aria-label="anchor" href="#adding-constrains-to-the-optimization"></a>
+</h2>
+<p>To impose constraints on the optimization process, we can modify the
+expectation function. In this particular case, if we want to ensure that
+t3 is greater than or equal to t2, we can reformulate the function,
+introducing dt as the difference between t3 and t2:</p>
+<p><span class="math display">\[\begin{equation}
+f(t; t_1, t_2, dt, k, \beta) =
+\begin{cases}
+0 &amp; \text{if } t &lt; t_1 \\
+\dfrac{k}{t_2 - t_1} \cdot (t - t_1) &amp; \text{if } t_1 \leq t \leq
+t_2 \\
+k &amp; \text{if } t_2 \leq t \leq (t_2 + dt) \\
+k + \beta \cdot (t - (t_2 + dt)) &amp; \text{if } t &gt; (t_2 + dt)
+\end{cases}
+\end{equation}\]</span></p>
+<p>We can then add constraints in the modeler function using the lower
+and upper arguments, where the coefficient dt can vary from 0 to
+infinity, and the slope (<span class="math inline">\(\beta\)</span>)
+must be non-positive.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">mod_2</span><span class="op">$</span><span class="va">param</span><span class="op">)</span></span></code></pre></div>
-<table class="table">
-<thead><tr class="header">
-<th align="right">uid</th>
-<th align="right">t1</th>
-<th align="right">t2</th>
-<th align="right">sse</th>
-<th align="right">k</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="right">40</td>
-<td align="right">34.80771</td>
-<td align="right">60.84828</td>
-<td align="right">0.0014765</td>
-<td align="right">100</td>
-</tr>
-<tr class="even">
-<td align="right">195</td>
-<td align="right">38.72534</td>
-<td align="right">61.96802</td>
-<td align="right">0.0000000</td>
-<td align="right">100</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="section level2">
-<h2 id="passing-initial-values">Passing initial values<a class="anchor" aria-label="anchor" href="#passing-initial-values"></a>
-</h2>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">initials</span> <span class="op">&lt;-</span> <span class="va">mod_2</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html" class="external-link">pluck</a></span><span class="op">(</span><span class="st">"param"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">uid</span>, <span class="va">t1</span>, <span class="va">t2</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>t3 <span class="op">=</span> <span class="fl">100</span>, k <span class="op">=</span> <span class="fl">0.32</span>, beta <span class="op">=</span> <span class="op">-</span><span class="fl">0.01</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">initials</span><span class="op">)</span></span></code></pre></div>
-<table class="table">
-<thead><tr class="header">
-<th align="right">uid</th>
-<th align="right">t1</th>
-<th align="right">t2</th>
-<th align="right">t3</th>
-<th align="right">k</th>
-<th align="right">beta</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="right">40</td>
-<td align="right">34.80771</td>
-<td align="right">60.84828</td>
-<td align="right">100</td>
-<td align="right">0.32</td>
-<td align="right">-0.01</td>
-</tr>
-<tr class="even">
-<td align="right">195</td>
-<td align="right">38.72534</td>
-<td align="right">61.96802</td>
-<td align="right">100</td>
-<td align="right">0.32</td>
-<td align="right">-0.01</td>
-</tr>
-</tbody>
-</table>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mod_3</span> <span class="op">&lt;-</span> <span class="va">dt_potato</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/modeler.html">modeler</a></span><span class="op">(</span></span>
-<span>    x <span class="op">=</span> <span class="va">DAP</span>,</span>
-<span>    y <span class="op">=</span> <span class="va">GLI_2</span>,</span>
-<span>    grp <span class="op">=</span> <span class="va">Plot</span>,</span>
-<span>    fn <span class="op">=</span> <span class="st">"fn_lin_pl_lin"</span>,</span>
-<span>    parameters <span class="op">=</span> <span class="va">initials</span>,</span>
-<span>    subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span>,</span>
-<span>    options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>add_zero <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_3</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="maturity-model_files/figure-html/unnamed-chunk-14-1.png" alt="plot fit 3" width="768"></p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">mod_3</span><span class="op">$</span><span class="va">param</span><span class="op">)</span></span></code></pre></div>
-<table class="table">
-<thead><tr class="header">
-<th align="right">uid</th>
-<th align="right">t1</th>
-<th align="right">t2</th>
-<th align="right">t3</th>
-<th align="right">k</th>
-<th align="right">beta</th>
-<th align="right">sse</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="right">40</td>
-<td align="right">36.88024</td>
-<td align="right">66.41594</td>
-<td align="right">79.85395</td>
-<td align="right">0.3691399</td>
-<td align="right">-0.0105693</td>
-<td align="right">0.0006928</td>
-</tr>
-<tr class="even">
-<td align="right">195</td>
-<td align="right">39.59062</td>
-<td align="right">68.27877</td>
-<td align="right">93.33638</td>
-<td align="right">0.3228831</td>
-<td align="right">-0.0100491</td>
-<td align="right">0.0001490</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="section level2">
-<h2 id="adding-constrains-to-the-optimization">Adding constrains to the optimization<a class="anchor" aria-label="anchor" href="#adding-constrains-to-the-optimization"></a>
-</h2>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mod_4</span> <span class="op">&lt;-</span> <span class="va">dt_potato</span> <span class="op">|&gt;</span></span>
+<code class="sourceCode R"><span><span class="va">mod_2</span> <span class="op">&lt;-</span> <span class="va">dt_potato</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/modeler.html">modeler</a></span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="va">DAP</span>,</span>
 <span>    y <span class="op">=</span> <span class="va">GLI_2</span>,</span>
@@ -334,11 +458,11 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <span>    subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span>,</span>
 <span>    options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>add_zero <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_4</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="maturity-model_files/figure-html/unnamed-chunk-16-1.png" alt="plot fit 4" width="768"></p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">mod_4</span><span class="op">$</span><span class="va">param</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_2</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="maturity-model_files/figure-html/unnamed-chunk-14-1.png" alt="plot fit 4" width="768"></p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">mod_2</span><span class="op">$</span><span class="va">param</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="right">uid</th>
@@ -370,6 +494,53 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 </tr>
 </tbody>
 </table>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 6</span></span></span>
+<span><span class="co">#&gt;      uid coefficient solution std.error `t value`  `Pr(&gt;|t|)`</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>    40 t1           36.9      1.49        24.7  0.000<span style="text-decoration: underline;">015</span>9  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>    40 t2           66.4      2.26        29.4  0.000<span style="text-decoration: underline;">007</span>97 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>    40 t3           79.9      2.64        30.2  0.000<span style="text-decoration: underline;">007</span>16 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>    40 k             0.369    0.013<span style="text-decoration: underline;">2</span>      28.0  0.000<span style="text-decoration: underline;">009</span>63 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>    40 beta         -<span style="color: #BB0000;">0.010</span><span style="color: #BB0000; text-decoration: underline;">6</span>   0.001<span style="text-decoration: underline;">16</span>     -<span style="color: #BB0000;">9.09</span> 0.000<span style="text-decoration: underline;">813</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>   195 t1           39.6      0.642       61.6  0.000<span style="text-decoration: underline;">000</span>415</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>   195 t2           68.3      1.18        57.7  0.000<span style="text-decoration: underline;">000</span>540</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>   195 t3           93.3      1.28        73.0  0.000<span style="text-decoration: underline;">000</span>211</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>   195 k             0.323    0.004<span style="text-decoration: underline;">17</span>     77.4  0.000<span style="text-decoration: underline;">000</span>167</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>   195 beta         -<span style="color: #BB0000;">0.010</span><span style="color: #BB0000; text-decoration: underline;">0</span>   0.001<span style="text-decoration: underline;">10</span>     -<span style="color: #BB0000;">9.13</span> 0.000<span style="text-decoration: underline;">800</span></span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/confint.html" class="external-link">confint</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 6</span></span></span>
+<span><span class="co">#&gt;      uid coefficient solution std.error ci_lower ci_upper</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>    40 t1           36.9      1.49     32.7    41.0    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>    40 t2           66.4      2.26     60.1    72.7    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>    40 t3           79.9      2.64     72.5    87.2    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>    40 k             0.369    0.013<span style="text-decoration: underline;">2</span>    0.333   0.406  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>    40 beta         -<span style="color: #BB0000;">0.010</span><span style="color: #BB0000; text-decoration: underline;">6</span>   0.001<span style="text-decoration: underline;">16</span>  -<span style="color: #BB0000;">0.013</span><span style="color: #BB0000; text-decoration: underline;">8</span> -<span style="color: #BB0000;">0.007</span><span style="color: #BB0000; text-decoration: underline;">34</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>   195 t1           39.6      0.642    37.8    41.4    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>   195 t2           68.3      1.18     65.0    71.6    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>   195 t3           93.3      1.28     89.8    96.9    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>   195 k             0.323    0.004<span style="text-decoration: underline;">17</span>   0.311   0.334  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>   195 beta         -<span style="color: #BB0000;">0.010</span><span style="color: #BB0000; text-decoration: underline;">0</span>   0.001<span style="text-decoration: underline;">10</span>  -<span style="color: #BB0000;">0.013</span><span style="color: #BB0000; text-decoration: underline;">1</span> -<span style="color: #BB0000;">0.006</span><span style="color: #BB0000; text-decoration: underline;">99</span></span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/vcov.html" class="external-link">vcov</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $`40`</span></span>
+<span><span class="co">#&gt;                 t1            t2            t3             k          beta</span></span>
+<span><span class="co">#&gt; t1    2.225220e+00 -1.842123e+00  7.504853e-05 -7.920036e-07 -5.438244e-11</span></span>
+<span><span class="co">#&gt; t2   -1.842123e+00  5.103540e+00 -1.314304e+00  1.387014e-02  9.523845e-07</span></span>
+<span><span class="co">#&gt; t3    7.504853e-05 -1.314304e+00  6.988888e+00 -1.642546e-02 -2.580093e-03</span></span>
+<span><span class="co">#&gt; k    -7.920036e-07  1.387014e-02 -1.642546e-02  1.733414e-04  1.190238e-08</span></span>
+<span><span class="co">#&gt; beta -5.438244e-11  9.523845e-07 -2.580093e-03  1.190238e-08  1.353033e-06</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $`195`</span></span>
+<span><span class="co">#&gt;                 t1            t2            t3             k          beta</span></span>
+<span><span class="co">#&gt; t1    4.125816e-01 -0.3971638781  2.496490e-07 -3.724881e-09  1.004366e-10</span></span>
+<span><span class="co">#&gt; t2   -3.971639e-01  1.3995439417 -1.036911e-01  1.547120e-03 -4.171610e-05</span></span>
+<span><span class="co">#&gt; t3    2.496490e-07 -0.1036910914  1.632896e+00 -1.167033e-03 -1.250043e-03</span></span>
+<span><span class="co">#&gt; k    -3.724881e-09  0.0015471202 -1.167033e-03  1.741269e-05 -4.695107e-07</span></span>
+<span><span class="co">#&gt; beta  1.004366e-10 -0.0000417161 -1.250043e-03 -4.695107e-07  1.212576e-06</span></span></code></pre></div>
 <hr>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

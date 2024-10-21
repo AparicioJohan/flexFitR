@@ -97,8 +97,8 @@ Optimization Results `head()`:
    1 38.6 61 99.8 0.449
 
 Metrics:
- Groups     Timing Convergence Iterations
-      1 0.354 secs        100%   511 (id)
+ Groups      Timing Convergence Iterations
+      1 0.3811 secs        100%   511 (id)
 ```
 
 ``` r
@@ -151,6 +151,8 @@ For detailed documentation and examples, visit
   Height](https://apariciojohan.github.io/flexFitR/articles/height-model.html)
 - Vignette 4: [Modeling
   VIs](https://apariciojohan.github.io/flexFitR/articles/maturity-model.html)
+- Vignette 4: [Plotting
+  Options](https://apariciojohan.github.io/flexFitR/articles/plotting.html)
 
 ## Contributing
 

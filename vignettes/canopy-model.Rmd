@@ -1,8 +1,8 @@
 ---
-title: "Modelling Emergence and Maximun Canopy"
+title: "Modeling plant emergence and canopy growth using UAV data"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Modelling Emergence and Maximun Canopy}
+  %\VignetteIndexEntry{Modeling plant emergence and canopy growth using UAV data}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -14,6 +14,16 @@ knitr::opts_chunk$set(
 )
 ```
 
+This vignette demonstrates how to use a piece-wise regression and canopy data 
+derived from UAV imagery to estimate two key parameters:
+
+* t1: the day of plant emergence
+* t2: the number of days it takes to reach the maximum canopy.
+
+The data presented here are part of Professor Jeff Endelman's breeding program, 
+specifically for a partially replicated experiment. The UAV images were collected
+in 2020 and processed in 2024
+
 ## Loading libraries
 
 ```{r, warning=FALSE, message=FALSE }
@@ -24,7 +34,9 @@ library(ggpubr)
 library(purrr)
 ```
 
-## Exploring data `explorer()`
+## 1. Exploring data
+
+We begin by exploring the data using the explorer function. This provides us with some basic statistical summaries and descriptive statistics, as well as visualizations to help understand the temporal evolution of each plot for the given variables and their correlations.
 
 ```{r}
 data(dt_potato)
@@ -35,10 +47,8 @@ explorer <- explorer(dt_potato, x = DAP, y = Canopy, id = Plot)
 names(explorer)
 ```
 
-## Data exploration
-
 ```{r, fig.width= 8, fig.height=4, fig.alt="plot corr"}
-p1 <- plot(explorer, type = "evolution", return_gg = TRUE)
+p1 <- plot(explorer, type = "evolution", return_gg = TRUE, add_avg = TRUE)
 p2 <- plot(explorer, type = "x_by_var", return_gg = TRUE)
 ggarrange(p1, p2)
 ```
@@ -48,7 +58,9 @@ kable(mutate_if(explorer$summ_vars, is.numeric, round, 2))
 ```
 
 
-## Target Function 
+## 2. Expectation Function 
+
+Once the data have been explored, we define the expectation function. In this case, it is a piece-wise regression function with three parameters: t1, t2, and k. The function can be expressed mathematically as follows::
 
 `fn_piwise()`
 
@@ -72,7 +84,15 @@ plot_fn(
 )
 ```
 
-## Fitting Models
+## 3. Fitting Models
+
+To fit the model, we use the modeler function. Here:
+
+* x specifies the days after planting (DAP),
+* y is the canopy variable to be modeled,
+* grp allows us to perform group analysis, e.g., on multiple plots.
+
+In this example, we have 196 plots but will only fit the model for plots 195 and 40 as a subset. We define the piecewise function `fn_piwise` and set initial values for the parameters. Additionally, we can include a zero value in the time series if needed.
 
 ```{r, warning=FALSE, message=FALSE }
 mod_1 <- dt_potato |>
@@ -87,14 +107,41 @@ mod_1 <- dt_potato |>
   )
 mod_1
 ```
-
+After fitting, we can inspect the model summary and visualize the fit using the plot function:
 
 ```{r, fig.width= 8, fig.height=4, fig.alt="plot fit"}
 plot(mod_1, id = c(195, 40))
 kable(mod_1$param)
 ```
+## 3.1. Extracting model coefficients and uncertainty measures
 
-## Providing different initial values
+Once the model is fitted, we can extract key statistical information, such as
+coefficients, standard errors, confidence intervals, and the variance-covariance
+matrix for each group (plot). These metrics allow us to draw conclusions about
+the parameter estimates and assess the uncertainty around them.
+
+The functions `coef`, `confint`, and `vcov` are used as follows:
+
+* **coef**: Extracts the estimated coefficients for each group.
+* **confint**: Provides the confidence intervals for the parameter estimates.
+* **vcov**: Returns the variance-covariance matrix, which can be used to understand 
+the relationships between the estimates and their variability.
+
+```{r}
+coef(mod_1)
+```
+```{r}
+confint(mod_1)
+```
+
+```{r}
+vcov(mod_1)
+```
+
+## 4. Providing different initial values
+
+The initial fit may not always be optimal, so we can adjust the initial parameter 
+values for each plot and even fix certain parameters to improve the model.
 
 ```{r}
 initials <- data.frame(
@@ -127,7 +174,18 @@ plot(mod_2, id = c(195, 40))
 kable(mod_2$param)
 ```
 
-## Fixing some parameters of the model
+It's important to note that providing poor initial guesses for the parameters can
+lead to inaccurate or unreliable model fits. For example, if we mistakenly assign
+t1 (the day of plant emergence) a value greater than t2 (the day of maximum canopy), 
+the model fit can fail or produce nonsensical results.
+
+## 5. Fixing some parameters of the model
+
+In certain cases, we may want to fix specific parameters either because they are
+known or because we prefer the model to leave these parameters unchanged. 
+For example, we can fix the parameter `k`, which represents the maximum canopy value.
+If we assume that the maximum canopy coverage is 100%, we can incorporate this
+assumption into the model by fixing k.
 
 ```{r}
 fixed_params <- data.frame(uid = c(195, 40), k = c(100, 100))
@@ -136,7 +194,6 @@ fixed_params <- data.frame(uid = c(195, 40), k = c(100, 100))
 ```{r}
 kable(fixed_params)
 ```
-
 
 ```{r}
 mod_3 <- dt_potato |>
@@ -157,7 +214,15 @@ plot(mod_3, id = c(195, 40))
 kable(mod_3$param)
 ```
 
-## Correcting Maximun value
+By fixing k to 100, we are telling the model that the maximum canopy for these plots
+is fixed at 100%. This allows the model to focus on estimating the other parameters,
+t1 and t2, potentially improving the accuracy of their estimates by reducing the 
+complexity of the model.
+
+### Altering Maximun value
+
+If we define an indicator variable that alters the canopy value after reaching its
+observed maximum, we can adjust this using the option `max_as_last = TRUE`. This typically provides similar estimates for t1 and t2, but with a lower error.
 
 ```{r}
 mod_4 <- dt_potato |>
@@ -178,7 +243,7 @@ plot(mod_4, id = c(195, 40))
 kable(mod_4$param)
 ```
 
-## Comparing Models
+## 6. Comparing estimations
 
 ```{r}
 rbind.data.frame(
@@ -191,4 +256,48 @@ rbind.data.frame(
   kable()
 ```
 
-<hr>
+After fitting multiple models with different initial values, fixed parameters, 
+and canopy adjustments, we can compare the resulting coefficients and sum of 
+square errors (`sse`) to evaluate the impact of these changes.
+
+```{r}
+rbind.data.frame(
+  mutate(AIC(mod_1), model = "1", .before = uid),
+  mutate(AIC(mod_2), model = "2", .before = uid),
+  mutate(AIC(mod_3), model = "3", .before = uid),
+  mutate(AIC(mod_4), model = "4", .before = uid)
+) |>
+  filter(uid %in% 195) |>
+  kable()
+```
+
+## 7. Modelling all plots using parallel processing
+
+Finally, we can apply this method to all 196 plots, leveraging parallel processing to speed up the computation. To do this, we specify `parallel = TRUE` in the options argument, and set the number of cores using the function `parallel::detectCores()`, which automatically detects the available cores.
+
+```{r, eval= FALSE}
+explorer <- explorer(dt_potato, x = DAP, y = Canopy, id = Plot)
+fixed_params <- explorer |>
+  pluck("dt_long") |>
+  filter(var %in% "Canopy" & uid %in% c(195, 40)) |>
+  group_by(uid) |>
+  summarise(k = max(y), .groups = "drop")
+mod <- dt_potato |>
+  modeler(
+    x = DAP,
+    y = Canopy,
+    grp = Plot,
+    fn = "fn_piwise",
+    parameters = c(t1 = 45, t2 = 80, k = 0.9),
+    fixed_params = fixed_params,
+    options = list(
+      add_zero = TRUE, 
+      max_as_last = TRUE,
+      progress = TRUE,
+      parallel = TRUE,
+      workers = parallel::detectCores()
+    )
+  )
+```
+
+<br>

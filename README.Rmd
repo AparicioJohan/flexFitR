@@ -113,6 +113,7 @@ For detailed documentation and examples, visit [flexFitR](https://apariciojohan.
 * Vignette 2: [Modeling Canopy](https://apariciojohan.github.io/flexFitR/articles/canopy-model.html) 
 * Vignette 3: [Modeling Plant Height](https://apariciojohan.github.io/flexFitR/articles/height-model.html) 
 * Vignette 4: [Modeling VIs](https://apariciojohan.github.io/flexFitR/articles/maturity-model.html) 
+* Vignette 5: [Plotting Options](https://apariciojohan.github.io/flexFitR/articles/plotting.html) 
 
 ## Contributing
 
