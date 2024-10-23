@@ -39,8 +39,8 @@ library(purrr)
 We begin by exploring the data using the explorer function. This provides us with some basic statistical summaries and descriptive statistics, as well as visualizations to help understand the temporal evolution of each plot for the given variables and their correlations.
 
 ```{r}
-data(dt_potato)
-explorer <- explorer(dt_potato, x = DAP, y = Canopy, id = Plot)
+data(dt_potato_20)
+explorer <- explorer(dt_potato_20, x = DAP, y = Canopy, id = Plot)
 ```
 
 ```{r}
@@ -60,7 +60,7 @@ kable(mutate_if(explorer$summ_vars, is.numeric, round, 2))
 
 ## 2. Expectation Function 
 
-Once the data have been explored, we define the expectation function. In this case, it is a piece-wise regression function with three parameters: t1, t2, and k. The function can be expressed mathematically as follows::
+Once the data have been explored, we define the expectation function. In this case, it is a piece-wise regression function with three parameters: t1, t2, and k. The function can be expressed mathematically as follows:
 
 `fn_piwise()`
 
@@ -95,7 +95,7 @@ To fit the model, we use the modeler function. Here:
 In this example, we have 196 plots but will only fit the model for plots 195 and 40 as a subset. We define the piecewise function `fn_piwise` and set initial values for the parameters. Additionally, we can include a zero value in the time series if needed.
 
 ```{r, warning=FALSE, message=FALSE }
-mod_1 <- dt_potato |>
+mod_1 <- dt_potato_20 |>
   modeler(
     x = DAP,
     y = Canopy,
@@ -157,7 +157,7 @@ kable(initials)
 ```
 
 ```{r}
-mod_2 <- dt_potato |>
+mod_2 <- dt_potato_20 |>
   modeler(
     x = DAP,
     y = Canopy,
@@ -196,7 +196,7 @@ kable(fixed_params)
 ```
 
 ```{r}
-mod_3 <- dt_potato |>
+mod_3 <- dt_potato_20 |>
   modeler(
     x = DAP,
     y = Canopy,
@@ -225,7 +225,7 @@ If we define an indicator variable that alters the canopy value after reaching i
 observed maximum, we can adjust this using the option `max_as_last = TRUE`. This typically provides similar estimates for t1 and t2, but with a lower error.
 
 ```{r}
-mod_4 <- dt_potato |>
+mod_4 <- dt_potato_20 |>
   modeler(
     x = DAP,
     y = Canopy,
@@ -276,13 +276,13 @@ rbind.data.frame(
 Finally, we can apply this method to all 196 plots, leveraging parallel processing to speed up the computation. To do this, we specify `parallel = TRUE` in the options argument, and set the number of cores using the function `parallel::detectCores()`, which automatically detects the available cores.
 
 ```{r, eval= FALSE}
-explorer <- explorer(dt_potato, x = DAP, y = Canopy, id = Plot)
+explorer <- explorer(dt_potato_20, x = DAP, y = Canopy, id = Plot)
 fixed_params <- explorer |>
   pluck("dt_long") |>
   filter(var %in% "Canopy" & uid %in% c(195, 40)) |>
   group_by(uid) |>
   summarise(k = max(y), .groups = "drop")
-mod <- dt_potato |>
+mod <- dt_potato_20 |>
   modeler(
     x = DAP,
     y = Canopy,

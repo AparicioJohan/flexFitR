@@ -61,8 +61,8 @@ reference:
 - title: Data
   desc: Example Datasets
 - contents:
-  - dt_potato
-  - dt_chips
+  - dt_potato_20
+  - dt_potato_22
 - title: Growth Modelling
   desc: Collection of functions
 - contents:

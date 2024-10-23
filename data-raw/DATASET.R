@@ -1,12 +1,11 @@
 ## code to prepare `DATASET` dataset goes here
 
-dt_potato <- readr::read_csv("data-raw/dt_potato.csv")
+dt_potato_20 <- readr::read_csv("data-raw/dt_potato.csv")
+usethis::use_data(dt_potato_20, overwrite = TRUE)
 
-usethis::use_data(dt_potato, overwrite = TRUE)
 
-
-dt_chips <- readr::read_csv("data-raw/chips_2022.csv") |>
+dt_potato_22 <- readr::read_csv("data-raw/chips_2022.csv") |>
   select(Trial, DAP, Plot, row, range, Name, Total.yield, vine.maturity, Red:Canopy)
-names(dt_chips) <- names(dt_potato)
+names(dt_potato_22) <- names(dt_potato_20)
 
-usethis::use_data(dt_chips, overwrite = TRUE)
+usethis::use_data(dt_potato_22, overwrite = TRUE)

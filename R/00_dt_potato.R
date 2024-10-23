@@ -15,7 +15,7 @@
 #'   \item{Red - Canopy}{dbl denoting the drone-derived traits}
 #' }
 #' @source UW - Potato Breeding Program
-"dt_potato"
+"dt_potato_20"
 
 
 #' Drone Data in Potato 2022
@@ -35,4 +35,4 @@
 #'   \item{Red - Canopy}{dbl denoting the drone-derived traits}
 #' }
 #' @source UW - Potato Breeding Program
-"dt_chips"
+"dt_potato_22"

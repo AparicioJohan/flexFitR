@@ -62,9 +62,8 @@ Depending on the specified type, the function can generate plots that show corre
 }
 \examples{
 library(flexFitR)
-data(dt_potato)
-dt_potato <- dt_potato
-results <- explorer(dt_potato, x = DAP, y = c(Canopy, PH), id = Plot)
+data(dt_potato_20)
+results <- explorer(dt_potato_20, x = DAP, y = c(Canopy, PH), id = Plot)
 table <- plot(results, label_size = 4, signif = TRUE, n_row = 2)
 table
 plot(results, type = "x_by_var", label_size = 4, signif = TRUE)

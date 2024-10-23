@@ -41,8 +41,8 @@ library(purrr)
 We begin by exploring the data using the `explorer` function. This function provides basic statistical summaries and visualizations, helping us understand the temporal evolution of each plot and the correlations among the variables.
 
 ```{r}
-data(dt_potato)
-explorer <- explorer(dt_potato, x = DAP, y = c(Canopy, GLI_2), id = Plot)
+data(dt_potato_20)
+explorer <- explorer(dt_potato_20, x = DAP, y = c(Canopy, GLI_2), id = Plot)
 ```
 
 ```{r}
@@ -102,7 +102,7 @@ a total of 196 plots. We will define the linear-plateau-linear function
 we can include a zero value in the time series if needed.
 
 ```{r, warning=FALSE, message=FALSE}
-mod_1 <- dt_potato |>
+mod_1 <- dt_potato_20 |>
   modeler(
     x = DAP,
     y = GLI_2,
@@ -168,7 +168,7 @@ arguments, where the coefficient dt can vary from 0 to infinity, and the slope
 ($\beta$) must be non-positive.
 
 ```{r}
-mod_2 <- dt_potato |>
+mod_2 <- dt_potato_20 |>
   modeler(
     x = DAP,
     y = GLI_2,

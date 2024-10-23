@@ -65,9 +65,9 @@ r_squared <- function(actual, predicted) {
 #'
 #' @examples
 #' library(flexFitR)
-#' data(dt_potato)
-#' explorer <- explorer(dt_potato, x = DAP, y = c(Canopy, PH), id = Plot)
-#' mod_1 <- dt_potato |>
+#' data(dt_potato_20)
+#' explorer <- explorer(dt_potato_20, x = DAP, y = c(Canopy, PH), id = Plot)
+#' mod_1 <- dt_potato_20 |>
 #'   modeler(
 #'     x = DAP,
 #'     y = Canopy,

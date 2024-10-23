@@ -83,10 +83,10 @@ General-purpose optimization techniques for non-linear least squares problems.
 }
 \examples{
 library(flexFitR)
-data(dt_potato)
-explorer <- explorer(dt_potato, x = DAP, y = c(Canopy, GLI_2), id = Plot)
+data(dt_potato_20)
+explorer <- explorer(dt_potato_20, x = DAP, y = c(Canopy, GLI_2), id = Plot)
 # Example 1
-mod_1 <- dt_potato |>
+mod_1 <- dt_potato_20 |>
   modeler(
     x = DAP,
     y = GLI_2,
@@ -99,7 +99,7 @@ mod_1 <- dt_potato |>
 plot(mod_1, id = 195)
 print(mod_1)
 # Example 2
-mod_2 <- dt_potato |>
+mod_2 <- dt_potato_20 |>
   modeler(
     x = DAP,
     y = Canopy,

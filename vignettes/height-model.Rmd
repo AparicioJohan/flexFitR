@@ -43,8 +43,8 @@ library(purrr)
 We start by exploring the data using the explorer function. This provides basic statistical summaries and visualizations, which help in understanding the temporal evolution of the variables for each plot and their correlations.
 
 ```{r}
-data(dt_chips)
-results <- explorer(dt_chips, x = DAP, y = c(PH, Canopy), id = Plot)
+data(dt_potato_22)
+results <- explorer(dt_potato_22, x = DAP, y = c(PH, Canopy), id = Plot)
 ```
 
 ```{r}
@@ -94,7 +94,7 @@ fixed_params <- data.frame(uid = c(195, 40), k = c(100, 100))
 ```
 
 ```{r, warning=FALSE, message=FALSE}
-mod_1 <- dt_chips |>
+mod_1 <- dt_potato_22 |>
   modeler(
     x = DAP,
     y = Canopy,
@@ -173,7 +173,7 @@ In this example, although there are 196 plots, we will fit the model for plots 1
 The `fn_exp2_exp` function is defined, and we set initial values for the parameters.
 
 ```{r}
-mod_2 <- dt_chips |>
+mod_2 <- dt_potato_22 |>
   modeler(
     x = DAP,
     y = PH,
@@ -241,7 +241,7 @@ using parallel processing to accelerate the computation. By setting
 with `parallel::detectCores()`, the process becomes much more efficient.
 
 ```{r, eval= FALSE}
-mod <- dt_chips |>
+mod <- dt_potato_22 |>
   modeler(
     x = DAP,
     y = PH,
