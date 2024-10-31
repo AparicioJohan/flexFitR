@@ -29,11 +29,10 @@ The function .fitter_curve is used internally to find the parameters requested.
 \examples{
 library(flexFitR)
 data(dt_potato_20)
-explorer <- explorer(dt_potato_20, x = DAP, y = c(Canopy, GLI_2), id = Plot)
 mod_1 <- dt_potato_20 |>
   modeler(
     x = DAP,
-    y = GLI_2,
+    y = GLI,
     grp = Plot,
     fn = "fn_lin_pl_lin",
     parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),

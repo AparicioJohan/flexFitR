@@ -39,9 +39,9 @@ data(dt_potato_20)
 results <- dt_potato_20 |>
   explorer(
     x = DAP,
-    y = c(Canopy, PH),
+    y = c(Canopy, GLI),
     id = Plot,
-    metadata = c(Gen, Row, Range)
+    metadata = c(gid, Row, Range)
   )
 names(results)
 head(results$summ_vars)

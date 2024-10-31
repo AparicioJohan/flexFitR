@@ -42,7 +42,7 @@ We begin by exploring the data using the `explorer` function. This function prov
 
 ```{r}
 data(dt_potato_20)
-explorer <- explorer(dt_potato_20, x = DAP, y = c(Canopy, GLI_2), id = Plot)
+explorer <- explorer(dt_potato_20, x = DAP, y = c(Canopy, GLI), id = Plot)
 ```
 
 ```{r}
@@ -56,7 +56,7 @@ ggarrange(p1, p2, nrow = 2)
 ```
 
 ```{r, echo=FALSE}
-kable(mutate_if(filter(explorer$summ_vars, var == "GLI_2"), is.numeric, round, 2))
+kable(mutate_if(filter(explorer$summ_vars, var == "GLI"), is.numeric, round, 2))
 ```
 
 ## 2. Expectation function
@@ -93,7 +93,7 @@ plot_fn(
 To fit the model, we use the modeler function. Here:
 
 * x specifies the days after planting (DAP),
-* y the GLI_2 variable that we aim to model.
+* y the GLI variable that we aim to model.
 * grp Allows for group analysis, enabling us to analyze multiple plots.
 
 In this vignette, we will fit the model for plots 195 and 40 as a subset, out of
@@ -105,12 +105,11 @@ we can include a zero value in the time series if needed.
 mod_1 <- dt_potato_20 |>
   modeler(
     x = DAP,
-    y = GLI_2,
+    y = GLI,
     grp = Plot,
     fn = "fn_lin_pl_lin",
     parameters = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
-    subset = c(195, 40),
-    options = list(add_zero = TRUE)
+    subset = c(195, 40)
   )
 ```
 
@@ -171,15 +170,14 @@ arguments, where the coefficient dt can vary from 0 to infinity, and the slope
 mod_2 <- dt_potato_20 |>
   modeler(
     x = DAP,
-    y = GLI_2,
+    y = GLI,
     grp = Plot,
     fn = "fn_lin_pl_lin2",
     parameters = c(t1 = 38.7, t2 = 62, dt = 28, k = 0.32, beta = -0.01),
     lower = c(-Inf, -Inf, 0, -Inf, -Inf),
     upper = c(Inf, Inf, Inf, Inf, 0),
     method = c("nlminb", "L-BFGS-B"),
-    subset = c(195, 40),
-    options = list(add_zero = TRUE)
+    subset = c(195, 40)
   )
 ```
 

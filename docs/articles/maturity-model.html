@@ -113,7 +113,7 @@ visualizations, helping us understand the temporal evolution of each
 plot and the correlations among the variables.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">dt_potato_20</span><span class="op">)</span></span>
-<span><span class="va">explorer</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/explorer.html">explorer</a></span><span class="op">(</span><span class="va">dt_potato_20</span>, x <span class="op">=</span> <span class="va">DAP</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">Canopy</span>, <span class="va">GLI_2</span><span class="op">)</span>, id <span class="op">=</span> <span class="va">Plot</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">explorer</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/explorer.html">explorer</a></span><span class="op">(</span><span class="va">dt_potato_20</span>, x <span class="op">=</span> <span class="va">DAP</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">Canopy</span>, <span class="va">GLI</span><span class="op">)</span>, id <span class="op">=</span> <span class="va">Plot</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">explorer</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "summ_vars"      "summ_metadata"  "locals_min_max" "dt_long"       </span></span>
@@ -125,18 +125,18 @@ plot and the correlations among the variables.</p>
 <p><img src="maturity-model_files/figure-html/unnamed-chunk-5-1.png" alt="plot corr" width="768"></p>
 <table class="table">
 <colgroup>
-<col width="9%">
+<col width="6%">
 <col width="6%">
 <col width="9%">
-<col width="7%">
-<col width="10%">
-<col width="7%">
-<col width="7%">
+<col width="8%">
+<col width="11%">
+<col width="8%">
+<col width="8%">
 <col width="9%">
 <col width="6%">
-<col width="7%">
+<col width="8%">
 <col width="9%">
-<col width="7%">
+<col width="8%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">var</th>
@@ -154,7 +154,21 @@ plot and the correlations among the variables.</p>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">GLI_2</td>
+<td align="left">GLI</td>
+<td align="right">0</td>
+<td align="right">0.00</td>
+<td align="right">0.00</td>
+<td align="right">0.00</td>
+<td align="right">0.00</td>
+<td align="right">0.00</td>
+<td align="right">NaN</td>
+<td align="right">196</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.00</td>
+</tr>
+<tr class="even">
+<td align="left">GLI</td>
 <td align="right">29</td>
 <td align="right">-0.01</td>
 <td align="right">0.00</td>
@@ -167,8 +181,8 @@ plot and the correlations among the variables.</p>
 <td align="right">0</td>
 <td align="right">0.69</td>
 </tr>
-<tr class="even">
-<td align="left">GLI_2</td>
+<tr class="odd">
+<td align="left">GLI</td>
 <td align="right">36</td>
 <td align="right">-0.02</td>
 <td align="right">0.00</td>
@@ -181,8 +195,8 @@ plot and the correlations among the variables.</p>
 <td align="right">0</td>
 <td align="right">0.69</td>
 </tr>
-<tr class="odd">
-<td align="left">GLI_2</td>
+<tr class="even">
+<td align="left">GLI</td>
 <td align="right">42</td>
 <td align="right">0.00</td>
 <td align="right">0.06</td>
@@ -195,22 +209,22 @@ plot and the correlations among the variables.</p>
 <td align="right">0</td>
 <td align="right">0.02</td>
 </tr>
-<tr class="even">
-<td align="left">GLI_2</td>
+<tr class="odd">
+<td align="left">GLI</td>
 <td align="right">56</td>
 <td align="right">0.09</td>
-<td align="right">0.22</td>
+<td align="right">0.24</td>
+<td align="right">0.24</td>
+<td align="right">0.35</td>
+<td align="right">0.05</td>
 <td align="right">0.21</td>
-<td align="right">0.32</td>
-<td align="right">0.04</td>
-<td align="right">0.19</td>
 <td align="right">196</td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0.00</td>
 </tr>
-<tr class="odd">
-<td align="left">GLI_2</td>
+<tr class="even">
+<td align="left">GLI</td>
 <td align="right">76</td>
 <td align="right">0.27</td>
 <td align="right">0.36</td>
@@ -223,8 +237,8 @@ plot and the correlations among the variables.</p>
 <td align="right">0</td>
 <td align="right">0.00</td>
 </tr>
-<tr class="even">
-<td align="left">GLI_2</td>
+<tr class="odd">
+<td align="left">GLI</td>
 <td align="right">92</td>
 <td align="right">0.16</td>
 <td align="right">0.30</td>
@@ -237,8 +251,8 @@ plot and the correlations among the variables.</p>
 <td align="right">0</td>
 <td align="right">0.00</td>
 </tr>
-<tr class="odd">
-<td align="left">GLI_2</td>
+<tr class="even">
+<td align="left">GLI</td>
 <td align="right">100</td>
 <td align="right">0.07</td>
 <td align="right">0.22</td>
@@ -246,20 +260,6 @@ plot and the correlations among the variables.</p>
 <td align="right">0.32</td>
 <td align="right">0.05</td>
 <td align="right">0.23</td>
-<td align="right">196</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0.00</td>
-</tr>
-<tr class="even">
-<td align="left">GLI_2</td>
-<td align="right">108</td>
-<td align="right">0.02</td>
-<td align="right">0.17</td>
-<td align="right">0.17</td>
-<td align="right">0.29</td>
-<td align="right">0.05</td>
-<td align="right">0.32</td>
 <td align="right">196</td>
 <td align="right">0</td>
 <td align="right">0</td>
@@ -294,7 +294,7 @@ k + \beta \cdot (t - t_3) &amp; \text{if } t &gt; t_3
 <p>To fit the model, we use the modeler function. Here:</p>
 <ul>
 <li>x specifies the days after planting (DAP),</li>
-<li>y the GLI_2 variable that we aim to model.</li>
+<li>y the GLI variable that we aim to model.</li>
 <li>grp Allows for group analysis, enabling us to analyze multiple
 plots.</li>
 </ul>
@@ -307,12 +307,11 @@ value in the time series if needed.</p>
 <code class="sourceCode R"><span><span class="va">mod_1</span> <span class="op">&lt;-</span> <span class="va">dt_potato_20</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/modeler.html">modeler</a></span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="va">DAP</span>,</span>
-<span>    y <span class="op">=</span> <span class="va">GLI_2</span>,</span>
+<span>    y <span class="op">=</span> <span class="va">GLI</span>,</span>
 <span>    grp <span class="op">=</span> <span class="va">Plot</span>,</span>
 <span>    fn <span class="op">=</span> <span class="st">"fn_lin_pl_lin"</span>,</span>
 <span>    parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">38.7</span>, t2 <span class="op">=</span> <span class="fl">62</span>, t3 <span class="op">=</span> <span class="fl">90</span>, k <span class="op">=</span> <span class="fl">0.32</span>, beta <span class="op">=</span> <span class="op">-</span><span class="fl">0.01</span><span class="op">)</span>,</span>
-<span>    subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span>,</span>
-<span>    options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>add_zero <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>    subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p>After fitting, we can inspect the model summary and visualize the fit
 using the plot function:</p>
@@ -334,21 +333,21 @@ using the plot function:</p>
 <tbody>
 <tr class="odd">
 <td align="right">40</td>
-<td align="right">36.88016</td>
-<td align="right">66.41594</td>
-<td align="right">79.85413</td>
+<td align="right">37.30529</td>
+<td align="right">64.38853</td>
+<td align="right">83.90021</td>
 <td align="right">0.3691396</td>
-<td align="right">-0.0105694</td>
-<td align="right">0.0006928</td>
+<td align="right">-0.0145414</td>
+<td align="right">0.0000196</td>
 </tr>
 <tr class="even">
 <td align="right">195</td>
-<td align="right">39.59062</td>
-<td align="right">68.27877</td>
-<td align="right">93.33638</td>
-<td align="right">0.3228831</td>
-<td align="right">-0.0100491</td>
-<td align="right">0.0001490</td>
+<td align="right">40.07586</td>
+<td align="right">63.14681</td>
+<td align="right">91.44050</td>
+<td align="right">0.3251456</td>
+<td align="right">-0.0080876</td>
+<td align="right">0.0001388</td>
 </tr>
 </tbody>
 </table>
@@ -380,48 +379,48 @@ their variability.</li>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 6</span></span></span>
 <span><span class="co">#&gt;      uid coefficient solution std.error `t value`  `Pr(&gt;|t|)`</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>    40 t1           36.9      1.49        24.7  0.000<span style="text-decoration: underline;">015</span>9  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>    40 t2           66.4      2.26        29.4  0.000<span style="text-decoration: underline;">007</span>97 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>    40 t3           79.9      2.64        30.2  0.000<span style="text-decoration: underline;">007</span>16 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>    40 k             0.369    0.013<span style="text-decoration: underline;">2</span>      28.0  0.000<span style="text-decoration: underline;">009</span>63 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>    40 beta         -<span style="color: #BB0000;">0.010</span><span style="color: #BB0000; text-decoration: underline;">6</span>   0.001<span style="text-decoration: underline;">16</span>     -<span style="color: #BB0000;">9.09</span> 0.000<span style="text-decoration: underline;">813</span>   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>   195 t1           39.6      0.642       61.6  0.000<span style="text-decoration: underline;">000</span>415</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>   195 t2           68.3      1.18        57.7  0.000<span style="text-decoration: underline;">000</span>540</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>   195 t3           93.3      1.28        73.0  0.000<span style="text-decoration: underline;">000</span>211</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>   195 k             0.323    0.004<span style="text-decoration: underline;">17</span>     77.4  0.000<span style="text-decoration: underline;">000</span>167</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>   195 beta         -<span style="color: #BB0000;">0.010</span><span style="color: #BB0000; text-decoration: underline;">0</span>   0.001<span style="text-decoration: underline;">10</span>     -<span style="color: #BB0000;">9.13</span> 0.000<span style="text-decoration: underline;">800</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>    40 t1          37.3      0.258       145.   0.000<span style="text-decoration: underline;">000</span>727</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>    40 t2          64.4      0.371       174.   0.000<span style="text-decoration: underline;">000</span>422</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>    40 t3          83.9      0.433       194.   0.000<span style="text-decoration: underline;">000</span>304</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>    40 k            0.369    0.002<span style="text-decoration: underline;">56</span>     144.   0.000<span style="text-decoration: underline;">000</span>732</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>    40 beta        -<span style="color: #BB0000;">0.014</span><span style="color: #BB0000; text-decoration: underline;">5</span>   0.000<span style="text-decoration: underline;">452</span>    -<span style="color: #BB0000;">32.2</span>  0.000<span style="text-decoration: underline;">066</span>0  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>   195 t1          40.1      0.553        72.4  0.000<span style="text-decoration: underline;">005</span>80 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>   195 t2          63.1      0.906        69.7  0.000<span style="text-decoration: underline;">006</span>50 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>   195 t3          91.4      1.59         57.5  0.000<span style="text-decoration: underline;">011</span>6  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>   195 k            0.325    0.006<span style="text-decoration: underline;">73</span>      48.3  0.000<span style="text-decoration: underline;">019</span>5  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>   195 beta        -<span style="color: #BB0000;">0.008</span><span style="color: #BB0000; text-decoration: underline;">09</span>  0.001<span style="text-decoration: underline;">45</span>      -<span style="color: #BB0000;">5.58</span> 0.011<span style="text-decoration: underline;">4</span></span></span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/confint.html" class="external-link">confint</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 6</span></span></span>
 <span><span class="co">#&gt;      uid coefficient solution std.error ci_lower ci_upper</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>    40 t1           36.9      1.49     32.7    41.0    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>    40 t2           66.4      2.26     60.1    72.7    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>    40 t3           79.9      2.64     72.5    87.2    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>    40 k             0.369    0.013<span style="text-decoration: underline;">2</span>    0.333   0.406  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>    40 beta         -<span style="color: #BB0000;">0.010</span><span style="color: #BB0000; text-decoration: underline;">6</span>   0.001<span style="text-decoration: underline;">16</span>  -<span style="color: #BB0000;">0.013</span><span style="color: #BB0000; text-decoration: underline;">8</span> -<span style="color: #BB0000;">0.007</span><span style="color: #BB0000; text-decoration: underline;">34</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>   195 t1           39.6      0.642    37.8    41.4    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>   195 t2           68.3      1.18     65.0    71.6    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>   195 t3           93.3      1.28     89.8    96.9    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>   195 k             0.323    0.004<span style="text-decoration: underline;">17</span>   0.311   0.334  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>   195 beta         -<span style="color: #BB0000;">0.010</span><span style="color: #BB0000; text-decoration: underline;">0</span>   0.001<span style="text-decoration: underline;">10</span>  -<span style="color: #BB0000;">0.013</span><span style="color: #BB0000; text-decoration: underline;">1</span> -<span style="color: #BB0000;">0.006</span><span style="color: #BB0000; text-decoration: underline;">99</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>    40 t1          37.3      0.258     36.5    38.1    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>    40 t2          64.4      0.371     63.2    65.6    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>    40 t3          83.9      0.433     82.5    85.3    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>    40 k            0.369    0.002<span style="text-decoration: underline;">56</span>    0.361   0.377  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>    40 beta        -<span style="color: #BB0000;">0.014</span><span style="color: #BB0000; text-decoration: underline;">5</span>   0.000<span style="text-decoration: underline;">452</span>  -<span style="color: #BB0000;">0.016</span><span style="color: #BB0000; text-decoration: underline;">0</span> -<span style="color: #BB0000;">0.013</span><span style="color: #BB0000; text-decoration: underline;">1</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>   195 t1          40.1      0.553     38.3    41.8    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>   195 t2          63.1      0.906     60.3    66.0    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>   195 t3          91.4      1.59      86.4    96.5    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>   195 k            0.325    0.006<span style="text-decoration: underline;">73</span>    0.304   0.347  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>   195 beta        -<span style="color: #BB0000;">0.008</span><span style="color: #BB0000; text-decoration: underline;">09</span>  0.001<span style="text-decoration: underline;">45</span>   -<span style="color: #BB0000;">0.012</span><span style="color: #BB0000; text-decoration: underline;">7</span> -<span style="color: #BB0000;">0.003</span><span style="color: #BB0000; text-decoration: underline;">47</span></span></span></code></pre></div>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/vcov.html" class="external-link">vcov</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $`40`</span></span>
 <span><span class="co">#&gt;                 t1            t2            t3             k          beta</span></span>
-<span><span class="co">#&gt; t1    2.225220e+00 -1.842123e+00  7.504853e-05 -7.920036e-07 -5.438244e-11</span></span>
-<span><span class="co">#&gt; t2   -1.842123e+00  5.103540e+00 -1.314304e+00  1.387014e-02  9.523845e-07</span></span>
-<span><span class="co">#&gt; t3    7.504853e-05 -1.314304e+00  6.988888e+00 -1.642546e-02 -2.580093e-03</span></span>
-<span><span class="co">#&gt; k    -7.920036e-07  1.387014e-02 -1.642546e-02  1.733414e-04  1.190238e-08</span></span>
-<span><span class="co">#&gt; beta -5.438244e-11  9.523845e-07 -2.580093e-03  1.190238e-08  1.353033e-06</span></span>
+<span><span class="co">#&gt; t1    6.640511e-02 -4.683265e-02  7.080454e-07 -1.029703e-08  7.882118e-14</span></span>
+<span><span class="co">#&gt; t2   -4.683265e-02  1.376620e-01 -3.297079e-02  4.794908e-04 -3.670373e-09</span></span>
+<span><span class="co">#&gt; t3    7.080454e-07 -3.297079e-02  1.877426e-01 -4.493791e-04 -1.699180e-04</span></span>
+<span><span class="co">#&gt; k    -1.029703e-08  4.794908e-04 -4.493791e-04  6.535273e-06 -5.002576e-11</span></span>
+<span><span class="co">#&gt; beta  7.882123e-14 -3.670373e-09 -1.699180e-04 -5.002576e-11  2.042120e-07</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $`195`</span></span>
 <span><span class="co">#&gt;                 t1            t2            t3             k          beta</span></span>
-<span><span class="co">#&gt; t1    4.125816e-01 -0.3971638781  2.496490e-07 -3.724881e-09  1.004366e-10</span></span>
-<span><span class="co">#&gt; t2   -3.971639e-01  1.3995439417 -1.036911e-01  1.547120e-03 -4.171610e-05</span></span>
-<span><span class="co">#&gt; t3    2.496490e-07 -0.1036910914  1.632896e+00 -1.167033e-03 -1.250043e-03</span></span>
-<span><span class="co">#&gt; k    -3.724881e-09  0.0015471202 -1.167033e-03  1.741269e-05 -4.695107e-07</span></span>
-<span><span class="co">#&gt; beta  1.004366e-10 -0.0000417161 -1.250043e-03 -4.695107e-07  1.212576e-06</span></span></code></pre></div>
+<span><span class="co">#&gt; t1    3.061163e-01 -0.1838445844  7.160468e-07 -4.496412e-09 -1.660781e-10</span></span>
+<span><span class="co">#&gt; t2   -1.838446e-01  0.8200273010 -5.114280e-01  3.211510e-03  1.186193e-04</span></span>
+<span><span class="co">#&gt; t3    7.160468e-07 -0.5114279759  2.531028e+00 -7.207699e-03 -1.663537e-03</span></span>
+<span><span class="co">#&gt; k    -4.496412e-09  0.0032115096 -7.207699e-03  4.526071e-05  1.671736e-06</span></span>
+<span><span class="co">#&gt; beta -1.660781e-10  0.0001186193 -1.663537e-03  1.671736e-06  2.101897e-06</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="adding-constrains-to-the-optimization">4. Adding constrains to the optimization<a class="anchor" aria-label="anchor" href="#adding-constrains-to-the-optimization"></a>
@@ -448,15 +447,14 @@ must be non-positive.</p>
 <code class="sourceCode R"><span><span class="va">mod_2</span> <span class="op">&lt;-</span> <span class="va">dt_potato_20</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/modeler.html">modeler</a></span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="va">DAP</span>,</span>
-<span>    y <span class="op">=</span> <span class="va">GLI_2</span>,</span>
+<span>    y <span class="op">=</span> <span class="va">GLI</span>,</span>
 <span>    grp <span class="op">=</span> <span class="va">Plot</span>,</span>
 <span>    fn <span class="op">=</span> <span class="st">"fn_lin_pl_lin2"</span>,</span>
 <span>    parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">38.7</span>, t2 <span class="op">=</span> <span class="fl">62</span>, dt <span class="op">=</span> <span class="fl">28</span>, k <span class="op">=</span> <span class="fl">0.32</span>, beta <span class="op">=</span> <span class="op">-</span><span class="fl">0.01</span><span class="op">)</span>,</span>
 <span>    lower <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="cn">Inf</span>, <span class="op">-</span><span class="cn">Inf</span>, <span class="fl">0</span>, <span class="op">-</span><span class="cn">Inf</span>, <span class="op">-</span><span class="cn">Inf</span><span class="op">)</span>,</span>
 <span>    upper <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">Inf</span>, <span class="cn">Inf</span>, <span class="cn">Inf</span>, <span class="cn">Inf</span>, <span class="fl">0</span><span class="op">)</span>,</span>
 <span>    method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"nlminb"</span>, <span class="st">"L-BFGS-B"</span><span class="op">)</span>,</span>
-<span>    subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span>,</span>
-<span>    options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>add_zero <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>    subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_2</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -476,21 +474,21 @@ must be non-positive.</p>
 <tbody>
 <tr class="odd">
 <td align="right">40</td>
-<td align="right">36.88016</td>
-<td align="right">66.41594</td>
-<td align="right">13.43819</td>
+<td align="right">37.30529</td>
+<td align="right">64.38853</td>
+<td align="right">19.51168</td>
 <td align="right">0.3691396</td>
-<td align="right">-0.0105694</td>
-<td align="right">0.0006928</td>
+<td align="right">-0.0145414</td>
+<td align="right">0.0000196</td>
 </tr>
 <tr class="even">
 <td align="right">195</td>
-<td align="right">39.59062</td>
-<td align="right">68.27877</td>
-<td align="right">25.05761</td>
-<td align="right">0.3228832</td>
-<td align="right">-0.0100491</td>
-<td align="right">0.0001490</td>
+<td align="right">40.07586</td>
+<td align="right">63.14681</td>
+<td align="right">28.29370</td>
+<td align="right">0.3251456</td>
+<td align="right">-0.0080876</td>
+<td align="right">0.0001388</td>
 </tr>
 </tbody>
 </table>
@@ -499,48 +497,48 @@ must be non-positive.</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 6</span></span></span>
 <span><span class="co">#&gt;      uid coefficient solution std.error `t value`  `Pr(&gt;|t|)`</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>    40 t1           36.9      1.49        24.7  0.000<span style="text-decoration: underline;">015</span>9  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>    40 t2           66.4      2.26        29.4  0.000<span style="text-decoration: underline;">007</span>97 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>    40 t3           79.9      2.64        30.2  0.000<span style="text-decoration: underline;">007</span>16 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>    40 k             0.369    0.013<span style="text-decoration: underline;">2</span>      28.0  0.000<span style="text-decoration: underline;">009</span>63 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>    40 beta         -<span style="color: #BB0000;">0.010</span><span style="color: #BB0000; text-decoration: underline;">6</span>   0.001<span style="text-decoration: underline;">16</span>     -<span style="color: #BB0000;">9.09</span> 0.000<span style="text-decoration: underline;">813</span>   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>   195 t1           39.6      0.642       61.6  0.000<span style="text-decoration: underline;">000</span>415</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>   195 t2           68.3      1.18        57.7  0.000<span style="text-decoration: underline;">000</span>540</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>   195 t3           93.3      1.28        73.0  0.000<span style="text-decoration: underline;">000</span>211</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>   195 k             0.323    0.004<span style="text-decoration: underline;">17</span>     77.4  0.000<span style="text-decoration: underline;">000</span>167</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>   195 beta         -<span style="color: #BB0000;">0.010</span><span style="color: #BB0000; text-decoration: underline;">0</span>   0.001<span style="text-decoration: underline;">10</span>     -<span style="color: #BB0000;">9.13</span> 0.000<span style="text-decoration: underline;">800</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>    40 t1          37.3      0.258       145.   0.000<span style="text-decoration: underline;">000</span>727</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>    40 t2          64.4      0.371       174.   0.000<span style="text-decoration: underline;">000</span>422</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>    40 t3          83.9      0.433       194.   0.000<span style="text-decoration: underline;">000</span>304</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>    40 k            0.369    0.002<span style="text-decoration: underline;">56</span>     144.   0.000<span style="text-decoration: underline;">000</span>732</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>    40 beta        -<span style="color: #BB0000;">0.014</span><span style="color: #BB0000; text-decoration: underline;">5</span>   0.000<span style="text-decoration: underline;">452</span>    -<span style="color: #BB0000;">32.2</span>  0.000<span style="text-decoration: underline;">066</span>0  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>   195 t1          40.1      0.553        72.4  0.000<span style="text-decoration: underline;">005</span>80 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>   195 t2          63.1      0.906        69.7  0.000<span style="text-decoration: underline;">006</span>50 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>   195 t3          91.4      1.59         57.5  0.000<span style="text-decoration: underline;">011</span>6  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>   195 k            0.325    0.006<span style="text-decoration: underline;">73</span>      48.3  0.000<span style="text-decoration: underline;">019</span>5  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>   195 beta        -<span style="color: #BB0000;">0.008</span><span style="color: #BB0000; text-decoration: underline;">09</span>  0.001<span style="text-decoration: underline;">45</span>      -<span style="color: #BB0000;">5.58</span> 0.011<span style="text-decoration: underline;">4</span></span></span></code></pre></div>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/confint.html" class="external-link">confint</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 6</span></span></span>
 <span><span class="co">#&gt;      uid coefficient solution std.error ci_lower ci_upper</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>    40 t1           36.9      1.49     32.7    41.0    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>    40 t2           66.4      2.26     60.1    72.7    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>    40 t3           79.9      2.64     72.5    87.2    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>    40 k             0.369    0.013<span style="text-decoration: underline;">2</span>    0.333   0.406  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>    40 beta         -<span style="color: #BB0000;">0.010</span><span style="color: #BB0000; text-decoration: underline;">6</span>   0.001<span style="text-decoration: underline;">16</span>  -<span style="color: #BB0000;">0.013</span><span style="color: #BB0000; text-decoration: underline;">8</span> -<span style="color: #BB0000;">0.007</span><span style="color: #BB0000; text-decoration: underline;">34</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>   195 t1           39.6      0.642    37.8    41.4    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>   195 t2           68.3      1.18     65.0    71.6    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>   195 t3           93.3      1.28     89.8    96.9    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>   195 k             0.323    0.004<span style="text-decoration: underline;">17</span>   0.311   0.334  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>   195 beta         -<span style="color: #BB0000;">0.010</span><span style="color: #BB0000; text-decoration: underline;">0</span>   0.001<span style="text-decoration: underline;">10</span>  -<span style="color: #BB0000;">0.013</span><span style="color: #BB0000; text-decoration: underline;">1</span> -<span style="color: #BB0000;">0.006</span><span style="color: #BB0000; text-decoration: underline;">99</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>    40 t1          37.3      0.258     36.5    38.1    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>    40 t2          64.4      0.371     63.2    65.6    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>    40 t3          83.9      0.433     82.5    85.3    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>    40 k            0.369    0.002<span style="text-decoration: underline;">56</span>    0.361   0.377  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>    40 beta        -<span style="color: #BB0000;">0.014</span><span style="color: #BB0000; text-decoration: underline;">5</span>   0.000<span style="text-decoration: underline;">452</span>  -<span style="color: #BB0000;">0.016</span><span style="color: #BB0000; text-decoration: underline;">0</span> -<span style="color: #BB0000;">0.013</span><span style="color: #BB0000; text-decoration: underline;">1</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>   195 t1          40.1      0.553     38.3    41.8    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>   195 t2          63.1      0.906     60.3    66.0    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>   195 t3          91.4      1.59      86.4    96.5    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>   195 k            0.325    0.006<span style="text-decoration: underline;">73</span>    0.304   0.347  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>   195 beta        -<span style="color: #BB0000;">0.008</span><span style="color: #BB0000; text-decoration: underline;">09</span>  0.001<span style="text-decoration: underline;">45</span>   -<span style="color: #BB0000;">0.012</span><span style="color: #BB0000; text-decoration: underline;">7</span> -<span style="color: #BB0000;">0.003</span><span style="color: #BB0000; text-decoration: underline;">47</span></span></span></code></pre></div>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/vcov.html" class="external-link">vcov</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $`40`</span></span>
 <span><span class="co">#&gt;                 t1            t2            t3             k          beta</span></span>
-<span><span class="co">#&gt; t1    2.225220e+00 -1.842123e+00  7.504853e-05 -7.920036e-07 -5.438244e-11</span></span>
-<span><span class="co">#&gt; t2   -1.842123e+00  5.103540e+00 -1.314304e+00  1.387014e-02  9.523845e-07</span></span>
-<span><span class="co">#&gt; t3    7.504853e-05 -1.314304e+00  6.988888e+00 -1.642546e-02 -2.580093e-03</span></span>
-<span><span class="co">#&gt; k    -7.920036e-07  1.387014e-02 -1.642546e-02  1.733414e-04  1.190238e-08</span></span>
-<span><span class="co">#&gt; beta -5.438244e-11  9.523845e-07 -2.580093e-03  1.190238e-08  1.353033e-06</span></span>
+<span><span class="co">#&gt; t1    6.640511e-02 -4.683265e-02  7.080454e-07 -1.029703e-08  7.882118e-14</span></span>
+<span><span class="co">#&gt; t2   -4.683265e-02  1.376620e-01 -3.297079e-02  4.794908e-04 -3.670373e-09</span></span>
+<span><span class="co">#&gt; t3    7.080454e-07 -3.297079e-02  1.877426e-01 -4.493791e-04 -1.699180e-04</span></span>
+<span><span class="co">#&gt; k    -1.029703e-08  4.794908e-04 -4.493791e-04  6.535273e-06 -5.002576e-11</span></span>
+<span><span class="co">#&gt; beta  7.882123e-14 -3.670373e-09 -1.699180e-04 -5.002576e-11  2.042120e-07</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $`195`</span></span>
 <span><span class="co">#&gt;                 t1            t2            t3             k          beta</span></span>
-<span><span class="co">#&gt; t1    4.125816e-01 -0.3971638781  2.496490e-07 -3.724881e-09  1.004366e-10</span></span>
-<span><span class="co">#&gt; t2   -3.971639e-01  1.3995439417 -1.036911e-01  1.547120e-03 -4.171610e-05</span></span>
-<span><span class="co">#&gt; t3    2.496490e-07 -0.1036910914  1.632896e+00 -1.167033e-03 -1.250043e-03</span></span>
-<span><span class="co">#&gt; k    -3.724881e-09  0.0015471202 -1.167033e-03  1.741269e-05 -4.695107e-07</span></span>
-<span><span class="co">#&gt; beta  1.004366e-10 -0.0000417161 -1.250043e-03 -4.695107e-07  1.212576e-06</span></span></code></pre></div>
+<span><span class="co">#&gt; t1    3.061163e-01 -0.1838445844  7.160468e-07 -4.496412e-09 -1.660781e-10</span></span>
+<span><span class="co">#&gt; t2   -1.838446e-01  0.8200273010 -5.114280e-01  3.211510e-03  1.186193e-04</span></span>
+<span><span class="co">#&gt; t3    7.160468e-07 -0.5114279759  2.531028e+00 -7.207699e-03 -1.663537e-03</span></span>
+<span><span class="co">#&gt; k    -4.496412e-09  0.0032115096 -7.207699e-03  4.526071e-05  1.671736e-06</span></span>
+<span><span class="co">#&gt; beta -1.660781e-10  0.0001186193 -1.663537e-03  1.671736e-06  2.101897e-06</span></span></code></pre></div>
 <hr>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

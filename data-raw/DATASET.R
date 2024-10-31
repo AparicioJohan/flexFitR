@@ -1,6 +1,6 @@
 ## code to prepare `DATASET` dataset goes here
 
-dt_potato_20 <- readr::read_csv("data-raw/dt_potato.csv")
+dt_potato_20 <- readr::read_csv("data-raw/data_2020_flexfitr.csv")
 usethis::use_data(dt_potato_20, overwrite = TRUE)
 
 

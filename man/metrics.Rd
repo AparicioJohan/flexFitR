@@ -41,7 +41,6 @@ Coefficient of Determination (R-squared):
 \examples{
 library(flexFitR)
 data(dt_potato_20)
-explorer <- explorer(dt_potato_20, x = DAP, y = c(Canopy, PH), id = Plot)
 mod_1 <- dt_potato_20 |>
   modeler(
     x = DAP,
@@ -49,8 +48,7 @@ mod_1 <- dt_potato_20 |>
     grp = Plot,
     fn = "fn_piwise",
     parameters = c(t1 = 45, t2 = 80, k = 0.9),
-    subset = c(1:2),
-    options = list(add_zero = TRUE, max_as_last = TRUE)
+    subset = c(1:2)
   )
 plot(mod_1, id = c(1:2))
 print(mod_1)

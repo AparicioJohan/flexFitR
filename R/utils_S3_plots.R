@@ -127,7 +127,6 @@ plot_fn <- function(fn = "fn_piwise",
 #' @examples
 #' library(flexFitR)
 #' data(dt_potato_20)
-#' explorer <- explorer(dt_potato_20, x = DAP, y = c(Canopy, GLI_2), id = Plot)
 #' # Example 1
 #' mod_1 <- dt_potato_20 |>
 #'   modeler(
@@ -136,8 +135,7 @@ plot_fn <- function(fn = "fn_piwise",
 #'     grp = Plot,
 #'     fn = "fn_piwise",
 #'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
-#'     subset = c(1:3),
-#'     options = list(add_zero = TRUE, max_as_last = TRUE)
+#'     subset = c(1:3)
 #'   )
 #' print(mod_1)
 #' plot(mod_1, id = 1:2)
@@ -346,7 +344,7 @@ plot.modeler <- function(x,
 #' @examples
 #' library(flexFitR)
 #' data(dt_potato_20)
-#' results <- explorer(dt_potato_20, x = DAP, y = c(Canopy, PH), id = Plot)
+#' results <- explorer(dt_potato_20, x = DAP, y = c(Canopy, GLI), id = Plot)
 #' table <- plot(results, label_size = 4, signif = TRUE, n_row = 2)
 #' table
 #' plot(results, type = "x_by_var", label_size = 4, signif = TRUE)

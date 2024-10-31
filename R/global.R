@@ -80,6 +80,7 @@ utils::globalVariables(
     "std.error.p",
     "pi_lower",
     "pi_upper",
-    "df"
+    "df",
+    ".y"
   )
 )

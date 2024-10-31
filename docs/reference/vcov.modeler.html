@@ -99,8 +99,7 @@ matrix of the estimated parameters for each group or fit.</p>
 <span class="r-in"><span>    grp <span class="op">=</span> <span class="va">Plot</span>,</span></span>
 <span class="r-in"><span>    fn <span class="op">=</span> <span class="st">"fn_piwise"</span>,</span></span>
 <span class="r-in"><span>    parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">45</span>, t2 <span class="op">=</span> <span class="fl">80</span>, k <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">15</span>, <span class="fl">2</span>, <span class="fl">45</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>add_zero <span class="op">=</span> <span class="cn">TRUE</span>, max_as_last <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">15</span>, <span class="fl">2</span>, <span class="fl">45</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -109,36 +108,36 @@ matrix of the estimated parameters for each group or fit.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Sum of Squares Error:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.002601 0.504829 1.007057 2.674719 4.010777 7.014498 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.002601 0.459153 0.915706 2.206356 3.308233 5.700760 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Optimization Results `head()`:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  uid   t1   t2     k    sse</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    2 35.2 60.7 100.0 7.0145</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   15 38.5 69.4  99.8 1.0071</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   45 38.3 64.5 100.0 0.0026</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    2 35.1 61.1 100.0 5.7008</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   15 38.4 70.1  99.7 0.9157</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   45 38.3 64.7 100.0 0.0026</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Groups      Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       3 2.2959 secs        100%   414 (id)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       3 2.1704 secs        100%   349 (id)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/vcov.html" class="external-link">vcov</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $`2`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               t1          t2            k</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> t1  5.694008e-02 -0.02923676 3.683474e-06</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> t2 -2.923676e-02  0.13796365 7.471629e-02</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> k   3.683474e-06  0.07471629 2.922726e-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> t1  5.934998e-02 -0.03183713 5.554242e-06</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> t2 -3.183713e-02  0.14965142 9.863943e-02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> k   5.554242e-06  0.09863943 3.800529e-01</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $`15`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               t1          t2            k</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> t1  2.636323e-02 -0.02728600 1.691502e-07</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> t2 -2.728600e-02  0.08035361 1.300394e-02</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> k   1.691502e-07  0.01300394 4.196055e-02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> t1  3.082693e-02 -0.03338909 8.560489e-07</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> t2 -3.338909e-02  0.10016820 1.945368e-02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> k   8.560489e-07  0.01945368 6.104608e-02</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $`45`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               t1            t2            k</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> t1  4.956862e-05 -3.526927e-05 4.195078e-11</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> t2 -3.526927e-05  9.453221e-05 2.835289e-05</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> k   4.195078e-11  2.835289e-05 1.083750e-04</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> t1  6.081675e-05 -4.407386e-05 7.269796e-11</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> t2 -4.407386e-05  1.208133e-04 4.577090e-05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> k   7.269796e-11  4.577090e-05 1.734000e-04</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>

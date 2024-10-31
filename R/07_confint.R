@@ -28,8 +28,7 @@
 #'     grp = Plot,
 #'     fn = "fn_piwise",
 #'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
-#'     subset = c(15, 35, 45),
-#'     options = list(add_zero = TRUE, max_as_last = TRUE)
+#'     subset = c(15, 35, 45)
 #'   )
 #' print(mod_1)
 #' confint(mod_1)

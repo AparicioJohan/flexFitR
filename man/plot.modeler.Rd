@@ -64,7 +64,6 @@ Create several plots for an object of class \code{modeler}
 \examples{
 library(flexFitR)
 data(dt_potato_20)
-explorer <- explorer(dt_potato_20, x = DAP, y = c(Canopy, GLI_2), id = Plot)
 # Example 1
 mod_1 <- dt_potato_20 |>
   modeler(
@@ -73,8 +72,7 @@ mod_1 <- dt_potato_20 |>
     grp = Plot,
     fn = "fn_piwise",
     parameters = c(t1 = 45, t2 = 80, k = 0.9),
-    subset = c(1:3),
-    options = list(add_zero = TRUE, max_as_last = TRUE)
+    subset = c(1:3)
   )
 print(mod_1)
 plot(mod_1, id = 1:2)

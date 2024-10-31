@@ -12,10 +12,9 @@ A tibble with 1372 rows and 17 variables:
   \item{Plot}{dbl denoting the unique plot id}
   \item{Row}{dbl denoting the row coordinate}
   \item{Range}{dbl denoting range coordinate}
-  \item{Gen}{chr denoting the genotype id}
-  \item{Yield}{dbl Total Yield measured at the end of the season}
-  \item{VineMaturity}{dbl VineMaturity measure once during the season}
-  \item{Red - Canopy}{dbl denoting the drone-derived traits}
+  \item{gid}{chr denoting the genotype id}
+  \item{Canopy}{dbl Canopy UAV-Derived}
+  \item{GLI}{dbl Green Leaf Index UAV-Derived}
 }
 }
 \source{
