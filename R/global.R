@@ -81,6 +81,7 @@ utils::globalVariables(
     "pi_lower",
     "pi_upper",
     "df",
-    ".y"
+    ".y",
+    ".grp"
   )
 )
