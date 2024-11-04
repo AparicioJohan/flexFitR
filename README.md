@@ -98,7 +98,7 @@ Optimization Results `head()`:
 
 Metrics:
  Groups      Timing Convergence Iterations
-      1 0.3811 secs        100%   511 (id)
+      1 0.3969 secs        100%   511 (id)
 ```
 
 ``` r
@@ -149,9 +149,9 @@ For detailed documentation and examples, visit
   Canopy](https://apariciojohan.github.io/flexFitR/articles/canopy-model.html)
 - Vignette 3: [Modeling Plant
   Height](https://apariciojohan.github.io/flexFitR/articles/height-model.html)
-- Vignette 4: [Modeling
-  VIs](https://apariciojohan.github.io/flexFitR/articles/maturity-model.html)
-- Vignette 4: [Plotting
+- Vignette 4: [Modeling with
+  Constraints](https://apariciojohan.github.io/flexFitR/articles/maturity-model.html)
+- Vignette 5: [Plotting
   Options](https://apariciojohan.github.io/flexFitR/articles/plotting.html)
 
 ## Contributing

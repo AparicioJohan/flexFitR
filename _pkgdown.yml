@@ -27,11 +27,11 @@ navbar:
     menu:
       - text: Get Started
         href: articles/how_to_start.html
-      - text: Modeling HTP Data 1
+      - text: Modeling HTP Data
         href: articles/canopy-model.html
-      - text: Modeling HTP Data 2
+      - text: Modeling Plant Height
         href: articles/height-model.html
-      - text: Modeling HTP Data 3
+      - text: Modeling with Constraints
         href: articles/maturity-model.html
       - text: Plotting Options
         href: articles/plotting.html
