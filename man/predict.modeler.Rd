@@ -11,6 +11,7 @@
   type = c("point", "auc", "fd", "sd"),
   se_interval = c("confidence", "prediction"),
   n_points = 1000,
+  formula = NULL,
   metadata = FALSE,
   ...
 )
@@ -35,10 +36,12 @@ specifies the interval over which to calculate the AUC.}
 
 \item{se_interval}{A character string specifying the type of interval for
 standard error calculation. Options are \code{"confidence"} (default) or
-\code{"prediction"}.}
+\code{"prediction"}. Only works with "point" estimation.}
 
 \item{n_points}{An integer specifying the number of points used to approximate
 the area under the curve (AUC) when \code{type = "auc"}. Default is \code{1000}.}
+
+\item{formula}{A formula specifying a function of the parameters to be estimated (e.g., \code{~ b * 500}). Default is \code{NULL}.}
 
 \item{metadata}{Logical. If \code{TRUE}, metadata is included with the
 predictions. Default is \code{FALSE}.}
@@ -52,7 +55,8 @@ their associated standard errors, and optionally the metadata.
 \description{
 Generate model predictions from an object of class \code{modeler}.
 This function allows for flexible prediction types, including point predictions,
-area under the curve (AUC), and first or second order derivatives.
+area under the curve (AUC), first or second order derivatives, and functions
+of the parameters.
 }
 \examples{
 library(flexFitR)
@@ -75,6 +79,8 @@ predict(mod_1, x = c(0, 108), type = "auc", id = 2)
 predict(mod_1, x = 45, type = "fd", id = 2)
 # Second Derivative
 predict(mod_1, x = 45, type = "sd", id = 2)
+# Function of the parameters
+predict(mod_1, formula = ~ t2 - t1, id = 2)
 }
 \author{
 Johan Aparicio [aut]

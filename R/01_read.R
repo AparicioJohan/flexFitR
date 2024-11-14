@@ -128,7 +128,7 @@ check_metadata <- function(data, metadata = NULL) {
     }
     # Check for missing values
     if (any(is.na(data[[var]]))) {
-      stop(paste("Variable", var, "contains missing values."))
+      warning(paste("Variable", var, "contains missing values."))
     }
   }
 }

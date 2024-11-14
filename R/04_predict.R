@@ -2,7 +2,8 @@
 #'
 #' @description Generate model predictions from an object of class \code{modeler}.
 #' This function allows for flexible prediction types, including point predictions,
-#' area under the curve (AUC), and first or second order derivatives.
+#' area under the curve (AUC), first or second order derivatives, and functions
+#' of the parameters.
 #'
 #' @aliases predict.modeler
 #' @param object An object of class \code{modeler}, typically the result of calling
@@ -20,9 +21,10 @@
 #' }
 #' @param se_interval A character string specifying the type of interval for
 #' standard error calculation. Options are \code{"confidence"} (default) or
-#' \code{"prediction"}.
+#' \code{"prediction"}. Only works with "point" estimation.
 #' @param n_points An integer specifying the number of points used to approximate
 #' the area under the curve (AUC) when \code{type = "auc"}. Default is \code{1000}.
+#' @param formula A formula specifying a function of the parameters to be estimated (e.g., \code{~ b * 500}). Default is \code{NULL}.
 #' @param metadata Logical. If \code{TRUE}, metadata is included with the
 #' predictions. Default is \code{FALSE}.
 #' @param ... Additional parameters for future functionality.
@@ -52,6 +54,8 @@
 #' predict(mod_1, x = 45, type = "fd", id = 2)
 #' # Second Derivative
 #' predict(mod_1, x = 45, type = "sd", id = 2)
+#' # Function of the parameters
+#' predict(mod_1, formula = ~ t2 - t1, id = 2)
 #' @import ggplot2
 #' @import dplyr
 predict.modeler <- function(object,
@@ -60,6 +64,7 @@ predict.modeler <- function(object,
                             type = c("point", "auc", "fd", "sd"),
                             se_interval = c("confidence", "prediction"),
                             n_points = 1000,
+                            formula = NULL,
                             metadata = FALSE, ...) {
   # Check the class of object
   if (!inherits(object, "modeler")) {
@@ -67,6 +72,7 @@ predict.modeler <- function(object,
   }
   se_interval <- match.arg(se_interval)
   type <- match.arg(type)
+  if (!is.null(formula)) type <- "formula"
   keep <- object$keep
   data <- object$dt
   dt <- object$param
@@ -154,6 +160,22 @@ predict.modeler <- function(object,
           curve = object$fun,
           which = type
         )
+      )
+    ) |>
+      as_tibble()
+  }
+  # Formula
+  if (type %in% c("formula")) {
+    if (is.null(formula)) {
+      stop("Argument formula is required for this type of prediction.")
+    }
+    if (!all(all.vars(formula) %in% colnames(object$param))) {
+      stop("Parameters in formula must match those in model.")
+    }
+    predictions <- do.call(
+      what = rbind,
+      args = suppressWarnings(
+        lapply(X = fit_list, FUN = .delta_method_gen, formula = formula)
       )
     ) |>
       as_tibble()
@@ -397,4 +419,45 @@ ff_deriv <- function(params, x_new, curve, fixed_params = NA, which = "fd") {
   } else if (which == "sd") {
     return(res[, 2])
   }
+}
+
+# Delta method generic function
+.delta_method_gen <- function(fit, formula) {
+  tt <- fit$hessian
+  rdf <- (fit$n_obs - fit$p)
+  varerr <- fit$param$sse / rdf
+  vcov_mat <- try(solve(tt) * 2 * varerr, silent = TRUE)
+  best <- fit$details$method
+  estimated_params <- coef(fit$kkopt)[best, ]
+  uid <- fit$uid
+  params <- all.vars(formula)
+  estimated_params <- estimated_params[names(estimated_params) %in% params]
+  ff_gen <- function(equation, values) {
+    string <- paste(equation)[2]
+    for (i in seq_along(values)) {
+      string <- gsub(names(values)[i], values[i], string, fixed = TRUE)
+    }
+    eval(parse(text = string))
+  }
+  jac_matrix <- numDeriv::jacobian(
+    func = ff_gen,
+    x = estimated_params,
+    equation = formula
+  )
+  if (!inherits(vcov_mat, "try-error")) {
+    vcov_mat <- vcov_mat[names(estimated_params), names(estimated_params)]
+    std_errors <- sqrt(diag(jac_matrix %*% vcov_mat %*% t(jac_matrix)))
+  } else {
+    std_errors <- NA
+  }
+  # Predictions
+  predicted_values <- ff_gen(equation = formula, values = estimated_params)
+  # Combine results
+  results <- data.frame(
+    uid = uid,
+    formula = paste(formula)[2],
+    predicted.value = predicted_values,
+    std.error = std_errors
+  )
+  results <- full_join(x = select(fit$param, uid), y = results, by = "uid")
 }
