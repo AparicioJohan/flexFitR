@@ -8,7 +8,7 @@
 #' @param y The name of the column in `data` that contain the variable to be analyzed. Must match a var in the data.
 #' @param grp The names of the columns in `data` that contains a grouping variable. (Optional).
 #' @param keep The names of the columns in `data` to keep across the analysis.
-#' @param fn A string specifying the name of the function to be used for the curve fitting. Default is \code{"fn_piwise"}.
+#' @param fn A string specifying the name of the function to be used for the curve fitting. Default is \code{"fn_linear_sat"}.
 #' @param parameters Can be a named numeric vector specifying the initial values for the parameters to be optimized,
 #' or a data frame with columns \code{uid}, and the initial parameter values for each group id. Used for providing specific
 #' initial values per group id. Default is \code{NULL}.
@@ -67,7 +67,7 @@
 #'     x = DAP,
 #'     y = Canopy,
 #'     grp = Plot,
-#'     fn = "fn_piwise",
+#'     fn = "fn_linear_sat",
 #'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
 #'     subset = 195
 #'   )
@@ -82,7 +82,7 @@ modeler <- function(data,
                     y,
                     grp,
                     keep,
-                    fn = "fn_piwise",
+                    fn = "fn_linear_sat",
                     parameters = NULL,
                     lower = -Inf,
                     upper = Inf,
@@ -324,7 +324,7 @@ modeler <- function(data,
 #'
 #' @param data A nested data.frame with columns <plot, genotype, row, range, data, initials, fx_params>.
 #' @param id An optional vector of IDs to filter the data. Default is \code{NULL}, meaning all ids are used.
-#' @param fn A string specifying the name of the function to be used for the curve fitting. Default is \code{"fn_piwise"}.
+#' @param fn A string specifying the name of the function to be used for the curve fitting. Default is \code{"fn_linear_sat"}.
 #' @param method A character vector specifying the optimization methods to be used. See \code{optimx} package for available methods. Default is \code{c("subplex", "pracmanm", "anms")}.
 #' @param lower Numeric vector specifying the lower bounds for the parameters. Default is \code{-Inf} for all parameters.
 #' @param upper Numeric vector specifying the upper bounds for the parameters. Default is \code{Inf} for all parameters.

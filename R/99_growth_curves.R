@@ -302,13 +302,13 @@ fn_exp2_exp <- function(t, t1, t2, alpha, beta) {
 #' @examples
 #' library(flexFitR)
 #' plot_fn(
-#'   fn = "fn_piwise",
+#'   fn = "fn_linear_sat",
 #'   params = c(t1 = 34.9, t2 = 61.8, k = 100),
 #'   interval = c(0, 108),
 #'   n_points = 2000,
 #'   auc_label_size = 3
 #' )
-fn_piwise <- function(t, t1 = 45, t2 = 80, k = 0.9) {
+fn_linear_sat <- function(t, t1 = 45, t2 = 80, k = 0.9) {
   if (t < t1) {
     y <- 0
   } else if (t >= t1 && t <= t2) {
@@ -322,10 +322,10 @@ fn_piwise <- function(t, t1 = 45, t2 = 80, k = 0.9) {
 #' Sum of Squares Error Function for Piecewise Model
 #'
 #' Calculates the sum of squared errors (SSE) between observed values and values
-#' predicted by the \link{fn_piwise} function. This is the objective function to
+#' predicted by the \link{fn_linear_sat} function. This is the objective function to
 #' be minimized in the optimx package.
 #'
-#' @param params Numeric vector. The parameters for the \code{fn_piwise} function,
+#' @param params Numeric vector. The parameters for the \code{fn_linear_sat} function,
 #' where \code{params[1]} is \code{t1} and \code{params[2]} is \code{t2}.
 #' @param t Numeric vector. The time values.
 #' @param y Numeric vector. The observed values.
@@ -339,13 +339,13 @@ fn_piwise <- function(t, t1 = 45, t2 = 80, k = 0.9) {
 #' y <- c(0, 0, 4.379, 26.138, 78.593, 100, 100, 100, 100)
 #' sse_piwise(params = c(34.9, 61.8), t = x, y = y)
 #'
-#' y_hat <- sapply(x, FUN = fn_piwise, t1 = 34.9, t2 = 61.8, k = 100)
+#' y_hat <- sapply(x, FUN = fn_linear_sat, t1 = 34.9, t2 = 61.8, k = 100)
 #' sum((y - y_hat)^2)
 sse_piwise <- function(params, t, y) {
   t1 <- params[1]
   t2 <- params[2]
   k <- max(y)
-  y_hat <- sapply(t, FUN = fn_piwise, t1 = t1, t2 = t2, k = k)
+  y_hat <- sapply(t, FUN = fn_linear_sat, t1 = t1, t2 = t2, k = k)
   sse <- sum((y - y_hat)^2)
   return(sse)
 }
@@ -510,7 +510,7 @@ fn_lin_pl_lin3 <- function(t, t1, t2, t3, k, beta) {
 #' fixed <- c(k = 90)
 #' t <- c(0, 29, 36, 42, 56, 76, 92, 100, 108)
 #' y <- c(0, 0, 4.379, 26.138, 78.593, 100, 100, 100, 100)
-#' fn <- "fn_piwise"
+#' fn <- "fn_linear_sat"
 #' minimizer(params, t, y, fn, fixed_params = fixed, metric = "rmse")
 #' res <- opm(
 #'   par = params,
@@ -555,7 +555,7 @@ minimizer <- function(params,
 }
 
 #' @noRd
-create_call <- function(fn = "fn_piwise") {
+create_call <- function(fn = "fn_linear_sat") {
   arg <- formals(fn)
   values <- paste(names(arg)[-1], collapse = ", ")
   string <- paste(fn, "(time, ", values, ")", sep = "")
@@ -564,7 +564,7 @@ create_call <- function(fn = "fn_piwise") {
 }
 
 #' @noRd
-create_call <- function(fn = "fn_piwise") {
+create_call <- function(fn = "fn_linear_sat") {
   arg <- formals(fn)
   values <- paste(names(arg)[-1], collapse = ", ")
   string <- paste(fn, "(x, ", values, ")", sep = "")

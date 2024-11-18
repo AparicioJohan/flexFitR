@@ -4,7 +4,7 @@
 #' the calculated Area Under the Curve (AUC) and parameter values. The aim of `plot_fn` is to allow users to play with
 #' different Starting Values in their functions before fitting any models.
 #'
-#' @param fn A character string representing the name of the function to be plotted. Default is "fn_piwise".
+#' @param fn A character string representing the name of the function to be plotted. Default is "fn_linear_sat".
 #' @param params A named numeric vector of parameters to be passed to the function. Default is \code{c(t1 = 34.9, t2 = 61.8, k = 100)}.
 #' @param interval A numeric vector of length 2 specifying the interval over which the function is to be plotted. Default is \code{c(0, 100)}.
 #' @param n_points An integer specifying the number of points to be used for plotting. Default is 1000.
@@ -23,7 +23,7 @@
 #' @examples
 #' # Example usage
 #' plot_fn(
-#'   fn = "fn_piwise",
+#'   fn = "fn_linear_sat",
 #'   params = c(t1 = 34.9, t2 = 61.8, k = 100),
 #'   interval = c(0, 100),
 #'   n_points = 1000
@@ -35,7 +35,7 @@
 #'   n_points = 1000,
 #'   base_size = 12
 #' )
-plot_fn <- function(fn = "fn_piwise",
+plot_fn <- function(fn = "fn_linear_sat",
                     params = c(t1 = 34.9, t2 = 61.8, k = 100),
                     interval = c(0, 100),
                     n_points = 1000,
@@ -133,7 +133,7 @@ plot_fn <- function(fn = "fn_piwise",
 #'     x = DAP,
 #'     y = Canopy,
 #'     grp = Plot,
-#'     fn = "fn_piwise",
+#'     fn = "fn_linear_sat",
 #'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
 #'     subset = c(1:3)
 #'   )

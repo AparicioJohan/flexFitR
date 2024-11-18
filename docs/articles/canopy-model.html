@@ -42,7 +42,6 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/how_to_start.html">Get Started</a></li>
     <li><a class="dropdown-item" href="../articles/canopy-model.html">Modeling HTP Data</a></li>
-    <li><a class="dropdown-item" href="../articles/height-model.html">Modeling Plant Height</a></li>
     <li><a class="dropdown-item" href="../articles/maturity-model.html">Modeling with Constraints</a></li>
     <li><a class="dropdown-item" href="../articles/plotting.html">Plotting Options</a></li>
   </ul>
@@ -84,14 +83,14 @@
     
     
 <p>This vignette demonstrates piecewise regression using canopy data
-derived from UAV imagery to estimate two key parameters::</p>
+derived from UAV imagery to estimate two key parameters:</p>
 <ul>
-<li>t1: the day of plant emergence</li>
-<li>t2: the number of days it takes to reach the maximum canopy.</li>
+<li>t1: days to plant emergence.</li>
+<li>t2: days to reach maximum canopy.</li>
 </ul>
 <p>The data are from the University of Wisconsin-Madison potato breeding
 program, specifically for a partially replicated experiment. The UAV
-images were collected in 2020 and processed in 2024</p>
+images were collected in 2020 and processed in 2024.</p>
 <div class="section level2">
 <h2 id="loading-libraries">Loading libraries<a class="anchor" aria-label="anchor" href="#loading-libraries"></a>
 </h2>
@@ -120,6 +119,8 @@ understand the temporal evolution of each plot.</p>
 <span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">explorer</span>, type <span class="op">=</span> <span class="st">"x_by_var"</span>, return_gg <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rpkgs.datanovia.com/ggpubr/reference/ggarrange.html" class="external-link">ggarrange</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span><span class="op">)</span></span></code></pre></div>
 <p><img src="canopy-model_files/figure-html/unnamed-chunk-5-1.png" alt="plot corr" width="768"></p>
+<p>To see more about the type of plots visit
+<code><a href="../reference/plot.explorer.html">plot.explorer()</a></code>.</p>
 <table style="width:100%;" class="table">
 <colgroup>
 <col width="10%">
@@ -266,13 +267,13 @@ understand the temporal evolution of each plot.</p>
 </table>
 </div>
 <div class="section level2">
-<h2 id="expectation-function">2. Expectation Function<a class="anchor" aria-label="anchor" href="#expectation-function"></a>
+<h2 id="regression-function">2. Regression Function<a class="anchor" aria-label="anchor" href="#regression-function"></a>
 </h2>
 <p>Once the data have been explored, we define the expectation function.
 In this case, it is a piece-wise regression function with three
 parameters: t1, t2, and k. The function can be expressed mathematically
 as follows:</p>
-<p><code><a href="../reference/fn_piwise.html">fn_piwise()</a></code></p>
+<p><code><a href="../reference/fn_linear_sat.html">fn_linear_sat()</a></code></p>
 <p><span class="math display">\[\begin{equation}
 f(t; t_1, t_2, k) =
 \begin{cases}
@@ -295,39 +296,40 @@ k &amp; \text{if } t &gt; t_2
 plots.</li>
 </ul>
 <p>In this example, we have 196 plots but will only fit the model for
-plots 195 and 40 as a subset. We define the piecewise function
-<code>fn_piwise</code> and set initial values for the parameters.</p>
+plots 166 and 40 as a subset. We define the piecewise function
+<code>fn_linear_sat</code> and set initial values for the
+parameters.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mod_1</span> <span class="op">&lt;-</span> <span class="va">dt_potato_20</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/modeler.html">modeler</a></span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="va">DAP</span>,</span>
 <span>    y <span class="op">=</span> <span class="va">Canopy</span>,</span>
 <span>    grp <span class="op">=</span> <span class="va">Plot</span>,</span>
-<span>    fn <span class="op">=</span> <span class="st">"fn_piwise"</span>,</span>
+<span>    fn <span class="op">=</span> <span class="st">"fn_linear_sat"</span>,</span>
 <span>    parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">45</span>, t2 <span class="op">=</span> <span class="fl">80</span>, k <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>,</span>
-<span>    subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span></span>
+<span>    subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">166</span>, <span class="fl">40</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="va">mod_1</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Call:</span></span>
-<span><span class="co">#&gt; Canopy ~ fn_piwise(DAP, t1, t2, k) </span></span>
+<span><span class="co">#&gt; Canopy ~ fn_linear_sat(DAP, t1, t2, k) </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Sum of Squares Error:</span></span>
-<span><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
-<span><span class="co">#&gt; 0.00000 0.01362 0.02724 0.02724 0.04086 0.05448 </span></span>
+<span><span class="co">#&gt;     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. </span></span>
+<span><span class="co">#&gt;  0.05448 10.26923 20.48397 20.48397 30.69871 40.91346 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Optimization Results `head()`:</span></span>
-<span><span class="co">#&gt;  uid   t1   t2   k      sse</span></span>
-<span><span class="co">#&gt;   40 34.8 60.6 100 5.45e-02</span></span>
-<span><span class="co">#&gt;  195 38.8 61.6 100 2.65e-18</span></span>
+<span><span class="co">#&gt;  uid   t1   t2   k     sse</span></span>
+<span><span class="co">#&gt;   40 34.8 60.6 100  0.0545</span></span>
+<span><span class="co">#&gt;  166 31.6 57.5 100 40.9135</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
 <span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;       2 0.8588 secs        100%   457 (id)</span></span></code></pre></div>
+<span><span class="co">#&gt;       2 1.0009 secs        100% 558.5 (id)</span></span></code></pre></div>
 <p>After fitting, we can inspect the model summary and visualize the fit
 using the plot function:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">166</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="canopy-model_files/figure-html/unnamed-chunk-9-1.png" alt="plot fit" width="768"></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">$</span><span class="va">param</span><span class="op">)</span></span></code></pre></div>
@@ -344,15 +346,15 @@ using the plot function:</p>
 <td align="right">40</td>
 <td align="right">34.84916</td>
 <td align="right">60.59505</td>
-<td align="right">100</td>
+<td align="right">100.0000</td>
 <td align="right">0.0544833</td>
 </tr>
 <tr class="even">
-<td align="right">195</td>
-<td align="right">38.78873</td>
-<td align="right">61.58149</td>
-<td align="right">100</td>
-<td align="right">0.0000000</td>
+<td align="right">166</td>
+<td align="right">31.61374</td>
+<td align="right">57.54603</td>
+<td align="right">100.0047</td>
+<td align="right">40.9134555</td>
 </tr>
 </tbody>
 </table>
@@ -382,25 +384,25 @@ their variability.</li>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 6</span></span></span>
-<span><span class="co">#&gt;     uid coefficient solution std.error     `t value` `Pr(&gt;|t|)`</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    40 t1              34.8  2.40<span style="color: #949494;">e</span><span style="color: #BB0000;">- 2</span>         <span style="text-decoration: underline;">1</span>453.   2.93<span style="color: #949494;">e</span><span style="color: #BB0000;">-15</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    40 t2              60.6  3.68<span style="color: #949494;">e</span><span style="color: #BB0000;">- 2</span>         <span style="text-decoration: underline;">1</span>648.   1.56<span style="color: #949494;">e</span><span style="color: #BB0000;">-15</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    40 k              100.   6.03<span style="color: #949494;">e</span><span style="color: #BB0000;">- 2</span>         <span style="text-decoration: underline;">1</span>659.   1.51<span style="color: #949494;">e</span><span style="color: #BB0000;">-15</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>   195 t1              38.8  2.08<span style="color: #949494;">e</span><span style="color: #BB0000;">-10</span> <span style="text-decoration: underline;">186</span>762<span style="text-decoration: underline;">914</span>076.   8.35<span style="color: #949494;">e</span><span style="color: #BB0000;">-56</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>   195 t2              61.6  2.60<span style="color: #949494;">e</span><span style="color: #BB0000;">-10</span> <span style="text-decoration: underline;">236</span>969<span style="text-decoration: underline;">697</span>117.   2.54<span style="color: #949494;">e</span><span style="color: #BB0000;">-56</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>   195 k              100.   4.21<span style="color: #949494;">e</span><span style="color: #BB0000;">-10</span> <span style="text-decoration: underline;">237</span>699<span style="text-decoration: underline;">800</span>850.   2.50<span style="color: #949494;">e</span><span style="color: #BB0000;">-56</span></span></span></code></pre></div>
+<span><span class="co">#&gt;     uid coefficient solution std.error `t value` `Pr(&gt;|t|)`</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    40 t1              34.8    0.024<span style="text-decoration: underline;">0</span>    <span style="text-decoration: underline;">1</span>453.    2.93<span style="color: #949494;">e</span><span style="color: #BB0000;">-15</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    40 t2              60.6    0.036<span style="text-decoration: underline;">8</span>    <span style="text-decoration: underline;">1</span>648.    1.56<span style="color: #949494;">e</span><span style="color: #BB0000;">-15</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    40 k              100.     0.060<span style="text-decoration: underline;">3</span>    <span style="text-decoration: underline;">1</span>659.    1.51<span style="color: #949494;">e</span><span style="color: #BB0000;">-15</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>   166 t1              31.6    0.794       39.8   1.89<span style="color: #949494;">e</span><span style="color: #BB0000;">- 7</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>   166 t2              57.5    0.902       63.8   1.79<span style="color: #949494;">e</span><span style="color: #BB0000;">- 8</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>   166 k              100.     1.65        60.6   2.32<span style="color: #949494;">e</span><span style="color: #BB0000;">- 8</span></span></span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/confint.html" class="external-link">confint</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 6</span></span></span>
 <span><span class="co">#&gt;     uid coefficient solution std.error ci_lower ci_upper</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    40 t1              34.8  2.40<span style="color: #949494;">e</span><span style="color: #BB0000;">- 2</span>     34.8     34.9</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    40 t2              60.6  3.68<span style="color: #949494;">e</span><span style="color: #BB0000;">- 2</span>     60.5     60.7</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    40 k              100.   6.03<span style="color: #949494;">e</span><span style="color: #BB0000;">- 2</span>     99.8    100. </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>   195 t1              38.8  2.08<span style="color: #949494;">e</span><span style="color: #BB0000;">-10</span>     38.8     38.8</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>   195 t2              61.6  2.60<span style="color: #949494;">e</span><span style="color: #BB0000;">-10</span>     61.6     61.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>   195 k              100.   4.21<span style="color: #949494;">e</span><span style="color: #BB0000;">-10</span>    100.     100.</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    40 t1              34.8    0.024<span style="text-decoration: underline;">0</span>     34.8     34.9</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    40 t2              60.6    0.036<span style="text-decoration: underline;">8</span>     60.5     60.7</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    40 k              100.     0.060<span style="text-decoration: underline;">3</span>     99.8    100. </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>   166 t1              31.6    0.794      29.6     33.7</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>   166 t2              57.5    0.902      55.2     59.9</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>   166 k              100.     1.65       95.8    104.</span></span></code></pre></div>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/vcov.html" class="external-link">vcov</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $`40`</span></span>
@@ -409,11 +411,11 @@ their variability.</li>
 <span><span class="co">#&gt; t2 -2.977975e-04  0.0013525945 9.350853e-04</span></span>
 <span><span class="co">#&gt; k   4.429736e-08  0.0009350853 3.632249e-03</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $`195`</span></span>
-<span><span class="co">#&gt;               t1            t2            k</span></span>
-<span><span class="co">#&gt; t1  4.313500e-20 -2.236323e-20 9.864626e-25</span></span>
-<span><span class="co">#&gt; t2 -2.236323e-20  6.753281e-20 4.033863e-20</span></span>
-<span><span class="co">#&gt; k   9.864626e-25  4.033863e-20 1.769874e-19</span></span></code></pre></div>
+<span><span class="co">#&gt; $`166`</span></span>
+<span><span class="co">#&gt;             t1         t2           k</span></span>
+<span><span class="co">#&gt; t1  0.63072149 -0.2613850 -0.00283193</span></span>
+<span><span class="co">#&gt; t2 -0.26138501  0.8131631  0.71197685</span></span>
+<span><span class="co">#&gt; k  -0.00283193  0.7119768  2.72567110</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="providing-different-initial-values">4. Providing different initial values<a class="anchor" aria-label="anchor" href="#providing-different-initial-values"></a>
@@ -423,7 +425,7 @@ initial parameter values for each plot and even fix certain parameters
 to improve the model.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">initials</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span>  uid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span>,</span>
+<span>  uid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">166</span>, <span class="fl">40</span><span class="op">)</span>,</span>
 <span>  t1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">70</span>, <span class="fl">60</span><span class="op">)</span>,</span>
 <span>  t2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">40</span>, <span class="fl">80</span><span class="op">)</span>,</span>
 <span>  k <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">100</span><span class="op">)</span></span>
@@ -439,7 +441,7 @@ to improve the model.</p>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="right">195</td>
+<td align="right">166</td>
 <td align="right">70</td>
 <td align="right">40</td>
 <td align="right">100</td>
@@ -458,12 +460,12 @@ to improve the model.</p>
 <span>    x <span class="op">=</span> <span class="va">DAP</span>,</span>
 <span>    y <span class="op">=</span> <span class="va">Canopy</span>,</span>
 <span>    grp <span class="op">=</span> <span class="va">Plot</span>,</span>
-<span>    fn <span class="op">=</span> <span class="st">"fn_piwise"</span>,</span>
+<span>    fn <span class="op">=</span> <span class="st">"fn_linear_sat"</span>,</span>
 <span>    parameters <span class="op">=</span> <span class="va">initials</span>,</span>
-<span>    subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span></span>
+<span>    subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">166</span>, <span class="fl">40</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_2</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_2</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">166</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="canopy-model_files/figure-html/unnamed-chunk-16-1.png" alt="plot fit 2" width="768"></p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">mod_2</span><span class="op">$</span><span class="va">param</span><span class="op">)</span></span></code></pre></div>
@@ -480,15 +482,15 @@ to improve the model.</p>
 <td align="right">40</td>
 <td align="right">34.84916</td>
 <td align="right">60.59505</td>
-<td align="right">100</td>
-<td align="right">0.0544833</td>
+<td align="right">100.0000</td>
+<td align="right">5.448330e-02</td>
 </tr>
 <tr class="even">
-<td align="right">195</td>
-<td align="right">70.00000</td>
-<td align="right">40.00000</td>
-<td align="right">100</td>
-<td align="right">5900.5620650</td>
+<td align="right">166</td>
+<td align="right">70.75697</td>
+<td align="right">39.85048</td>
+<td align="right">100.0047</td>
+<td align="right">1.077531e+04</td>
 </tr>
 </tbody>
 </table>
@@ -508,7 +510,7 @@ parameters unchanged. For example, we can fix the parameter
 that the maximum canopy coverage is 100%, we can incorporate this
 assumption into the model by fixing k.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fixed_params</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>uid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span>, k <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">fixed_params</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>uid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">166</span>, <span class="fl">40</span><span class="op">)</span>, k <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">fixed_params</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
@@ -518,7 +520,7 @@ assumption into the model by fixing k.</p>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="right">195</td>
+<td align="right">166</td>
 <td align="right">100</td>
 </tr>
 <tr class="even">
@@ -533,13 +535,13 @@ assumption into the model by fixing k.</p>
 <span>    x <span class="op">=</span> <span class="va">DAP</span>,</span>
 <span>    y <span class="op">=</span> <span class="va">Canopy</span>,</span>
 <span>    grp <span class="op">=</span> <span class="va">Plot</span>,</span>
-<span>    fn <span class="op">=</span> <span class="st">"fn_piwise"</span>,</span>
+<span>    fn <span class="op">=</span> <span class="st">"fn_linear_sat"</span>,</span>
 <span>    parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">45</span>, t2 <span class="op">=</span> <span class="fl">80</span>, k <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>,</span>
 <span>    fixed_params <span class="op">=</span> <span class="va">fixed_params</span>,</span>
-<span>    subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span></span>
+<span>    subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">166</span>, <span class="fl">40</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_3</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_3</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">166</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="canopy-model_files/figure-html/unnamed-chunk-20-1.png" alt="plot fit 3" width="768"></p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">mod_3</span><span class="op">$</span><span class="va">param</span><span class="op">)</span></span></code></pre></div>
@@ -560,10 +562,10 @@ assumption into the model by fixing k.</p>
 <td align="right">100</td>
 </tr>
 <tr class="even">
-<td align="right">195</td>
-<td align="right">38.78873</td>
-<td align="right">61.58149</td>
-<td align="right">0.0000000</td>
+<td align="right">166</td>
+<td align="right">31.61374</td>
+<td align="right">57.54482</td>
+<td align="right">40.9135208</td>
 <td align="right">100</td>
 </tr>
 </tbody>
@@ -582,7 +584,7 @@ accuracy of their estimates by reducing the complexity of the model.</p>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="va">mod_2</span><span class="op">$</span><span class="va">param</span>, model <span class="op">=</span> <span class="st">"2"</span>, .before <span class="op">=</span> <span class="va">uid</span><span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="va">mod_3</span><span class="op">$</span><span class="va">param</span>, model <span class="op">=</span> <span class="st">"3"</span>, .before <span class="op">=</span> <span class="va">uid</span><span class="op">)</span></span>
 <span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">uid</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fl">195</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">uid</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fl">166</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
@@ -596,27 +598,27 @@ accuracy of their estimates by reducing the complexity of the model.</p>
 <tbody>
 <tr class="odd">
 <td align="left">1</td>
-<td align="right">195</td>
-<td align="right">38.78873</td>
-<td align="right">61.58149</td>
-<td align="right">100</td>
-<td align="right">0.000</td>
+<td align="right">166</td>
+<td align="right">31.61374</td>
+<td align="right">57.54603</td>
+<td align="right">100.0047</td>
+<td align="right">40.91346</td>
 </tr>
 <tr class="even">
 <td align="left">2</td>
-<td align="right">195</td>
-<td align="right">70.00000</td>
-<td align="right">40.00000</td>
-<td align="right">100</td>
-<td align="right">5900.562</td>
+<td align="right">166</td>
+<td align="right">70.75697</td>
+<td align="right">39.85048</td>
+<td align="right">100.0047</td>
+<td align="right">10775.31306</td>
 </tr>
 <tr class="odd">
 <td align="left">3</td>
-<td align="right">195</td>
-<td align="right">38.78873</td>
-<td align="right">61.58149</td>
-<td align="right">100</td>
-<td align="right">0.000</td>
+<td align="right">166</td>
+<td align="right">31.61374</td>
+<td align="right">57.54482</td>
+<td align="right">100.0000</td>
+<td align="right">40.91352</td>
 </tr>
 </tbody>
 </table>
@@ -630,7 +632,7 @@ impact of these changes.</p>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/AIC.html" class="external-link">AIC</a></span><span class="op">(</span><span class="va">mod_2</span><span class="op">)</span>, model <span class="op">=</span> <span class="st">"2"</span>, .before <span class="op">=</span> <span class="va">uid</span><span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/AIC.html" class="external-link">AIC</a></span><span class="op">(</span><span class="va">mod_3</span><span class="op">)</span>, model <span class="op">=</span> <span class="st">"3"</span>, .before <span class="op">=</span> <span class="va">uid</span><span class="op">)</span></span>
 <span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">uid</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fl">195</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">uid</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fl">166</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
@@ -645,43 +647,111 @@ impact of these changes.</p>
 <tbody>
 <tr class="odd">
 <td align="left">1</td>
-<td align="right">195</td>
-<td align="right">158.84690</td>
+<td align="right">166</td>
+<td align="right">-17.87958</td>
 <td align="right">4</td>
 <td align="right">8</td>
 <td align="right">3</td>
-<td align="right">-309.69381</td>
+<td align="right">43.75916</td>
 </tr>
 <tr class="even">
 <td align="left">2</td>
-<td align="right">195</td>
-<td align="right">-37.76495</td>
+<td align="right">166</td>
+<td align="right">-40.17379</td>
 <td align="right">4</td>
 <td align="right">8</td>
 <td align="right">3</td>
-<td align="right">83.52991</td>
+<td align="right">88.34759</td>
 </tr>
 <tr class="odd">
 <td align="left">3</td>
-<td align="right">195</td>
-<td align="right">232.09589</td>
+<td align="right">166</td>
+<td align="right">-17.87958</td>
 <td align="right">3</td>
 <td align="right">8</td>
 <td align="right">2</td>
-<td align="right">-458.19178</td>
+<td align="right">41.75917</td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="section level2">
-<h2 id="modelling-all-plots-using-parallel-processing">7. Modelling all plots using parallel processing<a class="anchor" aria-label="anchor" href="#modelling-all-plots-using-parallel-processing"></a>
+<h2 id="making-predictions">7. Making predictions<a class="anchor" aria-label="anchor" href="#making-predictions"></a>
+</h2>
+<p>Once the model is fitted and validated as the best representation of
+our data, we can proceed to make predictions. The
+<code><a href="../reference/predict.modeler.html">predict.modeler()</a></code> function provides a range of flexible
+prediction options, allowing users to perform point predictions,
+calculate the area under the curve (AUC), compute first or second
+derivatives, and even evaluate custom functions of the parameters. Below
+are some examples demonstrating these capabilities:</p>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Point Prediction</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">mod_1</span>, x <span class="op">=</span> <span class="fl">45</span>, type <span class="op">=</span> <span class="st">"point"</span>, id <span class="op">=</span> <span class="fl">166</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="right">uid</th>
+<th align="right">x_new</th>
+<th align="right">predicted.value</th>
+<th align="right">std.error</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td align="right">166</td>
+<td align="right">45</td>
+<td align="right">51.62246</td>
+<td align="right">1.656734</td>
+</tr></tbody>
+</table>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># AUC Prediction</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">mod_1</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">108</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"auc"</span>, id <span class="op">=</span> <span class="fl">166</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="right">uid</th>
+<th align="right">x_min</th>
+<th align="right">x_max</th>
+<th align="right">predicted.value</th>
+<th align="right">std.error</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td align="right">166</td>
+<td align="right">0</td>
+<td align="right">108</td>
+<td align="right">6342.308</td>
+<td align="right">93.61781</td>
+</tr></tbody>
+</table>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Function of the parameters</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">mod_1</span>, formula <span class="op">=</span> <span class="op">~</span> <span class="va">t2</span> <span class="op">-</span> <span class="va">t1</span>, id <span class="op">=</span> <span class="fl">166</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="right">uid</th>
+<th align="left">formula</th>
+<th align="right">predicted.value</th>
+<th align="right">std.error</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td align="right">166</td>
+<td align="left">t2 - t1</td>
+<td align="right">25.93229</td>
+<td align="right">1.402375</td>
+</tr></tbody>
+</table>
+<p>In each example, the <code><a href="../reference/predict.modeler.html">predict.modeler()</a></code> function tailors
+the predictions to the user’s needs, whether it’s estimating a single
+value, integrating across a range, or calculating a parameter-based
+expression.</p>
+</div>
+<div class="section level2">
+<h2 id="modelling-all-plots-using-parallel-processing">8. Modelling all plots using parallel processing<a class="anchor" aria-label="anchor" href="#modelling-all-plots-using-parallel-processing"></a>
 </h2>
 <p>Finally, we can apply this method to all 196 plots, leveraging
 parallel processing to speed up the computation. To do this, we specify
 <code>parallel = TRUE</code> in the options argument, and set the number
 of cores using the function <code><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">parallel::detectCores()</a></code>, which
 automatically detects the available cores.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">explorer</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/explorer.html">explorer</a></span><span class="op">(</span><span class="va">dt_potato_20</span>, x <span class="op">=</span> <span class="va">DAP</span>, y <span class="op">=</span> <span class="va">Canopy</span>, id <span class="op">=</span> <span class="va">Plot</span><span class="op">)</span></span>
 <span><span class="va">fixed_params</span> <span class="op">&lt;-</span> <span class="va">explorer</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html" class="external-link">pluck</a></span><span class="op">(</span><span class="st">"dt_long"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -693,7 +763,7 @@ automatically detects the available cores.</p>
 <span>    x <span class="op">=</span> <span class="va">DAP</span>,</span>
 <span>    y <span class="op">=</span> <span class="va">Canopy</span>,</span>
 <span>    grp <span class="op">=</span> <span class="va">Plot</span>,</span>
-<span>    fn <span class="op">=</span> <span class="st">"fn_piwise"</span>,</span>
+<span>    fn <span class="op">=</span> <span class="st">"fn_linear_sat"</span>,</span>
 <span>    parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">45</span>, t2 <span class="op">=</span> <span class="fl">80</span>, k <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>,</span>
 <span>    fixed_params <span class="op">=</span> <span class="va">fixed_params</span>,</span>
 <span>    options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>progress <span class="op">=</span> <span class="cn">TRUE</span>, parallel <span class="op">=</span> <span class="cn">TRUE</span>, workers <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>

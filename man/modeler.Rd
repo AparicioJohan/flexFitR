@@ -10,7 +10,7 @@ modeler(
   y,
   grp,
   keep,
-  fn = "fn_piwise",
+  fn = "fn_linear_sat",
   parameters = NULL,
   lower = -Inf,
   upper = Inf,
@@ -32,7 +32,7 @@ modeler(
 
 \item{keep}{The names of the columns in `data` to keep across the analysis.}
 
-\item{fn}{A string specifying the name of the function to be used for the curve fitting. Default is \code{"fn_piwise"}.}
+\item{fn}{A string specifying the name of the function to be used for the curve fitting. Default is \code{"fn_linear_sat"}.}
 
 \item{parameters}{Can be a named numeric vector specifying the initial values for the parameters to be optimized,
 or a data frame with columns \code{uid}, and the initial parameter values for each group id. Used for providing specific
@@ -103,7 +103,7 @@ mod_2 <- dt_potato_20 |>
     x = DAP,
     y = Canopy,
     grp = Plot,
-    fn = "fn_piwise",
+    fn = "fn_linear_sat",
     parameters = c(t1 = 45, t2 = 80, k = 0.9),
     subset = 195
   )

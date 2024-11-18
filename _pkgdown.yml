@@ -29,8 +29,6 @@ navbar:
         href: articles/how_to_start.html
       - text: Modeling HTP Data
         href: articles/canopy-model.html
-      - text: Modeling Plant Height
-        href: articles/height-model.html
       - text: Modeling with Constraints
         href: articles/maturity-model.html
       - text: Plotting Options
@@ -68,7 +66,7 @@ reference:
 - contents:
   - fn_lin
   - fn_quad
-  - fn_piwise
+  - fn_linear_sat
   - fn_exp1_lin
   - fn_exp2_lin
   - fn_exp1_exp

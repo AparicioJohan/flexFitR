@@ -15,14 +15,14 @@ knitr::opts_chunk$set(
 ```
 
 This vignette demonstrates piecewise regression using canopy data derived from
-UAV imagery to estimate two key parameters::
+UAV imagery to estimate two key parameters:
 
-* t1: the day of plant emergence
-* t2: the number of days it takes to reach the maximum canopy.
+* t1: days to plant emergence.
+* t2: days to reach maximum canopy.
 
 The data are from the University of Wisconsin-Madison potato breeding program,
-specifically for a partially replicated experiment. The UAV images were collected 
-in 2020 and processed in 2024
+specifically for a partially replicated experiment. The UAV images were
+collected in 2020 and processed in 2024.
 
 ## Loading libraries
 
@@ -55,16 +55,20 @@ p2 <- plot(explorer, type = "x_by_var", return_gg = TRUE)
 ggarrange(p1, p2)
 ```
 
+To see more about the type of plots visit `plot.explorer()`.
+
 ```{r, echo=FALSE}
 kable(mutate_if(explorer$summ_vars, is.numeric, round, 2))
 ```
 
 
-## 2. Expectation Function 
+## 2. Regression Function 
 
-Once the data have been explored, we define the expectation function. In this case, it is a piece-wise regression function with three parameters: t1, t2, and k. The function can be expressed mathematically as follows:
+Once the data have been explored, we define the expectation function. In this
+case, it is a piece-wise regression function with three parameters: t1, t2, and
+k. The function can be expressed mathematically as follows:
 
-`fn_piwise()`
+`fn_linear_sat()`
 
 \begin{equation}
 f(t; t_1, t_2, k) =
@@ -78,7 +82,7 @@ k & \text{if } t > t_2
 
 ```{r, echo = FALSE, fig.width= 8, fig.alt="plot fn"}
 plot_fn(
-  fn = "fn_piwise",
+  fn = "fn_linear_sat",
   params = c(t1 = 40, t2 = 61.8, k = 100),
   interval = c(0, 108),
   color = "black",
@@ -94,7 +98,9 @@ To fit the model, we use the modeler function. Here:
 * y is the canopy variable to be modeled,
 * grp allows us to perform group analysis, e.g., on multiple plots.
 
-In this example, we have 196 plots but will only fit the model for plots 195 and 40 as a subset. We define the piecewise function `fn_piwise` and set initial values for the parameters.
+In this example, we have 196 plots but will only fit the model for plots 166 
+and 40 as a subset. We define the piecewise function `fn_linear_sat` and set
+initial values for the parameters.
 
 ```{r, warning=FALSE, message=FALSE }
 mod_1 <- dt_potato_20 |>
@@ -102,16 +108,16 @@ mod_1 <- dt_potato_20 |>
     x = DAP,
     y = Canopy,
     grp = Plot,
-    fn = "fn_piwise",
+    fn = "fn_linear_sat",
     parameters = c(t1 = 45, t2 = 80, k = 0.9),
-    subset = c(195, 40)
+    subset = c(166, 40)
   )
 mod_1
 ```
 After fitting, we can inspect the model summary and visualize the fit using the plot function:
 
 ```{r, fig.width= 8, fig.height=4, fig.alt="plot fit"}
-plot(mod_1, id = c(195, 40))
+plot(mod_1, id = c(166, 40))
 kable(mod_1$param)
 ```
 ## 3.1. Extracting model coefficients and uncertainty measures
@@ -146,7 +152,7 @@ values for each plot and even fix certain parameters to improve the model.
 
 ```{r}
 initials <- data.frame(
-  uid = c(195, 40),
+  uid = c(166, 40),
   t1 = c(70, 60),
   t2 = c(40, 80),
   k = c(100, 100)
@@ -163,14 +169,14 @@ mod_2 <- dt_potato_20 |>
     x = DAP,
     y = Canopy,
     grp = Plot,
-    fn = "fn_piwise",
+    fn = "fn_linear_sat",
     parameters = initials,
-    subset = c(195, 40)
+    subset = c(166, 40)
   )
 ```
 
 ```{r, fig.width= 8, fig.height=4, fig.alt="plot fit 2"}
-plot(mod_2, id = c(195, 40))
+plot(mod_2, id = c(166, 40))
 kable(mod_2$param)
 ```
 
@@ -188,7 +194,7 @@ If we assume that the maximum canopy coverage is 100%, we can incorporate this
 assumption into the model by fixing k.
 
 ```{r}
-fixed_params <- data.frame(uid = c(195, 40), k = c(100, 100))
+fixed_params <- data.frame(uid = c(166, 40), k = c(100, 100))
 ```
 
 ```{r}
@@ -201,15 +207,15 @@ mod_3 <- dt_potato_20 |>
     x = DAP,
     y = Canopy,
     grp = Plot,
-    fn = "fn_piwise",
+    fn = "fn_linear_sat",
     parameters = c(t1 = 45, t2 = 80, k = 0.9),
     fixed_params = fixed_params,
-    subset = c(195, 40)
+    subset = c(166, 40)
   )
 ```
 
 ```{r, fig.width= 8, fig.height=4, fig.alt="plot fit 3"}
-plot(mod_3, id = c(195, 40))
+plot(mod_3, id = c(166, 40))
 kable(mod_3$param)
 ```
 
@@ -226,7 +232,7 @@ rbind.data.frame(
   mutate(mod_2$param, model = "2", .before = uid),
   mutate(mod_3$param, model = "3", .before = uid)
 ) |>
-  filter(uid %in% 195) |>
+  filter(uid %in% 166) |>
   kable()
 ```
 
@@ -240,13 +246,38 @@ rbind.data.frame(
   mutate(AIC(mod_2), model = "2", .before = uid),
   mutate(AIC(mod_3), model = "3", .before = uid)
 ) |>
-  filter(uid %in% 195) |>
+  filter(uid %in% 166) |>
   kable()
 ```
 
-## 7. Modelling all plots using parallel processing
+## 7. Making predictions
 
-Finally, we can apply this method to all 196 plots, leveraging parallel processing to speed up the computation. To do this, we specify `parallel = TRUE` in the options argument, and set the number of cores using the function `parallel::detectCores()`, which automatically detects the available cores.
+
+Once the model is fitted and validated as the best representation of our data,
+we can proceed to make predictions. The `predict.modeler()` function provides a 
+range of flexible prediction options, allowing users to perform point 
+predictions, calculate the area under the curve (AUC), compute first or second
+derivatives, and even evaluate custom functions of the parameters. Below are
+some examples demonstrating these capabilities:
+
+```{r}
+# Point Prediction
+predict(mod_1, x = 45, type = "point", id = 166) |> kable()
+# AUC Prediction
+predict(mod_1, x = c(0, 108), type = "auc", id = 166) |> kable()
+# Function of the parameters
+predict(mod_1, formula = ~ t2 - t1, id = 166) |> kable()
+```
+In each example, the `predict.modeler()` function tailors the predictions to the 
+user’s needs, whether it's estimating a single value, integrating across a 
+range, or calculating a parameter-based expression.
+
+## 8. Modelling all plots using parallel processing
+
+Finally, we can apply this method to all 196 plots, leveraging parallel
+processing to speed up the computation. To do this, we specify `parallel = TRUE`
+in the options argument, and set the number of cores using the function
+`parallel::detectCores()`, which automatically detects the available cores.
 
 ```{r, eval= FALSE}
 explorer <- explorer(dt_potato_20, x = DAP, y = Canopy, id = Plot)
@@ -260,7 +291,7 @@ mod <- dt_potato_20 |>
     x = DAP,
     y = Canopy,
     grp = Plot,
-    fn = "fn_piwise",
+    fn = "fn_linear_sat",
     parameters = c(t1 = 45, t2 = 80, k = 0.9),
     fixed_params = fixed_params,
     options = list(progress = TRUE, parallel = TRUE, workers = 5)

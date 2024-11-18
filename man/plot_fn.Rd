@@ -5,7 +5,7 @@
 \title{Plot Function}
 \usage{
 plot_fn(
-  fn = "fn_piwise",
+  fn = "fn_linear_sat",
   params = c(t1 = 34.9, t2 = 61.8, k = 100),
   interval = c(0, 100),
   n_points = 1000,
@@ -20,7 +20,7 @@ plot_fn(
 )
 }
 \arguments{
-\item{fn}{A character string representing the name of the function to be plotted. Default is "fn_piwise".}
+\item{fn}{A character string representing the name of the function to be plotted. Default is "fn_linear_sat".}
 
 \item{params}{A named numeric vector of parameters to be passed to the function. Default is \code{c(t1 = 34.9, t2 = 61.8, k = 100)}.}
 
@@ -55,7 +55,7 @@ different Starting Values in their functions before fitting any models.
 \examples{
 # Example usage
 plot_fn(
-  fn = "fn_piwise",
+  fn = "fn_linear_sat",
   params = c(t1 = 34.9, t2 = 61.8, k = 100),
   interval = c(0, 100),
   n_points = 1000

@@ -6,7 +6,7 @@
 # y = "variable"
 # grp = NULL
 # keep = NULL
-# fn = "fn_piwise"
+# fn = "fn_linear_sat"
 # parameters = c(t1 = 45, t2 = 80, k = 0.9)
 # lower = -Inf
 # upper = Inf
@@ -23,7 +23,7 @@
 # workers = max(1, parallel::detectCores(), na.rm = TRUE)
 # control = list()
 #
-# formula <- variable ~ fn_piwise(time, t1, t2, k)
+# formula <- variable ~ fn_linear_sat(time, t1, t2, k)
 # formula <- as.formula(formula)
 # var_names <- all.vars(formula)
 # form2 <- formula
@@ -56,7 +56,7 @@
 #                       y,
 #                       grp,
 #                       keep,
-#                       fn = "fn_piwise",
+#                       fn = "fn_linear_sat",
 #                       parameters = NULL,
 #                       lower = -Inf,
 #                       upper = Inf,
@@ -287,7 +287,7 @@
 # # fixed <- c(k = 90)
 # # t <- c(0, 29, 36, 42, 56, 76, 92, 100, 108)
 # # y <- c(0, 0, 4.379, 26.138, 78.593, 100, 100, 100, 100)
-# # fn <- "fn_piwise"
+# # fn <- "fn_linear_sat"
 # # minimizer2(params, t, y, fn, fixed_params = fixed, metric = "rmse")
 # # res <- opm(
 # #   par = params,
@@ -333,7 +333,7 @@
 # #   variable = c(0, 0, 4.379, 26.138, 78.593, 100, 100, 100, 100)
 # # )
 # #
-# # formula <- variable ~ fn_piwise(time, t1, t2, k)
+# # formula <- variable ~ fn_linear_sat(time, t1, t2, k)
 # # params <- c(t1 = 34.9, t2 = 61.8)
 # # names <- names(params)
 # # fixed_params <- NA
@@ -380,7 +380,7 @@
 #   env <- new.env()
 #   list2env(data, envir = env)
 #   list2env(as.list(na.omit(c(params, fixed_params))), envir = env)
-#   fn_piwise <- Vectorize(fn_piwise)
+#   fn_linear_sat <- Vectorize(fn_linear_sat)
 #   y_hat <- eval(parse(text = rhs), envir = env)
 #   sse <- sum((y - y_hat)^2)
 #   return(sse)
@@ -397,7 +397,7 @@
 #   env <- new.env()
 #   list2env(data, envir = env)
 #   list2env(as.list(na.omit(c(params, fixed_params))), envir = env)
-#   fn_piwise <- Vectorize(fn_piwise)
+#   fn_linear_sat <- Vectorize(fn_linear_sat)
 #   y_hat <- eval(parse(text = rhs), envir = env)
 #   sse <- sum((y - y_hat)^2)
 #   return(sse)
