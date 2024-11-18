@@ -95,7 +95,7 @@
 <li>Parallelization: Implements parallel processing using the <a href="https://future.futureverse.org" class="external-link">future</a> package, enabling efficient fitting of hundreds of curves simultaneously.</li>
 <li>Visualization Tools: Provides a variety of plots to visualize model fits, correlations, predictions, and more.</li>
 <li>Statistical Rigor: Offers standard errors and p-values for coefficients, as well as for predictions, supporting robust conclusions and interpretations.</li>
-<li>Prediction: Facilitates the prediction of non-observed data points.</li>
+<li>Prediction: Supports diverse prediction types, including point predictions, area under the curve (AUC), first and second derivatives, user-defined parameter functions, and more advanced transformations or custom expressions based on model parameters.</li>
 <li>Flexibility: Allows users to fix certain parameters in the model and specify different initial values per grouping factor.</li>
 <li>Custom Modeling Functions: Equipped with built-in modeling functions for common analysis tasks, while also permitting users to supply their own custom functions.</li>
 </ul>
@@ -147,8 +147,8 @@
 <span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>   <span class="dv">1</span> <span class="fl">38.6</span> <span class="dv">61</span> <span class="fl">99.8</span> <span class="fl">0.449</span></span>
 <span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a></span>
 <span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>Metrics<span class="sc">:</span></span>
-<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a> Groups      Timing Convergence Iterations</span>
-<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>      <span class="dv">1</span> <span class="fl">0.3969</span> secs        <span class="dv">100</span>%   <span class="dv">511</span> (id)</span></code></pre></div>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a> Groups     Timing Convergence Iterations</span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>      <span class="dv">1</span> <span class="fl">0.387</span> secs        <span class="dv">100</span>%   <span class="dv">511</span> (id)</span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Auto plot</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">)</span></span></code></pre></div>
@@ -182,9 +182,7 @@
 <ul>
 <li>Vignette 1: <a href="https://apariciojohan.github.io/flexFitR/articles/how_to_start.html">How to start</a>
 </li>
-<li>Vignette 2: <a href="https://apariciojohan.github.io/flexFitR/articles/canopy-model.html">Modeling Canopy</a>
-</li>
-<li>Vignette 3: <a href="https://apariciojohan.github.io/flexFitR/articles/height-model.html">Modeling Plant Height</a>
+<li>Vignette 2: <a href="https://apariciojohan.github.io/flexFitR/articles/canopy-model.html">Modeling HTP data</a>
 </li>
 <li>Vignette 4: <a href="https://apariciojohan.github.io/flexFitR/articles/maturity-model.html">Modeling with Constraints</a>
 </li>

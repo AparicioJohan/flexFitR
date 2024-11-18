@@ -34,7 +34,10 @@ devtools::install_github("AparicioJohan/flexFitR")
 - Statistical Rigor: Offers standard errors and p-values for
   coefficients, as well as for predictions, supporting robust
   conclusions and interpretations.
-- Prediction: Facilitates the prediction of non-observed data points.
+- Prediction: Supports diverse prediction types, including point
+  predictions, area under the curve (AUC), first and second derivatives,
+  user-defined parameter functions, and more advanced transformations or
+  custom expressions based on model parameters.
 - Flexibility: Allows users to fix certain parameters in the model and
   specify different initial values per grouping factor.
 - Custom Modeling Functions: Equipped with built-in modeling functions
@@ -97,8 +100,8 @@ Optimization Results `head()`:
    1 38.6 61 99.8 0.449
 
 Metrics:
- Groups      Timing Convergence Iterations
-      1 0.3969 secs        100%   511 (id)
+ Groups     Timing Convergence Iterations
+      1 0.387 secs        100%   511 (id)
 ```
 
 ``` r
@@ -145,10 +148,8 @@ For detailed documentation and examples, visit
 
 - Vignette 1: [How to
   start](https://apariciojohan.github.io/flexFitR/articles/how_to_start.html)
-- Vignette 2: [Modeling
-  Canopy](https://apariciojohan.github.io/flexFitR/articles/canopy-model.html)
-- Vignette 3: [Modeling Plant
-  Height](https://apariciojohan.github.io/flexFitR/articles/height-model.html)
+- Vignette 2: [Modeling HTP
+  data](https://apariciojohan.github.io/flexFitR/articles/canopy-model.html)
 - Vignette 4: [Modeling with
   Constraints](https://apariciojohan.github.io/flexFitR/articles/maturity-model.html)
 - Vignette 5: [Plotting
