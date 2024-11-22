@@ -35,8 +35,8 @@ This function helps to explore the dataset before being analyzed with \code{mode
 }
 \examples{
 library(flexFitR)
-data(dt_potato_20)
-results <- dt_potato_20 |>
+data(dt_potato)
+results <- dt_potato |>
   explorer(
     x = DAP,
     y = c(Canopy, GLI),

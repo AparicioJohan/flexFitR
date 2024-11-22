@@ -14,8 +14,8 @@
 #' @export
 #' @examples
 #' library(flexFitR)
-#' data(dt_potato_20)
-#' mod_1 <- dt_potato_20 |>
+#' data(dt_potato)
+#' mod_1 <- dt_potato |>
 #'   modeler(
 #'     x = DAP,
 #'     y = Canopy,

@@ -1,0 +1,110 @@
+---
+title: "Predicted Values"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Predicted Values}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+> This vignette is under construction!
+
+```{r setup}
+library(flexFitR)
+library(dplyr)
+library(kableExtra)
+library(ggpubr)
+library(purrr)
+```
+
+```{r}
+data(dt_potato)
+head(dt_potato) |> kable()
+```
+
+## 0. Model Fitting
+
+```{r}
+fn <- function(t, L, k, t0) L / (1 + exp(-k * (t - t0)))
+```
+
+```{r}
+mod_1 <- dt_potato |>
+  modeler(
+    x = DAP,
+    y = Canopy,
+    grp = Plot,
+    fn = "fn",
+    parameters = c(L = 100, k = 4, t0 = 40),
+    subset = c(166, 40)
+  )
+mod_1
+```
+
+```{r, fig.width= 8, fig.height=4, fig.alt="plot fit"}
+plot(mod_1, id = c(166, 40))
+```
+
+## 1. Point Prediction
+
+```{r,  fig.alt="plot fit 2"}
+predict(mod_1, x = 45, type = "point", id = 40)
+plot(mod_1, id = c(166, 40), type = 3) + color_palette(palette = "jco")
+```
+
+
+## 2. Area Under the Curve (AUC) Prediction
+
+```{r}
+predict(mod_1, x = c(0, 108), type = "auc", id = 40)
+```
+
+## 3. Function of the Parameters
+
+```{r}
+predict(mod_1, formula = ~ L / 100, id = 40)
+```
+
+## 4. Inflection points (First Derivative)
+
+```{r, fig.width= 8, fig.height=4, fig.alt="plot 1 deriv"}
+# First Derivative
+plot(mod_1, id = c(166, 40), type = 5, color = "blue", add_ci = FALSE)
+predict(mod_1, x = 45, type = "fd", id = 40)
+```
+
+```{r}
+interval <- seq(0, 100, by = 0.1)
+points_fd <- mod_1 |>
+  predict(x = interval, type = "fd") |>
+  summarise(x_max = x_new[max(predicted.value) == predicted.value], .by = uid)
+points_fd
+```
+
+## 5. Inflection points (Second Derivative)
+
+```{r, fig.width= 8, fig.height=4, fig.alt="plot 2 deriv"}
+# Second Derivative
+plot(mod_1, id = c(166, 40), type = 6, color = "blue", add_ci = FALSE)
+predict(mod_1, x = 45, type = "sd", id = 40)
+```
+
+```{r}
+points_sd <- mod_1 |>
+  predict(x = interval, type = "sd") |>
+  summarise(
+    x_max = x_new[max(predicted.value) == predicted.value],
+    x_min = x_new[min(predicted.value) == predicted.value],
+    .by = uid
+  )
+points_sd
+```

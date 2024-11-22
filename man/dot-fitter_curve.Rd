@@ -28,8 +28,8 @@ The function .fitter_curve is used internally to find the parameters requested.
 }
 \examples{
 library(flexFitR)
-data(dt_potato_20)
-mod_1 <- dt_potato_20 |>
+data(dt_potato)
+mod_1 <- dt_potato |>
   modeler(
     x = DAP,
     y = GLI,

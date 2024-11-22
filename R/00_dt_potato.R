@@ -1,10 +1,12 @@
-#' Drone Data in Potato 2020
+#' Drone-Derived Data - Potato Breeding Program
 #'
-#' Vegetative indices and biomass related traits for a potato trial arranged in a p-rep design.
+#' Canopy and Green Leaf Index for a potato trial arranged in a p-rep design.
 #'
-#' @format A tibble with 1372 rows and 17 variables:
+#' @format A tibble with 1372 rows and 10 variables:
 #' \describe{
-#'   \item{Trial}{chr trial name}
+#'   \item{trial}{chr trial name}
+#'   \item{year}{chr trial year}
+#'   \item{loc}{chr location}
 #'   \item{DAP}{dbl denoting Days after planting}
 #'   \item{Plot}{dbl denoting the unique plot id}
 #'   \item{Row}{dbl denoting the row coordinate}
@@ -14,24 +16,4 @@
 #'   \item{GLI}{dbl Green Leaf Index UAV-Derived}
 #' }
 #' @source UW - Potato Breeding Program
-"dt_potato_20"
-
-
-#' Drone Data in Potato 2022
-#'
-#' Vegetative indices and biomass related traits for a potato trial arranged in a p-rep design.
-#'
-#' @format A tibble with 1568 rows and 17 variables:
-#' \describe{
-#'   \item{Trial}{chr trial name}
-#'   \item{DAP}{dbl denoting Days after planting}
-#'   \item{Plot}{dbl denoting the unique plot id}
-#'   \item{Row}{dbl denoting the row coordinate}
-#'   \item{Range}{dbl denoting range coordinate}
-#'   \item{Gen}{chr denoting the genotype id}
-#'   \item{Yield}{dbl Total Yield measured at the end of the season}
-#'   \item{VineMaturity}{dbl VineMaturity measure once during the season}
-#'   \item{Red - Canopy}{dbl denoting the drone-derived traits}
-#' }
-#' @source UW - Potato Breeding Program
-"dt_potato_22"
+"dt_potato"

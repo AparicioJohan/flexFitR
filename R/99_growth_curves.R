@@ -461,7 +461,7 @@ fn_lin_pl_lin2 <- function(t, t1, t2, dt, k, beta) {
 #' @param beta Numeric. Slope of the linear decay.
 #'
 #' @return A numeric value based on the linear plateau linear model.
-#' @export
+#' @noRd
 #'
 #' @details
 #' \if{html}{

@@ -120,7 +120,7 @@ anova.modeler <- function(reduced_model, full_model = NULL, ...) {
   # Number of parameters in each model
   p_reduced <- unlist(x = lapply(X = reduced_model$fit, FUN = \(x) x$p))
   p_full <- unlist(x = lapply(X = full_model$fit, FUN = \(x)  x$p))
-  if (p_reduced >= p_full) {
+  if (unique(p_reduced) >= unique(p_full)) {
     stop("The reduced model must have fewer parameters than the full model.")
   }
   # Number of observations

@@ -41,8 +41,8 @@ and descriptive statistics, as well as visualizations to help understand the
 temporal evolution of each plot.
 
 ```{r}
-data(dt_potato_20)
-explorer <- explorer(dt_potato_20, x = DAP, y = Canopy, id = Plot)
+data(dt_potato)
+explorer <- explorer(dt_potato, x = DAP, y = Canopy, id = Plot)
 ```
 
 ```{r}
@@ -103,7 +103,7 @@ and 40 as a subset. We define the piecewise function `fn_linear_sat` and set
 initial values for the parameters.
 
 ```{r, warning=FALSE, message=FALSE }
-mod_1 <- dt_potato_20 |>
+mod_1 <- dt_potato |>
   modeler(
     x = DAP,
     y = Canopy,
@@ -164,7 +164,7 @@ kable(initials)
 ```
 
 ```{r}
-mod_2 <- dt_potato_20 |>
+mod_2 <- dt_potato |>
   modeler(
     x = DAP,
     y = Canopy,
@@ -202,7 +202,7 @@ kable(fixed_params)
 ```
 
 ```{r}
-mod_3 <- dt_potato_20 |>
+mod_3 <- dt_potato |>
   modeler(
     x = DAP,
     y = Canopy,
@@ -280,13 +280,13 @@ in the options argument, and set the number of cores using the function
 `parallel::detectCores()`, which automatically detects the available cores.
 
 ```{r, eval= FALSE}
-explorer <- explorer(dt_potato_20, x = DAP, y = Canopy, id = Plot)
+explorer <- explorer(dt_potato, x = DAP, y = Canopy, id = Plot)
 fixed_params <- explorer |>
   pluck("dt_long") |>
   filter(var %in% "Canopy") |>
   group_by(uid) |>
   summarise(k = max(y), .groups = "drop")
-mod <- dt_potato_20 |>
+mod <- dt_potato |>
   modeler(
     x = DAP,
     y = Canopy,

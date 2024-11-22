@@ -126,9 +126,9 @@ plot_fn <- function(fn = "fn_linear_sat",
 #' @export
 #' @examples
 #' library(flexFitR)
-#' data(dt_potato_20)
+#' data(dt_potato)
 #' # Example 1
-#' mod_1 <- dt_potato_20 |>
+#' mod_1 <- dt_potato |>
 #'   modeler(
 #'     x = DAP,
 #'     y = Canopy,
@@ -287,7 +287,7 @@ plot.modeler <- function(x,
         if (add_ci && type == 4) {
           geom_line(
             mapping = aes(x = x_new, y = pi_lower, group = uid),
-            linetype = 2,
+            linetype = 4,
             color = "red"
           )
         }
@@ -296,7 +296,7 @@ plot.modeler <- function(x,
         if (add_ci && type == 4) {
           geom_line(
             mapping = aes(x = x_new, y = pi_upper, group = uid),
-            linetype = 2,
+            linetype = 4,
             color = "red"
           )
         }
@@ -343,8 +343,8 @@ plot.modeler <- function(x,
 #' @export
 #' @examples
 #' library(flexFitR)
-#' data(dt_potato_20)
-#' results <- explorer(dt_potato_20, x = DAP, y = c(Canopy, GLI), id = Plot)
+#' data(dt_potato)
+#' results <- explorer(dt_potato, x = DAP, y = c(Canopy, GLI), id = Plot)
 #' table <- plot(results, label_size = 4, signif = TRUE, n_row = 2)
 #' table
 #' plot(results, type = "x_by_var", label_size = 4, signif = TRUE)

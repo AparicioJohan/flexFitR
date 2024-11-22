@@ -31,6 +31,8 @@ navbar:
         href: articles/canopy-model.html
       - text: Modeling with Constraints
         href: articles/maturity-model.html
+      - text: Making Predictions
+        href: articles/predicted_values.html
       - text: Plotting Options
         href: articles/plotting.html
   - icon:
@@ -59,8 +61,7 @@ reference:
 - title: Data
   desc: Example Datasets
 - contents:
-  - dt_potato_20
-  - dt_potato_22
+  - dt_potato
 - title: Growth Modelling
   desc: Collection of functions
 - contents:
@@ -73,4 +74,3 @@ reference:
   - fn_exp2_exp
   - fn_lin_pl_lin
   - fn_lin_pl_lin2
-  - fn_lin_pl_lin3

@@ -61,8 +61,8 @@ summaries and visualizations to help understand the temporal evolution of
 each plot.
 
 ```{r}
-data(dt_potato_20)
-explorer <- explorer(dt_potato_20, x = DAP, y = c(GLI), id = Plot)
+data(dt_potato)
+explorer <- explorer(dt_potato, x = DAP, y = c(GLI), id = Plot)
 ```
 
 ```{r, fig.width= 8, fig.height=3, fig.alt="plot corr"}
@@ -136,7 +136,7 @@ We fit the model with these constraints by passing lower and upper arguments to
 of the total 196 plots.
 
 ```{r, warning=FALSE, message=FALSE}
-mod_1 <- dt_potato_20 |>
+mod_1 <- dt_potato |>
   modeler(
     x = DAP,
     y = GLI,
