@@ -110,9 +110,10 @@ predict(mod_1, x = 45)
 For detailed documentation and examples, visit [flexFitR](https://apariciojohan.github.io/flexFitR/reference/index.html) 
 
 * Vignette 1: [How to start](https://apariciojohan.github.io/flexFitR/articles/how_to_start.html) 
-* Vignette 2: [Modeling HTP data](https://apariciojohan.github.io/flexFitR/articles/canopy-model.html)
-* Vignette 4: [Modeling with Constraints](https://apariciojohan.github.io/flexFitR/articles/maturity-model.html) 
-* Vignette 5: [Plotting Options](https://apariciojohan.github.io/flexFitR/articles/plotting.html) 
+* Vignette 2: [Modeling plant emergence and canopy growth using UAV data](https://apariciojohan.github.io/flexFitR/articles/canopy-model.html)
+* Vignette 3: [Modeling with constraints](https://apariciojohan.github.io/flexFitR/articles/maturity-model.html) 
+* Vignette 4: [Making predictions ](https://apariciojohan.github.io/flexFitR/articles/predicted_values.html) 
+* Vignette 5: [Plotting options](https://apariciojohan.github.io/flexFitR/articles/plotting.html) 
 
 ## Contributing
 

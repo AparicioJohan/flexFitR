@@ -25,15 +25,15 @@ navbar:
   - icon:
     text: Articles
     menu:
-      - text: Get Started
+      - text: Get started
         href: articles/how_to_start.html
-      - text: Modeling HTP Data
+      - text: Modeling HTP data
         href: articles/canopy-model.html
-      - text: Modeling with Constraints
+      - text: Modeling with constraints
         href: articles/maturity-model.html
-      - text: Making Predictions
+      - text: Predicted values
         href: articles/predicted_values.html
-      - text: Plotting Options
+      - text: Plotting options
         href: articles/plotting.html
   - icon:
     text: News

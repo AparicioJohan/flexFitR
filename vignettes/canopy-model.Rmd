@@ -2,7 +2,7 @@
 title: "Modeling plant emergence and canopy growth using UAV data"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Modeling plant emergence and canopy growth using UAV data}
+  %\VignetteIndexEntry{Modeling HTP data}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

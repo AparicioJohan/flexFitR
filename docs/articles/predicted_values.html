@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Predicted Values • flexFitR</title>
+<title>Predicted values • flexFitR</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -16,7 +16,7 @@
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><script src="../deps/MathJax-3.2.2/tex-chtml.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Predicted Values">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><script src="../deps/MathJax-3.2.2/tex-chtml.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Predicted values">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -40,11 +40,11 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/how_to_start.html">Get Started</a></li>
-    <li><a class="dropdown-item" href="../articles/canopy-model.html">Modeling HTP Data</a></li>
-    <li><a class="dropdown-item" href="../articles/maturity-model.html">Modeling with Constraints</a></li>
-    <li><a class="dropdown-item" href="../articles/predicted_values.html">Making Predictions</a></li>
-    <li><a class="dropdown-item" href="../articles/plotting.html">Plotting Options</a></li>
+<li><a class="dropdown-item" href="../articles/how_to_start.html">Get started</a></li>
+    <li><a class="dropdown-item" href="../articles/canopy-model.html">Modeling HTP data</a></li>
+    <li><a class="dropdown-item" href="../articles/maturity-model.html">Modeling with constraints</a></li>
+    <li><a class="dropdown-item" href="../articles/predicted_values.html">Predicted values</a></li>
+    <li><a class="dropdown-item" href="../articles/plotting.html">Plotting options</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">News</a></li>
@@ -74,7 +74,7 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>Predicted Values</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>Predicted values</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/AparicioJohan/flexFitR/blob/HEAD/vignettes/predicted_values.Rmd" class="external-link"><code>vignettes/predicted_values.Rmd</code></a></small>
@@ -83,9 +83,6 @@
 
     
     
-<blockquote>
-<p>This vignette is under construction!</p>
-</blockquote>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://apariciojohan.github.io/flexFitR/">flexFitR</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
@@ -196,7 +193,7 @@
 </tbody>
 </table>
 <div class="section level2">
-<h2 id="model-fitting">0. Model Fitting<a class="anchor" aria-label="anchor" href="#model-fitting"></a>
+<h2 id="model-fitting">0. Model fitting<a class="anchor" aria-label="anchor" href="#model-fitting"></a>
 </h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fn</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">t</span>, <span class="va">L</span>, <span class="va">k</span>, <span class="va">t0</span><span class="op">)</span> <span class="va">L</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="op">-</span><span class="va">k</span> <span class="op">*</span> <span class="op">(</span><span class="va">t</span> <span class="op">-</span> <span class="va">t0</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -226,95 +223,189 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
 <span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;       2 0.7907 secs        100%   729 (id)</span></span></code></pre></div>
+<span><span class="co">#&gt;       2 1.0968 secs        100%   729 (id)</span></span></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">166</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="predicted_values_files/figure-html/unnamed-chunk-5-1.png" alt="plot fit" width="768"></p>
 </div>
 <div class="section level2">
-<h2 id="point-prediction">1. Point Prediction<a class="anchor" aria-label="anchor" href="#point-prediction"></a>
+<h2 id="point-prediction">1. Point prediction<a class="anchor" aria-label="anchor" href="#point-prediction"></a>
 </h2>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">mod_1</span>, x <span class="op">=</span> <span class="fl">45</span>, type <span class="op">=</span> <span class="st">"point"</span>, id <span class="op">=</span> <span class="fl">40</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 4</span></span></span>
-<span><span class="co">#&gt;     uid x_new predicted.value std.error</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    40    45            36.8      2.69</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">166</span>, <span class="fl">40</span><span class="op">)</span>, type <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rpkgs.datanovia.com/ggpubr/reference/set_palette.html" class="external-link">color_palette</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"jco"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="predicted_values_files/figure-html/unnamed-chunk-6-1.png" alt="plot fit 2" width="700"></p>
-</div>
-<div class="section level2">
-<h2 id="area-under-the-curve-auc-prediction">2. Area Under the Curve (AUC) Prediction<a class="anchor" aria-label="anchor" href="#area-under-the-curve-auc-prediction"></a>
-</h2>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">mod_1</span>, x <span class="op">=</span> <span class="fl">45</span>, type <span class="op">=</span> <span class="st">"point"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="right">uid</th>
+<th align="right">x_new</th>
+<th align="right">predicted.value</th>
+<th align="right">std.error</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">40</td>
+<td align="right">45</td>
+<td align="right">36.81219</td>
+<td align="right">2.687567</td>
+</tr>
+<tr class="even">
+<td align="right">166</td>
+<td align="right">45</td>
+<td align="right">63.12729</td>
+<td align="right">3.457216</td>
+</tr>
+</tbody>
+</table>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">mod_1</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">108</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"auc"</span>, id <span class="op">=</span> <span class="fl">40</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 5</span></span></span>
-<span><span class="co">#&gt;     uid x_min x_max predicted.value std.error</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    40     0   108           <span style="text-decoration: underline;">6</span>019.      89.6</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">166</span>, <span class="fl">40</span><span class="op">)</span>, type <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rpkgs.datanovia.com/ggpubr/reference/set_palette.html" class="external-link">color_palette</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"jco"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="predicted_values_files/figure-html/unnamed-chunk-7-1.png" alt="plot fit 2" width="768"></p>
 </div>
 <div class="section level2">
-<h2 id="function-of-the-parameters">3. Function of the Parameters<a class="anchor" aria-label="anchor" href="#function-of-the-parameters"></a>
+<h2 id="integral-of-the-function-area-under-the-curve">2. Integral of the function (area under the curve)<a class="anchor" aria-label="anchor" href="#integral-of-the-function-area-under-the-curve"></a>
 </h2>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">mod_1</span>, formula <span class="op">=</span> <span class="op">~</span> <span class="va">L</span> <span class="op">/</span> <span class="fl">100</span>, id <span class="op">=</span> <span class="fl">40</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 4</span></span></span>
-<span><span class="co">#&gt;     uid formula predicted.value std.error</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    40 L/100             0.998    0.016<span style="text-decoration: underline;">2</span></span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">mod_1</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">108</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"auc"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="right">uid</th>
+<th align="right">x_min</th>
+<th align="right">x_max</th>
+<th align="right">predicted.value</th>
+<th align="right">std.error</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">40</td>
+<td align="right">0</td>
+<td align="right">108</td>
+<td align="right">6018.833</td>
+<td align="right">89.57456</td>
+</tr>
+<tr class="even">
+<td align="right">166</td>
+<td align="right">0</td>
+<td align="right">108</td>
+<td align="right">6450.840</td>
+<td align="right">69.71235</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section level2">
-<h2 id="inflection-points-first-derivative">4. Inflection points (First Derivative)<a class="anchor" aria-label="anchor" href="#inflection-points-first-derivative"></a>
+<h2 id="function-of-the-parameters">3. Function of the parameters<a class="anchor" aria-label="anchor" href="#function-of-the-parameters"></a>
 </h2>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># First Derivative</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">166</span>, <span class="fl">40</span><span class="op">)</span>, type <span class="op">=</span> <span class="fl">5</span>, color <span class="op">=</span> <span class="st">"blue"</span>, add_ci <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="predicted_values_files/figure-html/unnamed-chunk-9-1.png" alt="plot 1 deriv" width="768"></p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">mod_1</span>, formula <span class="op">=</span> <span class="op">~</span> <span class="va">k</span> <span class="op">/</span> <span class="va">L</span> <span class="op">*</span> <span class="fl">100</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="right">uid</th>
+<th align="left">formula</th>
+<th align="right">predicted.value</th>
+<th align="right">std.error</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">40</td>
+<td align="left">k/L * 100</td>
+<td align="right">0.1990757</td>
+<td align="right">0.0173468</td>
+</tr>
+<tr class="even">
+<td align="right">166</td>
+<td align="left">k/L * 100</td>
+<td align="right">0.2644616</td>
+<td align="right">0.0312821</td>
+</tr>
+</tbody>
+</table>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">mod_1</span>, x <span class="op">=</span> <span class="fl">45</span>, type <span class="op">=</span> <span class="st">"fd"</span>, id <span class="op">=</span> <span class="fl">40</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 4</span></span></span>
-<span><span class="co">#&gt;     uid x_new predicted.value std.error</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    40    45            4.62     0.391</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">mod_1</span>, formula <span class="op">=</span> <span class="op">~</span> <span class="op">(</span><span class="va">k</span> <span class="op">*</span> <span class="va">L</span><span class="op">)</span> <span class="op">/</span> <span class="fl">4</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="right">uid</th>
+<th align="left">formula</th>
+<th align="right">predicted.value</th>
+<th align="right">std.error</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">40</td>
+<td align="left">(k * L)/4</td>
+<td align="right">4.959301</td>
+<td align="right">0.3761384</td>
+</tr>
+<tr class="even">
+<td align="right">166</td>
+<td align="left">(k * L)/4</td>
+<td align="right">6.480310</td>
+<td align="right">0.7140117</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level2">
+<h2 id="inflection-points-first-derivative">4. Inflection points (first derivative)<a class="anchor" aria-label="anchor" href="#inflection-points-first-derivative"></a>
+</h2>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">166</span>, <span class="fl">40</span><span class="op">)</span>, type <span class="op">=</span> <span class="fl">5</span>, color <span class="op">=</span> <span class="st">"blue"</span>, add_ci <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="predicted_values_files/figure-html/unnamed-chunk-11-1.png" alt="plot 1 deriv" width="768"></p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">interval</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">100</span>, by <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span>
 <span><span class="va">points_fd</span> <span class="op">&lt;-</span> <span class="va">mod_1</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">interval</span>, type <span class="op">=</span> <span class="st">"fd"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>x_max <span class="op">=</span> <span class="va">x_new</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">predicted.value</span><span class="op">)</span> <span class="op">==</span> <span class="va">predicted.value</span><span class="op">]</span>, .by <span class="op">=</span> <span class="va">uid</span><span class="op">)</span></span>
-<span><span class="va">points_fd</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 2</span></span></span>
-<span><span class="co">#&gt;     uid x_max</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    40  47.7</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>   166  42.8</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">uid</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>x_max <span class="op">=</span> <span class="va">x_new</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.min.html" class="external-link">which.max</a></span><span class="op">(</span><span class="va">predicted.value</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="va">points_fd</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="right">uid</th>
+<th align="right">x_max</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">40</td>
+<td align="right">47.7</td>
+</tr>
+<tr class="even">
+<td align="right">166</td>
+<td align="right">42.8</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section level2">
-<h2 id="inflection-points-second-derivative">5. Inflection points (Second Derivative)<a class="anchor" aria-label="anchor" href="#inflection-points-second-derivative"></a>
+<h2 id="inflection-points-second-derivative">5. Inflection points (second derivative)<a class="anchor" aria-label="anchor" href="#inflection-points-second-derivative"></a>
 </h2>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Second Derivative</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">166</span>, <span class="fl">40</span><span class="op">)</span>, type <span class="op">=</span> <span class="fl">6</span>, color <span class="op">=</span> <span class="st">"blue"</span>, add_ci <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="predicted_values_files/figure-html/unnamed-chunk-11-1.png" alt="plot 2 deriv" width="768"></p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">mod_1</span>, x <span class="op">=</span> <span class="fl">45</span>, type <span class="op">=</span> <span class="st">"sd"</span>, id <span class="op">=</span> <span class="fl">40</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 4</span></span></span>
-<span><span class="co">#&gt;     uid x_new predicted.value std.error</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    40    45           0.241    0.055<span style="text-decoration: underline;">0</span></span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">166</span>, <span class="fl">40</span><span class="op">)</span>, type <span class="op">=</span> <span class="fl">6</span>, color <span class="op">=</span> <span class="st">"blue"</span>, add_ci <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="predicted_values_files/figure-html/unnamed-chunk-13-1.png" alt="plot 2 deriv" width="768"></p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">points_sd</span> <span class="op">&lt;-</span> <span class="va">mod_1</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">interval</span>, type <span class="op">=</span> <span class="st">"sd"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">uid</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span></span>
-<span>    x_max <span class="op">=</span> <span class="va">x_new</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">predicted.value</span><span class="op">)</span> <span class="op">==</span> <span class="va">predicted.value</span><span class="op">]</span>,</span>
-<span>    x_min <span class="op">=</span> <span class="va">x_new</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">predicted.value</span><span class="op">)</span> <span class="op">==</span> <span class="va">predicted.value</span><span class="op">]</span>,</span>
-<span>    .by <span class="op">=</span> <span class="va">uid</span></span>
+<span>    x_max <span class="op">=</span> <span class="va">x_new</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.min.html" class="external-link">which.max</a></span><span class="op">(</span><span class="va">predicted.value</span><span class="op">)</span><span class="op">]</span>,</span>
+<span>    x_min <span class="op">=</span> <span class="va">x_new</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.min.html" class="external-link">which.min</a></span><span class="op">(</span><span class="va">predicted.value</span><span class="op">)</span><span class="op">]</span></span>
 <span>  <span class="op">)</span></span>
-<span><span class="va">points_sd</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 3</span></span></span>
-<span><span class="co">#&gt;     uid x_max x_min</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    40  41.1  54.3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>   166  37.8  47.9</span></span></code></pre></div>
+<span><span class="va">points_sd</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="right">uid</th>
+<th align="right">x_max</th>
+<th align="right">x_min</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">40</td>
+<td align="right">41.1</td>
+<td align="right">54.3</td>
+</tr>
+<tr class="even">
+<td align="right">166</td>
+<td align="right">37.8</td>
+<td align="right">47.9</td>
+</tr>
+</tbody>
+</table>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

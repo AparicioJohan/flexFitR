@@ -100,8 +100,8 @@ Optimization Results `head()`:
    1 38.6 61 99.8 0.449
 
 Metrics:
- Groups     Timing Convergence Iterations
-      1 0.387 secs        100%   511 (id)
+ Groups      Timing Convergence Iterations
+      1 0.4909 secs        100%   511 (id)
 ```
 
 ``` r
@@ -148,12 +148,14 @@ For detailed documentation and examples, visit
 
 - Vignette 1: [How to
   start](https://apariciojohan.github.io/flexFitR/articles/how_to_start.html)
-- Vignette 2: [Modeling HTP
+- Vignette 2: [Modeling plant emergence and canopy growth using UAV
   data](https://apariciojohan.github.io/flexFitR/articles/canopy-model.html)
-- Vignette 4: [Modeling with
-  Constraints](https://apariciojohan.github.io/flexFitR/articles/maturity-model.html)
+- Vignette 3: [Modeling with
+  constraints](https://apariciojohan.github.io/flexFitR/articles/maturity-model.html)
+- Vignette 4: [Making
+  predictions](https://apariciojohan.github.io/flexFitR/articles/predicted_values.html)
 - Vignette 5: [Plotting
-  Options](https://apariciojohan.github.io/flexFitR/articles/plotting.html)
+  options](https://apariciojohan.github.io/flexFitR/articles/plotting.html)
 
 ## Contributing
 

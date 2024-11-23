@@ -1,8 +1,8 @@
 ---
-title: "Predicted Values"
+title: "Predicted values"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Predicted Values}
+  %\VignetteIndexEntry{Predicted values}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -15,8 +15,6 @@ knitr::opts_chunk$set(
   message = FALSE
 )
 ```
-
-> This vignette is under construction!
 
 ```{r setup}
 library(flexFitR)
@@ -31,7 +29,7 @@ data(dt_potato)
 head(dt_potato) |> kable()
 ```
 
-## 0. Model Fitting
+## 0. Model fitting
 
 ```{r}
 fn <- function(t, L, k, t0) L / (1 + exp(-k * (t - t0)))
@@ -54,57 +52,61 @@ mod_1
 plot(mod_1, id = c(166, 40))
 ```
 
-## 1. Point Prediction
+## 1. Point prediction
 
-```{r,  fig.alt="plot fit 2"}
-predict(mod_1, x = 45, type = "point", id = 40)
+```{r,  fig.alt="plot fit 2", fig.width= 8}
+predict(mod_1, x = 45, type = "point") |> kable()
+```
+
+```{r,  fig.alt="plot fit 2", fig.width= 8}
 plot(mod_1, id = c(166, 40), type = 3) + color_palette(palette = "jco")
 ```
 
 
-## 2. Area Under the Curve (AUC) Prediction
+## 2. Integral of the function (area under the curve)
 
 ```{r}
-predict(mod_1, x = c(0, 108), type = "auc", id = 40)
+predict(mod_1, x = c(0, 108), type = "auc") |> kable()
 ```
 
-## 3. Function of the Parameters
+## 3. Function of the parameters
 
 ```{r}
-predict(mod_1, formula = ~ L / 100, id = 40)
+predict(mod_1, formula = ~ k / L * 100) |> kable()
+```
+```{r}
+predict(mod_1, formula = ~ (k * L) / 4) |> kable()
 ```
 
-## 4. Inflection points (First Derivative)
+
+## 4. Inflection points (first derivative)
 
 ```{r, fig.width= 8, fig.height=4, fig.alt="plot 1 deriv"}
-# First Derivative
 plot(mod_1, id = c(166, 40), type = 5, color = "blue", add_ci = FALSE)
-predict(mod_1, x = 45, type = "fd", id = 40)
 ```
 
 ```{r}
 interval <- seq(0, 100, by = 0.1)
 points_fd <- mod_1 |>
   predict(x = interval, type = "fd") |>
-  summarise(x_max = x_new[max(predicted.value) == predicted.value], .by = uid)
-points_fd
+  group_by(uid) |>
+  summarise(x_max = x_new[which.max(predicted.value)])
+points_fd |> kable()
 ```
 
-## 5. Inflection points (Second Derivative)
+## 5. Inflection points (second derivative)
 
 ```{r, fig.width= 8, fig.height=4, fig.alt="plot 2 deriv"}
-# Second Derivative
 plot(mod_1, id = c(166, 40), type = 6, color = "blue", add_ci = FALSE)
-predict(mod_1, x = 45, type = "sd", id = 40)
 ```
 
 ```{r}
 points_sd <- mod_1 |>
   predict(x = interval, type = "sd") |>
+  group_by(uid) |>
   summarise(
-    x_max = x_new[max(predicted.value) == predicted.value],
-    x_min = x_new[min(predicted.value) == predicted.value],
-    .by = uid
+    x_max = x_new[which.max(predicted.value)],
+    x_min = x_new[which.min(predicted.value)]
   )
-points_sd
+points_sd |> kable()
 ```
