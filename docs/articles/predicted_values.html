@@ -93,100 +93,74 @@
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">dt_potato</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">dt_potato</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
-<colgroup>
-<col width="18%">
-<col width="7%">
-<col width="7%">
-<col width="5%">
-<col width="7%">
-<col width="5%">
-<col width="8%">
-<col width="14%">
-<col width="10%">
-<col width="15%">
-</colgroup>
 <thead><tr class="header">
-<th align="left">trial</th>
-<th align="right">year</th>
-<th align="left">loc</th>
-<th align="right">DAP</th>
+<th align="left">Trial</th>
 <th align="right">Plot</th>
 <th align="right">Row</th>
 <th align="right">Range</th>
 <th align="left">gid</th>
+<th align="right">DAP</th>
 <th align="right">Canopy</th>
 <th align="right">GLI</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td align="left">HARS20_chips</td>
-<td align="right">2020</td>
-<td align="left">HARS</td>
-<td align="right">0</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="left">W17037-24</td>
+<td align="right">0</td>
 <td align="right">0.000</td>
 <td align="right">0.0000000</td>
 </tr>
 <tr class="even">
 <td align="left">HARS20_chips</td>
-<td align="right">2020</td>
-<td align="left">HARS</td>
-<td align="right">29</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="left">W17037-24</td>
+<td align="right">29</td>
 <td align="right">0.000</td>
 <td align="right">0.0027216</td>
 </tr>
 <tr class="odd">
 <td align="left">HARS20_chips</td>
-<td align="right">2020</td>
-<td align="left">HARS</td>
-<td align="right">36</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="left">W17037-24</td>
+<td align="right">36</td>
 <td align="right">0.670</td>
 <td align="right">-0.0008966</td>
 </tr>
 <tr class="even">
 <td align="left">HARS20_chips</td>
-<td align="right">2020</td>
-<td align="left">HARS</td>
-<td align="right">42</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="left">W17037-24</td>
+<td align="right">42</td>
 <td align="right">15.114</td>
 <td align="right">0.0322547</td>
 </tr>
 <tr class="odd">
 <td align="left">HARS20_chips</td>
-<td align="right">2020</td>
-<td align="left">HARS</td>
-<td align="right">56</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="left">W17037-24</td>
+<td align="right">56</td>
 <td align="right">75.424</td>
 <td align="right">0.2326896</td>
 </tr>
 <tr class="even">
 <td align="left">HARS20_chips</td>
-<td align="right">2020</td>
-<td align="left">HARS</td>
-<td align="right">76</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="left">W17037-24</td>
+<td align="right">76</td>
 <td align="right">99.811</td>
 <td align="right">0.3345619</td>
 </tr>
@@ -195,6 +169,8 @@
 <div class="section level2">
 <h2 id="model-fitting">0. Model fitting<a class="anchor" aria-label="anchor" href="#model-fitting"></a>
 </h2>
+<p><span class="math display">\[f(t) = \frac{L}{1 + e^{-k(t -
+t_0)}}\]</span></p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fn</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">t</span>, <span class="va">L</span>, <span class="va">k</span>, <span class="va">t0</span><span class="op">)</span> <span class="va">L</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="op">-</span><span class="va">k</span> <span class="op">*</span> <span class="op">(</span><span class="va">t</span> <span class="op">-</span> <span class="va">t0</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -223,7 +199,7 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
 <span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;       2 1.0968 secs        100%   729 (id)</span></span></code></pre></div>
+<span><span class="co">#&gt;       2 0.8392 secs        100%   729 (id)</span></span></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">166</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="predicted_values_files/figure-html/unnamed-chunk-5-1.png" alt="plot fit" width="768"></p>
@@ -232,7 +208,8 @@
 <h2 id="point-prediction">1. Point prediction<a class="anchor" aria-label="anchor" href="#point-prediction"></a>
 </h2>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">mod_1</span>, x <span class="op">=</span> <span class="fl">45</span>, type <span class="op">=</span> <span class="st">"point"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">points</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">mod_1</span>, x <span class="op">=</span> <span class="fl">55</span>, type <span class="op">=</span> <span class="st">"point"</span><span class="op">)</span></span>
+<span><span class="va">points</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="right">uid</th>
@@ -243,25 +220,36 @@
 <tbody>
 <tr class="odd">
 <td align="right">40</td>
-<td align="right">45</td>
-<td align="right">36.81219</td>
-<td align="right">2.687567</td>
+<td align="right">55</td>
+<td align="right">80.85282</td>
+<td align="right">2.912364</td>
 </tr>
 <tr class="even">
 <td align="right">166</td>
-<td align="right">45</td>
-<td align="right">63.12729</td>
-<td align="right">3.457216</td>
+<td align="right">55</td>
+<td align="right">95.06255</td>
+<td align="right">1.625402</td>
 </tr>
 </tbody>
 </table>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">166</span>, <span class="fl">40</span><span class="op">)</span>, type <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rpkgs.datanovia.com/ggpubr/reference/set_palette.html" class="external-link">color_palette</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"jco"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">mod_1</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">166</span>, <span class="fl">40</span><span class="op">)</span>, type <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rpkgs.datanovia.com/ggpubr/reference/set_palette.html" class="external-link">color_palette</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"jco"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span></span>
+<span>    data <span class="op">=</span> <span class="va">points</span>,</span>
+<span>    mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x_new</span>, y <span class="op">=</span> <span class="va">predicted.value</span><span class="op">)</span>,</span>
+<span>    shape <span class="op">=</span> <span class="fl">8</span>,</span>
+<span>    size <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>    color <span class="op">=</span> <span class="st">"darkred"</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="predicted_values_files/figure-html/unnamed-chunk-7-1.png" alt="plot fit 2" width="768"></p>
 </div>
 <div class="section level2">
 <h2 id="integral-of-the-function-area-under-the-curve">2. Integral of the function (area under the curve)<a class="anchor" aria-label="anchor" href="#integral-of-the-function-area-under-the-curve"></a>
 </h2>
+<p><span class="math display">\[ \text{Area} = \int_{0}^{T} \frac{L}{1 +
+e^{-k(t - t_0)}} \, dt \]</span></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">mod_1</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">108</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"auc"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
@@ -343,8 +331,13 @@
 </table>
 </div>
 <div class="section level2">
-<h2 id="inflection-points-first-derivative">4. Inflection points (first derivative)<a class="anchor" aria-label="anchor" href="#inflection-points-first-derivative"></a>
+<h2 id="inflection-points">4. Inflection points<a class="anchor" aria-label="anchor" href="#inflection-points"></a>
 </h2>
+<div class="section level3">
+<h3 id="first-derivative">4.1. First derivative<a class="anchor" aria-label="anchor" href="#first-derivative"></a>
+</h3>
+<p><span class="math display">\[ f'(t) = \frac{k L e^{-k(t -
+t_0)}}{\left(1 + e^{-k(t - t_0)}\right)^2} \]</span></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">166</span>, <span class="fl">40</span><span class="op">)</span>, type <span class="op">=</span> <span class="fl">5</span>, color <span class="op">=</span> <span class="st">"blue"</span>, add_ci <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="predicted_values_files/figure-html/unnamed-chunk-11-1.png" alt="plot 1 deriv" width="768"></p>
@@ -353,12 +346,12 @@
 <span><span class="va">points_fd</span> <span class="op">&lt;-</span> <span class="va">mod_1</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">interval</span>, type <span class="op">=</span> <span class="st">"fd"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">uid</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>x_max <span class="op">=</span> <span class="va">x_new</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.min.html" class="external-link">which.max</a></span><span class="op">(</span><span class="va">predicted.value</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>fd_argmax <span class="op">=</span> <span class="va">x_new</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.min.html" class="external-link">which.max</a></span><span class="op">(</span><span class="va">predicted.value</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="va">points_fd</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="right">uid</th>
-<th align="right">x_max</th>
+<th align="right">fd_argmax</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -371,27 +364,39 @@
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section level2">
-<h2 id="inflection-points-second-derivative">5. Inflection points (second derivative)<a class="anchor" aria-label="anchor" href="#inflection-points-second-derivative"></a>
-</h2>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">166</span>, <span class="fl">40</span><span class="op">)</span>, type <span class="op">=</span> <span class="fl">6</span>, color <span class="op">=</span> <span class="st">"blue"</span>, add_ci <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="predicted_values_files/figure-html/unnamed-chunk-13-1.png" alt="plot 2 deriv" width="768"></p>
+<code class="sourceCode R"><span><span class="va">mod_1</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">166</span>, <span class="fl">40</span><span class="op">)</span>, type <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rpkgs.datanovia.com/ggpubr/reference/set_palette.html" class="external-link">color_palette</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"jco"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_vline</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">points_fd</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">fd_argmax</span><span class="op">)</span>, linetype <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html" class="external-link">geom_label</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">points_fd</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">fd_argmax</span>, y <span class="op">=</span> <span class="fl">0</span>, label <span class="op">=</span> <span class="va">fd_argmax</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">uid</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="predicted_values_files/figure-html/unnamed-chunk-13-1.png" alt="plot deriv" width="768"></p>
+</div>
+<div class="section level3">
+<h3 id="second-derivative">4.2. Second derivative<a class="anchor" aria-label="anchor" href="#second-derivative"></a>
+</h3>
+<p><span class="math display">\[f''(t) = \frac{k^2 L e^{-k(t -
+t_0)} \left(1 - e^{-k(t - t_0)}\right)}{\left(1 + e^{-k(t -
+t_0)}\right)^3}\]</span></p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">166</span>, <span class="fl">40</span><span class="op">)</span>, type <span class="op">=</span> <span class="fl">6</span>, color <span class="op">=</span> <span class="st">"blue"</span>, add_ci <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="predicted_values_files/figure-html/unnamed-chunk-14-1.png" alt="plot 2 deriv" width="768"></p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">points_sd</span> <span class="op">&lt;-</span> <span class="va">mod_1</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">interval</span>, type <span class="op">=</span> <span class="st">"sd"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">uid</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span></span>
-<span>    x_max <span class="op">=</span> <span class="va">x_new</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.min.html" class="external-link">which.max</a></span><span class="op">(</span><span class="va">predicted.value</span><span class="op">)</span><span class="op">]</span>,</span>
-<span>    x_min <span class="op">=</span> <span class="va">x_new</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.min.html" class="external-link">which.min</a></span><span class="op">(</span><span class="va">predicted.value</span><span class="op">)</span><span class="op">]</span></span>
+<span>    sd_argmax <span class="op">=</span> <span class="va">x_new</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.min.html" class="external-link">which.max</a></span><span class="op">(</span><span class="va">predicted.value</span><span class="op">)</span><span class="op">]</span>,</span>
+<span>    sd_argmin <span class="op">=</span> <span class="va">x_new</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.min.html" class="external-link">which.min</a></span><span class="op">(</span><span class="va">predicted.value</span><span class="op">)</span><span class="op">]</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="va">points_sd</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="right">uid</th>
-<th align="right">x_max</th>
-<th align="right">x_min</th>
+<th align="right">sd_argmax</th>
+<th align="right">sd_argmin</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -406,6 +411,16 @@
 </tr>
 </tbody>
 </table>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mod_1</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">166</span>, <span class="fl">40</span><span class="op">)</span>, type <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rpkgs.datanovia.com/ggpubr/reference/set_palette.html" class="external-link">color_palette</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"jco"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_vline</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">points_sd</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">sd_argmax</span><span class="op">)</span>, linetype <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_vline</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">points_sd</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">sd_argmin</span><span class="op">)</span>, linetype <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">uid</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="predicted_values_files/figure-html/unnamed-chunk-16-1.png" alt="plot deriv 2" width="768"></p>
+</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

@@ -1,6 +1,9 @@
 ## code to prepare `DATASET` dataset goes here
 
-dt_potato <- readr::read_csv("data-raw/data_2020_flexfitr.csv")
+dt_potato <- readr::read_csv("data-raw/data_2020_flexfitr.csv") |>
+  rename(Trial = trial) |>
+  select(-year, -loc) |>
+  relocate(DAP, .after = gid)
 usethis::use_data(dt_potato, overwrite = TRUE)
 
 

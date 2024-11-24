@@ -31,6 +31,8 @@ head(dt_potato) |> kable()
 
 ## 0. Model fitting
 
+$$f(t) = \frac{L}{1 + e^{-k(t - t_0)}}$$
+
 ```{r}
 fn <- function(t, L, k, t0) L / (1 + exp(-k * (t - t0)))
 ```
@@ -55,15 +57,27 @@ plot(mod_1, id = c(166, 40))
 ## 1. Point prediction
 
 ```{r,  fig.alt="plot fit 2", fig.width= 8}
-predict(mod_1, x = 45, type = "point") |> kable()
+points <- predict(mod_1, x = 55, type = "point")
+points |> kable()
 ```
 
 ```{r,  fig.alt="plot fit 2", fig.width= 8}
-plot(mod_1, id = c(166, 40), type = 3) + color_palette(palette = "jco")
+mod_1 |>
+  plot(id = c(166, 40), type = 3) +
+  color_palette(palette = "jco") +
+  geom_point(
+    data = points,
+    mapping = aes(x = x_new, y = predicted.value),
+    shape = 8,
+    size = 4,
+    color = "darkred"
+  )
 ```
 
 
 ## 2. Integral of the function (area under the curve)
+
+$$ \text{Area} = \int_{0}^{T} \frac{L}{1 + e^{-k(t - t_0)}} \, dt $$
 
 ```{r}
 predict(mod_1, x = c(0, 108), type = "auc") |> kable()
@@ -79,7 +93,11 @@ predict(mod_1, formula = ~ (k * L) / 4) |> kable()
 ```
 
 
-## 4. Inflection points (first derivative)
+## 4. Inflection points
+
+### 4.1. First derivative
+
+$$ f'(t) = \frac{k L e^{-k(t - t_0)}}{\left(1 + e^{-k(t - t_0)}\right)^2} $$
 
 ```{r, fig.width= 8, fig.height=4, fig.alt="plot 1 deriv"}
 plot(mod_1, id = c(166, 40), type = 5, color = "blue", add_ci = FALSE)
@@ -90,11 +108,22 @@ interval <- seq(0, 100, by = 0.1)
 points_fd <- mod_1 |>
   predict(x = interval, type = "fd") |>
   group_by(uid) |>
-  summarise(x_max = x_new[which.max(predicted.value)])
+  summarise(fd_argmax = x_new[which.max(predicted.value)])
 points_fd |> kable()
 ```
+```{r, fig.alt="plot deriv" , fig.width= 8}
+mod_1 |>
+  plot(id = c(166, 40), type = 3) +
+  color_palette(palette = "jco") +
+  geom_vline(data = points_fd, aes(xintercept = fd_argmax), linetype = 2) +
+  geom_label(data = points_fd, aes(x = fd_argmax, y = 0, label = fd_argmax)) +
+  facet_wrap(~uid) +
+  theme(legend.position = "none")
+```
 
-## 5. Inflection points (second derivative)
+### 4.2. Second derivative
+
+$$f''(t) = \frac{k^2 L e^{-k(t - t_0)} \left(1 - e^{-k(t - t_0)}\right)}{\left(1 + e^{-k(t - t_0)}\right)^3}$$
 
 ```{r, fig.width= 8, fig.height=4, fig.alt="plot 2 deriv"}
 plot(mod_1, id = c(166, 40), type = 6, color = "blue", add_ci = FALSE)
@@ -105,8 +134,18 @@ points_sd <- mod_1 |>
   predict(x = interval, type = "sd") |>
   group_by(uid) |>
   summarise(
-    x_max = x_new[which.max(predicted.value)],
-    x_min = x_new[which.min(predicted.value)]
+    sd_argmax = x_new[which.max(predicted.value)],
+    sd_argmin = x_new[which.min(predicted.value)]
   )
 points_sd |> kable()
+```
+
+```{r, fig.alt="plot deriv 2" , fig.width= 8}
+mod_1 |>
+  plot(id = c(166, 40), type = 3) +
+  color_palette(palette = "jco") +
+  geom_vline(data = points_sd, aes(xintercept = sd_argmax), linetype = 2) +
+  geom_vline(data = points_sd, aes(xintercept = sd_argmin), linetype = 2) +
+  facet_wrap(~uid) +
+  theme(legend.position = "none")
 ```
