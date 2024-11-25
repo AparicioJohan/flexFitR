@@ -1,4 +1,4 @@
-#' Drone-Derived Data - Potato Breeding Program
+#' Drone-derived data from a potato breeding trial
 #'
 #' Canopy and Green Leaf Index for a potato trial arranged in a p-rep design.
 #'
