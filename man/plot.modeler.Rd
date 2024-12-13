@@ -11,12 +11,15 @@
   label_size = 4,
   base_size = 14,
   color = "red",
+  color_points = "black",
   parm = NULL,
   n_points = 2000,
   title = NULL,
   add_ci = TRUE,
   add_ribbon = FALSE,
   color_ribbon = "blue",
+  color_ci = "blue",
+  color_pi = "red",
   ...
 )
 }
@@ -41,6 +44,8 @@
 
 \item{color}{Character string specifying the color for the fitted line when \code{type = 1}. Default is "red".}
 
+\item{color_points}{Character string specifying the color for the raw data points when \code{type = 1}. Default is "black".}
+
 \item{parm}{Character vector specifying the parameters to plot for \code{type = 2}. If \code{NULL}, all parameters are included.}
 
 \item{n_points}{Numeric value specifying the number of points for interpolation along the x-axis. Default is 2000.}
@@ -52,6 +57,10 @@
 \item{add_ribbon}{Logical value indicating whether to add a ribbon for confidence intervals in \code{type = 4, 5, 6}. Default is \code{FALSE}.}
 
 \item{color_ribbon}{Character string specifying the color of the ribbon. Default is "blue".}
+
+\item{color_ci}{Character string specifying the color of the confidence interval when \code{type = 4, 5, 6}. Default is "blue".}
+
+\item{color_pi}{Character string specifying the color of the prediction interval when \code{type = 4}. Default is "red".}
 
 \item{...}{Additional graphical parameters for future extensions.}
 }

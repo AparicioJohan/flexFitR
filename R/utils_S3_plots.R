@@ -113,12 +113,15 @@ plot_fn <- function(fn = "fn_linear_sat",
 #' @param label_size Numeric value for the size of labels. Default is 4.
 #' @param base_size Numeric value for the base font size in pts. Default is 14.
 #' @param color Character string specifying the color for the fitted line when \code{type = 1}. Default is "red".
+#' @param color_points Character string specifying the color for the raw data points when \code{type = 1}. Default is "black".
 #' @param parm Character vector specifying the parameters to plot for \code{type = 2}. If \code{NULL}, all parameters are included.
 #' @param n_points Numeric value specifying the number of points for interpolation along the x-axis. Default is 2000.
 #' @param title Optional character string to add a title to the plot.
 #' @param add_ci Logical value indicating whether to add confidence intervals for \code{type = 4, 5, 6}. Default is \code{TRUE}.
 #' @param add_ribbon Logical value indicating whether to add a ribbon for confidence intervals in \code{type = 4, 5, 6}. Default is \code{FALSE}.
 #' @param color_ribbon Character string specifying the color of the ribbon. Default is "blue".
+#' @param color_ci Character string specifying the color of the confidence interval when \code{type = 4, 5, 6}. Default is "blue".
+#' @param color_pi Character string specifying the color of the prediction interval when \code{type = 4}. Default is "red".
 #' @param ... Additional graphical parameters for future extensions.
 #' @author Johan Aparicio [aut]
 #' @method plot modeler
@@ -150,12 +153,15 @@ plot.modeler <- function(x,
                          label_size = 4,
                          base_size = 14,
                          color = "red",
+                         color_points = "black",
                          parm = NULL,
                          n_points = 2000,
                          title = NULL,
                          add_ci = TRUE,
                          add_ribbon = FALSE,
-                         color_ribbon = "blue", ...) {
+                         color_ribbon = "blue",
+                         color_ci = "blue",
+                         color_pi = "red", ...) {
   data <- x$dt |> select(uid, var, x, y, .fitted)
   param <- x$param
   fn <- x$fn
@@ -192,11 +198,13 @@ plot.modeler <- function(x,
   if (type == 1) {
     p0 <- dt |>
       ggplot() +
-      geom_point(aes(x = x, y = y)) +
+      geom_point(aes(x = x, y = y), color = color_points) +
       geom_line(data = func_dt, aes(x = x, y = dens), color = color) +
       theme_classic(base_size = base_size) +
-      facet_wrap(~uid) +
       labs(y = label, title = title)
+    if (length(id) > 1) {
+      p0 <- p0 + facet_wrap(~uid)
+    }
   }
   if (type == 2) {
     cc_table <- confint.modeler(x, parm = parm, id = id)
@@ -217,7 +225,8 @@ plot.modeler <- function(x,
         mapping = aes(x = x, y = dens, group = uid, color = as.factor(uid)),
       ) +
       theme_classic(base_size = base_size) +
-      labs(y = label, color = "uid", title = title)
+      labs(y = label, color = "uid", title = title) +
+      scale_color_viridis_d(option = "D", direction = 1)
   }
   if (type %in% c(4, 5, 6)) {
     tp <- switch(
@@ -270,7 +279,7 @@ plot.modeler <- function(x,
           geom_line(
             mapping = aes(x = x_new, y = ci_lower, group = uid),
             linetype = 2,
-            color = "blue"
+            color = color_ci
           )
         }
       } +
@@ -279,7 +288,7 @@ plot.modeler <- function(x,
           geom_line(
             mapping = aes(x = x_new, y = ci_upper, group = uid),
             linetype = 2,
-            color = "blue"
+            color = color_ci
           )
         }
       } +
@@ -288,7 +297,7 @@ plot.modeler <- function(x,
           geom_line(
             mapping = aes(x = x_new, y = pi_lower, group = uid),
             linetype = 4,
-            color = "red"
+            color = color_pi
           )
         }
       } +
@@ -297,17 +306,19 @@ plot.modeler <- function(x,
           geom_line(
             mapping = aes(x = x_new, y = pi_upper, group = uid),
             linetype = 4,
-            color = "red"
+            color = color_pi
           )
         }
       } +
       theme_classic(base_size = base_size) +
-      facet_wrap(~uid) +
       labs(
         y = label,
         x = "x",
         title = ifelse(is.null(title), title_tmp, title)
       )
+    if (length(id) > 1) {
+      p0 <- p0 + facet_wrap(~uid)
+    }
   }
   return(p0)
 }

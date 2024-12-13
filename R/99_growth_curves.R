@@ -56,6 +56,38 @@ fn_quad <- function(t, a, b, c) {
   return(y)
 }
 
+#' Logistic Function
+#'
+#' Computes a value based on a logistic function.
+#'
+#' @param t Numeric value.
+#' @param L Numeric value.
+#' @param k Numeric value.
+#' @param t0 Numeric value.
+#'
+#' @return A numeric value based on the logistic function.
+#' @export
+#'
+#' @details
+#' \if{html}{
+#' \deqn{
+#' f(t; L, k, t0) = \frac{L}{1 + e^{-k(t - t_0)}}
+#' }
+#' }
+#'
+#' @examples
+#' library(flexFitR)
+#' plot_fn(
+#'   fn = "fn_logistic",
+#'   params = c(L = 100, k = 0.199, t0 = 47.7),
+#'   interval = c(0, 108),
+#'   n_points = 2000
+#' )
+fn_logistic <- function(t, L, k, t0) {
+  y <- L / (1 + exp(-k * (t - t0)))
+  return(y)
+}
+
 #' Exponential Linear Function 1
 #'
 #' Computes a value based on an exponential growth curve and linear decay model for time.
@@ -581,14 +613,14 @@ fn_logis <- function(t, t0, t1, t2) {
 # t <- seq(0, 108, 0.1)
 # y_hat <- sapply(
 #   X = t,
-#   FUN = fn_logistic,
+#   FUN = fn_logistic2,
 #   t1 = 38.7, t2 = 62, L = 0.1, k = 0.9
 # )
 # plot(t, y_hat, type = "l")
 # lines(t, y_hat, col = "red")
 # abline(v = c(38.7, 62), lty = 2)
 #' @noRd
-fn_logistic <- function(t, t1, t2, L, k) {
+fn_logistic2 <- function(t, t1, t2, L, k) {
   # L is the maximum plant height
   # k is the growth rate
   if (t < t1) {
@@ -619,4 +651,73 @@ fn_linexp <- function(t, t1, t2, a, b, c) {
     y2 <- a + b * (t2 - t1)
     return(y2 * exp(-c * (t - t2)))
   }
+}
+
+
+#' Print available functions in flexFitR
+#'
+#' @return A vector with available functions
+#' @export
+#'
+#' @examples
+#' library(flexFitR)
+#' list_funs()
+list_funs <- function() {
+  c(
+    "fn_lin",
+    "fn_quad",
+    "fn_logistic",
+    "fn_linear_sat",
+    "fn_lin_pl_lin",
+    "fn_lin_pl_lin2",
+    "fn_exp1_exp",
+    "fn_exp1_lin",
+    "fn_exp2_exp",
+    "fn_exp2_lin"
+  )
+}
+
+#' Print available methods in flexFitR
+#'
+#' @return A vector with available methods
+#' @export
+#'
+#' @examples
+#' library(flexFitR)
+#' list_methods()
+list_methods <- function() {
+  c(
+    "BFGS",
+    "CG",
+    "Nelder-Mead",
+    "L-BFGS-B",
+    "nlm",
+    "nlminb",
+    "lbfgsb3c",
+    "Rcgmin",
+    "Rtnmin",
+    "Rvmmin",
+    "snewton",
+    "snewtonm",
+    "spg",
+    "ucminf",
+    "newuoa",
+    "bobyqa",
+    "uobyqa",
+    "nmkb",
+    "hjkb",
+    "hjn",
+    "lbfgs",
+    "subplex",
+    "ncg",
+    "nvm",
+    "mla",
+    "slsqp",
+    "tnewt",
+    "anms",
+    "pracmanm",
+    "nlnm",
+    "snewtm",
+    "ALL"
+  )
 }
