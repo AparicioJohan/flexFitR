@@ -4,7 +4,10 @@
 \alias{list_methods}
 \title{Print available methods in flexFitR}
 \usage{
-list_methods()
+list_methods(bounds = FALSE)
+}
+\arguments{
+\item{bounds}{If TRUE, returns methods for box (or bounds) constraints. FALSE  by default.}
 }
 \value{
 A vector with available methods

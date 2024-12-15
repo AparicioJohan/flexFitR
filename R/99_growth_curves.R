@@ -679,14 +679,15 @@ list_funs <- function() {
 
 #' Print available methods in flexFitR
 #'
+#' @param bounds If TRUE, returns methods for box (or bounds) constraints. FALSE  by default.
 #' @return A vector with available methods
 #' @export
 #'
 #' @examples
 #' library(flexFitR)
 #' list_methods()
-list_methods <- function() {
-  c(
+list_methods <- function(bounds = FALSE) {
+  methods <- c(
     "BFGS",
     "CG",
     "Nelder-Mead",
@@ -720,4 +721,21 @@ list_methods <- function() {
     "snewtm",
     "ALL"
   )
+  if (bounds) {
+    b_methods <-  c(
+      "BFGS",
+      "CG",
+      "Nelder-Mead",
+      "nlm",
+      "ucminf",
+      "newuoa",
+      "lbfgs",
+      "subplex",
+      "mla",
+      "anms",
+      "pracmanm"
+    )
+    methods <- methods[!methods %in% b_methods]
+  }
+  return(methods)
 }

@@ -42,7 +42,8 @@ initial values per group id. Default is \code{NULL}.}
 
 \item{upper}{Numeric vector specifying the upper bounds for the parameters. Default is \code{Inf} for all parameters.}
 
-\item{fixed_params}{A data frame with columns \code{uid}, and the fixed parameter values for each group id. Used for fixing certain parameters during optimization.}
+\item{fixed_params}{Can be a list or data frame. If data frame it needs columns \code{uid}, and the fixed parameter values for each group id.
+If list it needs to be a named list with the parameters to be fixed and numeric or string values can be used (e.g. list(k = "max(y)", t1 = 40)).}
 
 \item{method}{A character vector specifying the optimization methods to be used. Check `optimx::checkallsolvers()` for available methods.
 Default is \code{c("subplex", "pracmanm", "anms")}.}

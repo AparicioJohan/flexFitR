@@ -14,7 +14,8 @@
 #' initial values per group id. Default is \code{NULL}.
 #' @param lower Numeric vector specifying the lower bounds for the parameters. Default is \code{-Inf} for all parameters.
 #' @param upper Numeric vector specifying the upper bounds for the parameters. Default is \code{Inf} for all parameters.
-#' @param fixed_params A data frame with columns \code{uid}, and the fixed parameter values for each group id. Used for fixing certain parameters during optimization.
+#' @param fixed_params Can be a list or data frame. If data frame it needs columns \code{uid}, and the fixed parameter values for each group id.
+#' If list it needs to be a named list with the parameters to be fixed and numeric or string values can be used (e.g. list(k = "max(y)", t1 = 40)).
 #' @param method A character vector specifying the optimization methods to be used. Check `optimx::checkallsolvers()` for available methods.
 #' Default is \code{c("subplex", "pracmanm", "anms")}.
 #' @param subset An optional vector with levels of `grp` to filter the data. Default is \code{NULL}, meaning all groups are used.
@@ -131,19 +132,6 @@ modeler <- function(data,
   if (!is.numeric(lower) || !is.numeric(upper)) {
     stop("Lower and upper bounds should be numeric.")
   }
-  # Validate fixed parameters
-  if (!is.null(fixed_params)) {
-    nam_fix_params <- colnames(fixed_params)
-    if (!all(c("uid") %in% colnames(fixed_params))) {
-      stop("fixed_params should contain columns 'uid'.")
-    }
-    if (!any(nam_fix_params[-c(1)] %in% args)) {
-      stop("fixed_params should have at least one parameter of: ", fn)
-    }
-    if (sum(nam_fix_params[-c(1)] %in% args) == length(args)) {
-      stop("fixed_params cannot contain all parameters of the function: ", fn)
-    }
-  }
   # Data transformation
   dt <- x$dt_long |>
     filter(var %in% variable) |>
@@ -166,6 +154,29 @@ modeler <- function(data,
       unique.data.frame() |>
       rbind.data.frame(dt) |>
       arrange(uid, x)
+  }
+  # Validate fixed parameters
+  if (!is.null(fixed_params)) {
+    if ("data.frame" %in% class(fixed_params)) {
+      nam_fix_params <- colnames(fixed_params)
+      if (!all(c("uid") %in% colnames(fixed_params))) {
+        stop("fixed_params should contain columns 'uid'.")
+      }
+      if (!any(nam_fix_params[-c(1)] %in% args)) {
+        stop("fixed_params should have at least one parameter of: ", fn)
+      }
+      if (sum(nam_fix_params[-c(1)] %in% args) == length(args)) {
+        stop("fixed_params cannot contain all parameters of the function: ", fn)
+      }
+    } else if ("list" %in% class(fixed_params)) {
+      nam_fix_params <- names(fixed_params)
+      if (!any(nam_fix_params %in% args)) {
+        stop("fixed_params should have at least one parameter of: ", fn)
+      }
+      if (sum(nam_fix_params %in% args) == length(args)) {
+        stop("fixed_params cannot contain all parameters of the function: ", fn)
+      }
+    }
   }
   # Validate initial values
   if (is.null(parameters)) {
@@ -196,15 +207,42 @@ modeler <- function(data,
   }
   # Merging with fixed parameters
   if (!is.null(fixed_params)) {
-    fixed <- fixed_params |>
-      pivot_longer(cols = -c(uid), names_to = "coef") |>
-      nest_by(uid, .key = "fx_params") |>
-      mutate(fx_params = list(pull(fx_params, value, coef)))
-    init <- init |>
-      full_join(fixed, by = c("uid")) |>
-      mutate(
-        initials = list(initials[!names(initials) %in% names(fixed_params)])
-      )
+    if ("data.frame" %in% class(fixed_params)) {
+      fixed <- fixed_params |>
+        pivot_longer(cols = -c(uid), names_to = "coef") |>
+        nest_by(uid, .key = "fx_params") |>
+        mutate(fx_params = list(pull(fx_params, value, coef)))
+      init <- init |>
+        full_join(fixed, by = c("uid")) |>
+        mutate(
+          initials = list(initials[!names(initials) %in% names(fixed_params)])
+        )
+    } else if ("list" %in% class(fixed_params)) {
+      fixed <- dt |>
+        select(uid, x, y) |>
+        group_by(uid)
+      for (j in names(fixed_params)) {
+        str <- fixed_params[[j]]
+        if ("numeric" %in% class(str)) {
+          express <- str
+        } else if ("character" %in% class(str)) {
+          express <- rlang::parse_expr(str)
+        }
+        fixed <- mutate(fixed, "{j}" := !!express)
+      }
+      fixed <- fixed |>
+        ungroup() |>
+        select(uid, all_of(names(fixed_params))) |>
+        unique.data.frame() |>
+        pivot_longer(cols = -c(uid), names_to = "coef") |>
+        nest_by(uid, .key = "fx_params") |>
+        mutate(fx_params = list(pull(fx_params, value, coef)))
+      init <- init |>
+        full_join(fixed, by = c("uid")) |>
+        mutate(
+          initials = list(initials[!names(initials) %in% names(fixed_params)])
+        )
+    }
   } else {
     fixed <- dt |>
       select(uid) |>
