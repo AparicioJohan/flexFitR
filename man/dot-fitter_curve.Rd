@@ -4,7 +4,7 @@
 \alias{.fitter_curve}
 \title{General-purpose optimization}
 \usage{
-.fitter_curve(data, id, fn, method, lower, upper, control, .keep, trace)
+.fitter_curve(data, id, fn, method, lower, upper, control, metadata, trace)
 }
 \arguments{
 \item{data}{A nested data.frame with columns <plot, genotype, row, range, data, initials, fx_params>.}

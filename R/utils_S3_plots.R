@@ -373,7 +373,7 @@ plot.explorer <- function(x,
                           base_size = 13,
                           return_gg = FALSE,
                           add_avg = FALSE, ...) {
-  .keep <- x$metadata
+  metadata <- x$metadata
   colours <- c("#db4437", "white", "#4285f4")
   flt <- x$summ_vars |>
     filter(`miss%` <= 0.2) |> #  & SD > 0
@@ -399,7 +399,7 @@ plot.explorer <- function(x,
     }
     var_by_x <- data |>
       pivot_wider(names_from = var, values_from = y) |>
-      select(-c(uid, all_of(.keep))) |>
+      select(-c(uid, all_of(metadata))) |>
       nest_by(x) |>
       mutate(
         mat = list(
@@ -453,7 +453,7 @@ plot.explorer <- function(x,
   if (type == "x_by_var" || type == 2) {
     x_by_var <- data |>
       pivot_wider(names_from = x, values_from = y) |>
-      select(-c(uid, all_of(.keep))) |>
+      select(-c(uid, all_of(metadata))) |>
       nest_by(var) |>
       mutate(
         mat = list(

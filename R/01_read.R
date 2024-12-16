@@ -53,7 +53,7 @@ explorer <- function(data, x, y, id, metadata) {
   }
   x <- names(select(data, {{ x }}))
   y <- names(select(data, {{ y }}))
-  .keep <- names(select(data, {{ metadata }}))
+  metadata <- names(select(data, {{ metadata }}))
   for (i in y) {
     class_trait <- data[[i]] |> class()
     if (!class_trait %in% c("numeric", "integer")) {
@@ -62,14 +62,14 @@ explorer <- function(data, x, y, id, metadata) {
       )
     }
   }
-  check_metadata(data, .keep)
+  check_metadata(data, metadata)
   data <- data |>
-    select(all_of(c(id, .keep, x, y))) |>
+    select(all_of(c(id, metadata, x, y))) |>
     mutate(uid = .data[[id]], .keep = "unused", .before = 0) |>
     rename(x = all_of(x))
-  resum <- summarize_metadata(data, cols = c("uid", "x", .keep))
+  resum <- summarize_metadata(data, cols = c("uid", "x", metadata))
   dt_long <- data |>
-    select(uid, all_of(.keep), x, all_of(y)) |>
+    select(uid, all_of(metadata), x, all_of(y)) |>
     pivot_longer(all_of(y), names_to = "var", values_to = "y") |>
     relocate(x, .after = var)
   summ_vars <- dt_long |>
@@ -104,7 +104,7 @@ explorer <- function(data, x, y, id, metadata) {
     summ_metadata = resum,
     locals_min_max = max_min,
     dt_long = dt_long,
-    metadata = .keep,
+    metadata = metadata,
     x_var = x
   )
   class(out) <- "explorer"

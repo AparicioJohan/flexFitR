@@ -35,8 +35,9 @@ modeler(
 \item{fn}{A string specifying the name of the function to be used for the curve fitting. Default is \code{"fn_linear_sat"}.}
 
 \item{parameters}{Can be a named numeric vector specifying the initial values for the parameters to be optimized,
-or a data frame with columns \code{uid}, and the initial parameter values for each group id. Used for providing specific
-initial values per group id. Default is \code{NULL}.}
+If a data frame it needs to have a column \code{uid}, and the initial parameter values for each group id.
+If list it needs to be a named list with the initial parameters and numeric or string values can be used (e.g. list(k = "max(y)", t1 = 40)).
+Used for providing specific initial values per group id. Default is \code{NULL}.}
 
 \item{lower}{Numeric vector specifying the lower bounds for the parameters. Default is \code{-Inf} for all parameters.}
 
