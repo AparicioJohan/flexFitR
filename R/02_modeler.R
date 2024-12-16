@@ -158,24 +158,18 @@ modeler <- function(data,
   # Validate fixed parameters
   if (!is.null(fixed_params)) {
     if ("data.frame" %in% class(fixed_params)) {
-      nam_fix_params <- colnames(fixed_params)
+      nam_fix_params <- colnames(fixed_params)[-1]
       if (!all(c("uid") %in% colnames(fixed_params))) {
-        stop("fixed_params should contain columns 'uid'.")
-      }
-      if (!any(nam_fix_params[-c(1)] %in% args)) {
-        stop("fixed_params should have at least one parameter of: ", fn)
-      }
-      if (sum(nam_fix_params[-c(1)] %in% args) == length(args)) {
-        stop("fixed_params cannot contain all parameters of the function: ", fn)
+        stop("fixed_params should contain column 'uid'.")
       }
     } else if ("list" %in% class(fixed_params)) {
       nam_fix_params <- names(fixed_params)
-      if (!any(nam_fix_params %in% args)) {
-        stop("fixed_params should have at least one parameter of: ", fn)
-      }
-      if (sum(nam_fix_params %in% args) == length(args)) {
-        stop("fixed_params cannot contain all parameters of the function: ", fn)
-      }
+    }
+    if (!all(nam_fix_params %in% args)) {
+      stop("All fixed_params must be in:", fn)
+    }
+    if (length(args) - length(nam_fix_params) <= 1 ) {
+      stop("More than one parameter needs to be free.")
     }
   }
   # Validate initial values
