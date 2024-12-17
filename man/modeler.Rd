@@ -2,7 +2,7 @@
 % Please edit documentation in R/02_modeler.R
 \name{modeler}
 \alias{modeler}
-\title{Modeler}
+\title{Modeler: Non-linear Regression for Curve Fitting}
 \usage{
 modeler(
   data,
@@ -22,34 +22,44 @@ modeler(
 )
 }
 \arguments{
-\item{data}{A data.frame in a wide format.}
+\item{data}{A `data.frame` containing the input data for analysis.}
 
-\item{x}{The name of the column in `data` that contains x points.}
+\item{x}{The name of the column in `data` representing the independent variable (x points).}
 
-\item{y}{The name of the column in `data` that contain the variable to be analyzed. Must match a var in the data.}
+\item{y}{The name of the column in `data` containing the dependent variable to analyze (response variable).}
 
-\item{grp}{The names of the columns in `data` that contains a grouping variable. (Optional).}
+\item{grp}{Column(s) in `data` used as grouping variable(s). Defaults to `NULL`. (optional)}
 
-\item{keep}{The names of the columns in `data` to keep across the analysis.}
+\item{keep}{Names of columns to retain in the output. Defaults to `NULL`. (Optional)}
 
-\item{fn}{A string specifying the name of the function to be used for the curve fitting. Default is \code{"fn_linear_sat"}.}
+\item{fn}{A string. The name of the function used for curve fitting.
+Example: `"fn_linear_sat"`. Defaults to \code{"fn_linear_sat"}.}
 
-\item{parameters}{Can be a named numeric vector specifying the initial values for the parameters to be optimized,
-If a data frame it needs to have a column \code{uid}, and the initial parameter values for each group id.
-If list it needs to be a named list with the initial parameters and numeric or string values can be used (e.g. list(k = "max(y)", t1 = 40)).
-Used for providing specific initial values per group id. Default is \code{NULL}.}
+\item{parameters}{A numeric vector, named list, or `data.frame` providing initial values for parameters:
+\describe{
+  \item{Numeric vector}{Named vector specifying initial values (e.g., `c(k = 0.5, t1 = 30)`).}
+  \item{Data frame}{Requires a `uid` column with group IDs and parameter values for each group.}
+  \item{List}{Named list where parameter values can be numeric or expressions (e.g., `list(k = "max(y)", t1 = 40)`).}
+}
+Defaults to `NULL`.}
 
-\item{lower}{Numeric vector specifying the lower bounds for the parameters. Default is \code{-Inf} for all parameters.}
+\item{lower}{A numeric vector specifying lower bounds for parameters. Defaults to `-Inf` for all parameters.}
 
-\item{upper}{Numeric vector specifying the upper bounds for the parameters. Default is \code{Inf} for all parameters.}
+\item{upper}{A numeric vector specifying upper bounds for parameters. Defaults to `Inf` for all parameters.}
 
-\item{fixed_params}{Can be a list or data frame. If data frame it needs columns \code{uid}, and the fixed parameter values for each group id.
-If list it needs to be a named list with the parameters to be fixed and numeric or string values can be used (e.g. list(k = "max(y)", t1 = 40)).}
+\item{fixed_params}{A list or `data.frame` for fixing specific parameters:
+\describe{
+  \item{List}{Named list where parameter values can be numeric or expressions (e.g., `list(k = "max(y)", t1 = 40)`).}
+  \item{Data frame}{Requires a `uid` column for group IDs and fixed parameter values.}
+}
+Defaults to `NULL`.}
 
-\item{method}{A character vector specifying the optimization methods to be used. Check `optimx::checkallsolvers()` for available methods.
-Default is \code{c("subplex", "pracmanm", "anms")}.}
+\item{method}{A character vector specifying optimization methods.
+Check available methods using \code{list_methods()} and their dependencies using
+\code{optimx::checkallsolvers()}. Defaults to \code{c("subplex", "pracmanm", "anms")}.}
 
-\item{subset}{An optional vector with levels of `grp` to filter the data. Default is \code{NULL}, meaning all groups are used.}
+\item{subset}{A vector (optional) containing levels of `grp` to filter the data for analysis.
+Defaults to `NULL` (all groups are included).}
 
 \item{options}{A list of additional options. See `modeler.options()`
 \describe{
@@ -68,20 +78,21 @@ Default is \code{c("subplex", "pracmanm", "anms")}.}
 \value{
 An object of class \code{modeler}, which is a list containing the following elements:
 \describe{
-  \item{\code{param}}{A data frame containing the optimized parameters and related information.}
-  \item{\code{dt}}{A data frame with data used and fitted values.}
-  \item{\code{fn}}{The call used when fitting models.}
+  \item{\code{param}}{Data frame containing optimized parameters and related information.}
+  \item{\code{dt}}{Data frame with input data, fitted values, and residuals.}
+  \item{\code{fn}}{The function call used for fitting models.}
   \item{\code{metrics}}{Metrics and summary of the models.}
-  \item{\code{execution}}{Execution time.}
-  \item{\code{response}}{Response variable.}
-  \item{\code{keep}}{Metadata to keep across.}
-  \item{\code{fun}}{Name of the function.}
-  \item{\code{parallel}}{List returning parallel and workers.}
-  \item{\code{fit}}{List with the fitted models.}
+  \item{\code{execution}}{Total execution time for the analysis.}
+  \item{\code{response}}{Name of the response variable analyzed.}
+  \item{\code{keep}}{Metadata retained based on the `keep` argument.}
+  \item{\code{fun}}{Name of the curve-fitting function used.}
+  \item{\code{parallel}}{List containing parallel execution details (if applicable).}
+  \item{\code{fit}}{List of fitted models for each group.}
 }
 }
 \description{
-General-purpose optimization techniques for non-linear least squares problems.
+A versatile function for performing non-linear least squares optimization on grouped data.
+It supports customizable optimization methods, flexible initial/fixed parameters, and parallel processing.
 }
 \examples{
 library(flexFitR)

@@ -189,16 +189,10 @@ the model fit can fail or produce nonsensical results.
 
 In certain cases, we may want to fix specific parameters either because they are
 known or because we prefer the model to leave these parameters unchanged. 
-For example, we can fix the parameter `k`, which represents the maximum canopy value.
-If we assume that the maximum canopy coverage is 100%, we can incorporate this
-assumption into the model by fixing k.
+For example, we can fix the parameter `k`, which represents the maximum canopy value, as follows:
 
 ```{r}
-fixed_params <- data.frame(uid = c(166, 40), k = c(100, 100))
-```
-
-```{r}
-kable(fixed_params)
+fixed_params <- list(k = "max(y)")
 ```
 
 ```{r}
@@ -280,12 +274,6 @@ in the options argument, and set the number of cores using the function
 `parallel::detectCores()`, which automatically detects the available cores.
 
 ```{r, eval= FALSE}
-explorer <- explorer(dt_potato, x = DAP, y = Canopy, id = Plot)
-fixed_params <- explorer |>
-  pluck("dt_long") |>
-  filter(var %in% "Canopy") |>
-  group_by(uid) |>
-  summarise(k = max(y), .groups = "drop")
 mod <- dt_potato |>
   modeler(
     x = DAP,
@@ -293,7 +281,7 @@ mod <- dt_potato |>
     grp = Plot,
     fn = "fn_linear_sat",
     parameters = c(t1 = 45, t2 = 80, k = 0.9),
-    fixed_params = fixed_params,
+    fixed_params = list(k = "max(y)"),
     options = list(progress = TRUE, parallel = TRUE, workers = 5)
   )
 ```
