@@ -106,6 +106,13 @@ modeler <- function(data,
   if (is.null(data)) {
     stop("Error: data not found")
   }
+  if (any(method == "ALL")) {
+    list_methods(check_package = TRUE)
+    method <- "ALL"
+  } else {
+    packages <- names(list_methods())[list_methods() %in% method]
+    ensure_packages(packages)
+  }
   x <- explorer(data, {{ x }}, {{ y }}, {{ grp }}, {{ keep }})
   # Check the class of x
   if (!inherits(x, "explorer")) {

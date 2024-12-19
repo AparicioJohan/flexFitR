@@ -41,9 +41,14 @@ URL: https://apariciojohan.github.io/flexFitR/,
      https://github.com/AparicioJohan/flexFitR
 BugReports: https://github.com/AparicioJohan/flexFitR/issues
 Suggests: 
+    BB,
+    dfoptim,
     ggpubr,
     kableExtra,
     knitr,
+    lbfgsb3c,
+    marqLevAlg,
     purrr,
-    rmarkdown
+    rmarkdown,
+    ucminf
 VignetteBuilder: knitr

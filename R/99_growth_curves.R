@@ -680,13 +680,14 @@ list_funs <- function() {
 #' Print available methods in flexFitR
 #'
 #' @param bounds If TRUE, returns methods for box (or bounds) constraints. FALSE  by default.
+#' @param check_package If TRUE, ensures solvers are installed. FALSE  by default.
 #' @return A vector with available methods
 #' @export
 #'
 #' @examples
 #' library(flexFitR)
 #' list_methods()
-list_methods <- function(bounds = FALSE) {
+list_methods <- function(bounds = FALSE, check_package = FALSE) {
   methods <- c(
     "BFGS",
     "CG",
@@ -718,11 +719,47 @@ list_methods <- function(bounds = FALSE) {
     "anms",
     "pracmanm",
     "nlnm",
-    "snewtm",
-    "ALL"
+    "snewtm"
   )
+  packages <- c(
+    "stats",
+    "stats",
+    "stats",
+    "stats",
+    "stats",
+    "stats",
+    "lbfgsb3c",
+    "optimx",
+    "optimx",
+    "optimx",
+    "optimx",
+    "optimx",
+    "BB",
+    "ucminf",
+    "minqa",
+    "minqa",
+    "minqa",
+    "dfoptim",
+    "dfoptim",
+    "optimx",
+    "lbfgs",
+    "subplex",
+    "optimx",
+    "optimx",
+    "marqLevAlg",
+    "nloptr",
+    "nloptr",
+    "pracma",
+    "pracma",
+    "nloptr",
+    "optimx"
+  )
+  names(methods) <- packages
+  if (check_package) {
+    ensure_packages(packages)
+  }
   if (bounds) {
-    b_methods <-  c(
+    b_methods <- c(
       "BFGS",
       "CG",
       "Nelder-Mead",
