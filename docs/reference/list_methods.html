@@ -53,7 +53,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">list_methods</span><span class="op">(</span>bounds <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">list_methods</span><span class="op">(</span>bounds <span class="op">=</span> <span class="cn">FALSE</span>, check_package <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -62,6 +62,10 @@
 
 <dl><dt id="arg-bounds">bounds<a class="anchor" aria-label="anchor" href="#arg-bounds"></a></dt>
 <dd><p>If TRUE, returns methods for box (or bounds) constraints. FALSE  by default.</p></dd>
+
+
+<dt id="arg-check-package">check_package<a class="anchor" aria-label="anchor" href="#arg-check-package"></a></dt>
+<dd><p>If TRUE, ensures solvers are installed. FALSE  by default.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -73,13 +77,20 @@
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://apariciojohan.github.io/flexFitR/">flexFitR</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">list_methods</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "BFGS"        "CG"          "Nelder-Mead" "L-BFGS-B"    "nlm"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [6] "nlminb"      "lbfgsb3c"    "Rcgmin"      "Rtnmin"      "Rvmmin"     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11] "snewton"     "snewtonm"    "spg"         "ucminf"      "newuoa"     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [16] "bobyqa"      "uobyqa"      "nmkb"        "hjkb"        "hjn"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [21] "lbfgs"       "subplex"     "ncg"         "nvm"         "mla"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [26] "slsqp"       "tnewt"       "anms"        "pracmanm"    "nlnm"       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [31] "snewtm"      "ALL"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         stats         stats         stats         stats         stats </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        "BFGS"          "CG" "Nelder-Mead"    "L-BFGS-B"         "nlm" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         stats      lbfgsb3c        optimx        optimx        optimx </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      "nlminb"    "lbfgsb3c"      "Rcgmin"      "Rtnmin"      "Rvmmin" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        optimx        optimx            BB        ucminf         minqa </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     "snewton"    "snewtonm"         "spg"      "ucminf"      "newuoa" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         minqa         minqa       dfoptim       dfoptim        optimx </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      "bobyqa"      "uobyqa"        "nmkb"        "hjkb"         "hjn" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         lbfgs       subplex        optimx        optimx    marqLevAlg </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       "lbfgs"     "subplex"         "ncg"         "nvm"         "mla" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        nloptr        nloptr        pracma        pracma        nloptr </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       "slsqp"       "tnewt"        "anms"    "pracmanm"        "nlnm" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        optimx </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      "snewtm" </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
