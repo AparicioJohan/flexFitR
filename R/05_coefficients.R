@@ -2,7 +2,7 @@
 #'
 #' @description Extract the estimated coefficients from an object of class \code{modeler}.
 #' @aliases coef.modeler
-#' @param x An object of class \code{modeler}, typically the result of calling
+#' @param object An object of class \code{modeler}, typically the result of calling
 #' the \code{modeler()} function.
 #' @param id An optional unique identifier to filter by a specific group. Default is \code{NULL}.
 #' @param metadata Logical. If \code{TRUE}, metadata is included along with the coefficients. Default is \code{FALSE}.
@@ -30,19 +30,19 @@
 #' coef(mod_1, id = 2)
 #' @import dplyr
 #' @importFrom stats pt
-coef.modeler <- function(x,
+coef.modeler <- function(object,
                          id = NULL,
                          metadata = FALSE,
                          df = FALSE, ...) {
-  # Check the class of x
-  if (!inherits(x, "modeler")) {
+  # Check the class of object
+  if (!inherits(object, "modeler")) {
     stop("The object should be of class 'modeler'.")
   }
-  keep <- x$keep
-  dt <- x$param
+  keep <- object$keep
+  dt <- object$param
   if (!is.null(id)) {
     if (!all(id %in% unique(dt$uid))) {
-      stop("ids not found in x.")
+      stop("ids not found in object.")
     }
     uid <- id
   } else {
@@ -80,7 +80,7 @@ coef.modeler <- function(x,
     )
     return(ccoef)
   }
-  fit_list <- x$fit
+  fit_list <- object$fit
   id <- which(unlist(lapply(fit_list, function(x) x$uid)) %in% uid)
   fit_list <- fit_list[id]
   coeff <- do.call(

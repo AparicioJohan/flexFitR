@@ -4,10 +4,10 @@
 \alias{coef.modeler}
 \title{Coefficients for an object of class \code{modeler}}
 \usage{
-\method{coef}{modeler}(x, id = NULL, metadata = FALSE, df = FALSE, ...)
+\method{coef}{modeler}(object, id = NULL, metadata = FALSE, df = FALSE, ...)
 }
 \arguments{
-\item{x}{An object of class \code{modeler}, typically the result of calling
+\item{object}{An object of class \code{modeler}, typically the result of calling
 the \code{modeler()} function.}
 
 \item{id}{An optional unique identifier to filter by a specific group. Default is \code{NULL}.}

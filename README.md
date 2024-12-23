@@ -62,7 +62,7 @@ plot(explorer(dt, time, variable), type = "xy")
 <img src="man/figures/README_unnamed-chunk-2-1.png" alt="plot xy" width="100%" />
 
 ``` r
-fun <- function(t, t1 = 45, t2 = 80, k = 0.9) {
+fn_linear_sat <- function(t, t1 = 45, t2 = 80, k = 0.9) {
   if (t < t1) {
     y <- 0
   } else if (t >= t1 && t <= t2) {
@@ -80,7 +80,7 @@ mod_1 <- dt |>
   modeler(
     x = time,
     y = variable,
-    fn = "fun",
+    fn = "fn_linear_sat",
     parameters = c(t1 = 45, t2 = 80, k = 90)
   )
 ```
@@ -89,7 +89,7 @@ mod_1 <- dt |>
 print(mod_1)
 
 Call:
-variable ~ fun(time, t1, t2, k) 
+variable ~ fn_linear_sat(time, t1, t2, k) 
 
 Residuals:
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
@@ -101,7 +101,7 @@ Optimization Results `head()`:
 
 Metrics:
  Groups      Timing Convergence Iterations
-      1 0.4909 secs        100%   511 (id)
+      1 0.3806 secs        100%   511 (id)
 ```
 
 ``` r

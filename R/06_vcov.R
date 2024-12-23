@@ -3,7 +3,7 @@
 #' @description Extract the variance-covariance matrix for the parameter estimates
 #' from an object of class \code{modeler}.
 #' @aliases vcov.modeler
-#' @param x An object of class \code{modeler}, typically the result of calling
+#' @param object An object of class \code{modeler}, typically the result of calling
 #' the \code{modeler()} function.
 #' @param id An optional unique identifier to filter by a specific group.
 #' Default is \code{NULL}.
@@ -29,15 +29,15 @@
 #' vcov(mod_1)
 #' @import dplyr
 #' @importFrom stats pt
-vcov.modeler <- function(x, id = NULL, ...) {
-  # Check the class of x
-  if (!inherits(x, "modeler")) {
+vcov.modeler <- function(object, id = NULL, ...) {
+  # Check the class of object
+  if (!inherits(object, "modeler")) {
     stop("The object should be of class 'modeler'.")
   }
-  dt <- x$param
+  dt <- object$param
   if (!is.null(id)) {
     if (!all(id %in% unique(dt$uid))) {
-      stop("ids not found in x.")
+      stop("ids not found in object.")
     }
     uid <- id
   } else {
@@ -53,7 +53,7 @@ vcov.modeler <- function(x, id = NULL, ...) {
     names(mat_hess) <- fit$uid
     return(mat_hess)
   }
-  fit_list <- x$fit
+  fit_list <- object$fit
   id <- which(unlist(lapply(fit_list, function(x) x$uid)) %in% uid)
   fit_list <- fit_list[id]
   vcov_out <- do.call(

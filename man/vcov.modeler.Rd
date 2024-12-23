@@ -4,10 +4,10 @@
 \alias{vcov.modeler}
 \title{Variance-Covariance matrix for an object of class \code{modeler}}
 \usage{
-\method{vcov}{modeler}(x, id = NULL, ...)
+\method{vcov}{modeler}(object, id = NULL, ...)
 }
 \arguments{
-\item{x}{An object of class \code{modeler}, typically the result of calling
+\item{object}{An object of class \code{modeler}, typically the result of calling
 the \code{modeler()} function.}
 
 \item{id}{An optional unique identifier to filter by a specific group.

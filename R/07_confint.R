@@ -3,7 +3,7 @@
 #' @description Extract confidence intervals for the estimated parameters of an
 #' object of class \code{modeler}.
 #' @aliases confint.modeler
-#' @param x An object of class \code{modeler}, typically the result of calling
+#' @param object An object of class \code{modeler}, typically the result of calling
 #' the \code{modeler()} function.
 #' @param parm A character vector specifying which parameters should have
 #' confidence intervals calculated. If \code{NULL}, confidence intervals for all
@@ -34,21 +34,21 @@
 #' confint(mod_1)
 #' @import dplyr
 #' @importFrom stats qt
-confint.modeler <- function(x, parm = NULL, level = 0.95, id = NULL, ...) {
-  # Check the class of x
-  if (!inherits(x, "modeler")) {
+confint.modeler <- function(object, parm = NULL, level = 0.95, id = NULL, ...) {
+  # Check the class of object
+  if (!inherits(object, "modeler")) {
     stop("The object should be of class 'modeler'.")
   }
-  dt <- x$param
+  dt <- object$param
   if (!is.null(id)) {
     if (!all(id %in% unique(dt$uid))) {
-      stop("ids not found in x.")
+      stop("ids not found in object.")
     }
     uid <- id
   } else {
     uid <- unique(dt$uid)
   }
-  ci_table <- coef.modeler(x, df = TRUE, id = uid) |>
+  ci_table <- coef.modeler(object, df = TRUE, id = uid) |>
     mutate(
       t_value = qt(1 - (1 - level) / 2, df = rdf),
       ci_lower = solution - t_value * std.error,

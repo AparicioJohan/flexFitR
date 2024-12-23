@@ -4,10 +4,10 @@
 \alias{confint.modeler}
 \title{Confidence Intervals for a modeler Object}
 \usage{
-\method{confint}{modeler}(x, parm = NULL, level = 0.95, id = NULL, ...)
+\method{confint}{modeler}(object, parm = NULL, level = 0.95, id = NULL, ...)
 }
 \arguments{
-\item{x}{An object of class \code{modeler}, typically the result of calling
+\item{object}{An object of class \code{modeler}, typically the result of calling
 the \code{modeler()} function.}
 
 \item{parm}{A character vector specifying which parameters should have

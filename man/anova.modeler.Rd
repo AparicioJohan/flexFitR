@@ -4,10 +4,10 @@
 \alias{anova.modeler}
 \title{Extra Sum-of-Squares F-Test for \code{modeler} objects}
 \usage{
-\method{anova}{modeler}(reduced_model, full_model = NULL, ...)
+\method{anova}{modeler}(object, full_model = NULL, ...)
 }
 \arguments{
-\item{reduced_model}{An object of class \code{modeler} representing the
+\item{object}{An object of class \code{modeler} representing the
 reduced model with fewer parameters.}
 
 \item{full_model}{An optional object of class \code{modeler} representing

@@ -54,14 +54,14 @@
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for class 'modeler'</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">x</span>, id <span class="op">=</span> <span class="cn">NULL</span>, metadata <span class="op">=</span> <span class="cn">FALSE</span>, df <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">object</span>, id <span class="op">=</span> <span class="cn">NULL</span>, metadata <span class="op">=</span> <span class="cn">FALSE</span>, df <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
+<dl><dt id="arg-object">object<a class="anchor" aria-label="anchor" href="#arg-object"></a></dt>
 <dd><p>An object of class <code>modeler</code>, typically the result of calling
 the <code><a href="modeler.html">modeler()</a></code> function.</p></dd>
 
@@ -122,8 +122,8 @@ standard errors, and optional metadata or degrees of freedom if specified.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   45 38.3 64.7 100.0 0.0026</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Groups      Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       3 1.3775 secs        100%   349 (id)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Groups     Timing Convergence Iterations</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       3 1.361 secs        100%   349 (id)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">mod_1</span>, id <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 6</span></span>

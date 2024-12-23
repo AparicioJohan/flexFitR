@@ -78,7 +78,7 @@ BIC.modeler <- function(object, ...) {
 #' parameters in the full model significantly improve the fit compared to the
 #' reduced model.
 #' @aliases anova.modeler
-#' @param reduced_model An object of class \code{modeler} representing the
+#' @param object An object of class \code{modeler} representing the
 #' reduced model with fewer parameters.
 #' @param full_model An optional object of class \code{modeler} representing
 #' the full model with more parameters.
@@ -98,8 +98,8 @@ BIC.modeler <- function(object, ...) {
 #' plot(mo_2)
 #' anova(mo_1, mo_2)
 #' @importFrom stats pf
-anova.modeler <- function(reduced_model, full_model = NULL, ...) {
-  if (!inherits(reduced_model, "modeler")) {
+anova.modeler <- function(object, full_model = NULL, ...) {
+  if (!inherits(object, "modeler")) {
     stop("The object should be of class 'modeler'.")
   }
   if (is.null(full_model)) {
@@ -109,16 +109,16 @@ anova.modeler <- function(reduced_model, full_model = NULL, ...) {
     stop("full_model should be of class 'modeler'.")
   }
   vars <- c("uid", "var", "x", "y")
-  if (!identical(reduced_model$dt[, vars], full_model$dt[, vars])) {
+  if (!identical(object$dt[, vars], full_model$dt[, vars])) {
     stop("The models are not fitted to the same dataset.")
   }
   p_breaks <- c(0, 0.001, 0.01, 0.05, Inf)
   p_labels <- c("***", "**", "*", "ns")
   # Calculate Residual Sum of Squares for both models
-  rss_reduced <- reduced_model$param$sse
+  rss_reduced <- object$param$sse
   rss_full <- full_model$param$sse
   # Number of parameters in each model
-  p_reduced <- unlist(x = lapply(X = reduced_model$fit, FUN = \(x) x$p))
+  p_reduced <- unlist(x = lapply(X = object$fit, FUN = \(x) x$p))
   p_full <- unlist(x = lapply(X = full_model$fit, FUN = \(x)  x$p))
   if (unique(p_reduced) >= unique(p_full)) {
     stop("The reduced model must have fewer parameters than the full model.")
