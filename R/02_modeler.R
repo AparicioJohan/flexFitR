@@ -1,4 +1,4 @@
-#' Modeler: Non-linear Regression for Curve Fitting
+#' Modeler: Non-linear regression for curve fitting
 #'
 #' @description
 #' A versatile function for performing non-linear least squares optimization on grouped data.
@@ -32,9 +32,6 @@
 #'   Defaults to `NULL` (all groups are included).
 #' @param options A list of additional options. See `modeler.options()`
 #' \describe{
-#'   \item{\code{add_zero}}{Logical. If \code{TRUE}, adds a zero value to the series at the start. Default is \code{FALSE}.}
-#'   \item{\code{check_negative}}{Logical. If \code{TRUE}, converts negative values in the data to zero. Default is \code{FALSE}.}
-#'   \item{\code{max_as_last}}{Logical. If \code{TRUE}, appends the maximum value after reaching the maximum. Default is \code{FALSE}.}
 #'   \item{\code{progress}}{Logical. If \code{TRUE} a progress bar is displayed. Default is \code{FALSE}. Try this before running the function: \code{progressr::handlers("progress", "beepr")}.}
 #'   \item{\code{parallel}}{Logical. If \code{TRUE} the model fit is performed in parallel. Default is \code{FALSE}.}
 #'   \item{\code{workers}}{The number of parallel processes to use. `parallel::detectCores()`}

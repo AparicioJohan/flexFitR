@@ -2,7 +2,7 @@
 % Please edit documentation in R/99_growth_curves.R
 \name{fn_lin}
 \alias{fn_lin}
-\title{Linear Function}
+\title{Linear function}
 \usage{
 fn_lin(t, m, b)
 }

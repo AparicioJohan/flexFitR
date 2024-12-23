@@ -1,28 +1,39 @@
-# data <- dt_potato_22 |>
-#   filter(Plot %in% 1:2) |>
-#   arrange(Plot, DAP)
-# x <- "DAP"
-# y <- c("Canopy", "PH")
-# grp <- "Plot"
-# # grp <- NULL
-# metadata <- c("Trial", "Plot", "Row", "Range", "Gen")
-# # metadata <- NULL
-# max_as_last <- TRUE
-# check_negative <- TRUE
-# add_zero <- TRUE
-# interval <- c(40, 90)
-# interval <- NULL
-
-#' @noRd
-transform <- function(data,
-                      x,
-                      y,
-                      grp,
-                      metadata,
-                      max_as_last = FALSE,
-                      check_negative = FALSE,
-                      add_zero = FALSE,
-                      interval = NULL) {
+#' Transform variables in a data frame
+#'
+#' This function performs transformations on specified columns of a data frame,
+#' including truncating maximum values, handling negative values, and adding a zero
+#' to the series. It allows for grouping and supports retaining metadata in the output.
+#'
+#' @param data A `data.frame` containing the input data for analysis.
+#' @param x The name of the column in `data` representing the independent variable (x points).
+#' @param y The name of the column(s) in `data` containing variables to transform.
+#' @param grp Column(s) in `data` used as grouping variable(s). Defaults to `NULL` (optional).
+#' @param metadata Names of columns to retain in the output. Defaults to `NULL` (optional).
+#' @param max_as_last Logical. If `TRUE`, appends the maximum value after reaching the maximum. Default is `FALSE`.
+#' @param check_negative Logical. If `TRUE`, converts negative values in the data to zero. Default is `FALSE`.
+#' @param add_zero Logical. If `TRUE`, adds a zero value to the series at the start. Default is `FALSE`.
+#' @param interval A numeric vector of length 2 (start and end) specifying the range to filter the data. Defaults to `NULL`.
+#' @return A transformed `data.frame` with the specified modifications applied.
+#' @export
+#' @examples
+#' data(dt_potato)
+#' new_data <- series_mutate(
+#'   data = dt_potato,
+#'   x = DAP,
+#'   y = GLI,
+#'   grp = gid,
+#'   max_as_last = TRUE,
+#'   check_negative = TRUE
+#' )
+series_mutate <- function(data,
+                          x,
+                          y,
+                          grp,
+                          metadata,
+                          max_as_last = FALSE,
+                          check_negative = FALSE,
+                          add_zero = FALSE,
+                          interval = NULL) {
   # Check if required arguments are provided
   if (missing(data)) {
     stop("Error: `data` argument is missing.")

@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_S3_plots.R
 \name{plot_fn}
 \alias{plot_fn}
-\title{Plot Function}
+\title{Plot user-defined function}
 \usage{
 plot_fn(
   fn = "fn_linear_sat",
@@ -48,9 +48,9 @@ plot_fn(
 A ggplot object representing the plot.
 }
 \description{
-This function plots a user-defined function over a specified interval and annotates the plot with
+This function plots a function over a specified interval and annotates the plot with
 the calculated Area Under the Curve (AUC) and parameter values. The aim of `plot_fn` is to allow users to play with
-different Starting Values in their functions before fitting any models.
+different starting values in their functions before fitting any models.
 }
 \examples{
 # Example usage

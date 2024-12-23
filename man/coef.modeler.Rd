@@ -2,7 +2,7 @@
 % Please edit documentation in R/05_coefficients.R
 \name{coef.modeler}
 \alias{coef.modeler}
-\title{Coefficients of a Modeler Object}
+\title{Coefficients for an object of class \code{modeler}}
 \usage{
 \method{coef}{modeler}(x, id = NULL, metadata = FALSE, df = FALSE, ...)
 }

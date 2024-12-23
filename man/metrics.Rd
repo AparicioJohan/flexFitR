@@ -2,7 +2,7 @@
 % Please edit documentation in R/03_metrics.R
 \name{metrics}
 \alias{metrics}
-\title{Metrics for modeler}
+\title{Metrics for an object of class \code{modeler}}
 \usage{
 metrics(x, by_grp = TRUE)
 }

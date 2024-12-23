@@ -2,7 +2,7 @@
 % Please edit documentation in R/99_growth_curves.R
 \name{fn_lin_pl_lin2}
 \alias{fn_lin_pl_lin2}
-\title{Linear Plateau Linear with Constrains}
+\title{Linear plateau linear with constrains}
 \usage{
 fn_lin_pl_lin2(t, t1, t2, dt, k, beta)
 }
@@ -23,7 +23,7 @@ fn_lin_pl_lin2(t, t1, t2, dt, k, beta)
 A numeric value based on the linear plateau linear model.
 }
 \description{
-Linear Plateau Linear with Constrains
+Linear plateau linear with constrains
 }
 \details{
 \if{html}{

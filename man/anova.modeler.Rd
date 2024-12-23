@@ -2,7 +2,7 @@
 % Please edit documentation in R/08_comparison.R
 \name{anova.modeler}
 \alias{anova.modeler}
-\title{Extra Sum-of-Squares F-Test for modeler Objects}
+\title{Extra Sum-of-Squares F-Test for \code{modeler} objects}
 \usage{
 \method{anova}{modeler}(reduced_model, full_model = NULL, ...)
 }

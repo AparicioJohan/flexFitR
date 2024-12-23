@@ -27,7 +27,7 @@ navbar:
     menu:
       - text: Get started
         href: articles/how_to_start.html
-      - text: Modeling HTP data
+      - text: Modeling
         href: articles/canopy-model.html
       - text: Modeling with constraints
         href: articles/maturity-model.html
@@ -59,8 +59,9 @@ reference:
   - explorer
   - plot.explorer
   - plot_fn
+  - series_mutate
 - title: Data
-  desc: Example Datasets
+  desc: Example Dataset
 - contents:
   - dt_potato
 - title: Growth Modelling

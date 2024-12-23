@@ -2,7 +2,7 @@
 % Please edit documentation in R/99_growth_curves.R
 \name{fn_linear_sat}
 \alias{fn_linear_sat}
-\title{Piecewise Linear Regression}
+\title{Linear plateau function}
 \usage{
 fn_linear_sat(t, t1 = 45, t2 = 80, k = 0.9)
 }

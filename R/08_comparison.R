@@ -71,7 +71,7 @@ BIC.modeler <- function(object, ...) {
   return(logdt)
 }
 
-#'  Extra Sum-of-Squares F-Test for modeler Objects
+#'  Extra Sum-of-Squares F-Test for \code{modeler} objects
 #'
 #' @description Perform an extra sum-of-squares F-test to compare two nested
 #' models of class \code{modeler}. This test assesses whether the additional

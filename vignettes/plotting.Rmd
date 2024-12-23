@@ -16,46 +16,82 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Example dataset and loading libraries
+## Loading dataset and libraries
 
 ```{r setup}
 library(flexFitR)
 library(dplyr)
+library(kableExtra)
 library(ggpubr)
-set.seed(10)
-
-dt <- data.frame(
-  time = c(0, 29, 36, 42, 56, 76, 92, 100, 108),
-  variable = c(0, 0, 0.67, 15.11, 77.38, 99.81, 99.81, 99.81, 99.81)
-) |>
-  mutate(variable = variable + rnorm(n = n(), mean = 5, sd = 6))
+library(purrr)
+data(dt_potato)
+head(dt_potato) |> kable()
 ```
 
-## Expectation function and modeling
-
-```{r,  fig.width= 8, fig.height=8, fig.alt="plot derivatives"}
-fn <- function(t, t0, t1, t2) t0 / (1 + exp((t1 - t) / t2))
-```
+## Modeling
 
 ```{r}
-mod <- dt |>
+plots <- 2:7
+mod <- dt_potato |>
   modeler(
-    x = time,
-    y = variable,
-    fn = "fn",
-    parameters = c(t0 = 100, t1 = 50, t2 = 5)
+    x = DAP,
+    y = Canopy,
+    grp = Plot,
+    fn = "fn_logistic",
+    parameters = c(L = 100, k = 4, t0 = 40),
+    subset = plots
   )
-mod
 ```
 
 
 ## Plotting predictions and derivatives
 
-```{r,  fig.width= 8, fig.height=8, fig.alt="plot derivatives"}
-a <- plot(mod, color = "blue", title = "Raw data")
-b <- plot(mod, type = 4, n_points = 200, color = "black")
-c <- plot(mod, type = 5, n_points = 200, color = "black")
-d <- plot(mod, type = 6, n_points = 200, color = "black")
-
-ggarrange(a, b, c, d)
+```{r,  fig.width= 8, fig.height=5, fig.alt="plot derivatives"}
+# Raw data with fitted curves
+plot(mod, type = 1, color = "blue", id = plots, title = "Fitted curves")
 ```
+
+```{r,  fig.width= 8, fig.height=4, fig.alt="plot coef"}
+# Model coefficients
+plot(mod, type = 2, color = "blue", id = plots, label_size = 10)
+```
+
+```{r}
+# Fitted curves only
+c <- plot(mod, type = 3, color = "blue", id = plots, title = "Fitted curves")
+```
+
+```{r}
+# Fitted curves with confidence intervals
+d <- plot(
+  x = mod,
+  type = 4,
+  n_points = 200,
+  color = "black",
+  title = "Fitted curve (uid = 2)"
+)
+```
+
+```{r}
+# First derivative with confidence intervals
+e <- plot(
+  x = mod,
+  type = 5,
+  n_points = 200,
+  color = "black",
+  title = "1st Derivative (uid = 2)"
+)
+```
+
+```{r,  fig.width= 10, fig.height=7, fig.alt="plot derivatives"}
+# Second derivative with confidence intervals
+f <- plot(
+  x = mod,
+  type = 6,
+  n_points = 200,
+  color = "black",
+  title = "2nd Derivative (uid = 2)"
+)
+ggarrange(c, d, e, f)
+```
+

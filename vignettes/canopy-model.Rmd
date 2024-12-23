@@ -1,8 +1,8 @@
 ---
-title: "Modeling plant emergence and canopy growth using UAV data"
+title: "Modeling"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Modeling HTP data}
+  %\VignetteIndexEntry{Modeling}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -13,6 +13,8 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
+
+## Modeling plant emergence and canopy growth using UAV data
 
 This vignette demonstrates piecewise regression using canopy data derived from
 UAV imagery to estimate two key parameters:

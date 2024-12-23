@@ -1,4 +1,4 @@
-#' Linear Function
+#' Linear function
 #'
 #' Computes a value based on a linear function.
 #'
@@ -29,7 +29,7 @@ fn_lin <- function(t, m, b) {
   return(y)
 }
 
-#' Quadratic Function
+#' Quadratic function
 #'
 #' Computes a value based on a quadratic function..
 #'
@@ -56,7 +56,7 @@ fn_quad <- function(t, a, b, c) {
   return(y)
 }
 
-#' Logistic Function
+#' Logistic function
 #'
 #' Computes a value based on a logistic function.
 #'
@@ -88,7 +88,7 @@ fn_logistic <- function(t, L, k, t0) {
   return(y)
 }
 
-#' Exponential Linear Function 1
+#' Exponential linear function 1
 #'
 #' Computes a value based on an exponential growth curve and linear decay model for time.
 #'
@@ -141,7 +141,7 @@ fn_exp1_lin <- function(t, t1, t2, alpha, beta) {
   }
 }
 
-#' Exponential Linear Function 2
+#' Exponential linear function 2
 #'
 #' Computes a value based on an exponential growth curve and linear decay model for time.
 #'
@@ -194,7 +194,7 @@ fn_exp2_lin <- function(t, t1, t2, alpha, beta) {
   }
 }
 
-#' Exponential Exponential Function 1
+#' Exponential exponential function 1
 #'
 #' Computes a value based on an exponential growth curve and exponential decay model for time.
 #'
@@ -249,7 +249,7 @@ fn_exp1_exp <- function(t, t1, t2, alpha, beta) {
   }
 }
 
-#' Exponential Exponential Function 2
+#' Exponential exponential Function 2
 #'
 #' Computes a value based on an exponential growth curve and exponential decay model for time.
 #'
@@ -304,7 +304,7 @@ fn_exp2_exp <- function(t, t1, t2, alpha, beta) {
   }
 }
 
-#' Piecewise Linear Regression
+#' Linear plateau function
 #'
 #' Computes a value based on a linear growth curve reaching a plateau for time.
 #'
@@ -383,7 +383,7 @@ sse_piwise <- function(params, t, y) {
 }
 
 
-#' Linear Plateau Linear
+#' Linear plateau linear function
 #'
 #' @param t Numeric. The time value.
 #' @param t1 Numeric. The lower threshold time. Default is 45.
@@ -433,7 +433,7 @@ fn_lin_pl_lin <- function(t, t1, t2, t3, k, beta) {
   return(y)
 }
 
-#' Linear Plateau Linear with Constrains
+#' Linear plateau linear with constrains
 #'
 #' @param t Numeric. The time value.
 #' @param t1 Numeric. The lower threshold time.

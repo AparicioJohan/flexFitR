@@ -1,4 +1,4 @@
-#' Coefficients of a Modeler Object
+#' Coefficients for an object of class \code{modeler}
 #'
 #' @description Extract the estimated coefficients from an object of class \code{modeler}.
 #' @aliases coef.modeler

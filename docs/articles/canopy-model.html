@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Modeling plant emergence and canopy growth using UAV data • flexFitR</title>
+<title>Modeling • flexFitR</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -16,7 +16,7 @@
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><script src="../deps/MathJax-3.2.2/tex-chtml.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Modeling plant emergence and canopy growth using UAV data">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><script src="../deps/MathJax-3.2.2/tex-chtml.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Modeling">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -41,7 +41,7 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/how_to_start.html">Get started</a></li>
-    <li><a class="dropdown-item" href="../articles/canopy-model.html">Modeling HTP data</a></li>
+    <li><a class="dropdown-item" href="../articles/canopy-model.html">Modeling</a></li>
     <li><a class="dropdown-item" href="../articles/maturity-model.html">Modeling with constraints</a></li>
     <li><a class="dropdown-item" href="../articles/predicted_values.html">Predicted values</a></li>
     <li><a class="dropdown-item" href="../articles/plotting.html">Plotting options</a></li>
@@ -74,7 +74,7 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>Modeling plant emergence and canopy growth using UAV data</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>Modeling</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/AparicioJohan/flexFitR/blob/HEAD/vignettes/canopy-model.Rmd" class="external-link"><code>vignettes/canopy-model.Rmd</code></a></small>
@@ -83,6 +83,9 @@
 
     
     
+<div class="section level2">
+<h2 id="modeling-plant-emergence-and-canopy-growth-using-uav-data">Modeling plant emergence and canopy growth using UAV data<a class="anchor" aria-label="anchor" href="#modeling-plant-emergence-and-canopy-growth-using-uav-data"></a>
+</h2>
 <p>This vignette demonstrates piecewise regression using canopy data
 derived from UAV imagery to estimate two key parameters:</p>
 <ul>
@@ -92,6 +95,7 @@ derived from UAV imagery to estimate two key parameters:</p>
 <p>The data are from the University of Wisconsin-Madison potato breeding
 program, specifically for a partially replicated experiment. The UAV
 images were collected in 2020 and processed in 2024.</p>
+</div>
 <div class="section level2">
 <h2 id="loading-libraries">Loading libraries<a class="anchor" aria-label="anchor" href="#loading-libraries"></a>
 </h2>
@@ -326,7 +330,7 @@ parameters.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
 <span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;       2 0.8782 secs        100% 558.5 (id)</span></span></code></pre></div>
+<span><span class="co">#&gt;       2 0.8772 secs        100% 558.5 (id)</span></span></code></pre></div>
 <p>After fitting, we can inspect the model summary and visualize the fit
 using the plot function:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">

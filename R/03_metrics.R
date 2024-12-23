@@ -31,7 +31,7 @@ r_squared <- function(actual, predicted) {
 }
 
 
-#' Metrics for modeler
+#' Metrics for an object of class \code{modeler}
 #'
 #' Computes various performance metrics for a modeler object.
 #' The function calculates Sum of Squared Errors (SSE), Mean Absolute Error (MAE),

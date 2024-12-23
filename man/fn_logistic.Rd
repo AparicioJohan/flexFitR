@@ -2,7 +2,7 @@
 % Please edit documentation in R/99_growth_curves.R
 \name{fn_logistic}
 \alias{fn_logistic}
-\title{Logistic Function}
+\title{Logistic function}
 \usage{
 fn_logistic(t, L, k, t0)
 }

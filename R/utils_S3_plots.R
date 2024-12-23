@@ -1,8 +1,8 @@
-#' Plot Function
+#' Plot user-defined function
 #'
-#' This function plots a user-defined function over a specified interval and annotates the plot with
+#' This function plots a function over a specified interval and annotates the plot with
 #' the calculated Area Under the Curve (AUC) and parameter values. The aim of `plot_fn` is to allow users to play with
-#' different Starting Values in their functions before fitting any models.
+#' different starting values in their functions before fitting any models.
 #'
 #' @param fn A character string representing the name of the function to be plotted. Default is "fn_linear_sat".
 #' @param params A named numeric vector of parameters to be passed to the function. Default is \code{c(t1 = 34.9, t2 = 61.8, k = 100)}.

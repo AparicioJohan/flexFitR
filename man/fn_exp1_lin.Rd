@@ -2,7 +2,7 @@
 % Please edit documentation in R/99_growth_curves.R
 \name{fn_exp1_lin}
 \alias{fn_exp1_lin}
-\title{Exponential Linear Function 1}
+\title{Exponential linear function 1}
 \usage{
 fn_exp1_lin(t, t1, t2, alpha, beta)
 }

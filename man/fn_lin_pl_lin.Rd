@@ -2,7 +2,7 @@
 % Please edit documentation in R/99_growth_curves.R
 \name{fn_lin_pl_lin}
 \alias{fn_lin_pl_lin}
-\title{Linear Plateau Linear}
+\title{Linear plateau linear function}
 \usage{
 fn_lin_pl_lin(t, t1, t2, t3, k, beta)
 }
@@ -23,7 +23,7 @@ fn_lin_pl_lin(t, t1, t2, t3, k, beta)
 A numeric value based on the linear plateau linear model.
 }
 \description{
-Linear Plateau Linear
+Linear plateau linear function
 }
 \details{
 \if{html}{

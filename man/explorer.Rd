@@ -2,12 +2,12 @@
 % Please edit documentation in R/01_read.R
 \name{explorer}
 \alias{explorer}
-\title{Explore Data}
+\title{Explore data}
 \usage{
 explorer(data, x, y, id, metadata)
 }
 \arguments{
-\item{data}{A data.frame in a wide format containing the data.}
+\item{data}{A `data.frame` containing the input data for analysis.}
 
 \item{x}{The name of the column in `data` that contains x points.}
 
