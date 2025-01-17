@@ -4,11 +4,11 @@
 \name{flexFitR-package}
 \alias{flexFitR}
 \alias{flexFitR-package}
-\title{flexFitR: Flexible Non-Linear Least Square Model Fitting in R}
+\title{flexFitR: Flexible Non-Linear Least Square Model Fitting}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Implements general-purpose optimization techniques for non-linear least squares problems.
+Provides tools for flexible non-linear least squares model fitting using general-purpose optimization techniques. The package supports a variety of optimization algorithms, including those provided by the 'optimx' package, making it suitable for handling complex non-linear models. Features include parallel processing support via the 'future' and 'foreach' packages, comprehensive model diagnostics, and visualization capabilities. Implements methods described in Nash and Varadhan (2011, \doi{10.18637/jss.v043.i09}).
 }
 \seealso{
 Useful links:

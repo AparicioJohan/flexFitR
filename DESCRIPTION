@@ -1,6 +1,6 @@
 Package: flexFitR
 Type: Package
-Title: Flexible Non-Linear Least Square Model Fitting in R
+Title: Flexible Non-Linear Least Square Model Fitting
 Version: 1.0.0
 Authors@R: 
     c(person(given = "Johan",
@@ -14,14 +14,14 @@ Authors@R:
       person(given = "University of Wisconsin Madison",
              role = "cph"))
 Maintainer: Johan Aparicio <aparicioarce@wisc.edu> 
-Description: Implements general-purpose optimization techniques for non-linear least squares problems.
+Description: Provides tools for flexible non-linear least squares model fitting using general-purpose optimization techniques. The package supports a variety of optimization algorithms, including those provided by the 'optimx' package, making it suitable for handling complex non-linear models. Features include parallel processing support via the 'future' and 'foreach' packages, comprehensive model diagnostics, and visualization capabilities. Implements methods described in Nash and Varadhan (2011, <doi:10.18637/jss.v043.i09>).
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Depends: 
     R (>= 2.10)
 RoxygenNote: 7.3.2
-Author: Johan Aparicio [aut, cre], Jeffrey Endelman [aut],
+Author: Johan Aparicio [cre, aut], Jeffrey Endelman [aut],
  University of Wisconsin Madison [cph]
 Imports: 
     agriutilities,

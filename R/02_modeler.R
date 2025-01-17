@@ -395,9 +395,21 @@ modeler <- function(data,
 #' @param upper Numeric vector specifying the upper bounds for the parameters. Default is \code{Inf} for all parameters.
 #' @param control A list of control parameters to be passed to the optimization function. For example, \code{list(maxit = 500)}.
 #' @param trace  If \code{TRUE} , convergence monitoring of the current fit is reported in the console. \code{FALSE} by default.
+#' @return A list containing the following elements:
+#' \describe{
+#'   \item{\code{kkopt}}{opm object.}
+#'   \item{\code{param}}{Data frame with best solution parameters.}
+#'   \item{\code{rr}}{Data frame with all methods tested.}
+#'   \item{\code{details}}{Additional details of the best solution.}
+#'   \item{\code{hessian}}{Hessian matrix.}
+#'   \item{\code{type}}{Data frame describing the type of coefficient (estimable of fixed)}
+#'   \item{\code{conv}}{Convergency.}
+#'   \item{\code{p}}{Number of parameters estimated.}
+#'   \item{\code{n_obs}}{Number of observations.}
+#'   \item{\code{uid}}{Unique identifier.}
+#' }
 #' @export
 #' @keywords internal
-#'
 #' @examples
 #' library(flexFitR)
 #' data(dt_potato)
