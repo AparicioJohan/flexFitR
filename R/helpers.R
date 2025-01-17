@@ -4,7 +4,7 @@ ensure_packages <- function(packages) {
   missing_packages <- packages[!sapply(packages, requireNamespace, quietly = TRUE)]
   if (length(missing_packages) > 0) {
     if (interactive()) {
-      cat("The following packages are missing:\n", paste(missing_packages, collapse = ", "), "\n")
+      message("The following packages are missing:\n", paste(missing_packages, collapse = ", "), "\n")
       choice <- menu(c("Yes", "No"), title = "Would you like to install them now?")
       if (choice == 1) { # User chose "Yes"
         install.packages(missing_packages, quiet = TRUE)
