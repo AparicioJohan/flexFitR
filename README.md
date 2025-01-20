@@ -14,7 +14,13 @@ parallel processing.
 
 ## Installation
 
-You can install the development version of flexFitR from
+Install released version from CRAN:
+
+``` r
+install.packages("flexFitR")
+```
+
+You can also install the development version of flexFitR from
 [GitHub](https://github.com/AparicioJohan/flexFitR) with:
 
 ``` r
@@ -101,7 +107,7 @@ Optimization Results `head()`:
 
 Metrics:
  Groups      Timing Convergence Iterations
-      1 0.3806 secs        100%   511 (id)
+      1 0.6798 secs        100%   511 (id)
 ```
 
 ``` r

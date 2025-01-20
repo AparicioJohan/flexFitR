@@ -25,7 +25,12 @@ knitr::opts_chunk$set(
 
 ## Installation
 
-You can install the development version of flexFitR from [GitHub](https://github.com/AparicioJohan/flexFitR) with:
+Install released version from CRAN:
+``` r
+install.packages("flexFitR")
+```
+
+You can also install the development version of flexFitR from [GitHub](https://github.com/AparicioJohan/flexFitR) with:
 
 ``` r
 # install.packages("devtools")
