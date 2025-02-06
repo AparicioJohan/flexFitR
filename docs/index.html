@@ -29,7 +29,7 @@
 
     <a class="navbar-brand me-2" href="index.html">flexFitR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -79,12 +79,15 @@
 </div>
 <!-- badges: start -->
 <!-- badges: end -->
-<p><a href="https://apariciojohan.github.io/flexFitR/">flexFitR</a> is an R package designed for efficient modeling and analysis of large and complex datasets. It offers powerful tools for parameter estimation, model fitting, and visualization, leveraging the <code>{optimx}</code> package for optimization and the <a href="https://future.futureverse.org" class="external-link">future</a> package for parallel processing.</p>
+<p><a href="https://apariciojohan.github.io/flexFitR/">flexFitR</a> is an R package designed for efficient modeling and analysis of large and complex datasets. It offers powerful tools for parameter estimation, model fitting, and visualization, leveraging the <a href="https://github.com/nashjc/optimx" class="external-link">optimx</a> package for optimization and the <a href="https://future.futureverse.org" class="external-link">future</a> package for parallel processing.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the development version of flexFitR from <a href="https://github.com/AparicioJohan/flexFitR" class="external-link">GitHub</a> with:</p>
+<p>Install released version from CRAN:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"flexFitR"</span><span class="op">)</span></span></code></pre></div>
+<p>You can also install the development version of flexFitR from <a href="https://github.com/AparicioJohan/flexFitR" class="external-link">GitHub</a> with:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"AparicioJohan/flexFitR"</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -92,7 +95,7 @@
 <h2 id="features">Features<a class="anchor" aria-label="anchor" href="#features"></a>
 </h2>
 <ul>
-<li>Parameter Estimation: Utilizes <code>{optimx}</code> and derivative-free algorithms to solve and estimate parameters for a given function.</li>
+<li>Parameter Estimation: Utilizes <a href="https://github.com/nashjc/optimx" class="external-link">optimx</a> and derivative-free algorithms to solve and estimate parameters for a given function.</li>
 <li>Parallelization: Implements parallel processing using the <a href="https://future.futureverse.org" class="external-link">future</a> package, enabling efficient fitting of hundreds of curves simultaneously.</li>
 <li>Visualization Tools: Provides a variety of plots to visualize model fits, correlations, predictions, and more.</li>
 <li>Statistical Rigor: Offers standard errors and p-values for coefficients, as well as for predictions, supporting robust conclusions and interpretations.</li>
@@ -105,7 +108,7 @@
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
 <p>Here’s a simple example to get you started with <a href="https://apariciojohan.github.io/flexFitR/">flexFitR</a>. This example demonstrates fitting a piecewise regression model:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://apariciojohan.github.io/flexFitR/">flexFitR</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
@@ -114,7 +117,7 @@
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="reference/explorer.html">explorer</a></span><span class="op">(</span><span class="va">dt</span>, <span class="va">time</span>, <span class="va">variable</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"xy"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README_unnamed-chunk-2-1.png" alt="plot xy" width="100%"></p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fn_linear_sat</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">t</span>, <span class="va">t1</span> <span class="op">=</span> <span class="fl">45</span>, <span class="va">t2</span> <span class="op">=</span> <span class="fl">80</span>, <span class="va">k</span> <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="kw">if</span> <span class="op">(</span><span class="va">t</span> <span class="op">&lt;</span> <span class="va">t1</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    <span class="va">y</span> <span class="op">&lt;-</span> <span class="fl">0</span></span>
@@ -125,8 +128,8 @@
 <span>  <span class="op">}</span></span>
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Fitting piecewise regression</span></span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Fitting a linear saturation function</span></span>
 <span><span class="va">mod_1</span> <span class="op">&lt;-</span> <span class="va">dt</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/modeler.html">modeler</a></span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="va">time</span>,</span>
@@ -134,47 +137,47 @@
 <span>    fn <span class="op">=</span> <span class="st">"fn_linear_sat"</span>,</span>
 <span>    parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">45</span>, t2 <span class="op">=</span> <span class="fl">80</span>, k <span class="op">=</span> <span class="fl">90</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">print</span>(mod_1)</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>Call<span class="sc">:</span></span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>variable <span class="sc">~</span> <span class="fu">fn_linear_sat</span>(time, t1, t2, k) </span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>Residuals<span class="sc">:</span></span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>   Min. <span class="dv">1</span>st Qu.  Median    Mean <span class="dv">3</span>rd Qu.    Max. </span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="fl">0.00000</span> <span class="fl">0.00000</span> <span class="fl">0.00000</span> <span class="fl">0.07444</span> <span class="fl">0.00000</span> <span class="fl">0.67000</span> </span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a></span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>Optimization Results <span class="st">`</span><span class="at">head()</span><span class="st">`</span><span class="sc">:</span></span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a> uid   t1 t2    k   sse</span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>   <span class="dv">1</span> <span class="fl">38.6</span> <span class="dv">61</span> <span class="fl">99.8</span> <span class="fl">0.449</span></span>
-<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a></span>
-<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>Metrics<span class="sc">:</span></span>
-<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a> Groups      Timing Convergence Iterations</span>
-<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>      <span class="dv">1</span> <span class="fl">0.3806</span> secs        <span class="dv">100</span>%   <span class="dv">511</span> (id)</span></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">print</span>(mod_1)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>Call<span class="sc">:</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>variable <span class="sc">~</span> <span class="fu">fn_linear_sat</span>(time, t1, t2, k) </span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>Residuals<span class="sc">:</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>   Min. <span class="dv">1</span>st Qu.  Median    Mean <span class="dv">3</span>rd Qu.    Max. </span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="fl">0.00000</span> <span class="fl">0.00000</span> <span class="fl">0.00000</span> <span class="fl">0.07444</span> <span class="fl">0.00000</span> <span class="fl">0.67000</span> </span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>Optimization Results <span class="st">`</span><span class="at">head()</span><span class="st">`</span><span class="sc">:</span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a> uid   t1 t2    k   sse</span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>   <span class="dv">1</span> <span class="fl">38.6</span> <span class="dv">61</span> <span class="fl">99.8</span> <span class="fl">0.449</span></span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>Metrics<span class="sc">:</span></span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a> Groups      Timing Convergence Iterations</span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a>      <span class="dv">1</span> <span class="fl">0.3516</span> secs        <span class="dv">100</span>%   <span class="dv">511</span> (id)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Auto plot</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README_unnamed-chunk-6-1.png" alt="plot fin" width="100%"></p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># Coefficients</span></span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="fu">coef</span>(mod_1)</span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co"># A tibble: 3 × 6</span></span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>    uid coefficient solution std.error <span class="st">`</span><span class="at">t value</span><span class="st">`</span> <span class="st">`</span><span class="at">Pr(&gt;|t|)</span><span class="st">`</span></span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>  <span class="sc">&lt;</span>dbl<span class="sc">&gt;</span> <span class="er">&lt;</span>chr<span class="sc">&gt;</span>          <span class="er">&lt;</span>dbl<span class="sc">&gt;</span>     <span class="er">&lt;</span>dbl<span class="sc">&gt;</span>     <span class="er">&lt;</span>dbl<span class="sc">&gt;</span>      <span class="er">&lt;</span>dbl<span class="sc">&gt;</span></span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="dv">1</span>     <span class="dv">1</span> t1              <span class="fl">38.6</span>    <span class="fl">0.0779</span>      <span class="fl">496.</span>   <span class="fl">4.54e-15</span></span>
-<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="dv">2</span>     <span class="dv">1</span> t2              <span class="fl">61.0</span>    <span class="fl">0.0918</span>      <span class="fl">665.</span>   <span class="fl">7.82e-16</span></span>
-<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="dv">3</span>     <span class="dv">1</span> k               <span class="fl">99.8</span>    <span class="fl">0.137</span>       <span class="fl">730.</span>   <span class="fl">4.47e-16</span></span></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># Variance-Covariance Matrix</span></span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="fu">vcov</span>(mod_1)</span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="sc">$</span><span class="st">`</span><span class="at">1</span><span class="st">`</span></span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>              t1           t2            k</span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>t1  <span class="fl">6.061705e-03</span> <span class="sc">-</span><span class="fl">0.002940001</span> <span class="fl">1.877072e-07</span></span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>t2 <span class="sc">-</span><span class="fl">2.940001e-03</span>  <span class="fl">0.008431400</span> <span class="fl">4.204939e-03</span></span>
-<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>k   <span class="fl">1.877072e-07</span>  <span class="fl">0.004204939</span> <span class="fl">1.870426e-02</span></span></code></pre></div>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># Making predictions</span></span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="fu">predict</span>(mod_1, <span class="at">x =</span> <span class="dv">45</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="co"># A tibble: 1 × 4</span></span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>    uid x_new predicted.value std.error</span>
-<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>  <span class="sc">&lt;</span>dbl<span class="sc">&gt;</span> <span class="er">&lt;</span>dbl<span class="sc">&gt;</span>           <span class="er">&lt;</span>dbl<span class="sc">&gt;</span>     <span class="er">&lt;</span>dbl<span class="sc">&gt;</span></span>
-<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="dv">1</span>     <span class="dv">1</span>    <span class="dv">45</span>            <span class="fl">28.5</span>     <span class="fl">0.223</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># Coefficients</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="fu">coef</span>(mod_1)</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="co"># A tibble: 3 × 6</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>    uid coefficient solution std.error <span class="st">`</span><span class="at">t value</span><span class="st">`</span> <span class="st">`</span><span class="at">Pr(&gt;|t|)</span><span class="st">`</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>  <span class="sc">&lt;</span>dbl<span class="sc">&gt;</span> <span class="er">&lt;</span>chr<span class="sc">&gt;</span>          <span class="er">&lt;</span>dbl<span class="sc">&gt;</span>     <span class="er">&lt;</span>dbl<span class="sc">&gt;</span>     <span class="er">&lt;</span>dbl<span class="sc">&gt;</span>      <span class="er">&lt;</span>dbl<span class="sc">&gt;</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="dv">1</span>     <span class="dv">1</span> t1              <span class="fl">38.6</span>    <span class="fl">0.0779</span>      <span class="fl">496.</span>   <span class="fl">4.54e-15</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="dv">2</span>     <span class="dv">1</span> t2              <span class="fl">61.0</span>    <span class="fl">0.0918</span>      <span class="fl">665.</span>   <span class="fl">7.82e-16</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="dv">3</span>     <span class="dv">1</span> k               <span class="fl">99.8</span>    <span class="fl">0.137</span>       <span class="fl">730.</span>   <span class="fl">4.47e-16</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># Variance-Covariance Matrix</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="fu">vcov</span>(mod_1)</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="sc">$</span><span class="st">`</span><span class="at">1</span><span class="st">`</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>              t1           t2            k</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>t1  <span class="fl">6.061705e-03</span> <span class="sc">-</span><span class="fl">0.002940001</span> <span class="fl">1.877072e-07</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>t2 <span class="sc">-</span><span class="fl">2.940001e-03</span>  <span class="fl">0.008431400</span> <span class="fl">4.204939e-03</span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>k   <span class="fl">1.877072e-07</span>  <span class="fl">0.004204939</span> <span class="fl">1.870426e-02</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co"># Making predictions</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="fu">predict</span>(mod_1, <span class="at">x =</span> <span class="dv">45</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="co"># A tibble: 1 × 4</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>    uid x_new predicted.value std.error</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>  <span class="sc">&lt;</span>dbl<span class="sc">&gt;</span> <span class="er">&lt;</span>dbl<span class="sc">&gt;</span>           <span class="er">&lt;</span>dbl<span class="sc">&gt;</span>     <span class="er">&lt;</span>dbl<span class="sc">&gt;</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="dv">1</span>     <span class="dv">1</span>    <span class="dv">45</span>            <span class="fl">28.5</span>     <span class="fl">0.223</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>

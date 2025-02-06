@@ -75,7 +75,7 @@ fn_linear_sat <- function(t, t1 = 45, t2 = 80, k = 0.9) {
 ```
 
 ```{r}
-# Fitting piecewise regression
+# Fitting a linear saturation function
 mod_1 <- dt |>
   modeler(
     x = time,

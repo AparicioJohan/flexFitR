@@ -80,7 +80,7 @@
 </div>
 <!-- badges: start -->
 <!-- badges: end -->
-<p><a href="https://apariciojohan.github.io/flexFitR/">flexFitR</a> is an R package designed for efficient modeling and analysis of large and complex datasets. It offers powerful tools for parameter estimation, model fitting, and visualization, leveraging the <code>{optimx}</code> package for optimization and the <a href="https://future.futureverse.org" class="external-link">future</a> package for parallel processing.</p>
+<p><a href="https://apariciojohan.github.io/flexFitR/">flexFitR</a> is an R package designed for efficient modeling and analysis of large and complex datasets. It offers powerful tools for parameter estimation, model fitting, and visualization, leveraging the <a href="https://github.com/nashjc/optimx" class="external-link">optimx</a> package for optimization and the <a href="https://future.futureverse.org" class="external-link">future</a> package for parallel processing.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -96,7 +96,7 @@
 <h2 id="features">Features<a class="anchor" aria-label="anchor" href="#features"></a>
 </h2>
 <ul>
-<li>Parameter Estimation: Utilizes <code>{optimx}</code> and derivative-free algorithms to solve and estimate parameters for a given function.</li>
+<li>Parameter Estimation: Utilizes <a href="https://github.com/nashjc/optimx" class="external-link">optimx</a> and derivative-free algorithms to solve and estimate parameters for a given function.</li>
 <li>Parallelization: Implements parallel processing using the <a href="https://future.futureverse.org" class="external-link">future</a> package, enabling efficient fitting of hundreds of curves simultaneously.</li>
 <li>Visualization Tools: Provides a variety of plots to visualize model fits, correlations, predictions, and more.</li>
 <li>Statistical Rigor: Offers standard errors and p-values for coefficients, as well as for predictions, supporting robust conclusions and interpretations.</li>
@@ -153,7 +153,7 @@
 <span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a></span>
 <span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>Metrics<span class="sc">:</span></span>
 <span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a> Groups      Timing Convergence Iterations</span>
-<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a>      <span class="dv">1</span> <span class="fl">0.6798</span> secs        <span class="dv">100</span>%   <span class="dv">511</span> (id)</span></code></pre></div>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a>      <span class="dv">1</span> <span class="fl">0.3678</span> secs        <span class="dv">100</span>%   <span class="dv">511</span> (id)</span></code></pre></div>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Auto plot</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">)</span></span></code></pre></div>

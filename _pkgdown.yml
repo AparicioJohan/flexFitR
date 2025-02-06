@@ -11,7 +11,7 @@ template:
 url: https://apariciojohan.github.io/flexFitR/
 
 development:
-  mode: auto
+  mode: release
 
 navbar:
   title: flexFitR

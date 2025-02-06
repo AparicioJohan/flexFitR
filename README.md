@@ -81,7 +81,7 @@ fn_linear_sat <- function(t, t1 = 45, t2 = 80, k = 0.9) {
 ```
 
 ``` r
-# Fitting piecewise regression
+# Fitting a linear saturation function
 mod_1 <- dt |>
   modeler(
     x = time,
@@ -107,7 +107,7 @@ Optimization Results `head()`:
 
 Metrics:
  Groups      Timing Convergence Iterations
-      1 0.6798 secs        100%   511 (id)
+      1 0.3516 secs        100%   511 (id)
 ```
 
 ``` r
