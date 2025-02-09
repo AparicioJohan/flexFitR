@@ -315,6 +315,13 @@ modeler <- function(data,
   }
   p <- progressr::progressor(along = grp_id)
   init_time <- Sys.time()
+
+  ## Workaround: subplex::subplex() fails to locate the function by name
+  ## given by it's argument 'fn', if then function is also called "fn".
+  ## The problem can be avoided by giving it a different name.
+  ## (This will happen with upcoming versions of the 'future' package)
+  fn_name <- fn
+  
   objt <- foreach(
     i = grp_id,
     .options.future = list(seed = TRUE)
@@ -323,7 +330,7 @@ modeler <- function(data,
     .fitter_curve(
       data = dt_nest,
       id = i,
-      fn = fn,
+      fn = fn_name,
       method = method,
       lower = lower,
       upper = upper,
