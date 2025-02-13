@@ -2,6 +2,7 @@
 
 * Fixed conflict of `modeler()` with upcoming version of `future`.
 * Fixed increase dependency to R (>=4.1).
+* Fixed regression function not found in the environment when running in parallel.
 
 # flexFitR 1.0.0
 
