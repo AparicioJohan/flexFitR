@@ -30,6 +30,290 @@ r_squared <- function(actual, predicted) {
   1 - (rss / tss)
 }
 
+# Compute second-order AIC (AICc)
+# For small sample sizes, the corrected AIC (AICc) is preferred
+#' @noRd
+compute_AICc <- function(object) {
+  AICc_val <- object |>
+    AIC.modeler() |>
+    mutate(AICc = AIC + (2 * df * (df + 1)) / (nobs - df - 1))
+  return(AICc_val)
+}
+
+# Merge information criteria and performance metrics
+#' @noRd
+info_criteria <- function(object, metrics = "all", metadata = TRUE, digits = 2) {
+  if (!inherits(object, "modeler")) {
+    stop("The object should be of class 'modeler'.")
+  }
+  if (metadata) {
+    metadata <- object$keep
+  } else {
+    metadata <- NULL
+  }
+  options_metrics <- c(
+    "logLik", "AIC", "AICc", "BIC",
+    "Sigma", "SSE", "MAE", "MSE", "RMSE", "R2"
+  )
+  if ("all" %in% metrics) {
+    metrics <- options_metrics
+  } else {
+    metrics <- match.arg(metrics, choices = options_metrics, several.ok = TRUE)
+  }
+  model_fun <- object$fun
+  res_metrics <- select(metrics(object), -n, -var)
+  sse_metadata <- select(object$param, uid, all_of(metadata), sse)
+  AIC.modeler(object) |>
+    mutate(AICc = AIC + (2 * df * (df + 1)) / (nobs - df - 1)) |>
+    full_join(
+      y = BIC.modeler(object), by = c("uid", "df", "nobs", "p", "logLik")
+    ) |>
+    full_join(y = sse_metadata, by = "uid") |>
+    mutate(Sigma = sqrt(sse / (nobs - p))) |>
+    full_join(res_metrics, by = "uid") |>
+    mutate(model = model_fun, .before = uid) |>
+    select(-sse) |>
+    relocate(logLik, .after = p) |>
+    mutate_if(is.numeric, round, digits) |>
+    select(model, uid, df, nobs, p, all_of(metadata), all_of(metrics))
+}
+
+#' @title Compare performance of different models
+#' @description
+#' computes indices of model performance for different models at once and hence
+#' allows comparison of indices across models.
+#' @param ... Multiple model objects (only of class `modeler`).
+#' @param metrics Can be "all" or a character vector of metrics to be computed
+#' (one or more of "logLik", "AIC", "AICc", "BIC", "Sigma", "SSE", "MAE", "MSE", "RMSE", "R2").
+#' "all" by default.
+#' @param metadata Logical. If \code{TRUE}, metadata is included with the
+#' performance metrics. Default is \code{FALSE}.
+#' @param digits An integer. The number of decimal places to round the output. Default is 2.
+#' @return A data.frame with performance metrics for models in (...).
+#' @export
+#'
+#' @examples
+#' library(flexFitR)
+#' data(dt_potato)
+#' # Model 1
+#' mod_1 <- dt_potato |>
+#'   modeler(
+#'     x = DAP,
+#'     y = Canopy,
+#'     grp = Plot,
+#'     fn = "fn_linear_sat",
+#'     parameters = c(t1 = 45, t2 = 80, k = 90),
+#'     subset = 40
+#'   )
+#' print(mod_1)
+#' # Model 2
+#' mod_2 <- dt_potato |>
+#'   modeler(
+#'     x = DAP,
+#'     y = Canopy,
+#'     grp = Plot,
+#'     fn = "fn_logistic",
+#'     parameters = c(L = 100, k = 4, t0 = 50),
+#'     subset = 40
+#'   )
+#' print(mod_2)
+#' # Model 3
+#' mod_3 <- dt_potato |>
+#'   modeler(
+#'     x = DAP,
+#'     y = Canopy,
+#'     grp = Plot,
+#'     fn = "fn_lin",
+#'     parameters = c(m = 20, b = 2),
+#'     subset = 40
+#'   )
+#' print(mod_3)
+#' performance(mod_1, mod_2, mod_3, metrics = c("AIC", "AICc", "BIC", "Sigma"))
+performance <- function(..., metrics = "all", metadata = FALSE, digits = 2) {
+  arguments <- list(...)
+  if (length(arguments) == 0) stop("You must provide a model")
+  out <- do.call(
+    what = rbind,
+    args = lapply(arguments, info_criteria, metrics, metadata, digits)
+  ) |>
+    arrange(uid, model)
+  class(out) <- c("performance", class(out))
+  return(out)
+}
+
+#' Plot an object of class \code{performance}
+#'
+#' @description Create plots for an object of class \code{performance}
+#' @aliases plot.performance
+#' @param x An object of class \code{performance}, typically the result of calling \code{performance()}.
+#' @param id An optional group ID to filter the data for plotting, useful for avoiding overcrowded plots.
+#' @param type Numeric value (1-2) to specify the type of plot to generate. Default is 1.
+#' \describe{
+#'   \item{\code{type = 1}}{Radar plot by uid}
+#'   \item{\code{type = 2}}{Radar plot averaging}
+#' }
+#' @param linewidth Numeric value specifying size of line geoms.
+#' @param base_size Numeric value for the base font size in pts. Default is 14.
+#' @param return_table Logical. If \code{TRUE}, table to generate the plot is
+#' returned. \code{FALSE} by default.
+#' @param ... Additional graphical parameters for future extensions.
+#' @author Johan Aparicio [aut]
+#' @method plot performance
+#' @return A \code{ggplot} object representing the specified plot.
+#' @export
+#' @examples
+#' library(flexFitR)
+#' data(dt_potato)
+#' # Model 1
+#' mod_1 <- dt_potato |>
+#'   modeler(
+#'     x = DAP,
+#'     y = Canopy,
+#'     grp = Plot,
+#'     fn = "fn_linear_sat",
+#'     parameters = c(t1 = 45, t2 = 80, k = 90),
+#'     subset = 40
+#'   )
+#' print(mod_1)
+#' # Model 2
+#' mod_2 <- dt_potato |>
+#'   modeler(
+#'     x = DAP,
+#'     y = Canopy,
+#'     grp = Plot,
+#'     fn = "fn_logistic",
+#'     parameters = c(L = 100, k = 4, t0 = 50),
+#'     subset = 40
+#'   )
+#' print(mod_2)
+#' # Model 3
+#' mod_3 <- dt_potato |>
+#'   modeler(
+#'     x = DAP,
+#'     y = Canopy,
+#'     grp = Plot,
+#'     fn = "fn_lin",
+#'     parameters = c(m = 20, b = 2),
+#'     subset = 40
+#'   )
+#' print(mod_3)
+#' dt <- performance(mod_1, mod_2, mod_3)
+#' plot(dt)
+#' @import ggplot2
+#' @import dplyr
+plot.performance <- function(x,
+                             id = NULL,
+                             type = 1,
+                             linewidth = 1,
+                             base_size = 12,
+                             return_table = FALSE, ...) {
+  coord_radar <- function(theta = "x", start = 0, direction = 1, ...) {
+    theta <- match.arg(theta, c("x", "y"))
+    r <- ifelse(theta == "x", "y", "x")
+    ggplot2::ggproto(
+      "CordRadar",
+      CoordPolar,
+      theta = theta,
+      r = r,
+      start = start,
+      direction = sign(direction),
+      is_linear = function(coord) {
+        TRUE
+      },
+      ...
+    )
+  }
+  .data_performance <- x
+  .num_models <- length(unique(.data_performance$model))
+  .num_ids <- length(unique(.data_performance$model))
+  if (.num_models == 1) stop("You must have several models.")
+  if (is.null(id)) {
+    id <- .data_performance$uid[1]
+  } else {
+    if (!all(id %in% unique(.data_performance$uid))) {
+      stop("ids not found in x.")
+    }
+  }
+  if (type == 2) id <- unique(.data_performance$uid)
+  .data_performance <- droplevels(filter(.data_performance, uid %in% id))
+  .positive <- c("AIC", "AICc", "BIC", "Sigma", "SSE", "MAE", "MSE", "RMSE")
+  .negative <- c("logLik", "R2")
+  .list <- c(.positive, .negative)
+  .slt <- names(.data_performance)[names(.data_performance) %in% .list]
+  n_min <- 0.1
+  n_max <- 1
+  .data <- .data_performance |>
+    select(model, uid, any_of(.slt)) |>
+    pivot_longer(cols = any_of(.slt), names_to = "name") |>
+    group_by(uid, name) |>
+    mutate(
+      o_min = min(value, na.rm = TRUE),
+      o_max = max(value, na.rm = TRUE),
+      res = (value - o_min) / (o_max - o_min) * (n_max - n_min) + n_min
+    ) |>
+    na.omit() |>
+    mutate(res = ifelse(name %in% .positive, 1.1 - res, res)) |>
+    mutate(model = as.factor(model), name = factor(name, levels = .slt))
+  if (type == 1) {
+    p <- .data |>
+      ggplot(
+        mapping = aes(
+          x = name,
+          y = res,
+          colour = model,
+          group = model,
+          fill = model
+        )
+      ) +
+      geom_polygon(linewidth = linewidth, alpha = 0.1) +
+      coord_radar() +
+      scale_y_continuous(limits = c(0, 1), labels = NULL) +
+      guides(fill = "none") +
+      theme_minimal(base_size = base_size) +
+      scale_color_brewer(type = "qual", palette = "Dark2") +
+      scale_fill_brewer(type = "qual", palette = "Dark2") +
+      labs(x = NULL, y = NULL, color = "Model") +
+      facet_wrap(~uid, labeller = label_both)
+  }
+  if (type == 2) {
+    .data <- .data |>
+      group_by(model, name) |>
+      summarise(value = mean(value)) |>
+      group_by(name) |>
+      mutate(
+        o_min = min(value, na.rm = TRUE),
+        o_max = max(value, na.rm = TRUE),
+        res = (value - o_min) / (o_max - o_min) * (n_max - n_min) + n_min
+      ) |>
+      na.omit() |>
+      mutate(res = ifelse(name %in% .positive, 1.1 - res, res)) |>
+      mutate(model = as.factor(model), name = factor(name, levels = .slt))
+    p <- .data |>
+      ggplot(
+        mapping = aes(
+          x = name,
+          y = res,
+          colour = model,
+          group = model,
+          fill = model
+        )
+      ) +
+      geom_polygon(linewidth = linewidth, alpha = 0.1) +
+      coord_radar() +
+      scale_y_continuous(limits = c(0, 1), labels = NULL) +
+      guides(fill = "none") +
+      theme_minimal(base_size = base_size) +
+      scale_color_brewer(type = "qual", palette = "Dark2") +
+      scale_fill_brewer(type = "qual", palette = "Dark2") +
+      labs(x = NULL, y = NULL, color = "Model")
+  }
+  if (return_table) {
+    return(.data)
+  } else {
+    return(p)
+  }
+}
+
 
 #' Metrics for an object of class \code{modeler}
 #'

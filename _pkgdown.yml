@@ -48,12 +48,16 @@ reference:
   - coef.modeler
   - vcov.modeler
   - confint.modeler
+  - print.modeler
+  - list_methods
+- title: Model Performance
+- contents:
   - anova.modeler
   - logLik.modeler
   - goodness_of_fit
-  - print.modeler
   - metrics
-  - list_methods
+  - performance
+  - plot.performance
 - title: Data Exploration
 - contents:
   - explorer

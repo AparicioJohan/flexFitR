@@ -147,7 +147,7 @@ to our coefficient b and coefficient m.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
 <span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;       1 0.4026 secs        100%   259 (id)</span></span></code></pre></div>
+<span><span class="co">#&gt;       1 0.4522 secs        100%   259 (id)</span></span></code></pre></div>
 <p>Once the model is fitted, we can examine the output, extract the
 estimated parameters, make some plots, and predict new x values.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -283,7 +283,7 @@ using the <code>modeler</code> function.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
 <span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;       1 0.3942 secs        100%   511 (id)</span></span></code></pre></div>
+<span><span class="co">#&gt;       1 0.3938 secs        100%   511 (id)</span></span></code></pre></div>
 <p>After fitting the model, we can examine the results, plot the fitted
 curve, extract the coefficients and their associated p-values, obtain
 the variance-covariance matrix, and make predictions for unknown values
@@ -352,7 +352,7 @@ approach is primarily for illustrative purposes.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
 <span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;       1 0.4025 secs        100%   567 (id)</span></span>
+<span><span class="co">#&gt;       1 0.4618 secs        100%   567 (id)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">mod_2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 6</span></span></span>
 <span><span class="co">#&gt;     uid coefficient solution std.error `t value` `Pr(&gt;|t|)`</span></span>
@@ -390,7 +390,7 @@ approach is primarily for illustrative purposes.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
 <span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;       1 0.3671 secs        100%   321 (id)</span></span>
+<span><span class="co">#&gt;       1 0.4107 secs        100%   321 (id)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">mod_3</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 6</span></span></span>
 <span><span class="co">#&gt;     uid coefficient solution std.error `t value` `Pr(&gt;|t|)`</span></span>
@@ -402,11 +402,11 @@ approach is primarily for illustrative purposes.</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="fu"><a href="../reference/metrics.html">metrics</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">)</span>, <span class="fu"><a href="../reference/metrics.html">metrics</a></span><span class="op">(</span><span class="va">mod_2</span><span class="op">)</span>, <span class="fu"><a href="../reference/metrics.html">metrics</a></span><span class="op">(</span><span class="va">mod_3</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 8</span></span></span>
-<span><span class="co">#&gt;     uid var         SSE    MAE    MSE  RMSE r_squared     n</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1 variable  0.449 0.074<span style="text-decoration: underline;">4</span> 0.049<span style="text-decoration: underline;">9</span> 0.223     1.00      9</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     1 variable  0.449 0.074<span style="text-decoration: underline;">4</span> 0.049<span style="text-decoration: underline;">9</span> 0.223     1.00      9</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     1 variable 13.6   0.879  1.51   1.23      0.999     9</span></span></code></pre></div>
+<span><span class="co">#&gt;     uid var         SSE    MAE    MSE  RMSE    R2     n</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1 variable  0.449 0.074<span style="text-decoration: underline;">4</span> 0.049<span style="text-decoration: underline;">9</span> 0.223 1.00      9</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     1 variable  0.449 0.074<span style="text-decoration: underline;">4</span> 0.049<span style="text-decoration: underline;">9</span> 0.223 1.00      9</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     1 variable 13.6   0.879  1.51   1.23  0.999     9</span></span></code></pre></div>
 <p>This vignette provided a basic introduction to using the flexFitR
 package, starting with simple examples such as linear regression and
 piecewise regression. The goal was to demonstrate the fundamental
