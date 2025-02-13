@@ -321,10 +321,13 @@ modeler <- function(data,
   ## The problem can be avoided by giving it a different name.
   ## (This will happen with upcoming versions of the 'future' package)
   fn_name <- fn
-  
+
   objt <- foreach(
     i = grp_id,
-    .options.future = list(seed = TRUE)
+    .options.future = list(
+      seed = TRUE,
+      globals = structure(TRUE, add = fn_name)
+    )
   ) %dofu% {
     p(sprintf("uid = %s", i))
     .fitter_curve(
