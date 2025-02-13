@@ -89,15 +89,15 @@ metrics <- function(x, by_grp = TRUE) {
       MAE = mae(y, .fitted),
       MSE = mse(y, .fitted),
       RMSE = sqrt(MSE),
-      r_squared = r_squared(y, .fitted),
+      R2 = r_squared(y, .fitted),
       n = n(),
       .groups = "drop"
     )
   n_plots <- nrow(val_metrics)
   if (!by_grp && n_plots > 1) {
     summ_metrics <- val_metrics |>
-      select(var:r_squared) |>
-      pivot_longer(cols = SSE:r_squared, names_to = "metric") |>
+      select(var:R2) |>
+      pivot_longer(cols = SSE:R2, names_to = "metric") |>
       group_by(var, metric) |>
       summarise(
         Min = suppressWarnings(min(value, na.rm = TRUE)),
