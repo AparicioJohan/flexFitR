@@ -130,15 +130,20 @@ info_criteria <- function(object, metrics = "all", metadata = TRUE, digits = 2) 
 #' print(mod_3)
 #' performance(mod_1, mod_2, mod_3, metrics = c("AIC", "AICc", "BIC", "Sigma"))
 performance <- function(..., metrics = "all", metadata = FALSE, digits = 2) {
-  arguments <- list(...)
-  if (length(arguments) == 0) stop("You must provide a model")
-  out <- do.call(
-    what = rbind,
-    args = lapply(arguments, info_criteria, metrics, metadata, digits)
-  ) |>
+  .arguments <- list(...)
+  if (length(.arguments) == 0) stop("You must provide a model")
+  .names <- unlist(lapply(.arguments, \(x) x$fun))
+  if (anyDuplicated(.names) > 0) {
+    .names <- paste0("mod_", 1:length(.names))
+  }
+  .evaluation <- lapply(.arguments, info_criteria, metrics, metadata, digits)
+  for (i in seq_along(.names)) {
+    .evaluation[[i]]$model <- .names[i]
+  }
+  .out <- do.call(what = rbind, args = .evaluation) |>
     arrange(uid, model)
-  class(out) <- c("performance", class(out))
-  return(out)
+  class(.out) <- c("performance", class(.out))
+  return(.out)
 }
 
 #' Plot an object of class \code{performance}
@@ -147,13 +152,17 @@ performance <- function(..., metrics = "all", metadata = FALSE, digits = 2) {
 #' @aliases plot.performance
 #' @param x An object of class \code{performance}, typically the result of calling \code{performance()}.
 #' @param id An optional group ID to filter the data for plotting, useful for avoiding overcrowded plots.
-#' @param type Numeric value (1-2) to specify the type of plot to generate. Default is 1.
+#' This argument is not used when type = 2.
+#' @param type Numeric value (1-3) to specify the type of plot to generate. Default is 1.
 #' \describe{
 #'   \item{\code{type = 1}}{Radar plot by uid}
 #'   \item{\code{type = 2}}{Radar plot averaging}
+#'   \item{\code{type = 3}}{Bar plot by model-metric}
 #' }
+#' @param rescale Logical. If \code{TRUE}, metrics in type 3 plot are (0, 1) rescaled to improve interpretation.
+#' Higher values are better models. \code{FALSE} by default.
 #' @param linewidth Numeric value specifying size of line geoms.
-#' @param base_size Numeric value for the base font size in pts. Default is 14.
+#' @param base_size Numeric value for the base font size in pts. Default is 12
 #' @param return_table Logical. If \code{TRUE}, table to generate the plot is
 #' returned. \code{FALSE} by default.
 #' @param ... Additional graphical parameters for future extensions.
@@ -174,7 +183,6 @@ performance <- function(..., metrics = "all", metadata = FALSE, digits = 2) {
 #'     parameters = c(t1 = 45, t2 = 80, k = 90),
 #'     subset = 40
 #'   )
-#' print(mod_1)
 #' # Model 2
 #' mod_2 <- dt_potato |>
 #'   modeler(
@@ -185,7 +193,6 @@ performance <- function(..., metrics = "all", metadata = FALSE, digits = 2) {
 #'     parameters = c(L = 100, k = 4, t0 = 50),
 #'     subset = 40
 #'   )
-#' print(mod_2)
 #' # Model 3
 #' mod_3 <- dt_potato |>
 #'   modeler(
@@ -196,14 +203,14 @@ performance <- function(..., metrics = "all", metadata = FALSE, digits = 2) {
 #'     parameters = c(m = 20, b = 2),
 #'     subset = 40
 #'   )
-#' print(mod_3)
-#' dt <- performance(mod_1, mod_2, mod_3)
-#' plot(dt)
+#' plot(performance(mod_1, mod_2, mod_3), type = 1)
+#' plot(performance(mod_1, mod_2, mod_3, metrics = c("AICc", "BIC")), type = 3)
 #' @import ggplot2
 #' @import dplyr
 plot.performance <- function(x,
                              id = NULL,
                              type = 1,
+                             rescale = FALSE,
                              linewidth = 1,
                              base_size = 12,
                              return_table = FALSE, ...) {
@@ -254,6 +261,7 @@ plot.performance <- function(x,
     na.omit() |>
     mutate(res = ifelse(name %in% .positive, 1.1 - res, res)) |>
     mutate(model = as.factor(model), name = factor(name, levels = .slt))
+  if (nrow(.data) == 0) stop("The models being compared are identical.")
   if (type == 1) {
     p <- .data |>
       ggplot(
@@ -307,13 +315,31 @@ plot.performance <- function(x,
       scale_fill_brewer(type = "qual", palette = "Dark2") +
       labs(x = NULL, y = NULL, color = "Model")
   }
+  if (type == 3) {
+    var_plot <- ifelse(rescale, "res", "value")
+    p <- .data |>
+      ggplot(
+        mapping = aes(
+          x = model,
+          y = .data[[var_plot]],
+          group = uid,
+          color = as.factor(uid)
+        )
+      ) +
+      geom_line(alpha = 0.6) +
+      geom_point(alpha = 0.2) +
+      facet_wrap(~name, scales = "free") +
+      theme_classic(base_size = base_size) +
+      labs(y = NULL, x = NULL, color = "uid") +
+      theme(axis.text.x = element_text(hjust = 1, angle = 75)) +
+      scale_color_viridis_d(option = "D", direction = 1)
+  }
   if (return_table) {
     return(.data)
   } else {
     return(p)
   }
 }
-
 
 #' Metrics for an object of class \code{modeler}
 #'

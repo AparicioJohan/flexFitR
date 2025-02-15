@@ -8,6 +8,7 @@
   x,
   id = NULL,
   type = 1,
+  rescale = FALSE,
   linewidth = 1,
   base_size = 12,
   return_table = FALSE,
@@ -17,17 +18,22 @@
 \arguments{
 \item{x}{An object of class \code{performance}, typically the result of calling \code{performance()}.}
 
-\item{id}{An optional group ID to filter the data for plotting, useful for avoiding overcrowded plots.}
+\item{id}{An optional group ID to filter the data for plotting, useful for avoiding overcrowded plots.
+This argument is not used when type = 2.}
 
-\item{type}{Numeric value (1-2) to specify the type of plot to generate. Default is 1.
+\item{type}{Numeric value (1-3) to specify the type of plot to generate. Default is 1.
 \describe{
   \item{\code{type = 1}}{Radar plot by uid}
   \item{\code{type = 2}}{Radar plot averaging}
+  \item{\code{type = 3}}{Bar plot by model-metric}
 }}
+
+\item{rescale}{Logical. If \code{TRUE}, metrics in type 3 plot are (0, 1) rescaled to improve interpretation.
+Higher values are better models. \code{FALSE} by default.}
 
 \item{linewidth}{Numeric value specifying size of line geoms.}
 
-\item{base_size}{Numeric value for the base font size in pts. Default is 14.}
+\item{base_size}{Numeric value for the base font size in pts. Default is 12}
 
 \item{return_table}{Logical. If \code{TRUE}, table to generate the plot is
 returned. \code{FALSE} by default.}
@@ -53,7 +59,6 @@ mod_1 <- dt_potato |>
     parameters = c(t1 = 45, t2 = 80, k = 90),
     subset = 40
   )
-print(mod_1)
 # Model 2
 mod_2 <- dt_potato |>
   modeler(
@@ -64,7 +69,6 @@ mod_2 <- dt_potato |>
     parameters = c(L = 100, k = 4, t0 = 50),
     subset = 40
   )
-print(mod_2)
 # Model 3
 mod_3 <- dt_potato |>
   modeler(
@@ -75,9 +79,8 @@ mod_3 <- dt_potato |>
     parameters = c(m = 20, b = 2),
     subset = 40
   )
-print(mod_3)
-dt <- performance(mod_1, mod_2, mod_3)
-plot(dt)
+plot(performance(mod_1, mod_2, mod_3), type = 1)
+plot(performance(mod_1, mod_2, mod_3, metrics = c("AICc", "BIC")), type = 3)
 }
 \author{
 Johan Aparicio [aut]
