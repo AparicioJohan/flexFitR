@@ -237,14 +237,16 @@ and canopy adjustments, we can compare the resulting coefficients and sum of
 square errors (`sse`) to evaluate the impact of these changes.
 
 ```{r}
-rbind.data.frame(
-  mutate(AIC(mod_1), model = "1", .before = uid),
-  mutate(AIC(mod_2), model = "2", .before = uid),
-  mutate(AIC(mod_3), model = "3", .before = uid)
-) |>
+comparison <- performance(mod_1, mod_2, mod_3)
+comparison |>
   filter(uid %in% 166) |>
   kable()
 ```
+
+```{r}
+plot(comparison, id = 166)
+```
+
 
 ## 7. Making predictions
 

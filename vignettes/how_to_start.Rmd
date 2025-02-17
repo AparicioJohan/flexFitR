@@ -208,8 +208,7 @@ plot(mod_3)
 ```
 
 ```{r}
-rbind(metrics(mod_1), metrics(mod_2), metrics(mod_3))
+performance(mod_1, mod_2, mod_3)
 ```
-
 
 This vignette provided a basic introduction to using the flexFitR package, starting with simple examples such as linear regression and piecewise regression. The goal was to demonstrate the fundamental features and flexibility of the package. However, more complex situations can arise when working with high-throughput phenotypic (HTP) data, which involve multiple groups, parameter constraints, and advanced modeling scenarios. These more complex situations are illustrated in the other vignettes, which use real HTP data to showcase the full capabilities of the flexFitR package.

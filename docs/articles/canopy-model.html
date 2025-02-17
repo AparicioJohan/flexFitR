@@ -330,7 +330,7 @@ parameters.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
 <span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;       2 1.3176 secs        100% 558.5 (id)</span></span></code></pre></div>
+<span><span class="co">#&gt;       2 1.2037 secs        100% 558.5 (id)</span></span></code></pre></div>
 <p>After fitting, we can inspect the model summary and visualize the fit
 using the plot function:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -613,53 +613,102 @@ parameters, and canopy adjustments, we can compare the resulting
 coefficients and sum of square errors (<code>sse</code>) to evaluate the
 impact of these changes.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind.data.frame</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/AIC.html" class="external-link">AIC</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">)</span>, model <span class="op">=</span> <span class="st">"1"</span>, .before <span class="op">=</span> <span class="va">uid</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/AIC.html" class="external-link">AIC</a></span><span class="op">(</span><span class="va">mod_2</span><span class="op">)</span>, model <span class="op">=</span> <span class="st">"2"</span>, .before <span class="op">=</span> <span class="va">uid</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/AIC.html" class="external-link">AIC</a></span><span class="op">(</span><span class="va">mod_3</span><span class="op">)</span>, model <span class="op">=</span> <span class="st">"3"</span>, .before <span class="op">=</span> <span class="va">uid</span><span class="op">)</span></span>
-<span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<code class="sourceCode R"><span><span class="va">comparison</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/performance.html">performance</a></span><span class="op">(</span><span class="va">mod_1</span>, <span class="va">mod_2</span>, <span class="va">mod_3</span><span class="op">)</span></span>
+<span><span class="va">comparison</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">uid</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fl">166</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
+<colgroup>
+<col width="6%">
+<col width="4%">
+<col width="3%">
+<col width="5%">
+<col width="3%">
+<col width="8%">
+<col width="6%">
+<col width="8%">
+<col width="6%">
+<col width="6%">
+<col width="10%">
+<col width="6%">
+<col width="9%">
+<col width="6%">
+<col width="4%">
+</colgroup>
 <thead><tr class="header">
 <th align="left">model</th>
 <th align="right">uid</th>
-<th align="right">logLik</th>
 <th align="right">df</th>
 <th align="right">nobs</th>
 <th align="right">p</th>
+<th align="right">logLik</th>
 <th align="right">AIC</th>
+<th align="right">AICc</th>
+<th align="right">BIC</th>
+<th align="right">Sigma</th>
+<th align="right">SSE</th>
+<th align="right">MAE</th>
+<th align="right">MSE</th>
+<th align="right">RMSE</th>
+<th align="right">R2</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">1</td>
+<td align="left">mod_1</td>
 <td align="right">166</td>
-<td align="right">-17.87958</td>
 <td align="right">4</td>
 <td align="right">8</td>
 <td align="right">3</td>
-<td align="right">43.75916</td>
+<td align="right">-17.88</td>
+<td align="right">43.76</td>
+<td align="right">57.09</td>
+<td align="right">44.08</td>
+<td align="right">2.86</td>
+<td align="right">40.91</td>
+<td align="right">1.27</td>
+<td align="right">5.11</td>
+<td align="right">2.26</td>
+<td align="right">1.0</td>
 </tr>
 <tr class="even">
-<td align="left">2</td>
+<td align="left">mod_2</td>
 <td align="right">166</td>
-<td align="right">-40.17379</td>
 <td align="right">4</td>
 <td align="right">8</td>
 <td align="right">3</td>
-<td align="right">88.34759</td>
+<td align="right">-40.17</td>
+<td align="right">88.35</td>
+<td align="right">101.68</td>
+<td align="right">88.67</td>
+<td align="right">46.42</td>
+<td align="right">10775.31</td>
+<td align="right">18.88</td>
+<td align="right">1346.91</td>
+<td align="right">36.70</td>
+<td align="right">0.3</td>
 </tr>
 <tr class="odd">
-<td align="left">3</td>
+<td align="left">mod_3</td>
 <td align="right">166</td>
-<td align="right">-17.87958</td>
 <td align="right">3</td>
 <td align="right">8</td>
 <td align="right">2</td>
-<td align="right">41.75916</td>
+<td align="right">-17.88</td>
+<td align="right">41.76</td>
+<td align="right">47.76</td>
+<td align="right">42.00</td>
+<td align="right">2.61</td>
+<td align="right">40.91</td>
+<td align="right">1.27</td>
+<td align="right">5.11</td>
+<td align="right">2.26</td>
+<td align="right">1.0</td>
 </tr>
 </tbody>
 </table>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">comparison</span>, id <span class="op">=</span> <span class="fl">166</span><span class="op">)</span></span></code></pre></div>
+<p><img src="canopy-model_files/figure-html/unnamed-chunk-22-1.png" width="700"></p>
 </div>
 <div class="section level2">
 <h2 id="making-predictions">7. Making predictions<a class="anchor" aria-label="anchor" href="#making-predictions"></a>
@@ -671,7 +720,7 @@ prediction options, allowing users to perform point predictions,
 calculate the area under the curve (AUC), compute first or second
 derivatives, and even evaluate custom functions of the parameters. Below
 are some examples demonstrating these capabilities:</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Point Prediction</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">mod_1</span>, x <span class="op">=</span> <span class="fl">45</span>, type <span class="op">=</span> <span class="st">"point"</span>, id <span class="op">=</span> <span class="fl">166</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
@@ -688,7 +737,7 @@ are some examples demonstrating these capabilities:</p>
 <td align="right">1.656734</td>
 </tr></tbody>
 </table>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># AUC Prediction</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">mod_1</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">108</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"auc"</span>, id <span class="op">=</span> <span class="fl">166</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
@@ -707,7 +756,7 @@ are some examples demonstrating these capabilities:</p>
 <td align="right">93.61781</td>
 </tr></tbody>
 </table>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Function of the parameters</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">mod_1</span>, formula <span class="op">=</span> <span class="op">~</span> <span class="va">t2</span> <span class="op">-</span> <span class="va">t1</span>, id <span class="op">=</span> <span class="fl">166</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
@@ -737,7 +786,7 @@ parallel processing to speed up the computation. To do this, we specify
 <code>parallel = TRUE</code> in the options argument, and set the number
 of cores using the function <code><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">parallel::detectCores()</a></code>, which
 automatically detects the available cores.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mod</span> <span class="op">&lt;-</span> <span class="va">dt_potato</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/modeler.html">modeler</a></span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="va">DAP</span>,</span>
