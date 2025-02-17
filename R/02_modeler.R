@@ -417,6 +417,7 @@ modeler <- function(data,
 #'   \item{\code{p}}{Number of parameters estimated.}
 #'   \item{\code{n_obs}}{Number of observations.}
 #'   \item{\code{uid}}{Unique identifier.}
+#'   \item{\code{fn_name}}{Name of the curve-fitting function used.}
 #' }
 #' @export
 #' @keywords internal
@@ -479,7 +480,8 @@ modeler <- function(data,
   best <- rr$method[which.min(rr$sse)]
   param <- rr |>
     dplyr::filter(method == best) |>
-    dplyr::select(-c(fevals:xtime))
+    dplyr::select(-c(fevals:xtime)) |>
+    dplyr::mutate(fn_name = fn)
   # attributes
   details <- attr(kkopt, "details")[best, ]
   hessian <- details$nhatend
@@ -508,7 +510,8 @@ modeler <- function(data,
     conv = rr[rr$method == best, "convergence"],
     p = length(est_params),
     n_obs = length(t),
-    uid = id
+    uid = id,
+    fn_name = fn
   )
   return(out)
 }

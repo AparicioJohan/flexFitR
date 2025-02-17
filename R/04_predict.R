@@ -105,7 +105,6 @@ predict.modeler <- function(object,
           X = fit_list,
           FUN = .delta_method,
           x_new = x,
-          curve = object$fun,
           se_interval = se_interval
         )
       )
@@ -133,7 +132,6 @@ predict.modeler <- function(object,
           X = fit_list,
           FUN = .delta_method_auc,
           x_new = x,
-          curve = object$fun,
           n_points = n_points
         )
       )
@@ -157,7 +155,6 @@ predict.modeler <- function(object,
           X = fit_list,
           FUN = .delta_method_deriv,
           x_new = x,
-          curve = object$fun,
           which = type
         )
       )
@@ -193,7 +190,8 @@ predict.modeler <- function(object,
 }
 
 # Delta method point estimation
-.delta_method <- function(fit, x_new, curve, se_interval = "confidence") {
+.delta_method <- function(fit, x_new, se_interval = "confidence") {
+  curve <- fit$fn_name
   tt <- fit$hessian
   rdf <- (fit$n_obs - fit$p)
   varerr <- fit$param$sse / rdf
@@ -263,7 +261,8 @@ ff <- function(params, x_new, curve, fixed_params = NA) {
 }
 
 # Delta method AUC estimation
-.delta_method_auc <- function(fit, x_new, curve, n_points = 1000) {
+.delta_method_auc <- function(fit, x_new, n_points = 1000) {
+  curve <- fit$fn_name
   tt <- fit$hessian
   rdf <- (fit$n_obs - fit$p)
   varerr <- fit$param$sse / rdf
@@ -336,7 +335,8 @@ ff_auc <- function(params, x_new, curve, fixed_params = NA, n_points = 1000) {
 }
 
 # Delta method for derivative estimation
-.delta_method_deriv <- function(fit, x_new, curve, which = "fd") {
+.delta_method_deriv <- function(fit, x_new, which = "fd") {
+  curve <- fit$fn_name
   tt <- fit$hessian
   rdf <- (fit$n_obs - fit$p)
   varerr <- fit$param$sse / rdf
