@@ -162,10 +162,7 @@ plot.modeler <- function(x,
                          color_ribbon = "blue",
                          color_ci = "blue",
                          color_pi = "red", ...) {
-  data <- x$dt |> select(uid, var, x, y, .fitted)
-  param <- x$param
-  fn <- x$fn
-  dt <- full_join(data, y = param, by = c("uid"))
+  dt <- x$dt |> select(uid, var, x, y, .fitted)
   if (is.null(id)) {
     id <- dt$uid[1]
   } else {
@@ -173,26 +170,32 @@ plot.modeler <- function(x,
       stop("ids not found in x.")
     }
   }
-  dt <- dt |>
-    filter(uid %in% id) |>
-    droplevels()
-  param <- param |>
-    filter(uid %in% id) |>
-    droplevels()
-
   max_x <- max(dt$x, na.rm = TRUE)
   min_x <- min(dt$x, na.rm = TRUE)
   sq <- seq(min_x, max_x, length.out = n_points)
-
-  func_dt <- full_join(
-    x = expand.grid(x = sq, uid = unique(dt$uid)),
-    y = param,
-    by = "uid"
+  # List of models
+  expand_by_grp <- function(fit, seq) {
+    curve <- fit$fn_name
+    .fn <- create_call(curve)
+    .uid <- fit$uid
+    .param <- pull(fit$type, value, parameter)
+    .func_dt <- data.frame(uid = .uid, x = seq, t(.param)) |>
+      group_by(x, uid) |>
+      mutate(dens = !!.fn) |>
+      ungroup() |>
+      select(uid, x, dens)
+    return(.func_dt)
+  }
+  fit_list <- x$fit
+  pos <- which(unlist(lapply(fit_list, function(x) x$uid)) %in% id)
+  fit_list <- fit_list[pos]
+  # Density
+  func_dt <- do.call(
+    what = rbind,
+    args = lapply(X = fit_list, FUN = expand_by_grp, seq = sq)
   ) |>
-    group_by(x, uid) |>
-    mutate(dens = !!fn) |>
-    ungroup()
-
+    as_tibble()
+  dt <- droplevels(filter(dt, uid %in% id))
   label <- unique(dt$var)
 
   if (type == 1) {
