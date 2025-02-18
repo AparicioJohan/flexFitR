@@ -369,7 +369,8 @@ modeler <- function(data,
   dt <- suppressWarnings({
     dt |>
       full_join(y = fitted_vals, by = c("x", "uid")) |>
-      mutate(.residual = y - .fitted)
+      mutate(.residual = y - .fitted) |>
+      mutate(fn_name = fn_name)
   })
   # Output
   if (!return_method) {
