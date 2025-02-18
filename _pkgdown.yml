@@ -49,6 +49,8 @@ reference:
   - vcov.modeler
   - confint.modeler
   - print.modeler
+  - c.modeler
+  - subset.modeler
   - list_methods
 - title: Model Performance
 - contents:

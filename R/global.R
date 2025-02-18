@@ -91,6 +91,7 @@ utils::globalVariables(
     "o_min",
     "R2",
     "AIC",
-    "p"
+    "p",
+    "fn_name"
   )
 )
