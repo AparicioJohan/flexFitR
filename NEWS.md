@@ -2,11 +2,15 @@
 
 ## New features
 
+* `modeler()` adds the function name (`fn_name`) in every single table.
+* `c.modeler()` S3 method added to combine `modeler` objects.
+* `subset.modeler()` S3 method added to subset `modeler` objects.
 * `performance()` function added to evaluate the performance of different models.
 * `plot.performance()` S3 method to plot an object of class `performance`.
 
 ## Changes
 
+* `modeler()` no longer returns function call.
 * `metrics()` returns R2 instead of r_squared.
 
 ## Bug fixes
