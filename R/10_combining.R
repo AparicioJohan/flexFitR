@@ -68,9 +68,9 @@ c.modeler <- function(...) {
 }
 
 
-#' Subset objects of class \code{modeler}
+#' Subset an object of class \code{modeler}
 #'
-#' @description Subset objects of class \code{modeler}
+#' @description Subset an object of class \code{modeler}
 #' @aliases subset.modeler
 #' @param x An object of class \code{modeler}, typically the result of calling \code{modeler()}.
 #' @param id Unique identifier to filter a \code{modeler} object by a specific group. Default is \code{NULL}.
@@ -92,7 +92,8 @@ c.modeler <- function(...) {
 #'     subset = 1:2
 #'   )
 #' print(mod)
-#' subset(mod, id = 1:2)
+#' mod_new <- subset(mod, id = 2)
+#' print(mod_new)
 #' @import dplyr
 subset.modeler <- function(x, id = NULL, ...) {
   # Check the class of object

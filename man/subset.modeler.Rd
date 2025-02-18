@@ -2,7 +2,7 @@
 % Please edit documentation in R/10_combining.R
 \name{subset.modeler}
 \alias{subset.modeler}
-\title{Subset objects of class \code{modeler}}
+\title{Subset an object of class \code{modeler}}
 \usage{
 \method{subset}{modeler}(x, id = NULL, ...)
 }
@@ -17,7 +17,7 @@
 A \code{modeler} object.
 }
 \description{
-Subset objects of class \code{modeler}
+Subset an object of class \code{modeler}
 }
 \examples{
 library(flexFitR)
@@ -32,7 +32,8 @@ mod <- dt_potato |>
     subset = 1:2
   )
 print(mod)
-subset(mod, id = 1:2)
+mod_new <- subset(mod, id = 2)
+print(mod_new)
 }
 \author{
 Johan Aparicio [aut]

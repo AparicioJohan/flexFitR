@@ -13,7 +13,8 @@
 A \code{modeler} object.
 }
 \description{
-Combine objects of class \code{modeler}
+Combine objects of class \code{modeler}. Use with caution, some
+functions might not work as expected.
 }
 \examples{
 library(flexFitR)

@@ -269,6 +269,9 @@ plot.modeler <- function(x,
     if (length(functions) > 1) {
       p0 <- p0 + facet_wrap(~fn_name)
     }
+    if (length(functions) == 1) {
+      p0 <- p0 + theme(legend.position = "none")
+    }
   }
   if (type %in% c(4, 5, 6)) {
     tp <- switch(

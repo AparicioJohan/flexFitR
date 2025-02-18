@@ -243,7 +243,7 @@ comparison |>
   kable()
 ```
 
-```{r}
+```{r, fig.alt="plot fit 4"}
 plot(comparison, id = 166)
 ```
 

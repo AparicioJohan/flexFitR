@@ -111,9 +111,9 @@ standard errors, and optional metadata or degrees of freedom if specified.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Canopy ~ fn_linear_sat(DAP, t1, t2, k) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Sum of Squares Error:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Residuals:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.002601 0.459153 0.915706 2.206356 3.308233 5.700760 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -1.89949  0.00000  0.00000  0.02004  0.01275  1.32965 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Optimization Results `head()`:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  uid   t1   t2     k    sse</span>
@@ -123,15 +123,15 @@ standard errors, and optional metadata or degrees of freedom if specified.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Groups      Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       3 1.9773 secs        100%   349 (id)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       3 1.3772 secs        100%   349 (id)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">mod_1</span>, id <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 6</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     uid coefficient solution std.error `t value` `Pr(&gt;|t|)`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     2 t1              35.1     0.244      144.   3.04<span style="color: #949494;">e</span><span style="color: #BB0000;">-10</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     2 t2              61.1     0.387      158.   1.93<span style="color: #949494;">e</span><span style="color: #BB0000;">-10</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>     2 k              100.      0.616      162.   1.69<span style="color: #949494;">e</span><span style="color: #BB0000;">-10</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     uid fn_name       coefficient solution std.error `t value` `Pr(&gt;|t|)`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     2 fn_linear_sat t1              35.1     0.244      144.   3.04<span style="color: #949494;">e</span><span style="color: #BB0000;">-10</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     2 fn_linear_sat t2              61.1     0.387      158.   1.93<span style="color: #949494;">e</span><span style="color: #BB0000;">-10</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>     2 fn_linear_sat k              100.      0.616      162.   1.69<span style="color: #949494;">e</span><span style="color: #BB0000;">-10</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

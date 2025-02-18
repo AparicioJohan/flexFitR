@@ -374,9 +374,9 @@ using the <code>plot</code> function:</p>
 <span><span class="co">#&gt; Call:</span></span>
 <span><span class="co">#&gt; GLI ~ fn_lin_pl_lin2(DAP, t1, t2, dt, k, beta) </span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Sum of Squares Error:</span></span>
-<span><span class="co">#&gt;      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. </span></span>
-<span><span class="co">#&gt; 1.961e-05 4.939e-05 7.918e-05 7.918e-05 1.090e-04 1.388e-04 </span></span>
+<span><span class="co">#&gt; Residuals:</span></span>
+<span><span class="co">#&gt;       Min.    1st Qu.     Median       Mean    3rd Qu.       Max. </span></span>
+<span><span class="co">#&gt; -1.108e-02 -1.000e-09  0.000e+00 -1.076e-03  0.000e+00  1.878e-03 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Optimization Results `head()`:</span></span>
 <span><span class="co">#&gt;  uid   t1   t2   dt     k     beta      sse</span></span>
@@ -385,13 +385,23 @@ using the <code>plot</code> function:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
 <span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;       2 0.9755 secs        100%   311 (id)</span></span></code></pre></div>
+<span><span class="co">#&gt;       2 0.6132 secs        100%   311 (id)</span></span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="maturity-model_files/figure-html/unnamed-chunk-10-1.png" alt="plot fit 1" width="768"></p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">$</span><span class="va">param</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
+<colgroup>
+<col width="5%">
+<col width="11%">
+<col width="11%">
+<col width="11%">
+<col width="12%">
+<col width="14%">
+<col width="12%">
+<col width="19%">
+</colgroup>
 <thead><tr class="header">
 <th align="right">uid</th>
 <th align="right">t1</th>
@@ -400,6 +410,7 @@ using the <code>plot</code> function:</p>
 <th align="right">k</th>
 <th align="right">beta</th>
 <th align="right">sse</th>
+<th align="left">fn_name</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -410,6 +421,7 @@ using the <code>plot</code> function:</p>
 <td align="right">0.3691396</td>
 <td align="right">-0.0145414</td>
 <td align="right">0.0000196</td>
+<td align="left">fn_lin_pl_lin2</td>
 </tr>
 <tr class="even">
 <td align="right">195</td>
@@ -419,6 +431,7 @@ using the <code>plot</code> function:</p>
 <td align="right">0.3251456</td>
 <td align="right">-0.0080876</td>
 <td align="right">0.0001388</td>
+<td align="left">fn_lin_pl_lin2</td>
 </tr>
 </tbody>
 </table>
@@ -446,24 +459,24 @@ their variability.</li>
 </ul>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">mod_1</span>, id <span class="op">=</span> <span class="fl">40</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 6</span></span></span>
-<span><span class="co">#&gt;     uid coefficient solution std.error `t value`  `Pr(&gt;|t|)`</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    40 t1           37.3     0.258        145.  0.000<span style="text-decoration: underline;">000</span>727</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    40 t2           64.4     0.371        174.  0.000<span style="text-decoration: underline;">000</span>422</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    40 dt           19.5     0.626         31.2 0.000<span style="text-decoration: underline;">072</span>5  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>    40 k             0.369   0.002<span style="text-decoration: underline;">56</span>      144.  0.000<span style="text-decoration: underline;">000</span>733</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>    40 beta         -<span style="color: #BB0000;">0.014</span><span style="color: #BB0000; text-decoration: underline;">5</span>  0.000<span style="text-decoration: underline;">452</span>     -<span style="color: #BB0000;">32.2</span> 0.000<span style="text-decoration: underline;">066</span>0</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 7</span></span></span>
+<span><span class="co">#&gt;     uid fn_name        coefficient solution std.error `t value`  `Pr(&gt;|t|)`</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    40 fn_lin_pl_lin2 t1           37.3     0.258        145.  0.000<span style="text-decoration: underline;">000</span>727</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    40 fn_lin_pl_lin2 t2           64.4     0.371        174.  0.000<span style="text-decoration: underline;">000</span>422</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    40 fn_lin_pl_lin2 dt           19.5     0.626         31.2 0.000<span style="text-decoration: underline;">072</span>5  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>    40 fn_lin_pl_lin2 k             0.369   0.002<span style="text-decoration: underline;">56</span>      144.  0.000<span style="text-decoration: underline;">000</span>733</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>    40 fn_lin_pl_lin2 beta         -<span style="color: #BB0000;">0.014</span><span style="color: #BB0000; text-decoration: underline;">5</span>  0.000<span style="text-decoration: underline;">452</span>     -<span style="color: #BB0000;">32.2</span> 0.000<span style="text-decoration: underline;">066</span>0</span></span></code></pre></div>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/confint.html" class="external-link">confint</a></span><span class="op">(</span><span class="va">mod_1</span>, id <span class="op">=</span> <span class="fl">40</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 6</span></span></span>
-<span><span class="co">#&gt;     uid coefficient solution std.error ci_lower ci_upper</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    40 t1           37.3     0.258     36.5     38.1   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    40 t2           64.4     0.371     63.2     65.6   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    40 dt           19.5     0.626     17.5     21.5   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>    40 k             0.369   0.002<span style="text-decoration: underline;">56</span>    0.361    0.377 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>    40 beta         -<span style="color: #BB0000;">0.014</span><span style="color: #BB0000; text-decoration: underline;">5</span>  0.000<span style="text-decoration: underline;">452</span>  -<span style="color: #BB0000;">0.016</span><span style="color: #BB0000; text-decoration: underline;">0</span>  -<span style="color: #BB0000;">0.013</span><span style="color: #BB0000; text-decoration: underline;">1</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 7</span></span></span>
+<span><span class="co">#&gt;     uid fn_name        coefficient solution std.error ci_lower ci_upper</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    40 fn_lin_pl_lin2 t1           37.3     0.258     36.5     38.1   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    40 fn_lin_pl_lin2 t2           64.4     0.371     63.2     65.6   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    40 fn_lin_pl_lin2 dt           19.5     0.626     17.5     21.5   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>    40 fn_lin_pl_lin2 k             0.369   0.002<span style="text-decoration: underline;">56</span>    0.361    0.377 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>    40 fn_lin_pl_lin2 beta         -<span style="color: #BB0000;">0.014</span><span style="color: #BB0000; text-decoration: underline;">5</span>  0.000<span style="text-decoration: underline;">452</span>  -<span style="color: #BB0000;">0.016</span><span style="color: #BB0000; text-decoration: underline;">0</span>  -<span style="color: #BB0000;">0.013</span><span style="color: #BB0000; text-decoration: underline;">1</span></span></span></code></pre></div>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/vcov.html" class="external-link">vcov</a></span><span class="op">(</span><span class="va">mod_1</span>, id <span class="op">=</span> <span class="fl">40</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $`40`</span></span>
@@ -472,7 +485,9 @@ their variability.</li>
 <span><span class="co">#&gt; t2   -4.684756e-02  1.377112e-01 -0.1707231494  4.797169e-04  2.416003e-08</span></span>
 <span><span class="co">#&gt; dt    4.686054e-02 -1.707231e-01  0.3915152910 -9.292910e-04 -1.699689e-04</span></span>
 <span><span class="co">#&gt; k    -7.841952e-08  4.797169e-04 -0.0009292910  6.536323e-06  8.415252e-11</span></span>
-<span><span class="co">#&gt; beta -8.219226e-09  2.416003e-08 -0.0001699689  8.415252e-11  2.042313e-07</span></span></code></pre></div>
+<span><span class="co">#&gt; beta -8.219226e-09  2.416003e-08 -0.0001699689  8.415252e-11  2.042313e-07</span></span>
+<span><span class="co">#&gt; attr(,"fn_name")</span></span>
+<span><span class="co">#&gt; [1] "fn_lin_pl_lin2"</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="plotting-options">4. Plotting options<a class="anchor" aria-label="anchor" href="#plotting-options"></a>
