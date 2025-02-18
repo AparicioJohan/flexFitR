@@ -43,7 +43,6 @@
 #' \describe{
 #'   \item{\code{param}}{Data frame containing optimized parameters and related information.}
 #'   \item{\code{dt}}{Data frame with input data, fitted values, and residuals.}
-#'   \item{\code{fn}}{The function call used for fitting models.}
 #'   \item{\code{metrics}}{Metrics and summary of the models.}
 #'   \item{\code{execution}}{Total execution time for the analysis.}
 #'   \item{\code{response}}{Name of the response variable analyzed.}
@@ -379,7 +378,6 @@ modeler <- function(data,
   out <- list(
     param = param_mat,
     dt = dt,
-    fn = density,
     metrics = metrics,
     execution = end_time - init_time,
     response = variable,
