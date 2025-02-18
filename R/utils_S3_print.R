@@ -27,22 +27,26 @@
 #' plot(mod_1, id = c(1:4))
 #' print(mod_1)
 print.modeler <- function(x, ...) {
-  param <- select(x$param, -all_of(x$keep))
+  param <- select(x$param, -all_of(c(x$keep, "fn_name")))
   trait <- unique(x$dt$var)
-  chr <- paste(trait, "~", deparse(x$fn))
   cat("\nCall:\n")
-  cat(sub("x", replacement = x$x_var, x = chr, fixed = TRUE), "\n")
-  cat("\n")
-  if (nrow(param) == 1) {
-    cat("Residuals:\n")
-    resum <- summary(c(x$dt$y - x$dt$.fitted))
-  } else if (nrow(param) < 10) {
-    cat("Sum of Squares Error:\n")
-    resum <- summary(param$sse)
-  } else {
-    cat("Sum of Squares Error `scale()`:\n")
-    resum <- summary(as.numeric(scale(param$sse)))
+  .list_names <- unique.data.frame(select(x$param, uid, fn_name)) |>
+    group_by(fn_name) |>
+    summarise(n = n()) |>
+    pull(n, fn_name)
+  for (i in seq_along(.list_names)) {
+    call <- create_call(names(.list_names)[i])
+    grps <- ifelse(
+      test = length(.list_names) > 1,
+      yes = paste0(" | uid (", .list_names[i], ")"),
+      no = ""
+    )
+    chr <- paste0(trait, " ~ ", deparse(call), grps)
+    cat(sub("(x", paste0("(", x$x_var), x = chr, fixed = TRUE), "\n")
   }
+  cat("\n")
+  cat("Residuals:\n")
+  resum <- summary(c(x$dt$y - x$dt$.fitted))
   print(resum)
   cat("\n")
   cat("Optimization Results `head()`:\n")
@@ -64,7 +68,7 @@ print.modeler <- function(x, ...) {
     mutate(ite = paste0(ite, " (id)")) |>
     pull(ite)
   info <- data.frame(
-    Groups = nrow(dt),
+    Groups = length(unique(dt$uid)),
     `Timing` = round(total_time, 4),
     Convergence = conv,
     `Iterations` = ite,
@@ -72,37 +76,4 @@ print.modeler <- function(x, ...) {
   )
   print(info, row.names = FALSE)
   cat("\n")
-}
-
-#' @noRd
-comparison <- function(x, y, value = 5) {
-  x <- x$param
-  y <- y$param
-  xy <- full_join(
-    x = select(x, c(plot, sse)),
-    y = select(y, c(plot, sse)),
-    by = "plot"
-  ) |>
-    mutate_if(is.numeric, round, value) |>
-    mutate(table = sse.x > sse.y)
-  plots_to_check <- xy |>
-    filter(table %in% TRUE) |>
-    pull(plot)
-  summ <- xy |>
-    mutate(table = sse.x > sse.y) |>
-    summarise(
-      `y_better_than_x` = round(sum(table %in% TRUE) / n(), 3),
-      `y_worse_than_x` = round(sum(table %in% FALSE) / n(), 3)
-    )
-  res <- data.frame(
-    `mean(sse_x) > mean(sse_y)` = mean(x$sse) > mean(y$sse),
-    check.names = FALSE
-  ) |>
-    cbind(summ)
-  objt <- list(
-    summ = res,
-    join = filter(xy, table %in% TRUE),
-    plots_to_check = plots_to_check
-  )
-  return(objt)
 }

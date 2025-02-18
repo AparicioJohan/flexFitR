@@ -43,7 +43,6 @@ c.modeler <- function(...) {
     as_tibble()
   dt <- do.call(rbind, args = lapply(.models, \(x) x$dt)) |>
     as_tibble()
-  density <- NULL
   metrics <- do.call(rbind, args = lapply(.models, \(x) x$metrics)) |>
     as_tibble()
   time <- sum(unlist(lapply(.models, \(x) x$execution)))
@@ -55,7 +54,6 @@ c.modeler <- function(...) {
   out <- list(
     param = param_mat,
     dt = dt,
-    fn = density,
     metrics = metrics,
     execution = time,
     response = variable,
@@ -110,7 +108,6 @@ subset.modeler <- function(x, id = NULL, ...) {
   }
   param_mat <- filter(x$param, uid %in% id)
   dt <- filter(x$dt, uid %in% id)
-  density <- NULL
   metrics <- filter(x$metrics, uid %in% id)
   time <- x$execution
   variable <- x$response
@@ -125,7 +122,6 @@ subset.modeler <- function(x, id = NULL, ...) {
   out <- list(
     param = param_mat,
     dt = dt,
-    fn = density,
     metrics = metrics,
     execution = time,
     response = variable,

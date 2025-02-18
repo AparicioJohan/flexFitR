@@ -62,20 +62,20 @@ info_criteria <- function(object, metrics = "all", metadata = TRUE, digits = 2) 
   }
   model_fun <- object$fun
   res_metrics <- select(metrics(object), -n, -var)
-  sse_metadata <- select(object$param, uid, all_of(metadata), sse)
+  dt_metadata <- select(object$param, uid, fn_name, all_of(metadata)) |>
+    unique.data.frame()
   AIC.modeler(object) |>
     mutate(AICc = AIC + (2 * df * (df + 1)) / (nobs - df - 1)) |>
     full_join(
-      y = BIC.modeler(object), by = c("uid", "df", "nobs", "p", "logLik")
+      y = BIC.modeler(object),
+      by = c("uid", "fn_name", "df", "nobs", "p", "logLik")
     ) |>
-    full_join(y = sse_metadata, by = "uid") |>
-    mutate(Sigma = sqrt(sse / (nobs - p))) |>
-    full_join(res_metrics, by = "uid") |>
-    mutate(model = model_fun, .before = uid) |>
-    select(-sse) |>
+    full_join(y = dt_metadata, by = c("uid", "fn_name")) |>
+    full_join(res_metrics, by = c("uid", "fn_name")) |>
+    mutate(Sigma = sqrt(SSE / (nobs - p)), .after = p) |>
     relocate(logLik, .after = p) |>
     mutate_if(is.numeric, round, digits) |>
-    select(model, uid, df, nobs, p, all_of(metadata), all_of(metrics))
+    select(fn_name, uid, df, nobs, p, all_of(metadata), all_of(metrics))
 }
 
 #' @title Compare performance of different models
@@ -131,17 +131,14 @@ info_criteria <- function(object, metrics = "all", metadata = TRUE, digits = 2) 
 #' performance(mod_1, mod_2, mod_3, metrics = c("AIC", "AICc", "BIC", "Sigma"))
 performance <- function(..., metrics = "all", metadata = FALSE, digits = 2) {
   .arguments <- list(...)
-  if (length(.arguments) == 0) stop("You must provide a model")
-  .names <- unlist(lapply(.arguments, \(x) x$fun))
-  if (anyDuplicated(.names) > 0) {
-    .names <- paste0("mod_", 1:length(.names))
-  }
+  .lf <- length(.arguments)
+  if (.lf == 0) stop("You must provide a model")
   .evaluation <- lapply(.arguments, info_criteria, metrics, metadata, digits)
-  for (i in seq_along(.names)) {
-    .evaluation[[i]]$model <- .names[i]
+  for (i in 1:.lf) {
+    .evaluation[[i]]$fn_name <- paste0(.evaluation[[i]]$fn_name, "_", i)
   }
   .out <- do.call(what = rbind, args = .evaluation) |>
-    arrange(uid, model)
+    arrange(uid, fn_name)
   class(.out) <- c("performance", class(.out))
   return(.out)
 }
@@ -231,8 +228,7 @@ plot.performance <- function(x,
     )
   }
   .data_performance <- x
-  .num_models <- length(unique(.data_performance$model))
-  .num_ids <- length(unique(.data_performance$model))
+  .num_models <- length(unique(.data_performance$fn_name))
   if (.num_models == 1) stop("You must have several models.")
   if (is.null(id)) {
     id <- .data_performance$uid[1]
@@ -250,7 +246,7 @@ plot.performance <- function(x,
   n_min <- 0.1
   n_max <- 1
   .data <- .data_performance |>
-    select(model, uid, any_of(.slt)) |>
+    select(fn_name, uid, any_of(.slt)) |>
     pivot_longer(cols = any_of(.slt), names_to = "name") |>
     group_by(uid, name) |>
     mutate(
@@ -260,7 +256,7 @@ plot.performance <- function(x,
     ) |>
     na.omit() |>
     mutate(res = ifelse(name %in% .positive, 1.1 - res, res)) |>
-    mutate(model = as.factor(model), name = factor(name, levels = .slt))
+    mutate(fn_name = as.factor(fn_name), name = factor(name, levels = .slt))
   if (nrow(.data) == 0) stop("The models being compared are identical.")
   if (type == 1) {
     p <- .data |>
@@ -268,9 +264,9 @@ plot.performance <- function(x,
         mapping = aes(
           x = name,
           y = res,
-          colour = model,
-          group = model,
-          fill = model
+          colour = fn_name,
+          group = fn_name,
+          fill = fn_name
         )
       ) +
       geom_polygon(linewidth = linewidth, alpha = 0.1) +
@@ -285,7 +281,7 @@ plot.performance <- function(x,
   }
   if (type == 2) {
     .data <- .data |>
-      group_by(model, name) |>
+      group_by(fn_name, name) |>
       summarise(value = mean(value)) |>
       group_by(name) |>
       mutate(
@@ -295,15 +291,15 @@ plot.performance <- function(x,
       ) |>
       na.omit() |>
       mutate(res = ifelse(name %in% .positive, 1.1 - res, res)) |>
-      mutate(model = as.factor(model), name = factor(name, levels = .slt))
+      mutate(fn_name = as.factor(fn_name), name = factor(name, levels = .slt))
     p <- .data |>
       ggplot(
         mapping = aes(
           x = name,
           y = res,
-          colour = model,
-          group = model,
-          fill = model
+          colour = fn_name,
+          group = fn_name,
+          fill = fn_name
         )
       ) +
       geom_polygon(linewidth = linewidth, alpha = 0.1) +
@@ -320,7 +316,7 @@ plot.performance <- function(x,
     p <- .data |>
       ggplot(
         mapping = aes(
-          x = model,
+          x = fn_name,
           y = .data[[var_plot]],
           group = uid,
           color = as.factor(uid)
@@ -393,7 +389,7 @@ metrics <- function(x, by_grp = TRUE) {
     stop("The object should be of modeler class")
   }
   val_metrics <- x$dt |>
-    group_by(uid, var) |>
+    group_by(uid, fn_name, var) |>
     summarise(
       SSE = sse(y, .fitted),
       MAE = mae(y, .fitted),

@@ -77,7 +77,7 @@ coef.modeler <- function(object,
       x = select(fit$param, uid),
       y = ccoef,
       by = "uid"
-    )
+    ) |> mutate(fn_name = fit$fn_name, .after = uid)
     return(ccoef)
   }
   fit_list <- object$fit
@@ -91,10 +91,10 @@ coef.modeler <- function(object,
   if (metadata) {
     coeff |>
       left_join(
-        y = select(dt, uid, all_of(keep)),
+        y = unique.data.frame(select(dt, uid, all_of(keep))),
         by = "uid"
       ) |>
-      relocate(all_of(keep), .after = uid)
+      relocate(all_of(keep), .after = fn_name)
   } else {
     return(coeff)
   }

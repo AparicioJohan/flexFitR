@@ -13,7 +13,7 @@
   color = "red",
   color_points = "black",
   parm = NULL,
-  n_points = 2000,
+  n_points = 1000,
   title = NULL,
   add_ci = TRUE,
   add_ribbon = FALSE,

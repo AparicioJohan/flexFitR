@@ -155,7 +155,7 @@ plot.modeler <- function(x,
                          color = "red",
                          color_points = "black",
                          parm = NULL,
-                         n_points = 2000,
+                         n_points = 1000,
                          title = NULL,
                          add_ci = TRUE,
                          add_ribbon = FALSE,
@@ -181,9 +181,9 @@ plot.modeler <- function(x,
     .param <- pull(fit$type, value, parameter)
     .func_dt <- data.frame(uid = .uid, x = seq, t(.param)) |>
       group_by(x, uid) |>
-      mutate(dens = !!.fn) |>
+      mutate(dens = !!.fn, fn_name = curve) |>
       ungroup() |>
-      select(uid, x, dens)
+      dplyr::select(uid, x, dens, fn_name)
     return(.func_dt)
   }
   fit_list <- x$fit
@@ -197,16 +197,46 @@ plot.modeler <- function(x,
     as_tibble()
   dt <- droplevels(filter(dt, uid %in% id))
   label <- unique(dt$var)
+  functions <- unique(func_dt$fn_name)
 
   if (type == 1) {
     p0 <- dt |>
       ggplot() +
       geom_point(aes(x = x, y = y), color = color_points) +
-      geom_line(data = func_dt, aes(x = x, y = dens), color = color) +
+      {
+        if (length(functions) == 1) {
+          geom_line(
+            data = func_dt,
+            mapping = aes(x = x, y = dens, group = fn_name, linetype = fn_name),
+            color = color
+          )
+        }
+      } +
+      {
+        if (length(functions) > 1) {
+          geom_line(
+            data = func_dt,
+            mapping = aes(
+              x = x,
+              y = dens,
+              group = fn_name,
+              linetype = fn_name,
+              color = fn_name
+            )
+          )
+        }
+      } +
       theme_classic(base_size = base_size) +
       labs(y = label, title = title)
     if (length(id) > 1) {
       p0 <- p0 + facet_wrap(~uid)
+    }
+    if (length(functions) == 1) {
+      p0 <- p0 + theme(legend.position = "none")
+    } else if (length(functions) > 1) {
+      p0 <- p0 +
+        scale_color_brewer(type = "qual", palette = "Dark2") +
+        labs(color = "Model", linetype = "Model")
     }
   }
   if (type == 2) {
@@ -225,11 +255,20 @@ plot.modeler <- function(x,
       ggplot() +
       geom_line(
         data = func_dt,
-        mapping = aes(x = x, y = dens, group = uid, color = as.factor(uid)),
+        mapping = aes(
+          x = x,
+          y = dens,
+          group = paste0(uid, "_", fn_name),
+          linetype = fn_name,
+          color = as.factor(uid)
+        ),
       ) +
       theme_classic(base_size = base_size) +
       labs(y = label, color = "uid", title = title) +
       scale_color_viridis_d(option = "D", direction = 1)
+    if (length(functions) > 1) {
+      p0 <- p0 + facet_wrap(~fn_name)
+    }
   }
   if (type %in% c(4, 5, 6)) {
     tp <- switch(
@@ -250,11 +289,18 @@ plot.modeler <- function(x,
         n <- x$n_obs
         p <- x$p
         df <- n - p
-        data.frame(uid = x$uid, n = n, p = p, df = df, mse = x$param$sse / df)
+        data.frame(
+          uid = x$uid,
+          n = n,
+          p = p,
+          df = df,
+          mse = x$param$sse / df,
+          fn_name = x$fn_name
+        )
       })
     )
     dt_ci <- predict.modeler(object = x, x = sq, type = tp, id = id) |>
-      left_join(y = mse_dt, by = "uid") |>
+      left_join(y = mse_dt, by = c("uid", "fn_name")) |>
       mutate(std.error.p = sqrt(mse + std.error^2)) |>
       mutate(
         ci_lower = predicted.value + qt((1 - 0.95) / 2, df) * std.error,
@@ -265,7 +311,11 @@ plot.modeler <- function(x,
     p0 <- dt_ci |>
       ggplot() +
       geom_line(
-        mapping = aes(x = x_new, y = predicted.value, group = uid),
+        mapping = aes(
+          x = x_new,
+          y = predicted.value,
+          group = paste0(uid, "_", fn_name)
+        ),
         color = color
       ) +
       {
@@ -280,7 +330,11 @@ plot.modeler <- function(x,
       {
         if (add_ci) {
           geom_line(
-            mapping = aes(x = x_new, y = ci_lower, group = uid),
+            mapping = aes(
+              x = x_new,
+              y = ci_lower,
+              group = paste0(uid, "_", fn_name)
+            ),
             linetype = 2,
             color = color_ci
           )
@@ -289,7 +343,11 @@ plot.modeler <- function(x,
       {
         if (add_ci) {
           geom_line(
-            mapping = aes(x = x_new, y = ci_upper, group = uid),
+            mapping = aes(
+              x = x_new,
+              y = ci_upper,
+              group = paste0(uid, "_", fn_name)
+            ),
             linetype = 2,
             color = color_ci
           )
@@ -298,7 +356,11 @@ plot.modeler <- function(x,
       {
         if (add_ci && type == 4) {
           geom_line(
-            mapping = aes(x = x_new, y = pi_lower, group = uid),
+            mapping = aes(
+              x = x_new,
+              y = pi_lower,
+              group = paste0(uid, "_", fn_name)
+            ),
             linetype = 4,
             color = color_pi
           )
@@ -307,7 +369,11 @@ plot.modeler <- function(x,
       {
         if (add_ci && type == 4) {
           geom_line(
-            mapping = aes(x = x_new, y = pi_upper, group = uid),
+            mapping = aes(
+              x = x_new,
+              y = pi_upper,
+              group = paste0(uid, "_", fn_name)
+            ),
             linetype = 4,
             color = color_pi
           )
@@ -321,6 +387,8 @@ plot.modeler <- function(x,
       )
     if (length(id) > 1) {
       p0 <- p0 + facet_wrap(~uid)
+    } else if (length(functions) > 1 && length(id) > 1) {
+      p0 <- p0 + facet_wrap(fn_name ~ uid)
     }
   }
   return(p0)

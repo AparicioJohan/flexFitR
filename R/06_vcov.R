@@ -49,6 +49,7 @@ vcov.modeler <- function(object, id = NULL, ...) {
     varerr <- fit$param$sse / rdf
     mat_hess <- try((solve(hessian) * 2 * varerr), silent = TRUE)
     if (inherits(mat_hess, "try-error")) mat_hess <- NA
+    attr(mat_hess, "fn_name") <- fit$fn_name
     mat_hess <- list(mat_hess)
     names(mat_hess) <- fit$uid
     return(mat_hess)

@@ -180,10 +180,10 @@ predict.modeler <- function(object,
   if (metadata) {
     predictions |>
       left_join(
-        y = select(dt, uid, all_of(keep)),
+        y = unique.data.frame(select(dt, uid, all_of(keep))),
         by = "uid"
       ) |>
-      relocate(all_of(keep), .after = uid)
+      relocate(all_of(keep), .after = fn_name)
   } else {
     return(predictions)
   }
@@ -228,6 +228,7 @@ predict.modeler <- function(object,
   # Combine results
   results <- data.frame(
     uid = uid,
+    fn_name = curve,
     x_new = x_new,
     predicted.value = predicted_values,
     std.error = std_errors
@@ -298,6 +299,7 @@ ff <- function(params, x_new, curve, fixed_params = NA) {
   # Combine results
   results <- data.frame(
     uid = uid,
+    fn_name = curve,
     x_min = x_new[1],
     x_max = x_new[2],
     predicted.value = predicted_values,
@@ -372,6 +374,7 @@ ff_auc <- function(params, x_new, curve, fixed_params = NA, n_points = 1000) {
   # Combine results
   results <- data.frame(
     uid = uid,
+    fn_name = curve,
     x_new = x_new,
     predicted.value = predicted_values,
     std.error = std_errors
@@ -423,6 +426,7 @@ ff_deriv <- function(params, x_new, curve, fixed_params = NA, which = "fd") {
 
 # Delta method generic function
 .delta_method_gen <- function(fit, formula) {
+  curve <- fit$fn_name
   tt <- fit$hessian
   rdf <- (fit$n_obs - fit$p)
   varerr <- fit$param$sse / rdf
@@ -455,6 +459,7 @@ ff_deriv <- function(params, x_new, curve, fixed_params = NA, which = "fd") {
   # Combine results
   results <- data.frame(
     uid = uid,
+    fn_name = curve,
     formula = paste(formula)[2],
     predicted.value = predicted_values,
     std.error = std_errors

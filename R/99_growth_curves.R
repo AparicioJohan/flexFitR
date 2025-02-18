@@ -590,15 +590,6 @@ minimizer <- function(params,
 create_call <- function(fn = "fn_linear_sat") {
   arg <- formals(fn)
   values <- paste(names(arg)[-1], collapse = ", ")
-  string <- paste(fn, "(time, ", values, ")", sep = "")
-  out <- rlang::parse_expr(string)
-  return(out)
-}
-
-#' @noRd
-create_call <- function(fn = "fn_linear_sat") {
-  arg <- formals(fn)
-  values <- paste(names(arg)[-1], collapse = ", ")
   string <- paste(fn, "(x, ", values, ")", sep = "")
   out <- rlang::parse_expr(string)
   return(out)

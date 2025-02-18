@@ -36,6 +36,7 @@ A list containing the following elements:
   \item{\code{p}}{Number of parameters estimated.}
   \item{\code{n_obs}}{Number of observations.}
   \item{\code{uid}}{Unique identifier.}
+  \item{\code{fn_name}}{Name of the curve-fitting function used.}
 }
 }
 \description{
