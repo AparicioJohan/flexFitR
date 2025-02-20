@@ -161,3 +161,13 @@ anova.modeler <- function(object, full_model = NULL, ...) {
     as_tibble()
   return(results)
 }
+
+#' @noRd
+.sigma_grp.modeler <- function(object, ...) {
+  ids <- unlist(x = lapply(object, FUN = \(x) x$uid))
+  sse <- unlist(x = lapply(X = object, FUN = \(x) x$param$sse))
+  N <- unlist(x = lapply(object, FUN = \(x) x$n_obs))
+  P <- unlist(x = lapply(X = object, FUN = \(x) x$p))
+  out <- data.frame(uid = ids, .sigma = sqrt(sse / (N - P)))
+  return(out)
+}

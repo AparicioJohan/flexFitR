@@ -92,6 +92,8 @@ utils::globalVariables(
     "R2",
     "AIC",
     "p",
-    "fn_name"
+    "fn_name",
+    ".resid",
+    ".sigma"
   )
 )

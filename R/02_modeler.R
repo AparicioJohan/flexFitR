@@ -6,8 +6,8 @@
 #' @param data A `data.frame` containing the input data for analysis.
 #' @param x The name of the column in `data` representing the independent variable (x points).
 #' @param y The name of the column in `data` containing the dependent variable to analyze (response variable).
-#' @param grp Column(s) in `data` used as grouping variable(s). Defaults to `NULL`. (optional)
-#' @param keep Names of columns to retain in the output. Defaults to `NULL`. (Optional)
+#' @param grp Column(s) in `data` used as grouping variable(s). Defaults to \code{NULL}. (optional)
+#' @param keep Names of columns to retain in the output. Defaults to \code{NULL}. (Optional)
 #' @param fn A string. The name of the function used for curve fitting.
 #'   Example: `"fn_linear_sat"`. Defaults to \code{"fn_linear_sat"}.
 #' @param parameters A numeric vector, named list, or `data.frame` providing initial values for parameters:
@@ -16,7 +16,7 @@
 #'     \item{Data frame}{Requires a `uid` column with group IDs and parameter values for each group.}
 #'     \item{List}{Named list where parameter values can be numeric or expressions (e.g., `list(k = "max(y)", t1 = 40)`).}
 #'   }
-#'   Defaults to `NULL`.
+#'   Defaults to \code{NULL}.
 #' @param lower A numeric vector specifying lower bounds for parameters. Defaults to `-Inf` for all parameters.
 #' @param upper A numeric vector specifying upper bounds for parameters. Defaults to `Inf` for all parameters.
 #' @param fixed_params A list or `data.frame` for fixing specific parameters:
@@ -24,12 +24,12 @@
 #'     \item{List}{Named list where parameter values can be numeric or expressions (e.g., `list(k = "max(y)", t1 = 40)`).}
 #'     \item{Data frame}{Requires a `uid` column for group IDs and fixed parameter values.}
 #'   }
-#'   Defaults to `NULL`.
+#'   Defaults to \code{NULL}.
 #' @param method A character vector specifying optimization methods.
 #'   Check available methods using \code{list_methods()} and their dependencies using
 #'   \code{optimx::checkallsolvers()}. Defaults to \code{c("subplex", "pracmanm", "anms")}.
 #' @param subset A vector (optional) containing levels of `grp` to filter the data for analysis.
-#'   Defaults to `NULL` (all groups are included).
+#'   Defaults to \code{NULL} (all groups are included).
 #' @param options A list of additional options. See `modeler.options()`
 #' \describe{
 #'   \item{\code{progress}}{Logical. If \code{TRUE} a progress bar is displayed. Default is \code{FALSE}. Try this before running the function: \code{progressr::handlers("progress", "beepr")}.}
@@ -368,8 +368,13 @@ modeler <- function(data,
   dt <- suppressWarnings({
     dt |>
       full_join(y = fitted_vals, by = c("x", "uid")) |>
-      mutate(.residual = y - .fitted) |>
-      mutate(fn_name = fn_name)
+      full_join(y = .sigma_grp.modeler(objt), by = "uid") |>
+      mutate(
+        .resid = y - .fitted,
+        .std_resid = .resid / .sigma
+      ) |>
+      mutate(fn_name = fn_name) |>
+      select(-.sigma)
   })
   # Output
   if (!return_method) {
@@ -507,6 +512,8 @@ modeler <- function(data,
     hessian = hessian,
     type = coef,
     conv = rr[rr$method == best, "convergence"],
+    x = t,
+    y = y,
     p = length(est_params),
     n_obs = length(t),
     uid = id,
