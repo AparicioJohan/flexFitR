@@ -4,6 +4,9 @@
 # {flexFitR} <img src='man/figures/logo.png' width = "120px" align="right"/>
 
 <!-- badges: start -->
+
+[![CRAN
+status](https://www.r-pkg.org/badges/version/flexFitR)](https://CRAN.R-project.org/package=flexFitR)
 <!-- badges: end -->
 
 `{flexFitR}` is an R package designed for efficient modeling and
@@ -97,9 +100,9 @@ print(mod_1)
 Call:
 variable ~ fn_linear_sat(time, t1, t2, k) 
 
-Residuals:
+Residuals (Standardized):
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-0.00000 0.00000 0.00000 0.07444 0.00000 0.67000 
+ 0.0000  0.0000  0.0000  0.2722  0.0000  2.4495 
 
 Optimization Results `head()`:
  uid   t1 t2    k   sse
@@ -107,7 +110,7 @@ Optimization Results `head()`:
 
 Metrics:
  Groups      Timing Convergence Iterations
-      1 0.3516 secs        100%   511 (id)
+      1 0.6083 secs        100%   511 (id)
 ```
 
 ``` r
@@ -120,12 +123,12 @@ plot(mod_1)
 ``` r
 # Coefficients
 coef(mod_1)
-# A tibble: 3 × 6
-    uid coefficient solution std.error `t value` `Pr(>|t|)`
-  <dbl> <chr>          <dbl>     <dbl>     <dbl>      <dbl>
-1     1 t1              38.6    0.0779      496.   4.54e-15
-2     1 t2              61.0    0.0918      665.   7.82e-16
-3     1 k               99.8    0.137       730.   4.47e-16
+# A tibble: 3 × 7
+    uid fn_name       coefficient solution std.error `t value` `Pr(>|t|)`
+  <dbl> <chr>         <chr>          <dbl>     <dbl>     <dbl>      <dbl>
+1     1 fn_linear_sat t1              38.6    0.0779      496.   4.54e-15
+2     1 fn_linear_sat t2              61.0    0.0918      665.   7.82e-16
+3     1 fn_linear_sat k               99.8    0.137       730.   4.47e-16
 ```
 
 ``` r
@@ -136,15 +139,17 @@ $`1`
 t1  6.061705e-03 -0.002940001 1.877072e-07
 t2 -2.940001e-03  0.008431400 4.204939e-03
 k   1.877072e-07  0.004204939 1.870426e-02
+attr(,"fn_name")
+[1] "fn_linear_sat"
 ```
 
 ``` r
 # Making predictions
 predict(mod_1, x = 45)
-# A tibble: 1 × 4
-    uid x_new predicted.value std.error
-  <dbl> <dbl>           <dbl>     <dbl>
-1     1    45            28.5     0.223
+# A tibble: 1 × 5
+    uid fn_name       x_new predicted.value std.error
+  <dbl> <chr>         <dbl>           <dbl>     <dbl>
+1     1 fn_linear_sat    45            28.5     0.223
 ```
 
 ## Documentation

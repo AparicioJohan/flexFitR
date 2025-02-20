@@ -79,61 +79,61 @@ It supports customizable optimization methods, flexible initial/fixed parameters
 
 
 <dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
-<dd><p>A `data.frame` containing the input data for analysis.</p></dd>
+<dd><p>A <code>data.frame</code> containing the input data for analysis.</p></dd>
 
 
 <dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p>The name of the column in `data` representing the independent variable (x points).</p></dd>
+<dd><p>The name of the column in <code>data</code> representing the independent variable (x points).</p></dd>
 
 
 <dt id="arg-y">y<a class="anchor" aria-label="anchor" href="#arg-y"></a></dt>
-<dd><p>The name of the column in `data` containing the dependent variable to analyze (response variable).</p></dd>
+<dd><p>The name of the column in <code>data</code> containing the dependent variable to analyze (response variable).</p></dd>
 
 
 <dt id="arg-grp">grp<a class="anchor" aria-label="anchor" href="#arg-grp"></a></dt>
-<dd><p>Column(s) in `data` used as grouping variable(s). Defaults to `NULL`. (optional)</p></dd>
+<dd><p>Column(s) in <code>data</code> used as grouping variable(s). Defaults to <code>NULL</code>. (optional)</p></dd>
 
 
 <dt id="arg-keep">keep<a class="anchor" aria-label="anchor" href="#arg-keep"></a></dt>
-<dd><p>Names of columns to retain in the output. Defaults to `NULL`. (Optional)</p></dd>
+<dd><p>Names of columns to retain in the output. Defaults to <code>NULL</code>. (Optional)</p></dd>
 
 
 <dt id="arg-fn">fn<a class="anchor" aria-label="anchor" href="#arg-fn"></a></dt>
 <dd><p>A string. The name of the function used for curve fitting.
-Example: `"fn_linear_sat"`. Defaults to <code>"fn_linear_sat"</code>.</p></dd>
+Example: <code>"fn_lin"</code>. Defaults to <code>"fn_linear_sat"</code>.</p></dd>
 
 
 <dt id="arg-parameters">parameters<a class="anchor" aria-label="anchor" href="#arg-parameters"></a></dt>
-<dd><p>A numeric vector, named list, or `data.frame` providing initial values for parameters:</p><dl><dt>Numeric vector</dt>
-<dd><p>Named vector specifying initial values (e.g., `c(k = 0.5, t1 = 30)`).</p></dd>
+<dd><p>A numeric vector, named list, or <code>data.frame</code> providing initial values for parameters:</p><dl><dt>Numeric vector</dt>
+<dd><p>Named vector specifying initial values (e.g., <code>c(k = 0.5, t1 = 30)</code>).</p></dd>
 
   <dt>Data frame</dt>
-<dd><p>Requires a `uid` column with group IDs and parameter values for each group.</p></dd>
+<dd><p>Requires a <code>uid</code> column with group IDs and parameter values for each group.</p></dd>
 
   <dt>List</dt>
-<dd><p>Named list where parameter values can be numeric or expressions (e.g., `list(k = "max(y)", t1 = 40)`).</p></dd>
+<dd><p>Named list where parameter values can be numeric or expressions (e.g., <code>list(k = "max(y)", t1 = 40)</code>).</p></dd>
 
 
-</dl><p>Defaults to `NULL`.</p></dd>
+</dl><p>Defaults to <code>NULL</code>.</p></dd>
 
 
 <dt id="arg-lower">lower<a class="anchor" aria-label="anchor" href="#arg-lower"></a></dt>
-<dd><p>A numeric vector specifying lower bounds for parameters. Defaults to `-Inf` for all parameters.</p></dd>
+<dd><p>A numeric vector specifying lower bounds for parameters. Defaults to <code>-Inf</code> for all parameters.</p></dd>
 
 
 <dt id="arg-upper">upper<a class="anchor" aria-label="anchor" href="#arg-upper"></a></dt>
-<dd><p>A numeric vector specifying upper bounds for parameters. Defaults to `Inf` for all parameters.</p></dd>
+<dd><p>A numeric vector specifying upper bounds for parameters. Defaults to <code>Inf</code> for all parameters.</p></dd>
 
 
 <dt id="arg-fixed-params">fixed_params<a class="anchor" aria-label="anchor" href="#arg-fixed-params"></a></dt>
-<dd><p>A list or `data.frame` for fixing specific parameters:</p><dl><dt>List</dt>
-<dd><p>Named list where parameter values can be numeric or expressions (e.g., `list(k = "max(y)", t1 = 40)`).</p></dd>
+<dd><p>A list or <code>data.frame</code> for fixing specific parameters:</p><dl><dt>List</dt>
+<dd><p>Named list where parameter values can be numeric or expressions (e.g., <code>list(k = "max(y)", t1 = 40)</code>).</p></dd>
 
   <dt>Data frame</dt>
-<dd><p>Requires a `uid` column for group IDs and fixed parameter values.</p></dd>
+<dd><p>Requires a <code>uid</code> column for group IDs and fixed parameter values.</p></dd>
 
 
-</dl><p>Defaults to `NULL`.</p></dd>
+</dl><p>Defaults to <code>NULL</code>.</p></dd>
 
 
 <dt id="arg-method">method<a class="anchor" aria-label="anchor" href="#arg-method"></a></dt>
@@ -143,19 +143,19 @@ Check available methods using <code><a href="list_methods.html">list_methods()</
 
 
 <dt id="arg-subset">subset<a class="anchor" aria-label="anchor" href="#arg-subset"></a></dt>
-<dd><p>A vector (optional) containing levels of `grp` to filter the data for analysis.
-Defaults to `NULL` (all groups are included).</p></dd>
+<dd><p>A vector (optional) containing levels of <code>grp</code> to filter the data for analysis.
+Defaults to <code>NULL</code> (all groups are included).</p></dd>
 
 
 <dt id="arg-options">options<a class="anchor" aria-label="anchor" href="#arg-options"></a></dt>
-<dd><p>A list of additional options. See `modeler.options()`</p><dl><dt><code>progress</code></dt>
+<dd><p>A list of additional options. See <code>modeler.options()</code></p><dl><dt><code>progress</code></dt>
 <dd><p>Logical. If <code>TRUE</code> a progress bar is displayed. Default is <code>FALSE</code>. Try this before running the function: <code>progressr::handlers("progress", "beepr")</code>.</p></dd>
 
   <dt><code>parallel</code></dt>
 <dd><p>Logical. If <code>TRUE</code> the model fit is performed in parallel. Default is <code>FALSE</code>.</p></dd>
 
   <dt><code>workers</code></dt>
-<dd><p>The number of parallel processes to use. `parallel::detectCores()`</p></dd>
+<dd><p>The number of parallel processes to use. <code><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">parallel::detectCores()</a></code></p></dd>
 
   <dt><code>trace</code></dt>
 <dd><p>If <code>TRUE</code> , convergence monitoring of the current fit is reported in the console. <code>FALSE</code> by default.</p></dd>
@@ -189,7 +189,7 @@ Defaults to `NULL` (all groups are included).</p></dd>
 <dd><p>Name of the response variable analyzed.</p></dd>
 
   <dt><code>keep</code></dt>
-<dd><p>Metadata retained based on the `keep` argument.</p></dd>
+<dd><p>Metadata retained based on the <code>keep</code> argument.</p></dd>
 
   <dt><code>fun</code></dt>
 <dd><p>Name of the curve-fitting function used.</p></dd>
@@ -225,9 +225,9 @@ Defaults to `NULL` (all groups are included).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> GLI ~ fn_lin_pl_lin(DAP, t1, t2, t3, k, beta) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Residuals:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -0.011076 -0.001003  0.000000 -0.001886  0.000000  0.000000 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Residuals (Standardized):</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -1.6286 -0.1474  0.0000 -0.2773  0.0000  0.0000 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Optimization Results `head()`:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  uid   t1   t2   t3     k     beta      sse</span>
@@ -235,7 +235,7 @@ Defaults to `NULL` (all groups are included).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Groups      Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       1 1.2995 secs        100%  3156 (id)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       1 0.9991 secs        100%  3156 (id)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="co"># Example 2</span></span></span>
 <span class="r-in"><span><span class="va">mod_2</span> <span class="op">&lt;-</span> <span class="va">dt_potato</span> <span class="op">|&gt;</span></span></span>
@@ -254,9 +254,9 @@ Defaults to `NULL` (all groups are included).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Canopy ~ fn_linear_sat(DAP, t1, t2, k) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Residuals:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       Min.    1st Qu.     Median       Mean    3rd Qu.       Max. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -1.201e-09  0.000e+00  1.911e-10  1.031e-10  3.823e-10  8.791e-10 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Residuals (Standardized):</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -1.6489  0.0000  0.2623  0.1414  0.5246  1.2064 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Optimization Results `head()`:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  uid   t1   t2   k      sse</span>
@@ -264,7 +264,7 @@ Defaults to `NULL` (all groups are included).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Groups      Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       1 0.8072 secs        100%   351 (id)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       1 0.7048 secs        100%   351 (id)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>

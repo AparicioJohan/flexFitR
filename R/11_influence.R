@@ -6,7 +6,7 @@
 #'
 #' @param x An object of class \code{modeler}.
 #' @param id Optional unique identifier to filter by a specific group. Default is \code{NULL}.
-#' @param metadata Logical. If `TRUE`, metadata is included with the predictions. Default is `FALSE`.
+#' @param metadata Logical. If \code{TRUE}, metadata is included with the predictions. Default is \code{FALSE}
 #' @param ... Additional parameters for future functionality.
 #' @author Johan Aparicio [aut]
 #' @return A tibble containing the following columns:

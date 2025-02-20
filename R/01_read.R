@@ -4,11 +4,11 @@
 #'
 #' This function helps to explore the dataset before being analyzed with \code{modeler()}.
 #'
-#' @param data A `data.frame` containing the input data for analysis.
-#' @param x The name of the column in `data` that contains x points.
-#' @param y The names of the columns in `data` that contain the variables to be analyzed.
-#' @param id The names of the columns in `data` that contains a grouping variable.
-#' @param metadata The names of the columns in `data` to keep across the analysis.
+#' @param data A \code{data.frame} containing the input data for analysis.
+#' @param x The name of the column in \code{data} that contains x points.
+#' @param y The names of the columns in \code{data} that contain the variables to be analyzed.
+#' @param id The names of the columns in \code{data} that contains a grouping variable.
+#' @param metadata The names of the columns in \code{data} to keep across the analysis.
 #'
 #' @return An object of class \code{explorer}, which is a list containing the following elements:
 #' \describe{

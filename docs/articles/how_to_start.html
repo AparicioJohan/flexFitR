@@ -137,17 +137,17 @@ to our coefficient b and coefficient m.</p>
 <span><span class="co">#&gt; Call:</span></span>
 <span><span class="co">#&gt; Y ~ fn_lm(X, b, m) </span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Residuals:</span></span>
+<span><span class="co">#&gt; Residuals (Standardized):</span></span>
 <span><span class="co">#&gt;     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. </span></span>
-<span><span class="co">#&gt; -12.5905  -6.0762  -0.3476   0.0000   6.1952  12.8952 </span></span>
+<span><span class="co">#&gt; -1.18875 -0.57369 -0.03282  0.00000  0.58494  1.21753 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Optimization Results `head()`:</span></span>
 <span><span class="co">#&gt;  uid     b    m sse</span></span>
 <span><span class="co">#&gt;    1 -15.5 19.5 449</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
-<span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;       1 0.3387 secs        100%   259 (id)</span></span></code></pre></div>
+<span><span class="co">#&gt;  Groups     Timing Convergence Iterations</span></span>
+<span><span class="co">#&gt;       1 0.569 secs        100%   259 (id)</span></span></code></pre></div>
 <p>Once the model is fitted, we can examine the output, extract the
 estimated parameters, make some plots, and predict new x values.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -275,9 +275,9 @@ using the <code>modeler</code> function.</p>
 <span><span class="co">#&gt; Call:</span></span>
 <span><span class="co">#&gt; variable ~ fun(time, t1, t2, k) </span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Residuals:</span></span>
+<span><span class="co">#&gt; Residuals (Standardized):</span></span>
 <span><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
-<span><span class="co">#&gt; 0.00000 0.00000 0.00000 0.07444 0.00000 0.67000 </span></span>
+<span><span class="co">#&gt;  0.0000  0.0000  0.0000  0.2722  0.0000  2.4495 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Optimization Results `head()`:</span></span>
 <span><span class="co">#&gt;  uid   t1 t2    k   sse</span></span>
@@ -285,7 +285,7 @@ using the <code>modeler</code> function.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
 <span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;       1 0.3762 secs        100%   511 (id)</span></span></code></pre></div>
+<span><span class="co">#&gt;       1 0.5848 secs        100%   511 (id)</span></span></code></pre></div>
 <p>After fitting the model, we can examine the results, plot the fitted
 curve, extract the coefficients and their associated p-values, obtain
 the variance-covariance matrix, and make predictions for unknown values
@@ -346,9 +346,9 @@ approach is primarily for illustrative purposes.</p>
 <span><span class="co">#&gt; Call:</span></span>
 <span><span class="co">#&gt; variable ~ fun(time, t1, t2, k) </span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Residuals:</span></span>
+<span><span class="co">#&gt; Residuals (Standardized):</span></span>
 <span><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
-<span><span class="co">#&gt; 0.00000 0.00000 0.00000 0.07444 0.00000 0.67000 </span></span>
+<span><span class="co">#&gt;  0.0000  0.0000  0.0000  0.2722  0.0000  2.4495 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Optimization Results `head()`:</span></span>
 <span><span class="co">#&gt;  uid   t1 t2    k   sse</span></span>
@@ -356,7 +356,7 @@ approach is primarily for illustrative purposes.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
 <span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;       1 0.3498 secs        100%   567 (id)</span></span>
+<span><span class="co">#&gt;       1 0.5408 secs        100%   567 (id)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">mod_2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 7</span></span></span>
 <span><span class="co">#&gt;     uid fn_name coefficient solution std.error `t value` `Pr(&gt;|t|)`</span></span>
@@ -384,9 +384,9 @@ approach is primarily for illustrative purposes.</p>
 <span><span class="co">#&gt; Call:</span></span>
 <span><span class="co">#&gt; variable ~ fun(time, t1, t2, k) </span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Residuals:</span></span>
+<span><span class="co">#&gt; Residuals (Standardized):</span></span>
 <span><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
-<span><span class="co">#&gt;  0.0000  0.0000  0.6700  0.8789  1.8100  1.8100 </span></span>
+<span><span class="co">#&gt;  0.0000  0.0000  0.4815  0.6316  1.3008  1.3008 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Optimization Results `head()`:</span></span>
 <span><span class="co">#&gt;  uid   t1   t2  sse  k</span></span>
@@ -394,7 +394,7 @@ approach is primarily for illustrative purposes.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
 <span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;       1 0.3306 secs        100%   321 (id)</span></span>
+<span><span class="co">#&gt;       1 0.5765 secs        100%   321 (id)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">mod_3</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 7</span></span></span>
 <span><span class="co">#&gt;     uid fn_name coefficient solution std.error `t value` `Pr(&gt;|t|)`</span></span>

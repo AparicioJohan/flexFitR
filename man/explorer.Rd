@@ -7,15 +7,15 @@
 explorer(data, x, y, id, metadata)
 }
 \arguments{
-\item{data}{A `data.frame` containing the input data for analysis.}
+\item{data}{A \code{data.frame} containing the input data for analysis.}
 
-\item{x}{The name of the column in `data` that contains x points.}
+\item{x}{The name of the column in \code{data} that contains x points.}
 
-\item{y}{The names of the columns in `data` that contain the variables to be analyzed.}
+\item{y}{The names of the columns in \code{data} that contain the variables to be analyzed.}
 
-\item{id}{The names of the columns in `data` that contains a grouping variable.}
+\item{id}{The names of the columns in \code{data} that contains a grouping variable.}
 
-\item{metadata}{The names of the columns in `data` to keep across the analysis.}
+\item{metadata}{The names of the columns in \code{data} to keep across the analysis.}
 }
 \value{
 An object of class \code{explorer}, which is a list containing the following elements:

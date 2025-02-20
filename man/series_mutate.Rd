@@ -17,26 +17,26 @@ series_mutate(
 )
 }
 \arguments{
-\item{data}{A `data.frame` containing the input data for analysis.}
+\item{data}{A \code{data.frame} containing the input data for analysis.}
 
-\item{x}{The name of the column in `data` representing the independent variable (x points).}
+\item{x}{The name of the column in \code{data} representing the independent variable (x points).}
 
-\item{y}{The name of the column(s) in `data` containing variables to transform.}
+\item{y}{The name of the column(s) in \code{data} containing variables to transform.}
 
-\item{grp}{Column(s) in `data` used as grouping variable(s). Defaults to `NULL` (optional).}
+\item{grp}{Column(s) in \code{data} used as grouping variable(s). Defaults to \code{NULL} (optional).}
 
-\item{metadata}{Names of columns to retain in the output. Defaults to `NULL` (optional).}
+\item{metadata}{Names of columns to retain in the output. Defaults to \code{NULL} (optional).}
 
-\item{max_as_last}{Logical. If `TRUE`, appends the maximum value after reaching the maximum. Default is `FALSE`.}
+\item{max_as_last}{Logical. If \code{TRUE}, appends the maximum value after reaching the maximum. Default is \code{FALSE}.}
 
-\item{check_negative}{Logical. If `TRUE`, converts negative values in the data to zero. Default is `FALSE`.}
+\item{check_negative}{Logical. If \code{TRUE}, converts negative values in the data to zero. Default is \code{FALSE}.}
 
-\item{add_zero}{Logical. If `TRUE`, adds a zero value to the series at the start. Default is `FALSE`.}
+\item{add_zero}{Logical. If \code{TRUE}, adds a zero value to the series at the start. Default is \code{FALSE}.}
 
-\item{interval}{A numeric vector of length 2 (start and end) specifying the range to filter the data. Defaults to `NULL`.}
+\item{interval}{A numeric vector of length 2 (start and end) specifying the range to filter the data. Defaults to \code{NULL}.}
 }
 \value{
-A transformed `data.frame` with the specified modifications applied.
+A transformed \code{data.frame} with the specified modifications applied.
 }
 \description{
 This function performs transformations on specified columns of a data frame,

@@ -4,16 +4,16 @@
 #' including truncating maximum values, handling negative values, and adding a zero
 #' to the series. It allows for grouping and supports retaining metadata in the output.
 #'
-#' @param data A `data.frame` containing the input data for analysis.
-#' @param x The name of the column in `data` representing the independent variable (x points).
-#' @param y The name of the column(s) in `data` containing variables to transform.
-#' @param grp Column(s) in `data` used as grouping variable(s). Defaults to `NULL` (optional).
-#' @param metadata Names of columns to retain in the output. Defaults to `NULL` (optional).
-#' @param max_as_last Logical. If `TRUE`, appends the maximum value after reaching the maximum. Default is `FALSE`.
-#' @param check_negative Logical. If `TRUE`, converts negative values in the data to zero. Default is `FALSE`.
-#' @param add_zero Logical. If `TRUE`, adds a zero value to the series at the start. Default is `FALSE`.
-#' @param interval A numeric vector of length 2 (start and end) specifying the range to filter the data. Defaults to `NULL`.
-#' @return A transformed `data.frame` with the specified modifications applied.
+#' @param data A \code{data.frame} containing the input data for analysis.
+#' @param x The name of the column in \code{data} representing the independent variable (x points).
+#' @param y The name of the column(s) in \code{data} containing variables to transform.
+#' @param grp Column(s) in \code{data} used as grouping variable(s). Defaults to \code{NULL} (optional).
+#' @param metadata Names of columns to retain in the output. Defaults to \code{NULL} (optional).
+#' @param max_as_last Logical. If \code{TRUE}, appends the maximum value after reaching the maximum. Default is \code{FALSE}.
+#' @param check_negative Logical. If \code{TRUE}, converts negative values in the data to zero. Default is \code{FALSE}.
+#' @param add_zero Logical. If \code{TRUE}, adds a zero value to the series at the start. Default is \code{FALSE}.
+#' @param interval A numeric vector of length 2 (start and end) specifying the range to filter the data. Defaults to \code{NULL}.
+#' @return A transformed \code{data.frame} with the specified modifications applied.
 #' @export
 #' @examples
 #' data(dt_potato)
@@ -36,7 +36,7 @@ series_mutate <- function(data,
                           interval = NULL) {
   # Check if required arguments are provided
   if (missing(data)) {
-    stop("Error: `data` argument is missing.")
+    stop("Error: data argument is missing.")
   }
   if (missing(x) || missing(y)) {
     stop("Error: `x` and `y` columns must be specified.")

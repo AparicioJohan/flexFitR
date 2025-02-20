@@ -19,6 +19,7 @@ knitr::opts_chunk$set(
 # {flexFitR} <img src='man/figures/logo.png' width = "120px" align="right"/>
 
 <!-- badges: start -->
+[![CRAN status](https://www.r-pkg.org/badges/version/flexFitR)](https://CRAN.R-project.org/package=flexFitR)
 <!-- badges: end -->
 
 `{flexFitR}` is an R package designed for efficient modeling and analysis of large and complex datasets. It offers powerful tools for parameter estimation, model fitting, and visualization, leveraging the `{optimx}` package for optimization and the `{future}` package for parallel processing.

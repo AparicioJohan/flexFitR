@@ -3,38 +3,38 @@
 #' @description
 #' A versatile function for performing non-linear least squares optimization on grouped data.
 #' It supports customizable optimization methods, flexible initial/fixed parameters, and parallel processing.
-#' @param data A `data.frame` containing the input data for analysis.
-#' @param x The name of the column in `data` representing the independent variable (x points).
-#' @param y The name of the column in `data` containing the dependent variable to analyze (response variable).
-#' @param grp Column(s) in `data` used as grouping variable(s). Defaults to \code{NULL}. (optional)
+#' @param data A \code{data.frame} containing the input data for analysis.
+#' @param x The name of the column in \code{data} representing the independent variable (x points).
+#' @param y The name of the column in \code{data} containing the dependent variable to analyze (response variable).
+#' @param grp Column(s) in \code{data} used as grouping variable(s). Defaults to \code{NULL}. (optional)
 #' @param keep Names of columns to retain in the output. Defaults to \code{NULL}. (Optional)
 #' @param fn A string. The name of the function used for curve fitting.
-#'   Example: `"fn_linear_sat"`. Defaults to \code{"fn_linear_sat"}.
-#' @param parameters A numeric vector, named list, or `data.frame` providing initial values for parameters:
+#'   Example: \code{"fn_lin"}. Defaults to \code{"fn_linear_sat"}.
+#' @param parameters A numeric vector, named list, or \code{data.frame} providing initial values for parameters:
 #'   \describe{
-#'     \item{Numeric vector}{Named vector specifying initial values (e.g., `c(k = 0.5, t1 = 30)`).}
-#'     \item{Data frame}{Requires a `uid` column with group IDs and parameter values for each group.}
-#'     \item{List}{Named list where parameter values can be numeric or expressions (e.g., `list(k = "max(y)", t1 = 40)`).}
+#'     \item{Numeric vector}{Named vector specifying initial values (e.g., \code{c(k = 0.5, t1 = 30)}).}
+#'     \item{Data frame}{Requires a \code{uid} column with group IDs and parameter values for each group.}
+#'     \item{List}{Named list where parameter values can be numeric or expressions (e.g., \code{list(k = "max(y)", t1 = 40)}).}
 #'   }
 #'   Defaults to \code{NULL}.
-#' @param lower A numeric vector specifying lower bounds for parameters. Defaults to `-Inf` for all parameters.
-#' @param upper A numeric vector specifying upper bounds for parameters. Defaults to `Inf` for all parameters.
-#' @param fixed_params A list or `data.frame` for fixing specific parameters:
+#' @param lower A numeric vector specifying lower bounds for parameters. Defaults to \code{-Inf} for all parameters.
+#' @param upper A numeric vector specifying upper bounds for parameters. Defaults to \code{Inf} for all parameters.
+#' @param fixed_params A list or \code{data.frame} for fixing specific parameters:
 #'   \describe{
-#'     \item{List}{Named list where parameter values can be numeric or expressions (e.g., `list(k = "max(y)", t1 = 40)`).}
-#'     \item{Data frame}{Requires a `uid` column for group IDs and fixed parameter values.}
+#'     \item{List}{Named list where parameter values can be numeric or expressions (e.g., \code{list(k = "max(y)", t1 = 40)}).}
+#'     \item{Data frame}{Requires a \code{uid} column for group IDs and fixed parameter values.}
 #'   }
 #'   Defaults to \code{NULL}.
 #' @param method A character vector specifying optimization methods.
 #'   Check available methods using \code{list_methods()} and their dependencies using
 #'   \code{optimx::checkallsolvers()}. Defaults to \code{c("subplex", "pracmanm", "anms")}.
-#' @param subset A vector (optional) containing levels of `grp` to filter the data for analysis.
+#' @param subset A vector (optional) containing levels of \code{grp} to filter the data for analysis.
 #'   Defaults to \code{NULL} (all groups are included).
-#' @param options A list of additional options. See `modeler.options()`
+#' @param options A list of additional options. See \code{modeler.options()}
 #' \describe{
 #'   \item{\code{progress}}{Logical. If \code{TRUE} a progress bar is displayed. Default is \code{FALSE}. Try this before running the function: \code{progressr::handlers("progress", "beepr")}.}
 #'   \item{\code{parallel}}{Logical. If \code{TRUE} the model fit is performed in parallel. Default is \code{FALSE}.}
-#'   \item{\code{workers}}{The number of parallel processes to use. `parallel::detectCores()`}
+#'   \item{\code{workers}}{The number of parallel processes to use. \code{parallel::detectCores()}}
 #'   \item{\code{trace}}{If \code{TRUE} , convergence monitoring of the current fit is reported in the console. \code{FALSE} by default.}
 #'   \item{\code{return_method}}{ Logical. If \code{TRUE}, includes the optimization method used in the result. Default is \code{FALSE}.}
 #' }
@@ -46,7 +46,7 @@
 #'   \item{\code{metrics}}{Metrics and summary of the models.}
 #'   \item{\code{execution}}{Total execution time for the analysis.}
 #'   \item{\code{response}}{Name of the response variable analyzed.}
-#'   \item{\code{keep}}{Metadata retained based on the `keep` argument.}
+#'   \item{\code{keep}}{Metadata retained based on the \code{keep} argument.}
 #'   \item{\code{fun}}{Name of the curve-fitting function used.}
 #'   \item{\code{parallel}}{List containing parallel execution details (if applicable).}
 #'   \item{\code{fit}}{List of fitted models for each group.}
