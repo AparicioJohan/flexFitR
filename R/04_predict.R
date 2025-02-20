@@ -255,6 +255,11 @@ ff <- function(params, x_new, curve, fixed_params = NA) {
       collapse = ", "
     )
     values <- paste(values, fix, sep = ", ")
+  } else {
+    values <- paste(
+      paste(names(params), params, sep = " = "),
+      collapse = ", "
+    )
   }
   string <- paste("sapply(x_new, FUN = ", curve, ", ", values, ")", sep = "")
   y_hat <- eval(parse(text = string))
