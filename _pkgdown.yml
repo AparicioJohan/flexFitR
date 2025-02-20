@@ -57,6 +57,7 @@ reference:
   - anova.modeler
   - logLik.modeler
   - goodness_of_fit
+  - augment
   - metrics
   - performance
   - plot.performance
