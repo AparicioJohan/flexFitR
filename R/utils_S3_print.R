@@ -45,7 +45,7 @@ print.modeler <- function(x, ...) {
     cat(sub("(x", paste0("(", x$x_var), x = chr, fixed = TRUE), "\n")
   }
   cat("\n")
-  cat("Residuals (Standardized):\n")
+  cat("Residuals (`Standardized`):\n")
   resum <- summary(x$dt$.std_resid)
   print(resum)
   cat("\n")

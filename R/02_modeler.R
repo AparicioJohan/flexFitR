@@ -522,6 +522,68 @@ modeler <- function(data,
   return(out)
 }
 
+#' Extract fitted values from a \code{modeler} object
+#'
+#' @aliases fitted.modeler
+#' @param object An object of class `modeler`
+#' @param ... Additional parameters for future functionality.
+#' @author Johan Aparicio [aut]
+#' @method fitted modeler
+#' @return A numeric vector of fitted values.
+#' @export
+#' @examples
+#' library(flexFitR)
+#' data(dt_potato)
+#' mod_1 <- dt_potato |>
+#'   modeler(
+#'     x = DAP,
+#'     y = Canopy,
+#'     grp = Plot,
+#'     fn = "fn_linear_sat",
+#'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
+#'     subset = c(15, 2, 45)
+#'   )
+#' fitted(mod_1)
+#' @export
+fitted.modeler <- function(object, ...) {
+  if (!inherits(object, "modeler")) {
+    stop("The object must be of class 'modeler'.")
+  }
+  fitted_vals <- object$dt$.fitted
+  return(fitted_vals)
+}
+
+#' Extract residuals from a \code{modeler} object
+#'
+#' @aliases residuals.modeler
+#' @param object An object of class `modeler`
+#' @param ... Additional parameters for future functionality.
+#' @author Johan Aparicio [aut]
+#' @method residuals modeler
+#' @return A numeric vector of residuals
+#' @export
+#' @examples
+#' library(flexFitR)
+#' data(dt_potato)
+#' mod_1 <- dt_potato |>
+#'   modeler(
+#'     x = DAP,
+#'     y = Canopy,
+#'     grp = Plot,
+#'     fn = "fn_linear_sat",
+#'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
+#'     subset = c(15, 2, 45)
+#'   )
+#' residuals(mod_1)
+#' @export
+residuals.modeler <- function(object, ...) {
+  if (!inherits(object, "modeler")) {
+    stop("The object must be of class 'modeler'.")
+  }
+  resid_vals <- object$dt$.resid
+  return(resid_vals)
+}
+
 #' @noRd
 max_as_last <- function(data, metadata) {
   dt_can <- data |>
