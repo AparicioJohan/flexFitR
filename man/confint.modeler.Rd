@@ -2,7 +2,7 @@
 % Please edit documentation in R/07_confint.R
 \name{confint.modeler}
 \alias{confint.modeler}
-\title{Confidence Intervals for a modeler Object}
+\title{Confidence intervals for a modeler object}
 \usage{
 \method{confint}{modeler}(object, parm = NULL, level = 0.95, id = NULL, ...)
 }

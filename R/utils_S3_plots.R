@@ -259,7 +259,6 @@ plot.modeler <- function(x,
           x = x,
           y = dens,
           group = paste0(uid, "_", fn_name),
-          linetype = fn_name,
           color = as.factor(uid)
         ),
       ) +

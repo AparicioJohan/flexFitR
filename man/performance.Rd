@@ -22,7 +22,7 @@ performance metrics. Default is \code{FALSE}.}
 A data.frame with performance metrics for models in (...).
 }
 \description{
-computes indices of model performance for different models at once and hence
+Computes indices of model performance for different models at once and hence
 allows comparison of indices across models.
 }
 \examples{

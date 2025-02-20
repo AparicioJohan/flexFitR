@@ -1,4 +1,4 @@
-#' Confidence Intervals for a modeler Object
+#' Confidence intervals for a modeler object
 #'
 #' @description Extract confidence intervals for the estimated parameters of an
 #' object of class \code{modeler}.

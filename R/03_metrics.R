@@ -80,7 +80,7 @@ info_criteria <- function(object, metrics = "all", metadata = TRUE, digits = 2) 
 
 #' @title Compare performance of different models
 #' @description
-#' computes indices of model performance for different models at once and hence
+#' Computes indices of model performance for different models at once and hence
 #' allows comparison of indices across models.
 #' @param ... Multiple model objects (only of class `modeler`).
 #' @param metrics Can be "all" or a character vector of metrics to be computed
