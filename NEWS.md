@@ -2,10 +2,12 @@
 
 ## New features
 
-* `modeler()` adds the function name (`fn_name`) in every single table.
+* `augment()` function added to calculate influence measures (Cook's distance,
+  leverage values, standardized residuals, studentized residuals).
+* `modeler()` adds the function name (`fn_name`) in every output table.
 * `c.modeler()` S3 method added to combine `modeler` objects.
 * `subset.modeler()` S3 method added to subset `modeler` objects.
-* `performance()` function added to evaluate the performance of different models.
+* `performance()` function added to evaluate the performance of several models.
 * `plot.performance()` S3 method to plot an object of class `performance`.
 
 ## Changes
