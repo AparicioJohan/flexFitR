@@ -2,9 +2,10 @@
 
 ## New features
 
+* `fitted.modeler()` S3 method added to extract fitted values from `modeler` objects.
+* `residuals.modeler()` S3 method added to extract residuals from `modeler` objects.
 * `augment()` function added to calculate influence measures (Cook's distance,
   leverage values, standardized residuals, studentized residuals).
-* `modeler()` adds the function name (`fn_name`) in every output table.
 * `c.modeler()` S3 method added to combine `modeler` objects.
 * `subset.modeler()` S3 method added to subset `modeler` objects.
 * `performance()` function added to evaluate the performance of several models.
@@ -12,6 +13,7 @@
 
 ## Changes
 
+* `modeler()` adds the function name (`fn_name`) in every output table.
 * `modeler()` no longer returns function call.
 * `metrics()` returns R2 instead of r_squared.
 

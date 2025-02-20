@@ -48,6 +48,8 @@ reference:
   - coef.modeler
   - vcov.modeler
   - confint.modeler
+  - fitted.modeler
+  - residuals.modeler
   - print.modeler
   - c.modeler
   - subset.modeler
