@@ -313,23 +313,28 @@ plot.modeler <- function(x,
       )
     p0 <- dt_ci |>
       ggplot() +
+      {
+        if (add_ribbon) {
+          geom_ribbon(
+            mapping = aes(
+              x = x_new,
+              ymin = ci_lower,
+              ymax = ci_upper,
+              group = fn_name
+            ),
+            fill = color_ribbon,
+            alpha = 0.1
+          )
+        }
+      } +
       geom_line(
         mapping = aes(
           x = x_new,
           y = predicted.value,
           group = paste0(uid, "_", fn_name)
         ),
-        color = color
+        color = "black"
       ) +
-      {
-        if (add_ribbon && add_ci) {
-          geom_ribbon(
-            mapping = aes(x = x_new, ymin = ci_lower, ymax = ci_upper),
-            fill = color_ribbon,
-            alpha = 0.2
-          )
-        }
-      } +
       {
         if (add_ci) {
           geom_line(
@@ -364,7 +369,7 @@ plot.modeler <- function(x,
               y = pi_lower,
               group = paste0(uid, "_", fn_name)
             ),
-            linetype = 4,
+            linetype = 2,
             color = color_pi
           )
         }
@@ -377,7 +382,7 @@ plot.modeler <- function(x,
               y = pi_upper,
               group = paste0(uid, "_", fn_name)
             ),
-            linetype = 4,
+            linetype = 2,
             color = color_pi
           )
         }
@@ -386,12 +391,21 @@ plot.modeler <- function(x,
       labs(
         y = label,
         x = "x",
+        color = "Model",
+        fill = "Model",
         title = ifelse(is.null(title), title_tmp, title)
       )
-    if (length(id) > 1) {
+    if (length(functions) == 1 && length(id) == 1) {
+      p0 <- p0
+    }
+    if (length(functions) > 1 && length(id) == 1) {
+      p0 <- p0 + facet_wrap(~fn_name)
+    }
+    if (length(functions) == 1 && length(id) > 1) {
       p0 <- p0 + facet_wrap(~uid)
-    } else if (length(functions) > 1 && length(id) > 1) {
-      p0 <- p0 + facet_wrap(fn_name ~ uid)
+    }
+    if (length(functions) > 1 && length(id) > 1) {
+      p0 <- p0 + facet_wrap(uid ~ fn_name)
     }
   }
   return(p0)
