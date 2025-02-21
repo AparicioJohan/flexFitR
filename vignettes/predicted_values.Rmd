@@ -52,7 +52,7 @@ logistic models of the form:
 $$f(t) = \frac{L}{1 + e^{-k(t - t_0)}}$$
 
 ```{r}
-fn <- function(t, L, k, t0) L / (1 + exp(-k * (t - t0)))
+fn_logistic <- function(t, L, k, t0) L / (1 + exp(-k * (t - t0)))
 ```
 
 For simplicity, we’ll focus on just two plots from the dataset 
@@ -70,7 +70,7 @@ mod_1 <- dt_potato |>
     x = DAP,
     y = Canopy,
     grp = Plot,
-    fn = "fn",
+    fn = "fn_logistic",
     parameters = c(L = 100, k = 4, t0 = 40),
     subset = plots
   )
