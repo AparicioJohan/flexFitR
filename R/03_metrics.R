@@ -282,16 +282,7 @@ plot.performance <- function(x,
   if (type == 2) {
     .data <- .data |>
       group_by(fn_name, name) |>
-      summarise(value = mean(value)) |>
-      group_by(name) |>
-      mutate(
-        o_min = min(value, na.rm = TRUE),
-        o_max = max(value, na.rm = TRUE),
-        res = (value - o_min) / (o_max - o_min) * (n_max - n_min) + n_min
-      ) |>
-      na.omit() |>
-      mutate(res = ifelse(name %in% .positive, 1.1 - res, res)) |>
-      mutate(fn_name = as.factor(fn_name), name = factor(name, levels = .slt))
+      summarise(res = mean(res, na.rm = TRUE), .group = "drop")
     p <- .data |>
       ggplot(
         mapping = aes(
