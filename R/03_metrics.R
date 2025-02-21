@@ -282,7 +282,7 @@ plot.performance <- function(x,
   if (type == 2) {
     .data <- .data |>
       group_by(fn_name, name) |>
-      summarise(res = mean(res, na.rm = TRUE), .group = "drop")
+      summarise(res = mean(res, na.rm = TRUE), .groups = "drop")
     p <- .data |>
       ggplot(
         mapping = aes(
