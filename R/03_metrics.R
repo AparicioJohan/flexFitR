@@ -145,7 +145,7 @@ performance <- function(..., metrics = "all", metadata = FALSE, digits = 2) {
 
 #' Plot an object of class \code{performance}
 #'
-#' @description Create plots for an object of class \code{performance}
+#' @description Creates plots for an object of class \code{performance}
 #' @aliases plot.performance
 #' @param x An object of class \code{performance}, typically the result of calling \code{performance()}.
 #' @param id An optional group ID to filter the data for plotting, useful for avoiding overcrowded plots.

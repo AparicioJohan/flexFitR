@@ -63,35 +63,16 @@ c <- plot(mod, type = 3, color = "blue", id = plots, title = "Fitted curves")
 
 ```{r}
 # Fitted curves with confidence intervals
-d <- plot(
-  x = mod,
-  type = 4,
-  n_points = 200,
-  color = "black",
-  title = "Fitted curve (uid = 2)"
-)
+d <- plot(mod, type = 4, n_points = 200, title = "Fitted curve (uid = 2)")
 ```
 
 ```{r}
 # First derivative with confidence intervals
-e <- plot(
-  x = mod,
-  type = 5,
-  n_points = 200,
-  color = "black",
-  title = "1st Derivative (uid = 2)"
-)
+e <- plot(mod, type = 5, n_points = 200, title = "1st Derivative (uid = 2)")
 ```
 
 ```{r,  fig.width= 10, fig.height=7, fig.alt="plot derivatives"}
 # Second derivative with confidence intervals
-f <- plot(
-  x = mod,
-  type = 6,
-  n_points = 200,
-  color = "black",
-  title = "2nd Derivative (uid = 2)"
-)
+f <- plot(mod, type = 6, n_points = 200, title = "2nd Derivative (uid = 2)")
 ggarrange(c, d, e, f)
 ```
-

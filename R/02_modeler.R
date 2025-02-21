@@ -6,7 +6,7 @@
 #' @param data A \code{data.frame} containing the input data for analysis.
 #' @param x The name of the column in \code{data} representing the independent variable (x points).
 #' @param y The name of the column in \code{data} containing the dependent variable to analyze (response variable).
-#' @param grp Column(s) in \code{data} used as grouping variable(s). Defaults to \code{NULL}. (optional)
+#' @param grp Column(s) in \code{data} used as grouping variable(s). Defaults to \code{NULL}. (Optional)
 #' @param keep Names of columns to retain in the output. Defaults to \code{NULL}. (Optional)
 #' @param fn A string. The name of the function used for curve fitting.
 #'   Example: \code{"fn_lin"}. Defaults to \code{"fn_linear_sat"}.

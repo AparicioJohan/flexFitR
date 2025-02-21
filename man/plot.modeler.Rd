@@ -16,10 +16,12 @@
   n_points = 1000,
   title = NULL,
   add_ci = TRUE,
-  add_ribbon = FALSE,
-  color_ribbon = "blue",
   color_ci = "blue",
   color_pi = "red",
+  add_ribbon_ci = FALSE,
+  add_ribbon_pi = FALSE,
+  color_ribbon_ci = "blue",
+  color_ribbon_pi = "red",
   ...
 )
 }
@@ -54,13 +56,17 @@
 
 \item{add_ci}{Logical value indicating whether to add confidence intervals for \code{type = 4, 5, 6}. Default is \code{TRUE}.}
 
-\item{add_ribbon}{Logical value indicating whether to add a ribbon for confidence intervals in \code{type = 4, 5, 6}. Default is \code{FALSE}.}
-
-\item{color_ribbon}{Character string specifying the color of the ribbon. Default is "blue".}
-
 \item{color_ci}{Character string specifying the color of the confidence interval when \code{type = 4, 5, 6}. Default is "blue".}
 
 \item{color_pi}{Character string specifying the color of the prediction interval when \code{type = 4}. Default is "red".}
+
+\item{add_ribbon_ci}{Logical value indicating whether to add a ribbon for confidence intervals in \code{type = 4, 5, 6}. Default is \code{FALSE}.}
+
+\item{add_ribbon_pi}{Logical value indicating whether to add a ribbon for prediction intervals in \code{type = 4}. Default is \code{FALSE}.}
+
+\item{color_ribbon_ci}{Character string specifying the color of the ribbon (ci). Default is "blue".}
+
+\item{color_ribbon_pi}{Character string specifying the color of the ribbon (pi). Default is "red".}
 
 \item{...}{Additional graphical parameters for future extensions.}
 }
@@ -68,7 +74,7 @@
 A \code{ggplot} object representing the specified plot.
 }
 \description{
-Create several plots for an object of class \code{modeler}
+Creates several plots for an object of class \code{modeler}.
 }
 \examples{
 library(flexFitR)

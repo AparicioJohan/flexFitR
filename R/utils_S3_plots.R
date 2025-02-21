@@ -97,7 +97,7 @@ plot_fn <- function(fn = "fn_linear_sat",
 
 #' Plot an object of class \code{modeler}
 #'
-#' @description Create several plots for an object of class \code{modeler}
+#' @description Creates several plots for an object of class \code{modeler}.
 #' @aliases plot.modeler
 #' @param x An object of class \code{modeler}, typically the result of calling \code{modeler()}.
 #' @param id An optional group ID to filter the data for plotting, useful for avoiding overcrowded plots.
@@ -118,10 +118,12 @@ plot_fn <- function(fn = "fn_linear_sat",
 #' @param n_points Numeric value specifying the number of points for interpolation along the x-axis. Default is 2000.
 #' @param title Optional character string to add a title to the plot.
 #' @param add_ci Logical value indicating whether to add confidence intervals for \code{type = 4, 5, 6}. Default is \code{TRUE}.
-#' @param add_ribbon Logical value indicating whether to add a ribbon for confidence intervals in \code{type = 4, 5, 6}. Default is \code{FALSE}.
-#' @param color_ribbon Character string specifying the color of the ribbon. Default is "blue".
 #' @param color_ci Character string specifying the color of the confidence interval when \code{type = 4, 5, 6}. Default is "blue".
 #' @param color_pi Character string specifying the color of the prediction interval when \code{type = 4}. Default is "red".
+#' @param add_ribbon_ci Logical value indicating whether to add a ribbon for confidence intervals in \code{type = 4, 5, 6}. Default is \code{FALSE}.
+#' @param add_ribbon_pi Logical value indicating whether to add a ribbon for prediction intervals in \code{type = 4}. Default is \code{FALSE}.
+#' @param color_ribbon_ci Character string specifying the color of the ribbon (ci). Default is "blue".
+#' @param color_ribbon_pi Character string specifying the color of the ribbon (pi). Default is "red".
 #' @param ... Additional graphical parameters for future extensions.
 #' @author Johan Aparicio [aut]
 #' @method plot modeler
@@ -158,10 +160,12 @@ plot.modeler <- function(x,
                          n_points = 1000,
                          title = NULL,
                          add_ci = TRUE,
-                         add_ribbon = FALSE,
-                         color_ribbon = "blue",
                          color_ci = "blue",
-                         color_pi = "red", ...) {
+                         color_pi = "red",
+                         add_ribbon_ci = FALSE,
+                         add_ribbon_pi = FALSE,
+                         color_ribbon_ci = "blue",
+                         color_ribbon_pi = "red", ...) {
   dt <- x$dt |> select(uid, var, x, y, .fitted)
   if (is.null(id)) {
     id <- dt$uid[1]
@@ -249,6 +253,9 @@ plot.modeler <- function(x,
       labs(x = "Group", title = title) +
       theme_classic(base_size = base_size) +
       theme(axis.text.x = element_text(size = label_size))
+    if (length(functions) > 1) {
+      p0 <- p0 + facet_wrap(fn_name ~ coefficient, scales = "free_y")
+    }
   }
   if (type == 3) {
     p0 <- dt |>
@@ -313,7 +320,7 @@ plot.modeler <- function(x,
     p0 <- dt_ci |>
       ggplot() +
       {
-        if (add_ribbon) {
+        if (add_ribbon_ci) {
           geom_ribbon(
             mapping = aes(
               x = x_new,
@@ -321,7 +328,21 @@ plot.modeler <- function(x,
               ymax = ci_upper,
               group = fn_name
             ),
-            fill = color_ribbon,
+            fill = color_ribbon_ci,
+            alpha = 0.1
+          )
+        }
+      } +
+      {
+        if (add_ribbon_pi && type == 4) {
+          geom_ribbon(
+            mapping = aes(
+              x = x_new,
+              ymin = pi_lower,
+              ymax = pi_upper,
+              group = fn_name
+            ),
+            fill = color_ribbon_pi,
             alpha = 0.1
           )
         }
@@ -398,13 +419,13 @@ plot.modeler <- function(x,
       p0 <- p0
     }
     if (length(functions) > 1 && length(id) == 1) {
-      p0 <- p0 + facet_wrap(~fn_name)
+      p0 <- p0 + facet_grid(~fn_name)
     }
     if (length(functions) == 1 && length(id) > 1) {
-      p0 <- p0 + facet_wrap(~uid)
+      p0 <- p0 + facet_grid(~uid)
     }
     if (length(functions) > 1 && length(id) > 1) {
-      p0 <- p0 + facet_wrap(uid ~ fn_name)
+      p0 <- p0 + facet_grid(uid ~ fn_name)
     }
   }
   return(p0)

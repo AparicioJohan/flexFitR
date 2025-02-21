@@ -28,7 +28,7 @@ modeler(
 
 \item{y}{The name of the column in \code{data} containing the dependent variable to analyze (response variable).}
 
-\item{grp}{Column(s) in \code{data} used as grouping variable(s). Defaults to \code{NULL}. (optional)}
+\item{grp}{Column(s) in \code{data} used as grouping variable(s). Defaults to \code{NULL}. (Optional)}
 
 \item{keep}{Names of columns to retain in the output. Defaults to \code{NULL}. (Optional)}
 

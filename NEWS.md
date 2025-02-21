@@ -15,6 +15,8 @@
 
 * `modeler()` adds the function name (`fn_name`) in every output table.
 * `modeler()` no longer returns function call.
+* `plot.modeler()` includes `add_ribbon_pi` and `add_ribbon_ci` arguments for
+prediction and confidence intervals.
 * `metrics()` returns R2 instead of r_squared.
 
 ## Bug fixes

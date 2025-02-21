@@ -44,7 +44,7 @@ returned. \code{FALSE} by default.}
 A \code{ggplot} object representing the specified plot.
 }
 \description{
-Create plots for an object of class \code{performance}
+Creates plots for an object of class \code{performance}
 }
 \examples{
 library(flexFitR)
