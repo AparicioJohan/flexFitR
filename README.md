@@ -7,6 +7,8 @@
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/flexFitR)](https://CRAN.R-project.org/package=flexFitR)
+[![Lifecycle:
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 <!-- badges: end -->
 
 `{flexFitR}` is an R package designed for efficient modeling and
@@ -100,7 +102,7 @@ print(mod_1)
 Call:
 variable ~ fn_linear_sat(time, t1, t2, k) 
 
-Residuals (Standardized):
+Residuals (`Standardized`):
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
  0.0000  0.0000  0.0000  0.2722  0.0000  2.4495 
 
@@ -109,8 +111,8 @@ Optimization Results `head()`:
    1 38.6 61 99.8 0.449
 
 Metrics:
- Groups      Timing Convergence Iterations
-      1 0.6083 secs        100%   511 (id)
+ Groups     Timing Convergence Iterations
+      1 0.669 secs        100%   511 (id)
 ```
 
 ``` r
