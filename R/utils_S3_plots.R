@@ -202,13 +202,15 @@ plot.modeler <- function(x,
   dt <- droplevels(filter(dt, uid %in% id))
   label <- unique(dt$var)
   functions <- unique(func_dt$fn_name)
+  n_funs <- length(functions)
+  n_ids <- length(id)
 
   if (type == 1) {
     p0 <- dt |>
       ggplot() +
       geom_point(aes(x = x, y = y), color = color_points) +
       {
-        if (length(functions) == 1) {
+        if (n_funs == 1) {
           geom_line(
             data = func_dt,
             mapping = aes(x = x, y = dens, group = fn_name, linetype = fn_name),
@@ -217,7 +219,7 @@ plot.modeler <- function(x,
         }
       } +
       {
-        if (length(functions) > 1) {
+        if (n_funs > 1) {
           geom_line(
             data = func_dt,
             mapping = aes(
@@ -232,12 +234,12 @@ plot.modeler <- function(x,
       } +
       theme_classic(base_size = base_size) +
       labs(y = label, title = title)
-    if (length(id) > 1) {
+    if (n_ids > 1) {
       p0 <- p0 + facet_wrap(~uid)
     }
-    if (length(functions) == 1) {
+    if (n_funs == 1) {
       p0 <- p0 + theme(legend.position = "none")
-    } else if (length(functions) > 1) {
+    } else if (n_funs > 1) {
       p0 <- p0 +
         scale_color_brewer(type = "qual", palette = "Dark2") +
         labs(color = "Model", linetype = "Model")
@@ -253,7 +255,7 @@ plot.modeler <- function(x,
       labs(x = "Group", title = title) +
       theme_classic(base_size = base_size) +
       theme(axis.text.x = element_text(size = label_size))
-    if (length(functions) > 1) {
+    if (n_funs > 1) {
       p0 <- p0 + facet_wrap(fn_name ~ coefficient, scales = "free_y")
     }
   }
@@ -272,10 +274,10 @@ plot.modeler <- function(x,
       theme_classic(base_size = base_size) +
       labs(y = label, color = "uid", title = title) +
       scale_color_viridis_d(option = "D", direction = 1)
-    if (length(functions) > 1) {
+    if (n_funs > 1) {
       p0 <- p0 + facet_wrap(~fn_name)
     }
-    if (length(functions) == 1) {
+    if (n_funs == 1) {
       p0 <- p0 + theme(legend.position = "none")
     }
   }
@@ -347,63 +349,73 @@ plot.modeler <- function(x,
           )
         }
       } +
-      geom_line(
-        mapping = aes(
-          x = x_new,
-          y = predicted.value,
-          group = paste0(uid, "_", fn_name)
-        ),
-        color = "black"
-      ) +
       {
-        if (add_ci) {
+        if (n_funs > 1 && !add_ci && !add_ribbon_ci && !add_ribbon_pi) {
           geom_line(
             mapping = aes(
               x = x_new,
-              y = ci_lower,
+              y = predicted.value,
+              group = fn_name,
+              linetype = fn_name,
+              color = fn_name
+            )
+          )
+        } else {
+          geom_line(
+            mapping = aes(
+              x = x_new,
+              y = predicted.value,
               group = paste0(uid, "_", fn_name)
             ),
-            linetype = 2,
-            color = color_ci
+            color = "black"
           )
         }
       } +
       {
         if (add_ci) {
-          geom_line(
-            mapping = aes(
-              x = x_new,
-              y = ci_upper,
-              group = paste0(uid, "_", fn_name)
+          list(
+            geom_line(
+              mapping = aes(
+                x = x_new,
+                y = ci_lower,
+                group = paste0(uid, "_", fn_name)
+              ),
+              linetype = 2,
+              color = color_ci
             ),
-            linetype = 2,
-            color = color_ci
+            geom_line(
+              mapping = aes(
+                x = x_new,
+                y = ci_upper,
+                group = paste0(uid, "_", fn_name)
+              ),
+              linetype = 2,
+              color = color_ci
+            )
           )
         }
       } +
       {
         if (add_ci && type == 4) {
-          geom_line(
-            mapping = aes(
-              x = x_new,
-              y = pi_lower,
-              group = paste0(uid, "_", fn_name)
+          list(
+            geom_line(
+              mapping = aes(
+                x = x_new,
+                y = pi_lower,
+                group = paste0(uid, "_", fn_name)
+              ),
+              linetype = 2,
+              color = color_pi
             ),
-            linetype = 2,
-            color = color_pi
-          )
-        }
-      } +
-      {
-        if (add_ci && type == 4) {
-          geom_line(
-            mapping = aes(
-              x = x_new,
-              y = pi_upper,
-              group = paste0(uid, "_", fn_name)
-            ),
-            linetype = 2,
-            color = color_pi
+            geom_line(
+              mapping = aes(
+                x = x_new,
+                y = pi_upper,
+                group = paste0(uid, "_", fn_name)
+              ),
+              linetype = 2,
+              color = color_pi
+            )
           )
         }
       } +
@@ -413,19 +425,25 @@ plot.modeler <- function(x,
         x = "x",
         color = "Model",
         fill = "Model",
+        linetype = "Model",
         title = ifelse(is.null(title), title_tmp, title)
       )
-    if (length(functions) == 1 && length(id) == 1) {
+    if (n_funs == 1 && n_ids == 1) {
       p0 <- p0
     }
-    if (length(functions) > 1 && length(id) == 1) {
+    if (n_funs > 1 && n_ids == 1) {
       p0 <- p0 + facet_grid(~fn_name)
     }
-    if (length(functions) == 1 && length(id) > 1) {
+    if (n_funs == 1 && n_ids > 1) {
       p0 <- p0 + facet_grid(~uid)
     }
-    if (length(functions) > 1 && length(id) > 1) {
+    if (n_funs > 1 && n_ids > 1) {
       p0 <- p0 + facet_grid(uid ~ fn_name)
+    }
+    if (n_funs > 1 && !add_ci && !add_ribbon_ci && !add_ribbon_pi) {
+      p0 <- p0 +
+        facet_wrap(~ uid) +
+        scale_color_brewer(type = "qual", palette = "Dark2")
     }
   }
   return(p0)
