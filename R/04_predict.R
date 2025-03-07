@@ -244,7 +244,26 @@ predict.modeler <- function(object,
   }
 }
 
-# Delta method point estimation
+#' Delta method point estimation
+#' @param fit A fit object which is located inside a modeler object
+#' @param x_new  A vector of x values to evaluate the function.
+#' @param se_interval A character string. "confidence" or "prediction".
+#' @return A data.frame of the evaluated values.
+#' @examples
+#' library(flexFitR)
+#' data(dt_potato)
+#' mod_1 <- dt_potato |>
+#'   modeler(
+#'     x = DAP,
+#'     y = Canopy,
+#'     grp = Plot,
+#'     fn = "fn_linear_sat",
+#'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
+#'     subset = c(15, 2, 45)
+#'   )
+#' print(mod_1)
+#' # Point Prediction
+#' predict(mod_1, x = 45, type = "point", id = 2)
 #' @export
 #' @keywords internal
 .delta_method <- function(fit, x_new, se_interval = "confidence") {
@@ -297,7 +316,27 @@ predict.modeler <- function(object,
   )
 }
 
-# Function for point estimation
+#' Function for point estimation
+#' @param params A vector of parameter values.
+#' @param x_new A vector of x values to evaluate the function.
+#' @param curve A string. The name of the function used for curve fitting.
+#' @param fixed_params A vector of fixed parameter values. NA by default.
+#' @return A vector of the evaluated values.
+#' @examples
+#' library(flexFitR)
+#' data(dt_potato)
+#' mod_1 <- dt_potato |>
+#'   modeler(
+#'     x = DAP,
+#'     y = Canopy,
+#'     grp = Plot,
+#'     fn = "fn_linear_sat",
+#'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
+#'     subset = c(15, 2, 45)
+#'   )
+#' print(mod_1)
+#' # Point Prediction
+#' predict(mod_1, x = 45, type = "point", id = 2)
 #' @export
 #' @keywords internal
 ff <- function(params, x_new, curve, fixed_params = NA) {
@@ -325,7 +364,26 @@ ff <- function(params, x_new, curve, fixed_params = NA) {
   return(y_hat)
 }
 
-# Delta method AUC estimation
+#' Delta method AUC estimation
+#' @param fit A fit object which is located inside a modeler object
+#' @param x_new  A vector of size 2 given the interval to calculate the area under.
+#' @param n_points Numeric value giving the number of points to use in the trapezoidal method.
+#' @return A data.frame of the evaluated values.
+#' @examples
+#' library(flexFitR)
+#' data(dt_potato)
+#' mod_1 <- dt_potato |>
+#'   modeler(
+#'     x = DAP,
+#'     y = Canopy,
+#'     grp = Plot,
+#'     fn = "fn_linear_sat",
+#'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
+#'     subset = c(15, 2, 45)
+#'   )
+#' print(mod_1)
+#' # AUC Prediction
+#' predict(mod_1, x = c(0, 108), type = "auc", id = 2)
 #' @export
 #' @keywords internal
 .delta_method_auc <- function(fit, x_new, n_points = 1000) {
@@ -378,7 +436,28 @@ ff <- function(params, x_new, curve, fixed_params = NA) {
   )
 }
 
-# Function for AUC estimation
+#' Function for AUC estimation
+#' @param params A vector of parameter values.
+#' @param x_new A vector of size 2 given the interval to calculate the area under.
+#' @param curve A string. The name of the function used for curve fitting.
+#' @param fixed_params A vector of fixed parameter values. NA by default.
+#' @param n_points Numeric value giving the number of points to use in the trapezoidal method.
+#' @return Area under the fitted curve.
+#' @examples
+#' library(flexFitR)
+#' data(dt_potato)
+#' mod_1 <- dt_potato |>
+#'   modeler(
+#'     x = DAP,
+#'     y = Canopy,
+#'     grp = Plot,
+#'     fn = "fn_linear_sat",
+#'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
+#'     subset = c(15, 2, 45)
+#'   )
+#' print(mod_1)
+#' # AUC Prediction
+#' predict(mod_1, x = c(0, 108), type = "auc", id = 2)
 #' @export
 #' @keywords internal
 ff_auc <- function(params, x_new, curve, fixed_params = NA, n_points = 1000) {
@@ -404,7 +483,26 @@ ff_auc <- function(params, x_new, curve, fixed_params = NA, n_points = 1000) {
   return(auc)
 }
 
-# Delta method for derivative estimation
+#' Delta method for derivative estimation
+#' @param fit A fit object which is located inside a modeler object
+#' @param x_new A vector of x values to evaluate the derivative.
+#' @param which Can be "fd" for first-derivative or "sd" for second-derivative.
+#' @return A data.frame of the evaluated values.
+#' @examples
+#' library(flexFitR)
+#' data(dt_potato)
+#' mod_1 <- dt_potato |>
+#'   modeler(
+#'     x = DAP,
+#'     y = Canopy,
+#'     grp = Plot,
+#'     fn = "fn_linear_sat",
+#'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
+#'     subset = c(15, 2, 45)
+#'   )
+#' print(mod_1)
+#' # First Derivative
+#' predict(mod_1, x = 45, type = "fd", id = 2)
 #' @export
 #' @keywords internal
 .delta_method_deriv <- function(fit, x_new, which = "fd") {
@@ -456,7 +554,28 @@ ff_auc <- function(params, x_new, curve, fixed_params = NA, n_points = 1000) {
   )
 }
 
-# Function for derivatives
+#' Function for derivatives
+#' @param params A vector of parameter values.
+#' @param x_new A vector of x values to evaluate the derivative.
+#' @param curve A string. The name of the function used for curve fitting.
+#' @param fixed_params A vector of fixed parameter values. NA by default.
+#' @param which Can be "fd" for first-derivative or "sd" for second-derivative.
+#' @return First or second derivative.
+#' @examples
+#' library(flexFitR)
+#' data(dt_potato)
+#' mod_1 <- dt_potato |>
+#'   modeler(
+#'     x = DAP,
+#'     y = Canopy,
+#'     grp = Plot,
+#'     fn = "fn_linear_sat",
+#'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
+#'     subset = c(15, 2, 45)
+#'   )
+#' print(mod_1)
+#' # First Derivative
+#' predict(mod_1, x = 45, type = "fd", id = 2)
 #' @export
 #' @keywords internal
 ff_deriv <- function(params, x_new, curve, fixed_params = NA, which = "fd") {
