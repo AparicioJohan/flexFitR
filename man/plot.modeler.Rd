@@ -10,6 +10,7 @@
   type = 1,
   label_size = 4,
   base_size = 14,
+  linewidth = 0.5,
   color = "red",
   color_points = "black",
   parm = NULL,
@@ -43,6 +44,8 @@
 \item{label_size}{Numeric value for the size of labels. Default is 4.}
 
 \item{base_size}{Numeric value for the base font size in pts. Default is 14.}
+
+\item{linewidth}{Numeric value specifying size of line geoms. Default is 0.5.}
 
 \item{color}{Character string specifying the color for the fitted line when \code{type = 1}. Default is "red".}
 

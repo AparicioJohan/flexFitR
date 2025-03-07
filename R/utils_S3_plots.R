@@ -112,6 +112,7 @@ plot_fn <- function(fn = "fn_linear_sat",
 #' }
 #' @param label_size Numeric value for the size of labels. Default is 4.
 #' @param base_size Numeric value for the base font size in pts. Default is 14.
+#' @param linewidth Numeric value specifying size of line geoms. Default is 0.5.
 #' @param color Character string specifying the color for the fitted line when \code{type = 1}. Default is "red".
 #' @param color_points Character string specifying the color for the raw data points when \code{type = 1}. Default is "black".
 #' @param parm Character vector specifying the parameters to plot for \code{type = 2}. If \code{NULL}, all parameters are included.
@@ -154,6 +155,7 @@ plot.modeler <- function(x,
                          type = 1,
                          label_size = 4,
                          base_size = 14,
+                         linewidth = 0.5,
                          color = "red",
                          color_points = "black",
                          parm = NULL,
@@ -214,7 +216,8 @@ plot.modeler <- function(x,
           geom_line(
             data = func_dt,
             mapping = aes(x = x, y = dens, group = fn_name, linetype = fn_name),
-            color = color
+            color = color,
+            linewidth = linewidth
           )
         }
       } +
@@ -228,7 +231,8 @@ plot.modeler <- function(x,
               group = fn_name,
               linetype = fn_name,
               color = fn_name
-            )
+            ),
+            linewidth = linewidth
           )
         }
       } +
@@ -270,6 +274,7 @@ plot.modeler <- function(x,
           group = paste0(uid, "_", fn_name),
           color = as.factor(uid)
         ),
+        linewidth = linewidth
       ) +
       theme_classic(base_size = base_size) +
       labs(y = label, color = "uid", title = title) +
@@ -358,7 +363,8 @@ plot.modeler <- function(x,
               group = fn_name,
               linetype = fn_name,
               color = fn_name
-            )
+            ),
+            linewidth = linewidth
           )
         } else {
           geom_line(
@@ -367,6 +373,7 @@ plot.modeler <- function(x,
               y = predicted.value,
               group = paste0(uid, "_", fn_name)
             ),
+            linewidth = linewidth,
             color = "black"
           )
         }
