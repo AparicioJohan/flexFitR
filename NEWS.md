@@ -1,3 +1,8 @@
+# flexFitR 1.1.0.00009
+
+* `plot.modeler()` includes `linewidth` argument to increase size in geom lines.
+* `predict.modeler()` includes `parallel` and `workers` to allow for parallel computing.
+
 # flexFitR 1.1.0
 
 ## New features

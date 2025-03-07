@@ -27,6 +27,9 @@
 #' @param formula A formula specifying a function of the parameters to be estimated (e.g., \code{~ b * 500}). Default is \code{NULL}.
 #' @param metadata Logical. If \code{TRUE}, metadata is included with the
 #' predictions. Default is \code{FALSE}.
+#' @param parallel Logical. If \code{TRUE} the prediction is performed in parallel. Default is \code{FALSE}.
+#' Use only when a large number of groups are being analyzed and \code{x} is a grid of values.
+#' @param workers The number of parallel processes to use. \code{parallel::detectCores()}
 #' @param ... Additional parameters for future functionality.
 #' @author Johan Aparicio [aut]
 #' @method predict modeler
@@ -65,7 +68,9 @@ predict.modeler <- function(object,
                             se_interval = c("confidence", "prediction"),
                             n_points = 1000,
                             formula = NULL,
-                            metadata = FALSE, ...) {
+                            metadata = FALSE,
+                            parallel = FALSE,
+                            workers = NULL, ...) {
   # Check the class of object
   if (!inherits(object, "modeler")) {
     stop("The object should be of class 'modeler'.")
@@ -88,6 +93,20 @@ predict.modeler <- function(object,
   fit_list <- object$fit
   id <- which(unlist(lapply(fit_list, function(x) x$uid)) %in% uid)
   fit_list <- fit_list[id]
+  # Parallel
+  `%dofu%` <- doFuture::`%dofuture%`
+  if (parallel) {
+    workers <- ifelse(
+      test = is.null(workers),
+      yes = round(parallel::detectCores() * .5),
+      no = workers
+    )
+    future::plan(future::multisession, workers = workers)
+    on.exit(future::plan(future::sequential), add = TRUE)
+  } else {
+    future::plan(future::sequential)
+  }
+  iter <- seq_along(fit_list)
   # Point Estimation
   if (type == "point") {
     if (is.null(x)) {
@@ -98,18 +117,30 @@ predict.modeler <- function(object,
     if (!all(limit_inf <= x & x <= limit_sup)) {
       stop("x needs to be in the interval <", limit_inf, ", ", limit_sup, ">")
     }
-    predictions <- do.call(
-      what = rbind,
-      args = suppressWarnings(
-        lapply(
-          X = fit_list,
-          FUN = .delta_method,
-          x_new = x,
-          se_interval = se_interval
-        )
+    # predictions <- do.call(
+    #   what = rbind,
+    #   args = suppressWarnings(
+    #     lapply(
+    #       X = fit_list,
+    #       FUN = .delta_method,
+    #       x_new = x,
+    #       se_interval = se_interval
+    #     )
+    #   )
+    # ) |>
+    #   as_tibble()
+    predictions <- foreach(
+      i = iter,
+      .combine = rbind,
+      .options.future = list(
+        seed = TRUE,
+        globals = structure(TRUE, add = object$fun)
       )
-    ) |>
-      as_tibble()
+    ) %dofu% {
+      suppressWarnings(
+        .delta_method(fit = fit_list[[i]], x_new = x, se_interval = se_interval)
+      )
+    } |> as_tibble()
   }
   # Area under the curve
   if (type == "auc") {
@@ -125,18 +156,30 @@ predict.modeler <- function(object,
       limit_sup <- x[2]
     }
     x <- c(limit_inf, limit_sup)
-    predictions <- do.call(
-      what = rbind,
-      args = suppressWarnings(
-        lapply(
-          X = fit_list,
-          FUN = .delta_method_auc,
-          x_new = x,
-          n_points = n_points
-        )
+    # predictions <- do.call(
+    #   what = rbind,
+    #   args = suppressWarnings(
+    #     lapply(
+    #       X = fit_list,
+    #       FUN = .delta_method_auc,
+    #       x_new = x,
+    #       n_points = n_points
+    #     )
+    #   )
+    # ) |>
+    #   as_tibble()
+    predictions <- foreach(
+      i = iter,
+      .combine = rbind,
+      .options.future = list(
+        seed = TRUE,
+        globals = structure(TRUE, add = object$fun)
       )
-    ) |>
-      as_tibble()
+    ) %dofu% {
+      suppressWarnings(
+        .delta_method_auc(fit = fit_list[[i]], x_new = x, n_points = n_points)
+      )
+    } |> as_tibble()
   }
   # Derivatives
   if (type %in% c("fd", "sd")) {
@@ -148,18 +191,30 @@ predict.modeler <- function(object,
     if (!all(limit_inf <= x & x <= limit_sup)) {
       stop("x needs to be in the interval <", limit_inf, ", ", limit_sup, ">")
     }
-    predictions <- do.call(
-      what = rbind,
-      args = suppressWarnings(
-        lapply(
-          X = fit_list,
-          FUN = .delta_method_deriv,
-          x_new = x,
-          which = type
-        )
+    # predictions <- do.call(
+    #   what = rbind,
+    #   args = suppressWarnings(
+    #     lapply(
+    #       X = fit_list,
+    #       FUN = .delta_method_deriv,
+    #       x_new = x,
+    #       which = type
+    #     )
+    #   )
+    # ) |>
+    #   as_tibble()
+    predictions <- foreach(
+      i = iter,
+      .combine = rbind,
+      .options.future = list(
+        seed = TRUE,
+        globals = structure(TRUE, add = object$fun)
       )
-    ) |>
-      as_tibble()
+    ) %dofu% {
+      suppressWarnings(
+        .delta_method_deriv(fit = fit_list[[i]], x_new = x, which = type)
+      )
+    } |> as_tibble()
   }
   # Formula
   if (type %in% c("formula")) {
@@ -190,6 +245,8 @@ predict.modeler <- function(object,
 }
 
 # Delta method point estimation
+#' @export
+#' @keywords internal
 .delta_method <- function(fit, x_new, se_interval = "confidence") {
   curve <- fit$fn_name
   tt <- fit$hessian
@@ -200,8 +257,8 @@ predict.modeler <- function(object,
   estimated_params <- coef(fit$kkopt)[best, ]
   uid <- fit$uid
   fix_params <- fit$type |>
-    filter(type == "fixed") |>
-    pull(value, name = parameter)
+    dplyr::filter(type == "fixed") |>
+    dplyr::pull(value, name = parameter)
   if (length(fix_params) == 0) fix_params <- NA
   jac_matrix <- numDeriv::jacobian(
     func = ff,
@@ -233,14 +290,16 @@ predict.modeler <- function(object,
     predicted.value = predicted_values,
     std.error = std_errors
   )
-  results <- full_join(
-    x = select(fit$param, uid),
+  results <- dplyr::full_join(
+    x = dplyr::select(fit$param, uid),
     y = results,
     by = "uid"
   )
 }
 
 # Function for point estimation
+#' @export
+#' @keywords internal
 ff <- function(params, x_new, curve, fixed_params = NA) {
   arg <- names(formals(curve))[-1]
   values <- paste(params, collapse = ", ")
@@ -267,6 +326,8 @@ ff <- function(params, x_new, curve, fixed_params = NA) {
 }
 
 # Delta method AUC estimation
+#' @export
+#' @keywords internal
 .delta_method_auc <- function(fit, x_new, n_points = 1000) {
   curve <- fit$fn_name
   tt <- fit$hessian
@@ -277,8 +338,8 @@ ff <- function(params, x_new, curve, fixed_params = NA) {
   estimated_params <- coef(fit$kkopt)[best, ]
   uid <- fit$uid
   fix_params <- fit$type |>
-    filter(type == "fixed") |>
-    pull(value, name = parameter)
+    dplyr::filter(type == "fixed") |>
+    dplyr::pull(value, name = parameter)
   if (length(fix_params) == 0) fix_params <- NA
   jac_matrix <- numDeriv::jacobian(
     func = ff_auc,
@@ -310,14 +371,16 @@ ff <- function(params, x_new, curve, fixed_params = NA) {
     predicted.value = predicted_values,
     std.error = std_errors
   )
-  results <- full_join(
-    x = select(fit$param, uid),
+  results <- dplyr::full_join(
+    x = dplyr::select(fit$param, uid),
     y = results,
     by = "uid"
   )
 }
 
 # Function for AUC estimation
+#' @export
+#' @keywords internal
 ff_auc <- function(params, x_new, curve, fixed_params = NA, n_points = 1000) {
   arg <- names(formals(curve))[-1]
   values <- paste(params, collapse = ", ")
@@ -342,6 +405,8 @@ ff_auc <- function(params, x_new, curve, fixed_params = NA, n_points = 1000) {
 }
 
 # Delta method for derivative estimation
+#' @export
+#' @keywords internal
 .delta_method_deriv <- function(fit, x_new, which = "fd") {
   curve <- fit$fn_name
   tt <- fit$hessian
@@ -352,8 +417,8 @@ ff_auc <- function(params, x_new, curve, fixed_params = NA, n_points = 1000) {
   estimated_params <- coef(fit$kkopt)[best, ]
   uid <- fit$uid
   fix_params <- fit$type |>
-    filter(type == "fixed") |>
-    pull(value, name = parameter)
+    dplyr::filter(type == "fixed") |>
+    dplyr::pull(value, name = parameter)
   if (length(fix_params) == 0) fix_params <- NA
   jac_matrix <- numDeriv::jacobian(
     func = ff_deriv,
@@ -384,14 +449,16 @@ ff_auc <- function(params, x_new, curve, fixed_params = NA, n_points = 1000) {
     predicted.value = predicted_values,
     std.error = std_errors
   )
-  results <- full_join(
-    x = select(fit$param, uid),
+  results <- dplyr::full_join(
+    x = dplyr::select(fit$param, uid),
     y = results,
     by = "uid"
   )
 }
 
 # Function for derivatives
+#' @export
+#' @keywords internal
 ff_deriv <- function(params, x_new, curve, fixed_params = NA, which = "fd") {
   arg <- names(formals(curve))[-1]
   values <- paste(params, collapse = ", ")
@@ -430,6 +497,8 @@ ff_deriv <- function(params, x_new, curve, fixed_params = NA, which = "fd") {
 }
 
 # Delta method generic function
+#' @export
+#' @keywords internal
 .delta_method_gen <- function(fit, formula) {
   curve <- fit$fn_name
   tt <- fit$hessian
@@ -469,5 +538,9 @@ ff_deriv <- function(params, x_new, curve, fixed_params = NA, which = "fd") {
     predicted.value = predicted_values,
     std.error = std_errors
   )
-  results <- full_join(x = select(fit$param, uid), y = results, by = "uid")
+  results <- dplyr::full_join(
+    x = dplyr::select(fit$param, uid),
+    y = results,
+    by = "uid"
+  )
 }
