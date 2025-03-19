@@ -104,7 +104,7 @@ modeler <- function(data,
   }
   if (any(method == "ALL")) {
     list_methods(check_package = TRUE)
-    method <- "ALL"
+    method <- list_methods()
   } else {
     packages <- names(list_methods())[list_methods() %in% method]
     ensure_packages(packages)
@@ -459,53 +459,90 @@ modeler <- function(data,
   fx_params <- unlist(dt$fx_params)
   t <- unnest(dt, data)$x
   y <- unnest(dt, data)$y
-  kkopt <- opm(
-    par = initials,
-    fn = minimizer,
-    t = t,
-    y = y,
-    curve = fn,
-    fixed_params = fx_params,
-    metric = "sse",
-    method = method,
-    trace = trace,
-    lower = lower,
-    upper = upper,
-    control = control
-  )
+  ans_details <- ans_sols <- list()
+  names_params <- names(initials)
+  for (s in method) {
+    ans <- suppressWarnings(
+      optimr(
+        par = initials,
+        fn = minimizer,
+        t = t,
+        y = y,
+        curve = fn,
+        fixed_params = fx_params,
+        metric = "sse",
+        trace = trace,
+        method = s,
+        lower = lower,
+        upper = upper,
+        control = control
+      )
+    )
+    .params <- ans$par
+    names(.params) <- names_params
+    solution <- data.frame(
+      method = s,
+      t(.params),
+      sse = ans$value,
+      fevals = ans$scounts[1],
+      convergence = ans$convergence
+    )
+    jac_matrix <- NULL
+    hess_matrix <- NULL
+    if (!any(is.na(.params))) { #  ans$convergence == 0
+      jac_matrix <- numDeriv::jacobian(
+        func = minimizer,
+        x = ans$par,
+        t = t,
+        y = y,
+        curve = fn,
+        fixed_params = fx_params
+      )
+      hess_matrix <- numDeriv::hessian(
+        func = minimizer,
+        x = ans$par,
+        t = t,
+        y = y,
+        curve = fn,
+        fixed_params = fx_params
+      )
+    }
+    point <- list(method = s, ngatend = jac_matrix, nhatend = hess_matrix)
+    ans_sols <- rbind(ans_sols, solution)
+    ans_details <- rbind(ans_details, point)
+  }
+  row.names(ans_details) <- method
+  row.names(ans_sols) <- method
   # metadata
-  rr <- cbind(
-    dt[, c("uid", metadata)],
-    kkopt |>
-      tibble::rownames_to_column(var = "method") |>
-      dplyr::rename(sse = value) |>
-      cbind(t(fx_params))
+  rr <- data.frame(
+    cbind(dt[, c("uid", metadata)], cbind(ans_sols, t(fx_params))),
+    row.names = NULL,
+    check.names = FALSE
   )
   best <- rr$method[which.min(rr$sse)]
   param <- rr |>
     dplyr::filter(method == best) |>
-    dplyr::select(-c(fevals:xtime)) |>
+    dplyr::select(-c(fevals:convergence)) |>
     dplyr::mutate(fn_name = fn)
   # attributes
-  details <- attr(kkopt, "details")[best, ]
+  details <- ans_details[best, ]
   hessian <- details$nhatend
-  coeff <- coef(kkopt)
-  if (all(is.na(details$hev))) {
+  coeff <- ans_sols[, names_params]
+  if (is.null(hessian)) {
     hessian <- matrix(NA, nrow = ncol(coeff), ncol = ncol(coeff))
   }
-  est_params <- colnames(coeff)
-  dimnames(hessian) <- list(est_params, est_params)
+  dimnames(hessian) <- list(names_params, names_params)
   coef <- data.frame(
-    parameter = c(est_params, names(fx_params)),
-    value = na.omit(c(coeff[best, ], fx_params)),
+    parameter = c(names_params, names(fx_params)),
+    value = na.omit(unlist(c(coeff[best, ], fx_params))),
     type = c(
-      rep("estimable", times = length(est_params)),
+      rep("estimable", times = length(names_params)),
       rep("fixed", times = length(names(fx_params)))
     ),
     row.names = NULL
   )
   out <- list(
-    kkopt = kkopt,
+    kkopt = ans_sols,
     param = param,
     rr = rr,
     details = details,
@@ -514,13 +551,127 @@ modeler <- function(data,
     conv = rr[rr$method == best, "convergence"],
     x = t,
     y = y,
-    p = length(est_params),
+    p = length(names_params),
     n_obs = length(t),
     uid = id,
     fn_name = fn
   )
   return(out)
 }
+
+# .fitter_curve2 <- function(data,
+#                            id,
+#                            fn,
+#                            method,
+#                            lower,
+#                            upper,
+#                            control,
+#                            metadata,
+#                            trace) {
+#   dt <- data[data$uid == id, ]
+#   initials <- unlist(dt$initials)
+#   fx_params <- unlist(dt$fx_params)
+#   t <- unnest(dt, data)$x
+#   y <- unnest(dt, data)$y
+#   kkopt <- opm(
+#     par = initials,
+#     fn = minimizer,
+#     t = t,
+#     y = y,
+#     curve = fn,
+#     fixed_params = fx_params,
+#     metric = "sse",
+#     method = method,
+#     trace = trace,
+#     lower = lower,
+#     upper = upper,
+#     control = control
+#   )
+#   # metadata
+#   rr <- cbind(
+#     dt[, c("uid", metadata)],
+#     kkopt |>
+#       tibble::rownames_to_column(var = "method") |>
+#       dplyr::rename(sse = value) |>
+#       cbind(t(fx_params))
+#   )
+#   best <- rr$method[which.min(rr$sse)]
+#   param <- rr |>
+#     dplyr::filter(method == best) |>
+#     dplyr::select(-c(fevals:xtime)) |>
+#     dplyr::mutate(fn_name = fn)
+#   # attributes
+#   details <- attr(kkopt, "details")[best, ]
+#   hessian <- details$nhatend
+#   coeff <- coef(kkopt)
+#   if (all(is.na(details$hev))) {
+#     hessian <- matrix(NA, nrow = ncol(coeff), ncol = ncol(coeff))
+#   }
+#   est_params <- colnames(coeff)
+#   dimnames(hessian) <- list(est_params, est_params)
+#   coef <- data.frame(
+#     parameter = c(est_params, names(fx_params)),
+#     value = na.omit(c(coeff[best, ], fx_params)),
+#     type = c(
+#       rep("estimable", times = length(est_params)),
+#       rep("fixed", times = length(names(fx_params)))
+#     ),
+#     row.names = NULL
+#   )
+#   out <- list(
+#     kkopt = kkopt,
+#     param = param,
+#     rr = rr,
+#     details = details,
+#     hessian = hessian,
+#     type = coef,
+#     conv = rr[rr$method == best, "convergence"],
+#     x = t,
+#     y = y,
+#     p = length(est_params),
+#     n_obs = length(t),
+#     uid = id,
+#     fn_name = fn
+#   )
+#   return(out)
+# }
+
+# .eval_fun <- function(obj, names) {
+#   .method <- attr(obj$value, "method")
+#   .params <- obj$par
+#   names(.params) <- names
+#   .solution <- data.frame(
+#     method = .method,
+#     t(.params),
+#     sse = obj$value,
+#     fevals = obj$scounts[1],
+#     convergence = obj$convergence,
+#     xtime = as.numeric(obj$xtime)
+#   )
+#   jac_matrix <- NULL
+#   hess_matrix <- NULL
+#   if (obj$convergence == 0) {
+#     jac_matrix <- numDeriv::jacobian(
+#       func = minimizer,
+#       x = obj$par,
+#       t = t,
+#       y = y,
+#       curve = fn,
+#       fixed_params = fx_params
+#     )
+#     hess_matrix <- numDeriv::hessian(
+#       func = minimizer,
+#       x = obj$par,
+#       t = t,
+#       y = y,
+#       curve = fn,
+#       fixed_params = fx_params
+#     )
+#   }
+#   .mat <- list(method = .method, ngatend = jac_matrix, nhatend = hess_matrix)
+#   return(list(ans = .solution, details = .mat))
+# }
+
 
 #' Extract fitted values from a \code{modeler} object
 #'

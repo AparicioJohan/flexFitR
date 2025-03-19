@@ -54,17 +54,11 @@ coef.modeler <- function(object,
     varerr <- fit$param$sse / rdf
     mat_hess <- try(sqrt(diag(solve(hessian)) * 2 * varerr), silent = TRUE)
     if (inherits(mat_hess, "try-error")) mat_hess <- NA
-    ccoef <- coef(fit$kkopt) |>
-      as.data.frame() |>
-      tibble::rownames_to_column("method") |>
-      dplyr::filter(method == fit$param$method) |>
-      tidyr::pivot_longer(
-        cols = -method,
-        names_to = "coefficient",
-        values_to = "solution"
-      ) |>
+    ccoef <- fit$type |>
+      dplyr::rename(coefficient = parameter, solution = value) |>
+      dplyr::filter(type == "estimable") |>
+      select(-type) |>
       dplyr::mutate(std.error = mat_hess) |>
-      dplyr::select(-method) |>
       dplyr::mutate(uid = fit$uid, .before = coefficient) |>
       dplyr::mutate(
         `t value` = solution / std.error,

@@ -273,7 +273,9 @@ predict.modeler <- function(object,
   varerr <- fit$param$sse / rdf
   vcov_mat <- try(solve(tt) * 2 * varerr, silent = TRUE)
   best <- fit$details$method
-  estimated_params <- coef(fit$kkopt)[best, ]
+  estimated_params <- fit$type |>
+    dplyr::filter(type == "estimable") |>
+    dplyr::pull(value, name = parameter)
   uid <- fit$uid
   fix_params <- fit$type |>
     dplyr::filter(type == "fixed") |>
@@ -393,7 +395,9 @@ ff <- function(params, x_new, curve, fixed_params = NA) {
   varerr <- fit$param$sse / rdf
   vcov_mat <- try(solve(tt) * 2 * varerr, silent = TRUE)
   best <- fit$details$method
-  estimated_params <- coef(fit$kkopt)[best, ]
+  estimated_params <- fit$type |>
+    dplyr::filter(type == "estimable") |>
+    dplyr::pull(value, name = parameter)
   uid <- fit$uid
   fix_params <- fit$type |>
     dplyr::filter(type == "fixed") |>
@@ -512,7 +516,9 @@ ff_auc <- function(params, x_new, curve, fixed_params = NA, n_points = 1000) {
   varerr <- fit$param$sse / rdf
   vcov_mat <- try(solve(tt) * 2 * varerr, silent = TRUE)
   best <- fit$details$method
-  estimated_params <- coef(fit$kkopt)[best, ]
+  estimated_params <- fit$type |>
+    dplyr::filter(type == "estimable") |>
+    dplyr::pull(value, name = parameter)
   uid <- fit$uid
   fix_params <- fit$type |>
     dplyr::filter(type == "fixed") |>
@@ -625,7 +631,9 @@ ff_deriv <- function(params, x_new, curve, fixed_params = NA, which = "fd") {
   varerr <- fit$param$sse / rdf
   vcov_mat <- try(solve(tt) * 2 * varerr, silent = TRUE)
   best <- fit$details$method
-  estimated_params <- coef(fit$kkopt)[best, ]
+  estimated_params <- fit$type |>
+    dplyr::filter(type == "estimable") |>
+    dplyr::pull(value, name = parameter)
   uid <- fit$uid
   params <- all.vars(formula)
   estimated_params <- estimated_params[names(estimated_params) %in% params]
