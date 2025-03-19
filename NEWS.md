@@ -1,5 +1,6 @@
 # flexFitR 1.1.0.00009
 
+* The `modeler()` function now uses `optimr` instead of `opm` for faster execution.
 * `plot.modeler()` includes `linewidth` argument to increase size in geom lines.
 * `predict.modeler()` includes `parallel` and `workers` to allow for parallel computing.
 

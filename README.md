@@ -41,7 +41,7 @@ devtools::install_github("AparicioJohan/flexFitR")
   package, enabling efficient fitting of hundreds of curves
   simultaneously.
 - Visualization Tools: Provides a variety of plots to visualize model
-  fits, correlations, predictions, and more.
+  fits, correlations, predictions, derivatives, and more.
 - Statistical Rigor: Offers standard errors and p-values for
   coefficients, as well as for predictions, supporting robust
   conclusions and interpretations.
@@ -50,7 +50,8 @@ devtools::install_github("AparicioJohan/flexFitR")
   user-defined parameter functions, and more advanced transformations or
   custom expressions based on model parameters.
 - Flexibility: Allows users to fix certain parameters in the model and
-  specify different initial values per grouping factor.
+  specify different initial values per grouping factor, accepting both
+  numerical inputs and expressions.
 - Custom Modeling Functions: Equipped with built-in modeling functions
   for common analysis tasks, while also permitting users to supply their
   own custom functions.
@@ -111,8 +112,8 @@ Optimization Results `head()`:
    1 38.6 61 99.8 0.449
 
 Metrics:
- Groups     Timing Convergence Iterations
-      1 0.669 secs        100%   511 (id)
+ Groups      Timing Convergence Iterations
+      1 0.1562 secs        100%   511 (id)
 ```
 
 ``` r
