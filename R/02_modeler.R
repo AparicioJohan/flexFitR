@@ -347,7 +347,7 @@ modeler <- function(data,
     what = rbind,
     args = lapply(objt, function(x) {
       x$rr |>
-        select(c(uid, method, sse, fevals:xtime)) |>
+        select(c(uid, method, sse, fevals:convergence)) |>
         as_tibble()
     })
   )

@@ -117,18 +117,6 @@ predict.modeler <- function(object,
     if (!all(limit_inf <= x & x <= limit_sup)) {
       stop("x needs to be in the interval <", limit_inf, ", ", limit_sup, ">")
     }
-    # predictions <- do.call(
-    #   what = rbind,
-    #   args = suppressWarnings(
-    #     lapply(
-    #       X = fit_list,
-    #       FUN = .delta_method,
-    #       x_new = x,
-    #       se_interval = se_interval
-    #     )
-    #   )
-    # ) |>
-    #   as_tibble()
     predictions <- foreach(
       i = iter,
       .combine = rbind,
@@ -156,18 +144,6 @@ predict.modeler <- function(object,
       limit_sup <- x[2]
     }
     x <- c(limit_inf, limit_sup)
-    # predictions <- do.call(
-    #   what = rbind,
-    #   args = suppressWarnings(
-    #     lapply(
-    #       X = fit_list,
-    #       FUN = .delta_method_auc,
-    #       x_new = x,
-    #       n_points = n_points
-    #     )
-    #   )
-    # ) |>
-    #   as_tibble()
     predictions <- foreach(
       i = iter,
       .combine = rbind,
@@ -191,18 +167,6 @@ predict.modeler <- function(object,
     if (!all(limit_inf <= x & x <= limit_sup)) {
       stop("x needs to be in the interval <", limit_inf, ", ", limit_sup, ">")
     }
-    # predictions <- do.call(
-    #   what = rbind,
-    #   args = suppressWarnings(
-    #     lapply(
-    #       X = fit_list,
-    #       FUN = .delta_method_deriv,
-    #       x_new = x,
-    #       which = type
-    #     )
-    #   )
-    # ) |>
-    #   as_tibble()
     predictions <- foreach(
       i = iter,
       .combine = rbind,
