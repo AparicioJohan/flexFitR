@@ -690,8 +690,6 @@ list_methods <- function(bounds = FALSE, check_package = FALSE) {
     "Rcgmin",
     "Rtnmin",
     "Rvmmin",
-    "snewton",
-    "snewtonm",
     "spg",
     "ucminf",
     "newuoa",
@@ -709,8 +707,7 @@ list_methods <- function(bounds = FALSE, check_package = FALSE) {
     "tnewt",
     "anms",
     "pracmanm",
-    "nlnm",
-    "snewtm"
+    "nlnm"
   )
   packages <- c(
     "stats",
@@ -720,8 +717,6 @@ list_methods <- function(bounds = FALSE, check_package = FALSE) {
     "stats",
     "stats",
     "lbfgsb3c",
-    "optimx",
-    "optimx",
     "optimx",
     "optimx",
     "optimx",
@@ -742,8 +737,7 @@ list_methods <- function(bounds = FALSE, check_package = FALSE) {
     "nloptr",
     "pracma",
     "pracma",
-    "nloptr",
-    "optimx"
+    "nloptr"
   )
   names(methods) <- packages
   if (check_package) {
