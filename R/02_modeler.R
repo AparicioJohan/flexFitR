@@ -363,7 +363,8 @@ modeler <- function(data,
     full_join(param_mat, by = "uid") |>
     rowwise() |>
     mutate(.fitted = !!density) |>
-    select(x, uid, .fitted)
+    select(x, uid, .fitted) |>
+    unique.data.frame()
   # Final data
   dt <- suppressWarnings({
     dt |>
