@@ -1,8 +1,15 @@
 # flexFitR 1.1.0.00009
 
+## Changes
+
 * The `modeler()` function now uses `optimr` instead of `opm` for faster execution.
 * `plot.modeler()` includes `linewidth` argument to increase size in geom lines.
 * `predict.modeler()` includes `parallel` and `workers` to allow for parallel computing.
+
+## Bug fixes
+
+* Removed methods that required hessian matrix (snewton, snewtonm, snewtm) in `list_methods()`.
+* Fixed issue when combining fitted values in `modeler()`.
 
 # flexFitR 1.1.0
 

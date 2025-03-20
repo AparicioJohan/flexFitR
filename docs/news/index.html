@@ -48,12 +48,20 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.1.0.00009" id="flexfitr-11000009">flexFitR 1.1.0.00009<a class="anchor" aria-label="anchor" href="#flexfitr-11000009"></a></h2>
+<div class="section level3">
+<h3 id="changes-1-1-0-00009">Changes<a class="anchor" aria-label="anchor" href="#changes-1-1-0-00009"></a></h3>
 <ul><li>The <code><a href="../reference/modeler.html">modeler()</a></code> function now uses <code>optimr</code> instead of <code>opm</code> for faster execution.</li>
 <li>
 <code><a href="../reference/plot.modeler.html">plot.modeler()</a></code> includes <code>linewidth</code> argument to increase size in geom lines.</li>
 <li>
 <code><a href="../reference/predict.modeler.html">predict.modeler()</a></code> includes <code>parallel</code> and <code>workers</code> to allow for parallel computing.</li>
 </ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-1-1-0-00009">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-1-0-00009"></a></h3>
+<ul><li>Removed methods that required hessian matrix (snewton, snewtonm, snewtm) in <code><a href="../reference/list_methods.html">list_methods()</a></code>.</li>
+<li>Fixed issue when combining fitted values in <code><a href="../reference/modeler.html">modeler()</a></code>.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.1.0" id="flexfitr-110">flexFitR 1.1.0<a class="anchor" aria-label="anchor" href="#flexfitr-110"></a></h2><p class="text-muted">CRAN release: 2025-02-21</p>
 <div class="section level3">
