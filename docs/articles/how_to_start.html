@@ -146,8 +146,8 @@ to our coefficient b and coefficient m.</p>
 <span><span class="co">#&gt;    1 -15.5 19.5 449</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
-<span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;       1 0.1267 secs        100%   259 (id)</span></span></code></pre></div>
+<span><span class="co">#&gt;  Groups     Timing Convergence Iterations</span></span>
+<span><span class="co">#&gt;       1 0.138 secs        100%   259 (id)</span></span></code></pre></div>
 <p>Once the model is fitted, we can examine the output, extract the
 estimated parameters, make some plots, and predict new x values.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -268,7 +268,7 @@ using the <code>modeler</code> function.</p>
 <span>    x <span class="op">=</span> <span class="va">time</span>,</span>
 <span>    y <span class="op">=</span> <span class="va">variable</span>,</span>
 <span>    fn <span class="op">=</span> <span class="st">"fun"</span>,</span>
-<span>    parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">45</span>, t2 <span class="op">=</span> <span class="fl">80</span>, k <span class="op">=</span> <span class="fl">90</span><span class="op">)</span></span>
+<span>    parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">40</span>, t2 <span class="op">=</span> <span class="fl">70</span>, k <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="va">mod_1</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -284,8 +284,8 @@ using the <code>modeler</code> function.</p>
 <span><span class="co">#&gt;    1 38.6 61 99.8 0.449</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
-<span><span class="co">#&gt;  Groups    Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;       1 0.13 secs        100%   511 (id)</span></span></code></pre></div>
+<span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
+<span><span class="co">#&gt;       1 0.1326 secs        100%   473 (id)</span></span></code></pre></div>
 <p>After fitting the model, we can examine the results, plot the fitted
 curve, extract the coefficients and their associated p-values, obtain
 the variance-covariance matrix, and make predictions for unknown values
@@ -307,9 +307,9 @@ of x.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/vcov.html" class="external-link">vcov</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $`1`</span></span>
 <span><span class="co">#&gt;               t1           t2            k</span></span>
-<span><span class="co">#&gt; t1  6.061705e-03 -0.002940001 1.877072e-07</span></span>
+<span><span class="co">#&gt; t1  6.061705e-03 -0.002940001 1.877076e-07</span></span>
 <span><span class="co">#&gt; t2 -2.940001e-03  0.008431400 4.204939e-03</span></span>
-<span><span class="co">#&gt; k   1.877072e-07  0.004204939 1.870426e-02</span></span>
+<span><span class="co">#&gt; k   1.877076e-07  0.004204939 1.870426e-02</span></span>
 <span><span class="co">#&gt; attr(,"fn_name")</span></span>
 <span><span class="co">#&gt; [1] "fun"</span></span></code></pre></div>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
@@ -319,9 +319,49 @@ of x.</p>
 <span><span class="co">#&gt;     uid fn_name x_new predicted.value std.error</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1 fun        45            28.5     0.223</span></span></code></pre></div>
-<p>Finally, we illustrate how to provide different initial values to the
-function when dealing with multiple groups, and we also show how to fix
-some parameters of the objective function.</p>
+<div class="section level3">
+<h3 id="comparison-with-nls">Comparison with <code>nls</code><a class="anchor" aria-label="anchor" href="#comparison-with-nls"></a>
+</h3>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">fun_vec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Vectorize.html" class="external-link">Vectorize</a></span><span class="op">(</span><span class="st">"fun"</span><span class="op">)</span> <span class="co"># nls requires a vectorized function</span></span>
+<span><span class="va">mod_nls</span> <span class="op">&lt;-</span> <span class="va">dt</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/nls.html" class="external-link">nls</a></span><span class="op">(</span></span>
+<span>    formula <span class="op">=</span> <span class="va">variable</span> <span class="op">~</span> <span class="fu">fun_vec</span><span class="op">(</span><span class="va">time</span>, <span class="va">t1</span>, <span class="va">t2</span>, <span class="va">k</span><span class="op">)</span>,</span>
+<span>    start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">40</span>, t2 <span class="op">=</span> <span class="fl">70</span>, k <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>,</span>
+<span>    algorithm <span class="op">=</span> <span class="st">"default"</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">mod_nls</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Formula: variable ~ fun_vec(time, t1, t2, k)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Parameters:</span></span>
+<span><span class="co">#&gt;    Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span><span class="co">#&gt; t1 38.60286    0.07786   495.8 4.54e-15 ***</span></span>
+<span><span class="co">#&gt; t2 61.04288    0.09183   664.7 7.82e-16 ***</span></span>
+<span><span class="co">#&gt; k  99.81000    0.13676   729.8 4.47e-16 ***</span></span>
+<span><span class="co">#&gt; ---</span></span>
+<span><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Residual standard error: 0.2735 on 6 degrees of freedom</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Number of iterations to convergence: 4 </span></span>
+<span><span class="co">#&gt; Achieved convergence tolerance: 3.927e-06</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">mod_nls</span><span class="op">)</span></span>
+<span><span class="co">#&gt;       t1       t2        k </span></span>
+<span><span class="co">#&gt; 38.60286 61.04288 99.81000</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/vcov.html" class="external-link">vcov</a></span><span class="op">(</span><span class="va">mod_nls</span><span class="op">)</span></span>
+<span><span class="co">#&gt;               t1           t2             k</span></span>
+<span><span class="co">#&gt; t1  6.062452e-03 -0.002940973 -6.025873e-13</span></span>
+<span><span class="co">#&gt; t2 -2.940973e-03  0.008433026  4.205209e-03</span></span>
+<span><span class="co">#&gt; k  -6.025873e-13  0.004205209  1.870417e-02</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">mod_nls</span>, newdata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>time <span class="op">=</span> <span class="fl">45</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 28.45357</span></span></code></pre></div>
+<p>As we can see, we get very similar results when compared to
+<code>nls</code>.</p>
+<p>Finally, we will illustrate how to provide different initial values
+to the function when dealing with multiple groups, and we will also show
+how to fix some parameters of the objective function.</p>
+</div>
 <div class="section level3">
 <h3 id="providing-initial-values">Providing Initial values<a class="anchor" aria-label="anchor" href="#providing-initial-values"></a>
 </h3>
@@ -331,7 +371,7 @@ the dataset. Because of this, we need to specify <code>uid = 1</code>
 for the initial values and fixed parameters. If there is only one group,
 you only need to modify the parameters argument accordingly. This
 approach is primarily for illustrative purposes.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">init</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>uid <span class="op">=</span> <span class="fl">1</span>, t1 <span class="op">=</span> <span class="fl">20</span>, t2 <span class="op">=</span> <span class="fl">30</span>, k <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">mod_2</span> <span class="op">&lt;-</span> <span class="va">dt</span> <span class="op">|&gt;</span></span>
@@ -356,7 +396,7 @@ approach is primarily for illustrative purposes.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
 <span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;       1 0.1438 secs        100%   567 (id)</span></span>
+<span><span class="co">#&gt;       1 0.1411 secs        100%   567 (id)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">mod_2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 7</span></span></span>
 <span><span class="co">#&gt;     uid fn_name coefficient solution std.error `t value` `Pr(&gt;|t|)`</span></span>
@@ -368,7 +408,7 @@ approach is primarily for illustrative purposes.</p>
 <div class="section level3">
 <h3 id="fixing-parameters">Fixing parameters<a class="anchor" aria-label="anchor" href="#fixing-parameters"></a>
 </h3>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fix</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>uid <span class="op">=</span> <span class="fl">1</span>, k <span class="op">=</span> <span class="fl">98</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">mod_3</span> <span class="op">&lt;-</span> <span class="va">dt</span> <span class="op">|&gt;</span></span>
@@ -376,7 +416,7 @@ approach is primarily for illustrative purposes.</p>
 <span>    x <span class="op">=</span> <span class="va">time</span>,</span>
 <span>    y <span class="op">=</span> <span class="va">variable</span>,</span>
 <span>    fn <span class="op">=</span> <span class="st">"fun"</span>,</span>
-<span>    parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">45</span>, t2 <span class="op">=</span> <span class="fl">80</span>, k <span class="op">=</span> <span class="fl">90</span><span class="op">)</span>,</span>
+<span>    parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">40</span>, t2 <span class="op">=</span> <span class="fl">70</span>, k <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>,</span>
 <span>    fixed_params <span class="op">=</span> <span class="va">fix</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="va">mod_3</span></span>
@@ -394,7 +434,7 @@ approach is primarily for illustrative purposes.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
 <span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;       1 0.1275 secs        100%   321 (id)</span></span>
+<span><span class="co">#&gt;       1 0.1176 secs        100%   313 (id)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">mod_3</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 7</span></span></span>
 <span><span class="co">#&gt;     uid fn_name coefficient solution std.error `t value` `Pr(&gt;|t|)`</span></span>
@@ -402,8 +442,8 @@ approach is primarily for illustrative purposes.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1 fun     t1              38.6     0.396      97.5   3.15<span style="color: #949494;">e</span><span style="color: #BB0000;">-12</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     1 fun     t2              60.6     0.429     141.    2.34<span style="color: #949494;">e</span><span style="color: #BB0000;">-13</span></span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_3</span><span class="op">)</span></span></code></pre></div>
-<p><img src="how_to_start_files/figure-html/unnamed-chunk-23-1.png" alt="Plot evolution" width="700"></p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<p><img src="how_to_start_files/figure-html/unnamed-chunk-24-1.png" alt="Plot evolution" width="700"></p>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/performance.html">performance</a></span><span class="op">(</span><span class="va">mod_1</span>, <span class="va">mod_2</span>, <span class="va">mod_3</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   fn_name uid df nobs p logLik   AIC  AICc   BIC Sigma   SSE  MAE  MSE RMSE R2</span></span>
 <span><span class="co">#&gt; 1   fun_1   1  4    9 3   0.72  6.56 16.56  7.35  0.27  0.45 0.07 0.05 0.22  1</span></span>

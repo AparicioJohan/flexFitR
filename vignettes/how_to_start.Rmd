@@ -143,7 +143,7 @@ mod_1 <- dt |>
     x = time,
     y = variable,
     fn = "fun",
-    parameters = c(t1 = 45, t2 = 80, k = 90)
+    parameters = c(t1 = 40, t2 = 70, k = 100)
   )
 mod_1
 ```
@@ -168,8 +168,24 @@ vcov(mod_1)
 # Making predictions
 predict(mod_1, x = 45)
 ```
+### Comparison with `nls` 
 
-Finally, we illustrate how to provide different initial values to the function when dealing with multiple groups, and we also show how to fix some parameters of the objective function.
+```{r}
+fun_vec <- Vectorize("fun") # nls requires a vectorized function
+mod_nls <- dt |>
+  nls(
+    formula = variable ~ fun_vec(time, t1, t2, k),
+    start = c(t1 = 40, t2 = 70, k = 100),
+    algorithm = "default"
+  )
+summary(mod_nls)
+coef(mod_nls)
+vcov(mod_nls)
+predict(mod_nls, newdata = data.frame(time = 45))
+```
+As we can see, we get very similar results when compared to `nls`.
+
+Finally, we will illustrate how to provide different initial values to the function when dealing with multiple groups, and we will also show how to fix some parameters of the objective function.
 
 ### Providing Initial values
 
@@ -199,7 +215,7 @@ mod_3 <- dt |>
     x = time,
     y = variable,
     fn = "fun",
-    parameters = c(t1 = 45, t2 = 80, k = 90),
+    parameters = c(t1 = 40, t2 = 70, k = 100),
     fixed_params = fix
   )
 mod_3
