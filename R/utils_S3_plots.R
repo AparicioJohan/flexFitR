@@ -200,7 +200,9 @@ plot.modeler <- function(x,
     what = rbind,
     args = lapply(X = fit_list, FUN = expand_by_grp, seq = sq)
   ) |>
-    as_tibble()
+    as_tibble() |>
+    dplyr::mutate(grp = paste0(uid, "_", fn_name)) |>
+    dplyr::mutate(uid = as.factor(uid))
   dt <- droplevels(filter(dt, uid %in% id))
   label <- unique(dt$var)
   functions <- unique(func_dt$fn_name)
@@ -268,12 +270,7 @@ plot.modeler <- function(x,
       ggplot() +
       geom_line(
         data = func_dt,
-        mapping = aes(
-          x = x,
-          y = dens,
-          group = paste0(uid, "_", fn_name),
-          color = as.factor(uid)
-        ),
+        mapping = aes(x = x, y = dens, group = grp, color = uid),
         linewidth = linewidth
       ) +
       theme_classic(base_size = base_size) +
@@ -323,7 +320,8 @@ plot.modeler <- function(x,
         ci_upper = predicted.value - qt((1 - 0.95) / 2, df) * std.error,
         pi_lower = predicted.value + qt((1 - 0.95) / 2, df) * std.error.p,
         pi_upper = predicted.value - qt((1 - 0.95) / 2, df) * std.error.p
-      )
+      ) |>
+      dplyr::mutate(grp = paste0(uid, "_", fn_name))
     p0 <- dt_ci |>
       ggplot() +
       {
@@ -368,11 +366,7 @@ plot.modeler <- function(x,
           )
         } else {
           geom_line(
-            mapping = aes(
-              x = x_new,
-              y = predicted.value,
-              group = paste0(uid, "_", fn_name)
-            ),
+            mapping = aes(x = x_new, y = predicted.value, group = grp),
             linewidth = linewidth,
             color = "black"
           )
@@ -382,20 +376,12 @@ plot.modeler <- function(x,
         if (add_ci) {
           list(
             geom_line(
-              mapping = aes(
-                x = x_new,
-                y = ci_lower,
-                group = paste0(uid, "_", fn_name)
-              ),
+              mapping = aes(x = x_new, y = ci_lower, group = grp),
               linetype = 2,
               color = color_ci
             ),
             geom_line(
-              mapping = aes(
-                x = x_new,
-                y = ci_upper,
-                group = paste0(uid, "_", fn_name)
-              ),
+              mapping = aes(x = x_new, y = ci_upper, group = grp),
               linetype = 2,
               color = color_ci
             )
@@ -406,20 +392,12 @@ plot.modeler <- function(x,
         if (add_ci && type == 4) {
           list(
             geom_line(
-              mapping = aes(
-                x = x_new,
-                y = pi_lower,
-                group = paste0(uid, "_", fn_name)
-              ),
+              mapping = aes(x = x_new, y = pi_lower, group = grp),
               linetype = 2,
               color = color_pi
             ),
             geom_line(
-              mapping = aes(
-                x = x_new,
-                y = pi_upper,
-                group = paste0(uid, "_", fn_name)
-              ),
+              mapping = aes(x = x_new, y = pi_upper, group = grp),
               linetype = 2,
               color = color_pi
             )
@@ -449,7 +427,7 @@ plot.modeler <- function(x,
     }
     if (n_funs > 1 && !add_ci && !add_ribbon_ci && !add_ribbon_pi) {
       p0 <- p0 +
-        facet_wrap(~ uid) +
+        facet_wrap(~uid) +
         scale_color_brewer(type = "qual", palette = "Dark2")
     }
   }
