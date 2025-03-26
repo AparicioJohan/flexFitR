@@ -26,7 +26,7 @@
 #'     x = DAP,
 #'     y = Canopy,
 #'     grp = Plot,
-#'     fn = "fn_linear_sat",
+#'     fn = "fn_lin_plat",
 #'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
 #'     subset = c(15, 35, 45)
 #'   )

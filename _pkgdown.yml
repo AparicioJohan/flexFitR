@@ -78,7 +78,7 @@ reference:
 - contents:
   - fn_lin
   - fn_quad
-  - fn_linear_sat
+  - fn_lin_plat
   - fn_logistic
   - fn_exp1_lin
   - fn_exp2_lin

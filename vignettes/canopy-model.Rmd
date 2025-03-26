@@ -70,7 +70,7 @@ Once the data have been explored, we define the expectation function. In this
 case, it is a piece-wise regression function with three parameters: t1, t2, and
 k. The function can be expressed mathematically as follows:
 
-`fn_linear_sat()`
+`fn_lin_plat()`
 
 \begin{equation}
 f(t; t_1, t_2, k) =
@@ -84,7 +84,7 @@ k & \text{if } t > t_2
 
 ```{r, echo = FALSE, fig.width= 8, fig.alt="plot fn"}
 plot_fn(
-  fn = "fn_linear_sat",
+  fn = "fn_lin_plat",
   params = c(t1 = 40, t2 = 61.8, k = 100),
   interval = c(0, 108),
   color = "black",
@@ -101,7 +101,7 @@ To fit the model, we use the modeler function. Here:
 * grp allows us to perform group analysis, e.g., on multiple plots.
 
 In this example, we have 196 plots but will only fit the model for plots 166 
-and 40 as a subset. We define the piecewise function `fn_linear_sat` and set
+and 40 as a subset. We define the piecewise function `fn_lin_plat` and set
 initial values for the parameters.
 
 ```{r, warning=FALSE, message=FALSE }
@@ -110,7 +110,7 @@ mod_1 <- dt_potato |>
     x = DAP,
     y = Canopy,
     grp = Plot,
-    fn = "fn_linear_sat",
+    fn = "fn_lin_plat",
     parameters = c(t1 = 45, t2 = 80, k = 0.9),
     subset = c(166, 40)
   )
@@ -171,7 +171,7 @@ mod_2 <- dt_potato |>
     x = DAP,
     y = Canopy,
     grp = Plot,
-    fn = "fn_linear_sat",
+    fn = "fn_lin_plat",
     parameters = initials,
     subset = c(166, 40)
   )
@@ -203,7 +203,7 @@ mod_3 <- dt_potato |>
     x = DAP,
     y = Canopy,
     grp = Plot,
-    fn = "fn_linear_sat",
+    fn = "fn_lin_plat",
     parameters = c(t1 = 45, t2 = 80, k = 0.9),
     fixed_params = fixed_params,
     subset = c(166, 40)
@@ -283,7 +283,7 @@ mod <- dt_potato |>
     x = DAP,
     y = Canopy,
     grp = Plot,
-    fn = "fn_linear_sat",
+    fn = "fn_lin_plat",
     parameters = c(t1 = 45, t2 = 80, k = 0.9),
     fixed_params = list(k = "max(y)"),
     options = list(progress = TRUE, parallel = TRUE, workers = 5)

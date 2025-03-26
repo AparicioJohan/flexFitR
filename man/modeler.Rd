@@ -10,7 +10,7 @@ modeler(
   y,
   grp,
   keep,
-  fn = "fn_linear_sat",
+  fn = "fn_lin_plat",
   parameters = NULL,
   lower = -Inf,
   upper = Inf,
@@ -33,7 +33,7 @@ modeler(
 \item{keep}{Names of columns to retain in the output. Defaults to \code{NULL}. (Optional)}
 
 \item{fn}{A string. The name of the function used for curve fitting.
-Example: \code{"fn_lin"}. Defaults to \code{"fn_linear_sat"}.}
+Example: \code{"fn_lin"}. Defaults to \code{"fn_lin_plat"}.}
 
 \item{parameters}{A numeric vector, named list, or \code{data.frame} providing initial values for parameters:
 \describe{
@@ -112,7 +112,7 @@ mod_2 <- dt_potato |>
     x = DAP,
     y = Canopy,
     grp = Plot,
-    fn = "fn_linear_sat",
+    fn = "fn_lin_plat",
     parameters = c(t1 = 45, t2 = 80, k = 0.9),
     subset = 195
   )

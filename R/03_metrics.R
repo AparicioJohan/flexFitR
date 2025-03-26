@@ -101,7 +101,7 @@ info_criteria <- function(object, metrics = "all", metadata = TRUE, digits = 2) 
 #'     x = DAP,
 #'     y = Canopy,
 #'     grp = Plot,
-#'     fn = "fn_linear_sat",
+#'     fn = "fn_lin_plat",
 #'     parameters = c(t1 = 45, t2 = 80, k = 90),
 #'     subset = 40
 #'   )
@@ -176,7 +176,7 @@ performance <- function(..., metrics = "all", metadata = FALSE, digits = 2) {
 #'     x = DAP,
 #'     y = Canopy,
 #'     grp = Plot,
-#'     fn = "fn_linear_sat",
+#'     fn = "fn_lin_plat",
 #'     parameters = c(t1 = 45, t2 = 80, k = 90),
 #'     subset = 40
 #'   )
@@ -368,7 +368,7 @@ plot.performance <- function(x,
 #'     x = DAP,
 #'     y = Canopy,
 #'     grp = Plot,
-#'     fn = "fn_linear_sat",
+#'     fn = "fn_lin_plat",
 #'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
 #'     subset = c(1:2)
 #'   )

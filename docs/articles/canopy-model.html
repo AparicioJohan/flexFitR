@@ -278,7 +278,7 @@ understand the temporal evolution of each plot.</p>
 In this case, it is a piece-wise regression function with three
 parameters: t1, t2, and k. The function can be expressed mathematically
 as follows:</p>
-<p><code><a href="../reference/fn_linear_sat.html">fn_linear_sat()</a></code></p>
+<p><code><a href="../reference/fn_lin_plat.html">fn_lin_plat()</a></code></p>
 <p><span class="math display">\[\begin{equation}
 f(t; t_1, t_2, k) =
 \begin{cases}
@@ -302,22 +302,21 @@ plots.</li>
 </ul>
 <p>In this example, we have 196 plots but will only fit the model for
 plots 166 and 40 as a subset. We define the piecewise function
-<code>fn_linear_sat</code> and set initial values for the
-parameters.</p>
+<code>fn_lin_plat</code> and set initial values for the parameters.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mod_1</span> <span class="op">&lt;-</span> <span class="va">dt_potato</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/modeler.html">modeler</a></span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="va">DAP</span>,</span>
 <span>    y <span class="op">=</span> <span class="va">Canopy</span>,</span>
 <span>    grp <span class="op">=</span> <span class="va">Plot</span>,</span>
-<span>    fn <span class="op">=</span> <span class="st">"fn_linear_sat"</span>,</span>
+<span>    fn <span class="op">=</span> <span class="st">"fn_lin_plat"</span>,</span>
 <span>    parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">45</span>, t2 <span class="op">=</span> <span class="fl">80</span>, k <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>,</span>
 <span>    subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">166</span>, <span class="fl">40</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="va">mod_1</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Call:</span></span>
-<span><span class="co">#&gt; Canopy ~ fn_linear_sat(DAP, t1, t2, k) </span></span>
+<span><span class="co">#&gt; Canopy ~ fn_lin_plat(DAP, t1, t2, k) </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Residuals (`Standardized`):</span></span>
 <span><span class="co">#&gt;       Min.    1st Qu.     Median       Mean    3rd Qu.       Max. </span></span>
@@ -330,7 +329,7 @@ parameters.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
 <span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;       2 0.3083 secs        100% 558.5 (id)</span></span></code></pre></div>
+<span><span class="co">#&gt;       2 0.3551 secs        100% 558.5 (id)</span></span></code></pre></div>
 <p>After fitting, we can inspect the model summary and visualize the fit
 using the plot function:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -354,7 +353,7 @@ using the plot function:</p>
 <td align="right">60.59505</td>
 <td align="right">100.0000</td>
 <td align="right">0.0544833</td>
-<td align="left">fn_linear_sat</td>
+<td align="left">fn_lin_plat</td>
 </tr>
 <tr class="even">
 <td align="right">166</td>
@@ -362,7 +361,7 @@ using the plot function:</p>
 <td align="right">57.54603</td>
 <td align="right">100.0047</td>
 <td align="right">40.9134555</td>
-<td align="left">fn_linear_sat</td>
+<td align="left">fn_lin_plat</td>
 </tr>
 </tbody>
 </table>
@@ -392,25 +391,25 @@ their variability.</li>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 7</span></span></span>
-<span><span class="co">#&gt;     uid fn_name       coefficient solution std.error `t value` `Pr(&gt;|t|)`</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    40 fn_linear_sat t1              34.8    0.024<span style="text-decoration: underline;">0</span>    <span style="text-decoration: underline;">1</span>453.    2.93<span style="color: #949494;">e</span><span style="color: #BB0000;">-15</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    40 fn_linear_sat t2              60.6    0.036<span style="text-decoration: underline;">8</span>    <span style="text-decoration: underline;">1</span>648.    1.56<span style="color: #949494;">e</span><span style="color: #BB0000;">-15</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    40 fn_linear_sat k              100.     0.060<span style="text-decoration: underline;">3</span>    <span style="text-decoration: underline;">1</span>659.    1.51<span style="color: #949494;">e</span><span style="color: #BB0000;">-15</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>   166 fn_linear_sat t1              31.6    0.794       39.8   1.89<span style="color: #949494;">e</span><span style="color: #BB0000;">- 7</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>   166 fn_linear_sat t2              57.5    0.902       63.8   1.79<span style="color: #949494;">e</span><span style="color: #BB0000;">- 8</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>   166 fn_linear_sat k              100.     1.65        60.6   2.32<span style="color: #949494;">e</span><span style="color: #BB0000;">- 8</span></span></span></code></pre></div>
+<span><span class="co">#&gt;     uid fn_name     coefficient solution std.error `t value` `Pr(&gt;|t|)`</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    40 fn_lin_plat t1              34.8    0.024<span style="text-decoration: underline;">0</span>    <span style="text-decoration: underline;">1</span>453.    2.93<span style="color: #949494;">e</span><span style="color: #BB0000;">-15</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    40 fn_lin_plat t2              60.6    0.036<span style="text-decoration: underline;">8</span>    <span style="text-decoration: underline;">1</span>648.    1.56<span style="color: #949494;">e</span><span style="color: #BB0000;">-15</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    40 fn_lin_plat k              100.     0.060<span style="text-decoration: underline;">3</span>    <span style="text-decoration: underline;">1</span>659.    1.51<span style="color: #949494;">e</span><span style="color: #BB0000;">-15</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>   166 fn_lin_plat t1              31.6    0.794       39.8   1.89<span style="color: #949494;">e</span><span style="color: #BB0000;">- 7</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>   166 fn_lin_plat t2              57.5    0.902       63.8   1.79<span style="color: #949494;">e</span><span style="color: #BB0000;">- 8</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>   166 fn_lin_plat k              100.     1.65        60.6   2.32<span style="color: #949494;">e</span><span style="color: #BB0000;">- 8</span></span></span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/confint.html" class="external-link">confint</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 7</span></span></span>
-<span><span class="co">#&gt;     uid fn_name       coefficient solution std.error ci_lower ci_upper</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    40 fn_linear_sat t1              34.8    0.024<span style="text-decoration: underline;">0</span>     34.8     34.9</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    40 fn_linear_sat t2              60.6    0.036<span style="text-decoration: underline;">8</span>     60.5     60.7</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    40 fn_linear_sat k              100.     0.060<span style="text-decoration: underline;">3</span>     99.8    100. </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>   166 fn_linear_sat t1              31.6    0.794      29.6     33.7</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>   166 fn_linear_sat t2              57.5    0.902      55.2     59.9</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>   166 fn_linear_sat k              100.     1.65       95.8    104.</span></span></code></pre></div>
+<span><span class="co">#&gt;     uid fn_name     coefficient solution std.error ci_lower ci_upper</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    40 fn_lin_plat t1              34.8    0.024<span style="text-decoration: underline;">0</span>     34.8     34.9</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    40 fn_lin_plat t2              60.6    0.036<span style="text-decoration: underline;">8</span>     60.5     60.7</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    40 fn_lin_plat k              100.     0.060<span style="text-decoration: underline;">3</span>     99.8    100. </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>   166 fn_lin_plat t1              31.6    0.794      29.6     33.7</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>   166 fn_lin_plat t2              57.5    0.902      55.2     59.9</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>   166 fn_lin_plat k              100.     1.65       95.8    104.</span></span></code></pre></div>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/vcov.html" class="external-link">vcov</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $`40`</span></span>
@@ -419,7 +418,7 @@ their variability.</li>
 <span><span class="co">#&gt; t2 -2.977975e-04  0.0013525945 9.350853e-04</span></span>
 <span><span class="co">#&gt; k   4.429736e-08  0.0009350853 3.632249e-03</span></span>
 <span><span class="co">#&gt; attr(,"fn_name")</span></span>
-<span><span class="co">#&gt; [1] "fn_linear_sat"</span></span>
+<span><span class="co">#&gt; [1] "fn_lin_plat"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $`166`</span></span>
 <span><span class="co">#&gt;             t1         t2           k</span></span>
@@ -427,7 +426,7 @@ their variability.</li>
 <span><span class="co">#&gt; t2 -0.26138501  0.8131631  0.71197685</span></span>
 <span><span class="co">#&gt; k  -0.00283193  0.7119768  2.72567110</span></span>
 <span><span class="co">#&gt; attr(,"fn_name")</span></span>
-<span><span class="co">#&gt; [1] "fn_linear_sat"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "fn_lin_plat"</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="providing-different-initial-values">4. Providing different initial values<a class="anchor" aria-label="anchor" href="#providing-different-initial-values"></a>
@@ -472,7 +471,7 @@ to improve the model.</p>
 <span>    x <span class="op">=</span> <span class="va">DAP</span>,</span>
 <span>    y <span class="op">=</span> <span class="va">Canopy</span>,</span>
 <span>    grp <span class="op">=</span> <span class="va">Plot</span>,</span>
-<span>    fn <span class="op">=</span> <span class="st">"fn_linear_sat"</span>,</span>
+<span>    fn <span class="op">=</span> <span class="st">"fn_lin_plat"</span>,</span>
 <span>    parameters <span class="op">=</span> <span class="va">initials</span>,</span>
 <span>    subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">166</span>, <span class="fl">40</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
@@ -497,7 +496,7 @@ to improve the model.</p>
 <td align="right">60.59505</td>
 <td align="right">100.0000</td>
 <td align="right">5.448330e-02</td>
-<td align="left">fn_linear_sat</td>
+<td align="left">fn_lin_plat</td>
 </tr>
 <tr class="even">
 <td align="right">166</td>
@@ -505,7 +504,7 @@ to improve the model.</p>
 <td align="right">39.85048</td>
 <td align="right">100.0047</td>
 <td align="right">1.077531e+04</td>
-<td align="left">fn_linear_sat</td>
+<td align="left">fn_lin_plat</td>
 </tr>
 </tbody>
 </table>
@@ -531,7 +530,7 @@ follows:</p>
 <span>    x <span class="op">=</span> <span class="va">DAP</span>,</span>
 <span>    y <span class="op">=</span> <span class="va">Canopy</span>,</span>
 <span>    grp <span class="op">=</span> <span class="va">Plot</span>,</span>
-<span>    fn <span class="op">=</span> <span class="st">"fn_linear_sat"</span>,</span>
+<span>    fn <span class="op">=</span> <span class="st">"fn_lin_plat"</span>,</span>
 <span>    parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">45</span>, t2 <span class="op">=</span> <span class="fl">80</span>, k <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>,</span>
 <span>    fixed_params <span class="op">=</span> <span class="va">fixed_params</span>,</span>
 <span>    subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">166</span>, <span class="fl">40</span><span class="op">)</span></span>
@@ -557,7 +556,7 @@ follows:</p>
 <td align="right">60.59505</td>
 <td align="right">0.0544833</td>
 <td align="right">100.000</td>
-<td align="left">fn_linear_sat</td>
+<td align="left">fn_lin_plat</td>
 </tr>
 <tr class="even">
 <td align="right">166</td>
@@ -565,7 +564,7 @@ follows:</p>
 <td align="right">57.54663</td>
 <td align="right">40.9134718</td>
 <td align="right">100.007</td>
-<td align="left">fn_linear_sat</td>
+<td align="left">fn_lin_plat</td>
 </tr>
 </tbody>
 </table>
@@ -603,7 +602,7 @@ accuracy of their estimates by reducing the complexity of the model.</p>
 <td align="right">57.54603</td>
 <td align="right">100.0047</td>
 <td align="right">40.91346</td>
-<td align="left">fn_linear_sat</td>
+<td align="left">fn_lin_plat</td>
 </tr>
 <tr class="even">
 <td align="left">2</td>
@@ -612,7 +611,7 @@ accuracy of their estimates by reducing the complexity of the model.</p>
 <td align="right">39.85048</td>
 <td align="right">100.0047</td>
 <td align="right">10775.31306</td>
-<td align="left">fn_linear_sat</td>
+<td align="left">fn_lin_plat</td>
 </tr>
 <tr class="odd">
 <td align="left">3</td>
@@ -621,7 +620,7 @@ accuracy of their estimates by reducing the complexity of the model.</p>
 <td align="right">57.54663</td>
 <td align="right">100.0070</td>
 <td align="right">40.91347</td>
-<td align="left">fn_linear_sat</td>
+<td align="left">fn_lin_plat</td>
 </tr>
 </tbody>
 </table>
@@ -634,9 +633,9 @@ impact of these changes.</p>
 <span><span class="va">comparison</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">uid</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fl">166</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<table class="table">
+<table style="width:100%;" class="table">
 <colgroup>
-<col width="16%">
+<col width="14%">
 <col width="4%">
 <col width="3%">
 <col width="5%">
@@ -671,7 +670,7 @@ impact of these changes.</p>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">fn_linear_sat_1</td>
+<td align="left">fn_lin_plat_1</td>
 <td align="right">166</td>
 <td align="right">4</td>
 <td align="right">8</td>
@@ -688,7 +687,7 @@ impact of these changes.</p>
 <td align="right">1.0</td>
 </tr>
 <tr class="even">
-<td align="left">fn_linear_sat_2</td>
+<td align="left">fn_lin_plat_2</td>
 <td align="right">166</td>
 <td align="right">4</td>
 <td align="right">8</td>
@@ -705,7 +704,7 @@ impact of these changes.</p>
 <td align="right">0.3</td>
 </tr>
 <tr class="odd">
-<td align="left">fn_linear_sat_3</td>
+<td align="left">fn_lin_plat_3</td>
 <td align="right">166</td>
 <td align="right">3</td>
 <td align="right">8</td>
@@ -750,7 +749,7 @@ are some examples demonstrating these capabilities:</p>
 </tr></thead>
 <tbody><tr class="odd">
 <td align="right">166</td>
-<td align="left">fn_linear_sat</td>
+<td align="left">fn_lin_plat</td>
 <td align="right">45</td>
 <td align="right">51.62246</td>
 <td align="right">1.656734</td>
@@ -770,7 +769,7 @@ are some examples demonstrating these capabilities:</p>
 </tr></thead>
 <tbody><tr class="odd">
 <td align="right">166</td>
-<td align="left">fn_linear_sat</td>
+<td align="left">fn_lin_plat</td>
 <td align="right">0</td>
 <td align="right">108</td>
 <td align="right">6342.308</td>
@@ -790,7 +789,7 @@ are some examples demonstrating these capabilities:</p>
 </tr></thead>
 <tbody><tr class="odd">
 <td align="right">166</td>
-<td align="left">fn_linear_sat</td>
+<td align="left">fn_lin_plat</td>
 <td align="left">t2 - t1</td>
 <td align="right">25.93229</td>
 <td align="right">1.402375</td>
@@ -815,7 +814,7 @@ automatically detects the available cores.</p>
 <span>    x <span class="op">=</span> <span class="va">DAP</span>,</span>
 <span>    y <span class="op">=</span> <span class="va">Canopy</span>,</span>
 <span>    grp <span class="op">=</span> <span class="va">Plot</span>,</span>
-<span>    fn <span class="op">=</span> <span class="st">"fn_linear_sat"</span>,</span>
+<span>    fn <span class="op">=</span> <span class="st">"fn_lin_plat"</span>,</span>
 <span>    parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">45</span>, t2 <span class="op">=</span> <span class="fl">80</span>, k <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>,</span>
 <span>    fixed_params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>k <span class="op">=</span> <span class="st">"max(y)"</span><span class="op">)</span>,</span>
 <span>    options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>progress <span class="op">=</span> <span class="cn">TRUE</span>, parallel <span class="op">=</span> <span class="cn">TRUE</span>, workers <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>

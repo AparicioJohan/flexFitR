@@ -97,14 +97,14 @@ performance metrics. Default is <code>FALSE</code>.</p></dd>
 <span class="r-in"><span>    x <span class="op">=</span> <span class="va">DAP</span>,</span></span>
 <span class="r-in"><span>    y <span class="op">=</span> <span class="va">Canopy</span>,</span></span>
 <span class="r-in"><span>    grp <span class="op">=</span> <span class="va">Plot</span>,</span></span>
-<span class="r-in"><span>    fn <span class="op">=</span> <span class="st">"fn_linear_sat"</span>,</span></span>
+<span class="r-in"><span>    fn <span class="op">=</span> <span class="st">"fn_lin_plat"</span>,</span></span>
 <span class="r-in"><span>    parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">45</span>, t2 <span class="op">=</span> <span class="fl">80</span>, k <span class="op">=</span> <span class="fl">90</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    subset <span class="op">=</span> <span class="fl">40</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Canopy ~ fn_linear_sat(DAP, t1, t2, k) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Canopy ~ fn_lin_plat(DAP, t1, t2, k) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Residuals (`Standardized`):</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
@@ -116,7 +116,7 @@ performance metrics. Default is <code>FALSE</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Groups      Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       1 0.1327 secs        100%   527 (id)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       1 0.1388 secs        100%   527 (id)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="co"># Model 2</span></span></span>
 <span class="r-in"><span><span class="va">mod_2</span> <span class="op">&lt;-</span> <span class="va">dt_potato</span> <span class="op">|&gt;</span></span></span>
@@ -143,7 +143,7 @@ performance metrics. Default is <code>FALSE</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Groups      Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       1 0.2392 secs        100%   869 (id)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       1 0.2644 secs        100%   869 (id)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="co"># Model 3</span></span></span>
 <span class="r-in"><span><span class="va">mod_3</span> <span class="op">&lt;-</span> <span class="va">dt_potato</span> <span class="op">|&gt;</span></span></span>
@@ -170,13 +170,13 @@ performance metrics. Default is <code>FALSE</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Groups      Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       1 0.0921 secs        100%   446 (id)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       1 0.1029 secs        100%   446 (id)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu">performance</span><span class="op">(</span><span class="va">mod_1</span>, <span class="va">mod_2</span>, <span class="va">mod_3</span>, metrics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"AIC"</span>, <span class="st">"AICc"</span>, <span class="st">"BIC"</span>, <span class="st">"Sigma"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           fn_name uid df nobs p   AIC  AICc   BIC Sigma</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        fn_lin_3  40  3    8 2 75.11 81.11 75.35 20.99</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 fn_linear_sat_1  40  4    8 3 -9.21  4.12 -8.89  0.10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   fn_logistic_2  40  4    8 3 43.04 56.37 43.35  2.73</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         fn_name uid df nobs p   AIC  AICc   BIC Sigma</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1      fn_lin_3  40  3    8 2 75.11 81.11 75.35 20.99</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 fn_lin_plat_1  40  4    8 3 -9.21  4.12 -8.89  0.10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 fn_logistic_2  40  4    8 3 43.04 56.37 43.35  2.73</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

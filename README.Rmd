@@ -64,7 +64,7 @@ plot(explorer(dt, time, variable), type = "xy")
 ```
 
 ```{r, fig.alt= "plot fun"}
-fn_linear_sat <- function(t, t1 = 45, t2 = 80, k = 0.9) {
+fn_lin_plat <- function(t, t1 = 45, t2 = 80, k = 0.9) {
   if (t < t1) {
     y <- 0
   } else if (t >= t1 && t <= t2) {
@@ -77,12 +77,12 @@ fn_linear_sat <- function(t, t1 = 45, t2 = 80, k = 0.9) {
 ```
 
 ```{r}
-# Fitting a linear saturation function
+# Fitting a linear plateau function
 mod_1 <- dt |>
   modeler(
     x = time,
     y = variable,
-    fn = "fn_linear_sat",
+    fn = "fn_lin_plat",
     parameters = c(t1 = 45, t2 = 80, k = 90)
   )
 ```

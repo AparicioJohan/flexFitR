@@ -95,7 +95,7 @@ functions might not work as expected.</p>
 <span class="r-in"><span>    x <span class="op">=</span> <span class="va">DAP</span>,</span></span>
 <span class="r-in"><span>    y <span class="op">=</span> <span class="va">Canopy</span>,</span></span>
 <span class="r-in"><span>    grp <span class="op">=</span> <span class="va">Plot</span>,</span></span>
-<span class="r-in"><span>    fn <span class="op">=</span> <span class="st">"fn_linear_sat"</span>,</span></span>
+<span class="r-in"><span>    fn <span class="op">=</span> <span class="st">"fn_lin_plat"</span>,</span></span>
 <span class="r-in"><span>    parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">45</span>, t2 <span class="op">=</span> <span class="fl">80</span>, k <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    subset <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
@@ -103,7 +103,7 @@ functions might not work as expected.</p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Canopy ~ fn_linear_sat(DAP, t1, t2, k) | uid (2) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Canopy ~ fn_lin_plat(DAP, t1, t2, k) | uid (2) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Canopy ~ fn_logistic(DAP, L, k, t0) | uid (2) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Residuals (`Standardized`):</span>
@@ -119,7 +119,7 @@ functions might not work as expected.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Groups Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       2 0.6199        100% 516.5 (id)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       2 0.6221        100% 516.5 (id)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod</span>, id <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="c.modeler-1.png" alt="" width="700" height="433"></span>

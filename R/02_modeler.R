@@ -9,7 +9,7 @@
 #' @param grp Column(s) in \code{data} used as grouping variable(s). Defaults to \code{NULL}. (Optional)
 #' @param keep Names of columns to retain in the output. Defaults to \code{NULL}. (Optional)
 #' @param fn A string. The name of the function used for curve fitting.
-#'   Example: \code{"fn_lin"}. Defaults to \code{"fn_linear_sat"}.
+#'   Example: \code{"fn_lin"}. Defaults to \code{"fn_lin_plat"}.
 #' @param parameters A numeric vector, named list, or \code{data.frame} providing initial values for parameters:
 #'   \describe{
 #'     \item{Numeric vector}{Named vector specifying initial values (e.g., \code{c(k = 0.5, t1 = 30)}).}
@@ -75,7 +75,7 @@
 #'     x = DAP,
 #'     y = Canopy,
 #'     grp = Plot,
-#'     fn = "fn_linear_sat",
+#'     fn = "fn_lin_plat",
 #'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
 #'     subset = 195
 #'   )
@@ -90,7 +90,7 @@ modeler <- function(data,
                     y,
                     grp,
                     keep,
-                    fn = "fn_linear_sat",
+                    fn = "fn_lin_plat",
                     parameters = NULL,
                     lower = -Inf,
                     upper = Inf,
@@ -404,7 +404,7 @@ modeler <- function(data,
 #'
 #' @param data A nested data.frame with columns <plot, genotype, row, range, data, initials, fx_params>.
 #' @param id An optional vector of IDs to filter the data. Default is \code{NULL}, meaning all ids are used.
-#' @param fn A string specifying the name of the function to be used for the curve fitting. Default is \code{"fn_linear_sat"}.
+#' @param fn A string specifying the name of the function to be used for the curve fitting. Default is \code{"fn_lin_plat"}.
 #' @param method A character vector specifying the optimization methods to be used. See \code{optimx} package for available methods. Default is \code{c("subplex", "pracmanm", "anms")}.
 #' @param lower Numeric vector specifying the lower bounds for the parameters. Default is \code{-Inf} for all parameters.
 #' @param upper Numeric vector specifying the upper bounds for the parameters. Default is \code{Inf} for all parameters.
@@ -691,7 +691,7 @@ modeler <- function(data,
 #'     x = DAP,
 #'     y = Canopy,
 #'     grp = Plot,
-#'     fn = "fn_linear_sat",
+#'     fn = "fn_lin_plat",
 #'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
 #'     subset = c(15, 2, 45)
 #'   )
@@ -722,7 +722,7 @@ fitted.modeler <- function(object, ...) {
 #'     x = DAP,
 #'     y = Canopy,
 #'     grp = Plot,
-#'     fn = "fn_linear_sat",
+#'     fn = "fn_lin_plat",
 #'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
 #'     subset = c(15, 2, 45)
 #'   )

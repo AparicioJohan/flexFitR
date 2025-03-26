@@ -195,14 +195,14 @@
 <span class="r-in"><span>    x <span class="op">=</span> <span class="va">DAP</span>,</span></span>
 <span class="r-in"><span>    y <span class="op">=</span> <span class="va">Canopy</span>,</span></span>
 <span class="r-in"><span>    grp <span class="op">=</span> <span class="va">Plot</span>,</span></span>
-<span class="r-in"><span>    fn <span class="op">=</span> <span class="st">"fn_linear_sat"</span>,</span></span>
+<span class="r-in"><span>    fn <span class="op">=</span> <span class="st">"fn_lin_plat"</span>,</span></span>
 <span class="r-in"><span>    parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">45</span>, t2 <span class="op">=</span> <span class="fl">80</span>, k <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Canopy ~ fn_linear_sat(DAP, t1, t2, k) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Canopy ~ fn_lin_plat(DAP, t1, t2, k) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Residuals (`Standardized`):</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. </span>
@@ -215,8 +215,8 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>    3 33.7 60.0 100.0 3.759</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Groups      Timing Convergence  Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       3 0.3984 secs        100% 502.33 (id)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Groups     Timing Convergence  Iterations</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       3 0.423 secs        100% 502.33 (id)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span>, id <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot.modeler-1.png" alt="" width="700" height="433"></span>
