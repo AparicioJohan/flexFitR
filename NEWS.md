@@ -2,6 +2,7 @@
 
 ## Changes
 
+* Renaming `fn_lin_plat()` function and adding `fn_lin_logis()` and `fn_quad_plat()`.
 * The `modeler()` function now uses `optimr` instead of `opm` for faster execution.
 * `plot.modeler()` includes `linewidth` argument to increase size in geom lines.
 * `predict.modeler()` includes `parallel` and `workers` to allow for parallel computing.

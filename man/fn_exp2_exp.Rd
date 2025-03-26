@@ -2,7 +2,7 @@
 % Please edit documentation in R/99_growth_curves.R
 \name{fn_exp2_exp}
 \alias{fn_exp2_exp}
-\title{Exponential exponential Function 2}
+\title{Super-exponential exponential function}
 \usage{
 fn_exp2_exp(t, t1, t2, alpha, beta)
 }
@@ -20,7 +20,7 @@ Must be greater than 0.}
 Must be less than 0.}
 }
 \value{
-A numeric value based on the double exponential model.
+A numeric value based on the super double exponential model.
 If \code{t} is less than \code{t1}, the function returns 0.
 If \code{t} is between \code{t1} and \code{t2} (inclusive),
 the function returns \code{exp(alpha * (t - t1)^2) - 1}.
@@ -28,7 +28,7 @@ If \code{t} is greater than \code{t2}, the function returns
 \code{(exp(alpha * (t2 - t1)^2) - 1) * exp(beta * (t - t2))}.
 }
 \description{
-Computes a value based on an exponential growth curve and exponential decay model for time.
+Computes a value based on a super exponential growth curve and exponential decay model for time.
 }
 \details{
 \if{html}{

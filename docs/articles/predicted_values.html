@@ -205,7 +205,7 @@ potato dataset to fit logistic models of the form:</p>
 <p><span class="math display">\[f(t) = \frac{L}{1 + e^{-k(t -
 t_0)}}\]</span></p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fn_logistic</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">t</span>, <span class="va">L</span>, <span class="va">k</span>, <span class="va">t0</span><span class="op">)</span> <span class="va">L</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="op">-</span><span class="va">k</span> <span class="op">*</span> <span class="op">(</span><span class="va">t</span> <span class="op">-</span> <span class="va">t0</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">fun_logistic</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">t</span>, <span class="va">L</span>, <span class="va">k</span>, <span class="va">t0</span><span class="op">)</span> <span class="va">L</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="op">-</span><span class="va">k</span> <span class="op">*</span> <span class="op">(</span><span class="va">t</span> <span class="op">-</span> <span class="va">t0</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>For simplicity, we’ll focus on just two plots from the dataset (plot
 40 and plot 166) out of the total 196 plots available. After fitting the
 model, we’ll take a closer look at the parameter estimates, visualize
@@ -218,7 +218,7 @@ the fitted curves, and start making predictions.</p>
 <span>    x <span class="op">=</span> <span class="va">DAP</span>,</span>
 <span>    y <span class="op">=</span> <span class="va">Canopy</span>,</span>
 <span>    grp <span class="op">=</span> <span class="va">Plot</span>,</span>
-<span>    fn <span class="op">=</span> <span class="st">"fn_logistic"</span>,</span>
+<span>    fn <span class="op">=</span> <span class="st">"fun_logistic"</span>,</span>
 <span>    parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>L <span class="op">=</span> <span class="fl">100</span>, k <span class="op">=</span> <span class="fl">4</span>, t0 <span class="op">=</span> <span class="fl">40</span><span class="op">)</span>,</span>
 <span>    subset <span class="op">=</span> <span class="va">plots</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
@@ -226,7 +226,7 @@ the fitted curves, and start making predictions.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Call:</span></span>
-<span><span class="co">#&gt; Canopy ~ fn_logistic(DAP, L, k, t0) </span></span>
+<span><span class="co">#&gt; Canopy ~ fun_logistic(DAP, L, k, t0) </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Residuals (`Standardized`):</span></span>
 <span><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
@@ -238,8 +238,8 @@ the fitted curves, and start making predictions.</p>
 <span><span class="co">#&gt;  166 99.0 0.262 42.8 23.2</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
-<span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;       2 0.4042 secs        100%   729 (id)</span></span></code></pre></div>
+<span><span class="co">#&gt;  Groups     Timing Convergence Iterations</span></span>
+<span><span class="co">#&gt;       2 0.396 secs        100%   729 (id)</span></span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span>, id <span class="op">=</span> <span class="va">plots</span><span class="op">)</span></span></code></pre></div>
 <p><img src="predicted_values_files/figure-html/unnamed-chunk-6-1.png" alt="plot fit" width="768"></p>
@@ -266,14 +266,14 @@ include <code>type = "point"</code>.</p>
 <tbody>
 <tr class="odd">
 <td align="right">40</td>
-<td align="left">fn_logistic</td>
+<td align="left">fun_logistic</td>
 <td align="right">55</td>
 <td align="right">80.85282</td>
 <td align="right">2.912364</td>
 </tr>
 <tr class="even">
 <td align="right">166</td>
-<td align="left">fn_logistic</td>
+<td align="left">fun_logistic</td>
 <td align="right">55</td>
 <td align="right">95.06255</td>
 <td align="right">1.625402</td>
@@ -307,14 +307,14 @@ intervals, depending on the type of intervals you want to generate
 <tbody>
 <tr class="odd">
 <td align="right">40</td>
-<td align="left">fn_logistic</td>
+<td align="left">fun_logistic</td>
 <td align="right">55</td>
 <td align="right">80.85282</td>
 <td align="right">3.994805</td>
 </tr>
 <tr class="even">
 <td align="right">166</td>
-<td align="left">fn_logistic</td>
+<td align="left">fun_logistic</td>
 <td align="right">55</td>
 <td align="right">95.06255</td>
 <td align="right">2.697961</td>
@@ -349,7 +349,7 @@ e^{-k(t - t_0)}} \, dt \]</span></p>
 <tbody>
 <tr class="odd">
 <td align="right">40</td>
-<td align="left">fn_logistic</td>
+<td align="left">fun_logistic</td>
 <td align="right">0</td>
 <td align="right">108</td>
 <td align="right">6018.833</td>
@@ -357,7 +357,7 @@ e^{-k(t - t_0)}} \, dt \]</span></p>
 </tr>
 <tr class="even">
 <td align="right">166</td>
-<td align="left">fn_logistic</td>
+<td align="left">fun_logistic</td>
 <td align="right">0</td>
 <td align="right">108</td>
 <td align="right">6450.840</td>
@@ -387,14 +387,14 @@ required for this functionality.</p>
 <tbody>
 <tr class="odd">
 <td align="right">40</td>
-<td align="left">fn_logistic</td>
+<td align="left">fun_logistic</td>
 <td align="left">k/L * 100</td>
 <td align="right">0.1990757</td>
 <td align="right">0.0173468</td>
 </tr>
 <tr class="even">
 <td align="right">166</td>
-<td align="left">fn_logistic</td>
+<td align="left">fun_logistic</td>
 <td align="left">k/L * 100</td>
 <td align="right">0.2644616</td>
 <td align="right">0.0312821</td>
@@ -414,14 +414,14 @@ required for this functionality.</p>
 <tbody>
 <tr class="odd">
 <td align="right">40</td>
-<td align="left">fn_logistic</td>
+<td align="left">fun_logistic</td>
 <td align="left">(k * L)/4</td>
 <td align="right">4.959301</td>
 <td align="right">0.3761384</td>
 </tr>
 <tr class="even">
 <td align="right">166</td>
-<td align="left">fn_logistic</td>
+<td align="left">fun_logistic</td>
 <td align="left">(k * L)/4</td>
 <td align="right">6.480310</td>
 <td align="right">0.7140117</td>

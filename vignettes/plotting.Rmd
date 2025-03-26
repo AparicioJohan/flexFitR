@@ -38,7 +38,7 @@ mod <- dt_potato |>
     y = Canopy,
     grp = Plot,
     fn = "fn_logistic",
-    parameters = c(L = 100, k = 4, t0 = 40),
+    parameters = c(a = 4, t0 = 40, k = 100),
     subset = plots
   )
 ```

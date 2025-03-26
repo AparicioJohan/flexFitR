@@ -17,7 +17,7 @@
 #'     y = Canopy,
 #'     grp = Plot,
 #'     fn = "fn_logistic",
-#'     parameters = c(L = 100, k = 4, t0 = 40),
+#'     parameters = c(a = 0.199, t0 = 47.7, k = 100),
 #'     subset = 1:2
 #'   )
 #' mod_2 <- dt_potato |>
@@ -88,7 +88,7 @@ c.modeler <- function(...) {
 #'     y = Canopy,
 #'     grp = Plot,
 #'     fn = "fn_logistic",
-#'     parameters = c(L = 100, k = 4, t0 = 40),
+#'     parameters = c(a = 0.199, t0 = 47.7, k = 100),
 #'     subset = 1:2
 #'   )
 #' print(mod)

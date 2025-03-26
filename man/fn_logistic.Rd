@@ -4,16 +4,16 @@
 \alias{fn_logistic}
 \title{Logistic function}
 \usage{
-fn_logistic(t, L, k, t0)
+fn_logistic(t, a, t0, k)
 }
 \arguments{
 \item{t}{Numeric value.}
 
-\item{L}{Numeric value.}
-
-\item{k}{Numeric value.}
+\item{a}{Numeric value.}
 
 \item{t0}{Numeric value.}
+
+\item{k}{Numeric value.}
 }
 \value{
 A numeric value based on the logistic function.
@@ -24,7 +24,7 @@ Computes a value based on a logistic function.
 \details{
 \if{html}{
 \deqn{
-f(t; L, k, t0) = \frac{L}{1 + e^{-k(t - t_0)}}
+f(t; a, t0, k) = \frac{k}{1 + e^{-a(t - t_0)}}
 }
 }
 }
@@ -32,7 +32,7 @@ f(t; L, k, t0) = \frac{L}{1 + e^{-k(t - t_0)}}
 library(flexFitR)
 plot_fn(
   fn = "fn_logistic",
-  params = c(L = 100, k = 0.199, t0 = 47.7),
+  params = c(a = 0.199, t0 = 47.7, k = 100),
   interval = c(0, 108),
   n_points = 2000
 )

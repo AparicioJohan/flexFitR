@@ -2,7 +2,7 @@
 % Please edit documentation in R/99_growth_curves.R
 \name{fn_exp2_lin}
 \alias{fn_exp2_lin}
-\title{Exponential linear function 2}
+\title{Super-exponential linear function}
 \usage{
 fn_exp2_lin(t, t1, t2, alpha, beta)
 }
@@ -19,7 +19,7 @@ than 0.}
 \item{beta}{Numeric. The parameter for the linear term. Must be less than 0.}
 }
 \value{
-A numeric value based on the exponential linear model.
+A numeric value based on the super exponential linear model.
 If \code{t} is less than \code{t1}, the function returns 0.
 If \code{t} is between \code{t1} and \code{t2} (inclusive),
 the function returns \code{exp(alpha * (t - t1)^2) - 1}.
@@ -27,7 +27,7 @@ If \code{t} is greater than \code{t2}, the function returns
 \code{beta * (t - t2) + (exp(alpha * (t2 - t1)^2) - 1)}.
 }
 \description{
-Computes a value based on an exponential growth curve and linear decay model for time.
+Computes a value based on a super exponential growth curve and linear decay model for time.
 }
 \details{
 \if{html}{

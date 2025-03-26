@@ -80,9 +80,11 @@ reference:
   - fn_quad
   - fn_lin_plat
   - fn_logistic
-  - fn_exp1_lin
+  - fn_lin_logis
+  - fn_quad_plat
+  - fn_exp_lin
   - fn_exp2_lin
-  - fn_exp1_exp
+  - fn_exp_exp
   - fn_exp2_exp
   - fn_lin_pl_lin
   - fn_lin_pl_lin2

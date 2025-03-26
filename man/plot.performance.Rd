@@ -66,7 +66,7 @@ mod_2 <- dt_potato |>
     y = Canopy,
     grp = Plot,
     fn = "fn_logistic",
-    parameters = c(L = 100, k = 4, t0 = 50),
+    parameters = c(a = 0.199, t0 = 47.7, k = 100),
     subset = 40
   )
 # Model 3
