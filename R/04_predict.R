@@ -305,28 +305,18 @@ predict.modeler <- function(object,
 #' predict(mod_1, x = 45, type = "point", id = 2)
 #' @export
 #' @keywords internal
-ff <- function(params, x_new, curve, fixed_params = NA) {
-  arg <- names(formals(curve))[-1]
-  values <- paste(params, collapse = ", ")
+ff <- function(params, x_new, curve, fixed_params) {
+  args <- names(formals(curve))
+  arg_names <- args[-1]
+  full_params <- setNames(rep(NA, length(arg_names)), arg_names)
   if (!any(is.na(fixed_params))) {
-    names(params) <- arg[!arg %in% names(fixed_params)]
-    values <- paste(
-      paste(names(params), params, sep = " = "),
-      collapse = ", "
-    )
-    fix <- paste(
-      paste(names(fixed_params), fixed_params, sep = " = "),
-      collapse = ", "
-    )
-    values <- paste(values, fix, sep = ", ")
-  } else {
-    values <- paste(
-      paste(names(params), params, sep = " = "),
-      collapse = ", "
-    )
+    full_params[names(fixed_params)] <- fixed_params
   }
-  string <- paste("sapply(x_new, FUN = ", curve, ", ", values, ")", sep = "")
-  y_hat <- eval(parse(text = string))
+  free_param_names <- setdiff(arg_names, names(fixed_params))
+  full_params[free_param_names] <- params
+  curve_args <- as.list(full_params)
+  x_val <- setNames(list(as.numeric(x_new)), args[1])
+  y_hat <- do.call(curve, c(x_val, curve_args))
   return(y_hat)
 }
 
@@ -428,24 +418,19 @@ ff <- function(params, x_new, curve, fixed_params = NA) {
 #' predict(mod_1, x = c(0, 108), type = "auc", id = 2)
 #' @export
 #' @keywords internal
-ff_auc <- function(params, x_new, curve, fixed_params = NA, n_points = 1000) {
-  arg <- names(formals(curve))[-1]
-  values <- paste(params, collapse = ", ")
+ff_auc <- function(params, x_new, curve, fixed_params, n_points = 1000) {
+  args <- names(formals(curve))
+  arg_names <- args[-1]
+  full_params <- setNames(rep(NA, length(arg_names)), arg_names)
   if (!any(is.na(fixed_params))) {
-    names(params) <- arg[!arg %in% names(fixed_params)]
-    values <- paste(
-      paste(names(params), params, sep = " = "),
-      collapse = ", "
-    )
-    fix <- paste(
-      paste(names(fixed_params), fixed_params, sep = " = "),
-      collapse = ", "
-    )
-    values <- paste(values, fix, sep = ", ")
+    full_params[names(fixed_params)] <- fixed_params
   }
+  free_param_names <- setdiff(arg_names, names(fixed_params))
+  full_params[free_param_names] <- params
+  curve_args <- as.list(full_params)
   x <- seq(x_new[1], x_new[2], length.out = n_points)
-  string <- paste("sapply(x, FUN = ", curve, ", ", values, ")", sep = "")
-  y_hat <- eval(parse(text = string))
+  x_val <- setNames(list(x), args[1])
+  y_hat <- do.call(curve, c(x_val, curve_args))
   trapezoid_area <- (lead(y_hat) + y_hat) / 2 * (lead(x) - x)
   auc <- sum(trapezoid_area, na.rm = TRUE)
   return(auc)

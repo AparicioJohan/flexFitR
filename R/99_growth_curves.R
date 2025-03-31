@@ -128,16 +128,15 @@ fn_logistic <- function(t, a, t0, k) {
 #'   auc_label_size = 3
 #' )
 fn_exp_lin <- function(t, t1, t2, alpha, beta) {
-  if (t < t1) {
-    return(0)
-  }
-  if (t >= t1 && t <= t2) {
-    return(exp(alpha * (t - t1)) - 1)
-  }
-  if (t > t2) {
-    y2 <- exp(alpha * (t2 - t1)) - 1
-    return(beta * (t - t2) + y2)
-  }
+  ifelse(
+    test = t < t1,
+    yes = 0,
+    no = ifelse(
+      test = t <= t2,
+      yes = exp(alpha * (t - t1)) - 1,
+      no = beta * (t - t2) + (exp(alpha * (t2 - t1)) - 1)
+    )
+  )
 }
 
 #' Super-exponential linear function
@@ -181,16 +180,15 @@ fn_exp_lin <- function(t, t1, t2, alpha, beta) {
 #'   auc_label_size = 3
 #' )
 fn_exp2_lin <- function(t, t1, t2, alpha, beta) {
-  if (t < t1) {
-    return(0)
-  }
-  if (t >= t1 && t <= t2) {
-    return(exp(alpha * (t - t1)^2) - 1)
-  }
-  if (t > t2) {
-    y2 <- exp(alpha * (t2 - t1)^2) - 1
-    return(beta * (t - t2) + y2)
-  }
+  ifelse(
+    test = t < t1,
+    yes = 0,
+    no = ifelse(
+      test = t >= t1 & t <= t2,
+      yes = exp(alpha * (t - t1)^2) - 1,
+      no = exp(alpha * (t2 - t1)^2) - 1 + beta * (t - t2)
+    )
+  )
 }
 
 #' Double-exponential function
@@ -205,7 +203,7 @@ fn_exp2_lin <- function(t, t1, t2, alpha, beta) {
 #' @param beta Numeric. The parameter for the second exponential term.
 #' Must be less than 0.
 #'
-#' @return A numeric value based on the double exponential model.
+#' @return A numeric value based on the double exponential function.
 #' If \code{t} is less than \code{t1}, the function returns 0.
 #' If \code{t} is between \code{t1} and \code{t2} (inclusive),
 #' the function returns \code{exp(alpha * (t - t1)) - 1}.
@@ -236,16 +234,15 @@ fn_exp2_lin <- function(t, t1, t2, alpha, beta) {
 #'   y_auc_label = 0.2
 #' )
 fn_exp_exp <- function(t, t1, t2, alpha, beta) {
-  if (t < t1) {
-    return(0)
-  }
-  if (t >= t1 && t <= t2) {
-    return(exp(alpha * (t - t1)) - 1)
-  }
-  if (t > t2) {
-    y2 <- exp(alpha * (t2 - t1)) - 1
-    return(y2 * exp(beta * (t - t2)))
-  }
+  ifelse(
+    test = t < t1,
+    yes = 0,
+    no = ifelse(
+      test = t >= t1 & t <= t2,
+      yes = exp(alpha * (t - t1)) - 1,
+      no = (exp(alpha * (t2 - t1)) - 1) * exp(beta * (t - t2))
+    )
+  )
 }
 
 #' Super-exponential exponential function
@@ -291,16 +288,15 @@ fn_exp_exp <- function(t, t1, t2, alpha, beta) {
 #'   y_auc_label = 0.15
 #' )
 fn_exp2_exp <- function(t, t1, t2, alpha, beta) {
-  if (t < t1) {
-    return(0)
-  }
-  if (t >= t1 && t <= t2) {
-    return(exp(alpha * (t - t1)^2) - 1)
-  }
-  if (t > t2) {
-    y2 <- exp(alpha * (t2 - t1)^2) - 1
-    return(y2 * exp(beta * (t - t2)))
-  }
+  ifelse(
+    test = t < t1,
+    yes = 0,
+    no = ifelse(
+      test = t >= t1 & t <= t2,
+      yes = exp(alpha * (t - t1)^2) - 1,
+      no = (exp(alpha * (t2 - t1)^2) - 1) * exp(beta * (t - t2))
+    )
+  )
 }
 
 #' Linear plateau function
@@ -340,14 +336,15 @@ fn_exp2_exp <- function(t, t1, t2, alpha, beta) {
 #'   auc_label_size = 3
 #' )
 fn_lin_plat <- function(t, t1 = 45, t2 = 80, k = 0.9) {
-  if (t < t1) {
-    y <- 0
-  } else if (t >= t1 && t <= t2) {
-    y <- k / (t2 - t1) * (t - t1)
-  } else {
-    y <- k
-  }
-  return(y)
+  ifelse(
+    test = t < t1,
+    yes = 0,
+    no = ifelse(
+      test = t >= t1 & t <= t2,
+      yes = k / (t2 - t1) * (t - t1),
+      no = k
+    )
+  )
 }
 
 #' Linear-logistic function
@@ -387,13 +384,15 @@ fn_lin_plat <- function(t, t1 = 45, t2 = 80, k = 0.9) {
 #'   auc_label_size = 3
 #' )
 fn_lin_logis <- function(t, t1, t2, k) {
-  if (t < t1) {
-    return(0)
-  }
-  if (t > t1 && t < t2) {
-    return(k / 2 / (t2 - t1) * (t - t1))
-  }
-  return(k / (1 + exp(-2 * (t - t2) / (t2 - t1))))
+  ifelse(
+    test = t < t1,
+    yes = 0,
+    no = ifelse(
+      test = t > t1 & t < t2,
+      yes = k / 2 / (t2 - t1) * (t - t1),
+      no = k / (1 + exp(-2 * (t - t2) / (t2 - t1)))
+    )
+  )
 }
 
 #' Quadratic-plateau function
@@ -434,15 +433,16 @@ fn_lin_logis <- function(t, t1, t2, k) {
 #'   auc_label_size = 3
 #' )
 fn_quad_plat <- function(t, t1 = 45, t2 = 80, b = 1, k = 100) {
-  if (t < t1) {
-    y <- 0
-  } else if (t >= t1 && t <= t2) {
-    c <- suppressWarnings((k - b * (t2 - t1)) / (t2 - t1)^2)
-    y <- b * (t - t1) + c * (t - t1)^2
-  } else {
-    y <- k
-  }
-  return(y)
+  c <- suppressWarnings((k - b * (t2 - t1)) / (t2 - t1)^2)
+  ifelse(
+    test = t < t1,
+    yes = 0,
+    no = ifelse(
+      test = t >= t1 & t <= t2,
+      yes = b * (t - t1) + c * (t - t1)^2,
+      no = k
+    )
+  )
 }
 
 
@@ -481,19 +481,19 @@ fn_quad_plat <- function(t, t1 = 45, t2 = 80, b = 1, k = 100) {
 #'   auc_label_size = 3
 #' )
 fn_lin_pl_lin <- function(t, t1, t2, t3, k, beta) {
-  if (t < t1) {
-    return(0)
-  }
-  if (t >= t1 && t <= t2) {
-    y <- k / (t2 - t1) * (t - t1)
-  }
-  if (t >= t2 && t <= t3) {
-    y <- k
-  }
-  if (t >= t3) {
-    y <- k + beta * (t - t3)
-  }
-  return(y)
+  ifelse(
+    test = t < t1,
+    yes = 0,
+    no = ifelse(
+      test = t >= t1 & t <= t2,
+      yes = k / (t2 - t1) * (t - t1),
+      no = ifelse(
+        test = t > t2 & t <= t3,
+        yes = k,
+        no = k + beta * (t - t3)
+      )
+    )
+  )
 }
 
 #' Linear plateau linear with constrains
@@ -531,19 +531,19 @@ fn_lin_pl_lin <- function(t, t1, t2, t3, k, beta) {
 #'   auc_label_size = 3
 #' )
 fn_lin_pl_lin2 <- function(t, t1, t2, dt, k, beta) {
-  if (t < t1) {
-    return(0)
-  }
-  if (t >= t1 && t <= t2) {
-    y <- k / (t2 - t1) * (t - t1)
-  }
-  if (t >= t2 && t <= (t2 + dt)) {
-    y <- k
-  }
-  if (t >= (t2 + dt)) {
-    y <- k + beta * (t - (t2 + dt))
-  }
-  return(y)
+  ifelse(
+    test = t < t1,
+    yes = 0,
+    no = ifelse(
+      test = t >= t1 & t <= t2,
+      yes = k / (t2 - t1) * (t - t1),
+      no = ifelse(
+        test = t > t2 & t <= (t2 + dt),
+        yes = k,
+        no = k + beta * (t - (t2 + dt))
+      )
+    )
+  )
 }
 
 #' Linear Plateau Linear Constrains
@@ -621,33 +621,69 @@ fn_lin_pl_lin3 <- function(t, t1, t2, t3, k, beta) {
 #' ) |>
 #'   cbind(t(fixed))
 #' @noRd
+#' @importFrom stats setNames
 minimizer <- function(params,
                       t,
                       y,
                       curve,
-                      fixed_params = NA,
-                      metric = "sse",
+                      fixed_params,
                       trace = FALSE) {
-  arg <- names(formals(curve))[-1]
-  values <- paste(params, collapse = ", ")
+  # Extract curve parameter names
+  args <- names(formals(curve))
+  arg_names <- args[-1]
+  # Combine fixed and free parameters
+  full_params <- setNames(rep(NA, length(arg_names)), arg_names)
   if (!any(is.na(fixed_params))) {
-    names(params) <- arg[!arg %in% names(fixed_params)]
-    values <- paste(
-      paste(names(params), params, sep = " = "),
-      collapse = ", "
-    )
-    fix <- paste(
-      paste(names(fixed_params), fixed_params, sep = " = "),
-      collapse = ", "
-    )
-    values <- paste(values, fix, sep = ", ")
+    full_params[names(fixed_params)] <- fixed_params
   }
-  string <- paste("sapply(t, FUN = ", curve, ", ", values, ")", sep = "")
-  y_hat <- eval(parse(text = string))
-  sse <- eval(parse(text = paste0(metric, "(y, y_hat)"))) # sum((y - y_hat)^2)
-  if (trace) cat(paste0("\t", values, ", sse = ", sse, "\n"))
-  return(sse)
+  free_param_names <- setdiff(arg_names, names(fixed_params))
+  full_params[free_param_names] <- params
+  # Create argument list
+  curve_args <- as.list(full_params)
+  # Evaluate curve function
+  x_val <- setNames(list(t), args[1])
+  y_hat <- do.call(curve, c(x_val, curve_args))
+  # Evaluate metric
+  score <- sse(y, y_hat)
+  # Optional tracing
+  if (trace) {
+    str <- paste(
+      names(full_params),
+      signif(unlist(full_params), 4),
+      sep = " = ",
+      collapse = ", "
+    )
+    cat(paste0("\t", str, ", sse = ", signif(score, 6), "\n"))
+  }
+  return(score)
 }
+# minimizer <- function(params,
+#                       t,
+#                       y,
+#                       curve,
+#                       fixed_params = NA,
+#                       metric = "sse",
+#                       trace = FALSE) {
+#   arg <- names(formals(curve))[-1]
+#   values <- paste(params, collapse = ", ")
+#   if (!any(is.na(fixed_params))) {
+#     names(params) <- arg[!arg %in% names(fixed_params)]
+#     values <- paste(
+#       paste(names(params), params, sep = " = "),
+#       collapse = ", "
+#     )
+#     fix <- paste(
+#       paste(names(fixed_params), fixed_params, sep = " = "),
+#       collapse = ", "
+#     )
+#     values <- paste(values, fix, sep = ", ")
+#   }
+#   string <- paste("sapply(t, FUN = ", curve, ", ", values, ")", sep = "")
+#   y_hat <- eval(parse(text = string))
+#   sse <- eval(parse(text = paste0(metric, "(y, y_hat)"))) # sum((y - y_hat)^2)
+#   if (trace) cat(paste0("\t", values, ", sse = ", sse, "\n"))
+#   return(sse)
+# }
 
 #' @noRd
 create_call <- function(fn = "fn_lin_plat") {

@@ -20,7 +20,7 @@ Must be greater than 0.}
 Must be less than 0.}
 }
 \value{
-A numeric value based on the double exponential model.
+A numeric value based on the double exponential function.
 If \code{t} is less than \code{t1}, the function returns 0.
 If \code{t} is between \code{t1} and \code{t2} (inclusive),
 the function returns \code{exp(alpha * (t - t1)) - 1}.

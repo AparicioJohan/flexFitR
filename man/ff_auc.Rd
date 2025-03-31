@@ -4,7 +4,7 @@
 \alias{ff_auc}
 \title{Function for AUC estimation}
 \usage{
-ff_auc(params, x_new, curve, fixed_params = NA, n_points = 1000)
+ff_auc(params, x_new, curve, fixed_params, n_points = 1000)
 }
 \arguments{
 \item{params}{A vector of parameter values.}

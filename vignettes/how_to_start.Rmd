@@ -109,14 +109,15 @@ The following example, although still simple, represents a slightly more complex
 
 ```{r, warning=FALSE, message=FALSE}
 fun <- function(t, t1 = 45, t2 = 80, k = 0.9) {
-  if (t < t1) {
-    y <- 0
-  } else if (t >= t1 && t <= t2) {
-    y <- k / (t2 - t1) * (t - t1)
-  } else {
-    y <- k
-  }
-  return(y)
+  ifelse(
+    test = t < t1,
+    yes = 0,
+    no = ifelse(
+      test = t >= t1 & t <= t2,
+      yes = k / (t2 - t1) * (t - t1),
+      no = k
+    )
+  )
 }
 ```
 
@@ -171,10 +172,9 @@ predict(mod_1, x = 45)
 ### Comparison with `nls` 
 
 ```{r}
-fun_vec <- Vectorize("fun") # nls requires a vectorized function
 mod_nls <- dt |>
   nls(
-    formula = variable ~ fun_vec(time, t1, t2, k),
+    formula = variable ~ fun(time, t1, t2, k),
     start = c(t1 = 40, t2 = 70, k = 100),
     algorithm = "default"
   )
