@@ -320,7 +320,7 @@ plots 166 and 40 as a subset. We define the piecewise function
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Residuals (`Standardized`):</span></span>
 <span><span class="co">#&gt;       Min.    1st Qu.     Median       Mean    3rd Qu.       Max. </span></span>
-<span><span class="co">#&gt; -1.7789201 -0.0004078  0.0000000  0.0000000  0.0008157  1.7789195 </span></span>
+<span><span class="co">#&gt; -1.7789202 -0.0004079  0.0000000  0.0000000  0.0008157  1.7789194 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Optimization Results `head()`:</span></span>
 <span><span class="co">#&gt;  uid   t1   t2   k     sse</span></span>
@@ -329,7 +329,7 @@ plots 166 and 40 as a subset. We define the piecewise function
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
 <span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;       2 0.3205 secs        100% 558.5 (id)</span></span></code></pre></div>
+<span><span class="co">#&gt;       2 0.2623 secs        100% 551.5 (id)</span></span></code></pre></div>
 <p>After fitting, we can inspect the model summary and visualize the fit
 using the plot function:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -414,17 +414,17 @@ their variability.</li>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/vcov.html" class="external-link">vcov</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $`40`</span></span>
 <span><span class="co">#&gt;               t1            t2            k</span></span>
-<span><span class="co">#&gt; t1  5.755016e-04 -0.0002977975 4.429736e-08</span></span>
+<span><span class="co">#&gt; t1  5.755016e-04 -0.0002977975 4.429740e-08</span></span>
 <span><span class="co">#&gt; t2 -2.977975e-04  0.0013525945 9.350853e-04</span></span>
-<span><span class="co">#&gt; k   4.429736e-08  0.0009350853 3.632249e-03</span></span>
+<span><span class="co">#&gt; k   4.429740e-08  0.0009350853 3.632249e-03</span></span>
 <span><span class="co">#&gt; attr(,"fn_name")</span></span>
 <span><span class="co">#&gt; [1] "fn_lin_plat"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $`166`</span></span>
-<span><span class="co">#&gt;             t1         t2           k</span></span>
-<span><span class="co">#&gt; t1  0.63072149 -0.2613850 -0.00283193</span></span>
-<span><span class="co">#&gt; t2 -0.26138501  0.8131631  0.71197685</span></span>
-<span><span class="co">#&gt; k  -0.00283193  0.7119768  2.72567110</span></span>
+<span><span class="co">#&gt;              t1         t2            k</span></span>
+<span><span class="co">#&gt; t1  0.630721491 -0.2613850 -0.002831928</span></span>
+<span><span class="co">#&gt; t2 -0.261385006  0.8131631  0.711976842</span></span>
+<span><span class="co">#&gt; k  -0.002831928  0.7119768  2.725671099</span></span>
 <span><span class="co">#&gt; attr(,"fn_name")</span></span>
 <span><span class="co">#&gt; [1] "fn_lin_plat"</span></span></code></pre></div>
 </div>

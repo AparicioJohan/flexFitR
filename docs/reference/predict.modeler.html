@@ -186,8 +186,8 @@ their associated standard errors, and optionally the metadata.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   45 38.3 64.7 100.0 0.0026</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Groups      Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       3 0.9425 secs        100%   349 (id)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Groups      Timing Convergence  Iterations</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       3 0.4709 secs        100% 407.67 (id)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="co"># Point Prediction</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">mod_1</span>, x <span class="op">=</span> <span class="fl">45</span>, type <span class="op">=</span> <span class="st">"point"</span>, id <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
@@ -212,7 +212,7 @@ their associated standard errors, and optionally the metadata.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     uid fn_name     x_new predicted.value std.error</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     2 fn_lin_plat    45               0 0.000<span style="text-decoration: underline;">024</span>0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     2 fn_lin_plat    45    0.000<span style="text-decoration: underline;">000</span>032<span style="text-decoration: underline;">4</span> 0.000<span style="text-decoration: underline;">023</span>9</span>
 <span class="r-in"><span><span class="co"># Function of the parameters</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">mod_1</span>, formula <span class="op">=</span> <span class="op">~</span> <span class="va">t2</span> <span class="op">-</span> <span class="va">t1</span>, id <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 5</span></span>

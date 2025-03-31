@@ -147,7 +147,7 @@ to our coefficient b and coefficient m.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
 <span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;       1 0.1367 secs        100%   259 (id)</span></span></code></pre></div>
+<span><span class="co">#&gt;       1 0.1072 secs        100%   354 (id)</span></span></code></pre></div>
 <p>Once the model is fitted, we can examine the output, extract the
 estimated parameters, make some plots, and predict new x values.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -239,14 +239,15 @@ we have a piece-wise regression, parameterized by <code>t1</code>,
 expression:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fun</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">t</span>, <span class="va">t1</span> <span class="op">=</span> <span class="fl">45</span>, <span class="va">t2</span> <span class="op">=</span> <span class="fl">80</span>, <span class="va">k</span> <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="kw">if</span> <span class="op">(</span><span class="va">t</span> <span class="op">&lt;</span> <span class="va">t1</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="va">y</span> <span class="op">&lt;-</span> <span class="fl">0</span></span>
-<span>  <span class="op">}</span> <span class="kw">else</span> <span class="kw">if</span> <span class="op">(</span><span class="va">t</span> <span class="op">&gt;=</span> <span class="va">t1</span> <span class="op">&amp;&amp;</span> <span class="va">t</span> <span class="op">&lt;=</span> <span class="va">t2</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="va">y</span> <span class="op">&lt;-</span> <span class="va">k</span> <span class="op">/</span> <span class="op">(</span><span class="va">t2</span> <span class="op">-</span> <span class="va">t1</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span><span class="va">t</span> <span class="op">-</span> <span class="va">t1</span><span class="op">)</span></span>
-<span>  <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
-<span>    <span class="va">y</span> <span class="op">&lt;-</span> <span class="va">k</span></span>
-<span>  <span class="op">}</span></span>
-<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span></span>
+<span>    test <span class="op">=</span> <span class="va">t</span> <span class="op">&lt;</span> <span class="va">t1</span>,</span>
+<span>    yes <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>    no <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span></span>
+<span>      test <span class="op">=</span> <span class="va">t</span> <span class="op">&gt;=</span> <span class="va">t1</span> <span class="op">&amp;</span> <span class="va">t</span> <span class="op">&lt;=</span> <span class="va">t2</span>,</span>
+<span>      yes <span class="op">=</span> <span class="va">k</span> <span class="op">/</span> <span class="op">(</span><span class="va">t2</span> <span class="op">-</span> <span class="va">t1</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span><span class="va">t</span> <span class="op">-</span> <span class="va">t1</span><span class="op">)</span>,</span>
+<span>      no <span class="op">=</span> <span class="va">k</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <p>Before fitting the model, let’s take a look at the example
 dataset.</p>
@@ -285,7 +286,7 @@ using the <code>modeler</code> function.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
 <span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;       1 0.1314 secs        100%   473 (id)</span></span></code></pre></div>
+<span><span class="co">#&gt;       1 0.0931 secs        100%   473 (id)</span></span></code></pre></div>
 <p>After fitting the model, we can examine the results, plot the fitted
 curve, extract the coefficients and their associated p-values, obtain
 the variance-covariance matrix, and make predictions for unknown values
@@ -323,16 +324,15 @@ of x.</p>
 <h3 id="comparison-with-nls">Comparison with <code>nls</code><a class="anchor" aria-label="anchor" href="#comparison-with-nls"></a>
 </h3>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fun_vec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Vectorize.html" class="external-link">Vectorize</a></span><span class="op">(</span><span class="st">"fun"</span><span class="op">)</span> <span class="co"># nls requires a vectorized function</span></span>
-<span><span class="va">mod_nls</span> <span class="op">&lt;-</span> <span class="va">dt</span> <span class="op">|&gt;</span></span>
+<code class="sourceCode R"><span><span class="va">mod_nls</span> <span class="op">&lt;-</span> <span class="va">dt</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/nls.html" class="external-link">nls</a></span><span class="op">(</span></span>
-<span>    formula <span class="op">=</span> <span class="va">variable</span> <span class="op">~</span> <span class="fu">fun_vec</span><span class="op">(</span><span class="va">time</span>, <span class="va">t1</span>, <span class="va">t2</span>, <span class="va">k</span><span class="op">)</span>,</span>
+<span>    formula <span class="op">=</span> <span class="va">variable</span> <span class="op">~</span> <span class="fu">fun</span><span class="op">(</span><span class="va">time</span>, <span class="va">t1</span>, <span class="va">t2</span>, <span class="va">k</span><span class="op">)</span>,</span>
 <span>    start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fl">40</span>, t2 <span class="op">=</span> <span class="fl">70</span>, k <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>,</span>
 <span>    algorithm <span class="op">=</span> <span class="st">"default"</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">mod_nls</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Formula: variable ~ fun_vec(time, t1, t2, k)</span></span>
+<span><span class="co">#&gt; Formula: variable ~ fun(time, t1, t2, k)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Parameters:</span></span>
 <span><span class="co">#&gt;    Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
@@ -396,7 +396,7 @@ approach is primarily for illustrative purposes.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
 <span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;       1 0.1595 secs        100%   567 (id)</span></span>
+<span><span class="co">#&gt;       1 0.1052 secs        100%   567 (id)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">mod_2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 7</span></span></span>
 <span><span class="co">#&gt;     uid fn_name coefficient solution std.error `t value` `Pr(&gt;|t|)`</span></span>
@@ -434,7 +434,7 @@ approach is primarily for illustrative purposes.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
 <span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;       1 0.1331 secs        100%   313 (id)</span></span>
+<span><span class="co">#&gt;       1 0.0767 secs        100%   313 (id)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">mod_3</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 7</span></span></span>
 <span><span class="co">#&gt;     uid fn_name coefficient solution std.error `t value` `Pr(&gt;|t|)`</span></span>

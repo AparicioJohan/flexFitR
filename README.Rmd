@@ -41,11 +41,11 @@ devtools::install_github("AparicioJohan/flexFitR")
 
 ## Features
 
-* Parameter Estimation: Utilizes `{optimx}` and derivative-free algorithms to solve and estimate parameters for a given function.
+* Parameter Estimation: Utilizes `{optimx}` algorithms to solve and estimate parameters for a given function.
 * Parallelization: Implements parallel processing using the `{future}` package, enabling efficient fitting of hundreds of curves simultaneously.
 * Visualization Tools: Provides a variety of plots to visualize model fits, correlations, predictions, derivatives, and more.
 * Statistical Rigor: Offers standard errors and p-values for coefficients, as well as for predictions, supporting robust conclusions and interpretations.
-* Prediction: Supports diverse prediction types, including point predictions, area under the curve (AUC), first and second derivatives, user-defined parameter functions, and more advanced transformations or custom expressions based on model parameters.
+* Prediction: Supports diverse prediction types, including point predictions, area under the curve (AUC), first and second derivatives, and custom expressions based on model parameters.
 * Flexibility: Allows users to fix certain parameters in the model and specify different initial values per grouping factor, accepting both numerical inputs and expressions.
 * Custom Modeling Functions: Equipped with built-in modeling functions for common analysis tasks, while also permitting users to supply their own custom functions.
 

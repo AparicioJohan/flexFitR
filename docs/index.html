@@ -95,11 +95,11 @@
 <h2 id="features">Features<a class="anchor" aria-label="anchor" href="#features"></a>
 </h2>
 <ul>
-<li>Parameter Estimation: Utilizes <a href="https://github.com/nashjc/optimx" class="external-link">optimx</a> and derivative-free algorithms to solve and estimate parameters for a given function.</li>
+<li>Parameter Estimation: Utilizes <a href="https://github.com/nashjc/optimx" class="external-link">optimx</a> algorithms to solve and estimate parameters for a given function.</li>
 <li>Parallelization: Implements parallel processing using the <a href="https://future.futureverse.org" class="external-link">future</a> package, enabling efficient fitting of hundreds of curves simultaneously.</li>
 <li>Visualization Tools: Provides a variety of plots to visualize model fits, correlations, predictions, derivatives, and more.</li>
 <li>Statistical Rigor: Offers standard errors and p-values for coefficients, as well as for predictions, supporting robust conclusions and interpretations.</li>
-<li>Prediction: Supports diverse prediction types, including point predictions, area under the curve (AUC), first and second derivatives, user-defined parameter functions, and more advanced transformations or custom expressions based on model parameters.</li>
+<li>Prediction: Supports diverse prediction types, including point predictions, area under the curve (AUC), first and second derivatives, and custom expressions based on model parameters.</li>
 <li>Flexibility: Allows users to fix certain parameters in the model and specify different initial values per grouping factor, accepting both numerical inputs and expressions.</li>
 <li>Custom Modeling Functions: Equipped with built-in modeling functions for common analysis tasks, while also permitting users to supply their own custom functions.</li>
 </ul>
@@ -151,8 +151,8 @@
 <span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>   <span class="dv">1</span> <span class="fl">38.6</span> <span class="dv">61</span> <span class="fl">99.8</span> <span class="fl">0.449</span></span>
 <span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a></span>
 <span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>Metrics<span class="sc">:</span></span>
-<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a> Groups      Timing Convergence Iterations</span>
-<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a>      <span class="dv">1</span> <span class="fl">0.1665</span> secs        <span class="dv">100</span>%   <span class="dv">511</span> (id)</span></code></pre></div>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a> Groups     Timing Convergence Iterations</span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a>      <span class="dv">1</span> <span class="fl">0.163</span> secs        <span class="dv">100</span>%   <span class="dv">511</span> (id)</span></code></pre></div>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Auto plot</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span><span class="op">)</span></span></code></pre></div>
