@@ -626,7 +626,7 @@ minimizer <- function(params,
                       t,
                       y,
                       curve,
-                      fixed_params,
+                      fixed_params = NA,
                       trace = FALSE) {
   # Extract curve parameter names
   args <- names(formals(curve))

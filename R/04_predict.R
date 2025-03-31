@@ -305,7 +305,7 @@ predict.modeler <- function(object,
 #' predict(mod_1, x = 45, type = "point", id = 2)
 #' @export
 #' @keywords internal
-ff <- function(params, x_new, curve, fixed_params) {
+ff <- function(params, x_new, curve, fixed_params = NA) {
   args <- names(formals(curve))
   arg_names <- args[-1]
   full_params <- setNames(rep(NA, length(arg_names)), arg_names)
@@ -418,7 +418,7 @@ ff <- function(params, x_new, curve, fixed_params) {
 #' predict(mod_1, x = c(0, 108), type = "auc", id = 2)
 #' @export
 #' @keywords internal
-ff_auc <- function(params, x_new, curve, fixed_params, n_points = 1000) {
+ff_auc <- function(params, x_new, curve, fixed_params = NA, n_points = 1000) {
   args <- names(formals(curve))
   arg_names <- args[-1]
   full_params <- setNames(rep(NA, length(arg_names)), arg_names)

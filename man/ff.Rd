@@ -4,7 +4,7 @@
 \alias{ff}
 \title{Function for point estimation}
 \usage{
-ff(params, x_new, curve, fixed_params)
+ff(params, x_new, curve, fixed_params = NA)
 }
 \arguments{
 \item{params}{A vector of parameter values.}
