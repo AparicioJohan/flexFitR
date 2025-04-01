@@ -314,13 +314,7 @@ modeler <- function(data,
   }
   p <- progressr::progressor(along = grp_id)
   init_time <- Sys.time()
-
-  ## Workaround: subplex::subplex() fails to locate the function by name
-  ## given by it's argument 'fn', if then function is also called "fn".
-  ## The problem can be avoided by giving it a different name.
-  ## (This will happen with upcoming versions of the 'future' package)
   fn_name <- fn
-
   objt <- foreach(
     i = grp_id,
     .options.future = list(
@@ -361,7 +355,6 @@ modeler <- function(data,
   fitted_vals <- dt |>
     select(x, uid) |>
     full_join(param_mat, by = "uid") |>
-    rowwise() |>
     mutate(.fitted = !!density) |>
     select(x, uid, .fitted) |>
     unique.data.frame()
@@ -455,6 +448,120 @@ modeler <- function(data,
                           control,
                           metadata,
                           trace) {
+  dt <- data[data$uid == id, ]
+  initials <- unlist(dt$initials)
+  fx_params <- unlist(dt$fx_params)
+  nested_data <- unnest(dt, data)
+  t <- nested_data$x
+  y <- nested_data$y
+  names_params <- names(initials)
+  p <- length(names_params)
+  ans_sols_list <- vector("list", length(method))
+  names(ans_sols_list) <- method
+  params_list <- list()
+  for (i in seq_along(method)) {
+    s <- method[i]
+    ans <- suppressWarnings(
+      optimr(
+        par = initials,
+        fn = minimizer,
+        t = t,
+        y = y,
+        curve = fn,
+        fixed_params = fx_params,
+        trace = trace,
+        method = s,
+        lower = lower,
+        upper = upper,
+        control = control
+      )
+    )
+    params <- ans$par
+    names(params) <- names_params
+    params_list[[s]] <- params
+    solution <- data.frame(
+      method = s,
+      t(params),
+      sse = ans$value,
+      fevals = ans$scounts[1],
+      convergence = ans$convergence
+    )
+    ans_sols_list[[i]] <- solution
+  }
+  ans_sols <- do.call(rbind, ans_sols_list)
+  # metadata
+  rr <- data.frame(
+    cbind(dt[, c("uid", metadata)], cbind(ans_sols, t(fx_params))),
+    row.names = NULL,
+    check.names = FALSE
+  )
+  best <- rr$method[which.min(rr$sse)]
+  best_params <- params_list[[best]]
+  param <- rr |>
+    dplyr::filter(method == best) |>
+    dplyr::select(-c(fevals:convergence)) |>
+    dplyr::mutate(fn_name = fn)
+  # Compute jacobian and hessian only for best
+  jac_matrix <- NULL
+  hess_matrix <- NULL
+  if (!any(is.na(best_params))) {
+    jac_matrix <- numDeriv::jacobian(
+      func = minimizer,
+      x = best_params,
+      t = t,
+      y = y,
+      curve = fn,
+      fixed_params = fx_params
+    )
+    hess_matrix <- numDeriv::hessian(
+      func = minimizer,
+      x = best_params,
+      t = t,
+      y = y,
+      curve = fn,
+      fixed_params = fx_params
+    )
+  }
+  if (is.null(hess_matrix)) {
+    hess_matrix <- matrix(NA, nrow = p, ncol = p)
+  }
+  dimnames(hess_matrix) <- list(names_params, names_params)
+  coef <- data.frame(
+    parameter = c(names_params, names(fx_params)),
+    value = na.omit(unlist(c(best_params, fx_params))),
+    type = c(
+      rep("estimable", times = p),
+      rep("fixed", times = length(names(fx_params)))
+    ),
+    row.names = NULL
+  )
+  out <- list(
+    kkopt = ans_sols,
+    param = param,
+    rr = rr,
+    details = list(method = best, ngatend = jac_matrix, nhatend = hess_matrix),
+    hessian = hess_matrix,
+    type = coef,
+    conv = rr[rr$method == best, "convergence"],
+    x = t,
+    y = y,
+    p = p,
+    n_obs = length(t),
+    uid = id,
+    fn_name = fn
+  )
+  return(out)
+}
+
+.fitter_curve2 <- function(data,
+                           id,
+                           fn,
+                           method,
+                           lower,
+                           upper,
+                           control,
+                           metadata,
+                           trace) {
   dt <- data[data$uid == id, ]
   initials <- unlist(dt$initials)
   fx_params <- unlist(dt$fx_params)
