@@ -179,35 +179,33 @@ plot.modeler <- function(x,
   max_x <- max(dt$x, na.rm = TRUE)
   min_x <- min(dt$x, na.rm = TRUE)
   sq <- seq(min_x, max_x, length.out = n_points)
-  # List of models
-  expand_by_grp <- function(fit, seq) {
-    curve <- fit$fn_name
-    .fn <- create_call(curve)
-    .uid <- fit$uid
-    .param <- pull(fit$type, value, parameter)
-    .func_dt <- data.frame(uid = .uid, x = seq, t(.param)) |>
-      group_by(x, uid) |>
-      mutate(dens = !!.fn, fn_name = curve) |>
-      ungroup() |>
-      dplyr::select(uid, x, dens, fn_name)
-    return(.func_dt)
-  }
-  fit_list <- x$fit
-  pos <- which(unlist(lapply(fit_list, function(x) x$uid)) %in% id)
-  fit_list <- fit_list[pos]
-  # Density
-  func_dt <- do.call(
-    what = rbind,
-    args = lapply(X = fit_list, FUN = expand_by_grp, seq = sq)
-  ) |>
-    as_tibble() |>
-    dplyr::mutate(grp = paste0(uid, "_", fn_name)) |>
-    dplyr::mutate(uid = as.factor(uid))
   dt <- droplevels(filter(dt, uid %in% id))
   label <- unique(dt$var)
-  functions <- unique(func_dt$fn_name)
+  functions <- unique(x$fun)
   n_funs <- length(functions)
   n_ids <- length(id)
+  if (type %in% c(1, 3)) {
+    expand_by_grp <- function(fit, seq) {
+      curve <- fit$fn_name
+      .fn <- create_call(curve)
+      .uid <- fit$uid
+      .param <- pull(fit$type, value, parameter)
+      .func_dt <- data.frame(uid = .uid, x = seq, t(.param)) |>
+        mutate(dens = !!.fn, fn_name = curve) |>
+        dplyr::select(uid, x, dens, fn_name)
+      return(.func_dt)
+    }
+    fit_list <- x$fit
+    pos <- which(unlist(lapply(fit_list, function(x) x$uid)) %in% id)
+    fit_list <- fit_list[pos]
+    func_dt <- do.call(
+      what = rbind,
+      args = lapply(X = fit_list, FUN = expand_by_grp, seq = sq)
+    ) |>
+      as_tibble() |>
+      dplyr::mutate(grp = paste0(uid, "_", fn_name)) |>
+      dplyr::mutate(uid = as.factor(uid))
+  }
 
   if (type == 1) {
     p0 <- dt |>
