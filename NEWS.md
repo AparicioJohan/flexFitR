@@ -2,6 +2,8 @@
 
 ## Changes
 
+* When evaluating several methods in `modeler()`, Jacobian and Hessian are
+computed only for the best method.
 * Now functions are required to be vectorized (faster execution).
 * Renaming `fn_lin_plat()` function and adding `fn_lin_logis()` and `fn_quad_plat()`.
 * The `modeler()` function now uses `optimr` instead of `opm` for faster execution.

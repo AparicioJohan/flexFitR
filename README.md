@@ -74,14 +74,11 @@ plot(explorer(dt, time, variable), type = "xy")
 
 ``` r
 fn_lin_plat <- function(t, t1 = 45, t2 = 80, k = 0.9) {
-  if (t < t1) {
-    y <- 0
-  } else if (t >= t1 && t <= t2) {
-    y <- k / (t2 - t1) * (t - t1)
-  } else {
-    y <- k
-  }
-  return(y)
+  ifelse(
+    test = t < t1,
+    yes = 0,
+    no = ifelse(t >= t1 & t <= t2, k / (t2 - t1) * (t - t1), k)
+  )
 }
 ```
 
@@ -111,8 +108,8 @@ Optimization Results `head()`:
    1 38.6 61 99.8 0.449
 
 Metrics:
- Groups     Timing Convergence Iterations
-      1 0.163 secs        100%   511 (id)
+ Groups      Timing Convergence Iterations
+      1 0.1074 secs        100%   511 (id)
 ```
 
 ``` r
