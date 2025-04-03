@@ -7,23 +7,21 @@
 fn_lin_plat(t, t1 = 45, t2 = 80, k = 0.9)
 }
 \arguments{
-\item{t}{Numeric. The time value.}
+\item{t}{A numeric vector of input values (e.g., time).}
 
-\item{t1}{Numeric. The lower threshold time. Default is 45.}
+\item{t1}{The onset time of the response. The function is 0 for all values less than \code{t1}.}
 
-\item{t2}{Numeric. The upper threshold time. Default is 80.}
+\item{t2}{The time at which the plateau begins. Must be greater than \code{t1}.}
 
-\item{k}{Numeric. The maximum value of the function. Default is 0.9. Assumed to be known.}
+\item{k}{The height of the plateau. The function linearly increases from
+0 to \code{k} between \code{t1} and \code{t2}, then remains constant.}
 }
 \value{
-A numeric value based on the threshold model.
-If \code{t} is less than \code{t1}, the function returns 0.
-If \code{t} is between \code{t1} and \code{t2} (inclusive),
-the function returns a value between 0 and \code{k} in a linear trend.
-If \code{t} is greater than \code{t2}, the function returns \code{k}.
+A numeric vector of the same length as \code{t}, representing the function values.
 }
 \description{
-Computes a value based on a linear growth curve reaching a plateau for time.
+A simple piecewise function that models a linear increase from zero to a plateau.
+The function rises linearly between two time points and then levels off at a constant value.
 }
 \details{
 \if{html}{
@@ -36,6 +34,10 @@ k & \text{if } t > t_2
 \end{cases}
 }
 }
+
+This function is continuous but not differentiable at \code{t1} and \code{t2}
+due to the piecewise transitions. It is often used in agronomy and ecology
+to describe growth until a resource limit or developmental plateau is reached.
 }
 \examples{
 library(flexFitR)

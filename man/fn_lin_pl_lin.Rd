@@ -7,23 +7,24 @@
 fn_lin_pl_lin(t, t1, t2, t3, k, beta)
 }
 \arguments{
-\item{t}{Numeric. The time value.}
+\item{t}{A numeric vector of input values (e.g., time).}
 
-\item{t1}{Numeric. The lower threshold time. Default is 45.}
+\item{t1}{The onset time of the response. The function is 0 for all values less than \code{t1}.}
 
-\item{t2}{Numeric. The upper threshold time before plateau. Default is 80.}
+\item{t2}{The time when the linear growth phase ends and the plateau begins. Must be greater than \code{t1}.}
 
-\item{t3}{Numeric. The lower threshold time after plateau. Default is 45.}
+\item{t3}{The time when the plateau ends and the linear decline begins. Must be greater than \code{t2}.}
 
-\item{k}{Numeric. The maximum value of the function. Default is 0.9.}
+\item{k}{The height of the plateau. The first linear phase increases to this value, which remains constant until \code{t3}.}
 
-\item{beta}{Numeric. Slope of the linear decay.}
+\item{beta}{The slope of the final linear phase (typically negative), controlling the rate of decline after \code{t3}.}
 }
 \value{
-A numeric value based on the linear plateau linear model.
+A numeric vector of the same length as \code{t}, representing the function values.
 }
 \description{
-Linear plateau linear function
+A piecewise function that models an initial linear increase up to a plateau,
+maintains that plateau for a duration, and then decreases linearly.
 }
 \details{
 \if{html}{
@@ -37,6 +38,9 @@ k + \beta \cdot (t - t_3) & \text{if } t > t_3
 \end{cases}
 }
 }
+
+The function transitions continuously between all three phases but is not
+differentiable at the transition points \code{t1}, \code{t2}, and \code{t3}.
 }
 \examples{
 library(flexFitR)

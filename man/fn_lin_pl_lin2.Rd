@@ -7,23 +7,26 @@
 fn_lin_pl_lin2(t, t1, t2, dt, k, beta)
 }
 \arguments{
-\item{t}{Numeric. The time value.}
+\item{t}{A numeric vector of input values (e.g., time).}
 
-\item{t1}{Numeric. The lower threshold time.}
+\item{t1}{The onset time of the response. The function is 0 for all values less than \code{t1}.}
 
-\item{t2}{Numeric. The upper threshold time before plateau.}
+\item{t2}{The time when the linear growth phase ends and the plateau begins. Must be greater than \code{t1}.}
 
-\item{dt}{Numeric. dt = t3 - t2.}
+\item{dt}{The duration of the plateau phase. The plateau ends at \code{t2 + dt}.}
 
-\item{k}{Numeric. The maximum value of the function.}
+\item{k}{The height of the plateau. The linear phase increases to this value, which remains constant for \code{dt} units of time.}
 
-\item{beta}{Numeric. Slope of the linear decay.}
+\item{beta}{The slope of the decline phase that begins after the plateau. Typically negative.}
 }
 \value{
-A numeric value based on the linear plateau linear model.
+A numeric vector of the same length as \code{t}, representing the function values.
 }
 \description{
-Linear plateau linear with constrains
+A piecewise function that models an initial linear increase to a plateau, followed by a specified
+duration of stability, and then a linear decline. This version parameterizes the plateau using
+its duration rather than an explicit end time, making it convenient for box type of constraints
+optimizations.
 }
 \details{
 \if{html}{

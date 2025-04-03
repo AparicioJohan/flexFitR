@@ -82,6 +82,7 @@ reference:
   - fn_logistic
   - fn_lin_logis
   - fn_quad_plat
+  - fn_quad_pl_sm
   - fn_exp_lin
   - fn_exp2_lin
   - fn_exp_exp

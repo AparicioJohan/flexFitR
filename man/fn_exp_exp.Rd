@@ -7,28 +7,24 @@
 fn_exp_exp(t, t1, t2, alpha, beta)
 }
 \arguments{
-\item{t}{Numeric. The time value.}
+\item{t}{A numeric vector of input values (e.g., time).}
 
-\item{t1}{Numeric. The lower threshold time. Assumed to be known.}
+\item{t1}{The onset time of the response. The function is 0 for all values less than \code{t1}.}
 
-\item{t2}{Numeric. The upper threshold time.}
+\item{t2}{The transition time between the two exponential phases. Must be greater than \code{t1}.}
 
-\item{alpha}{Numeric. The parameter for the first exponential term.
-Must be greater than 0.}
+\item{alpha}{The exponential growth rate during the first phase (\code{t1} to \code{t2}).}
 
-\item{beta}{Numeric. The parameter for the second exponential term.
-Must be less than 0.}
+\item{beta}{The exponential growth rate after \code{t2}.}
 }
 \value{
-A numeric value based on the double exponential function.
-If \code{t} is less than \code{t1}, the function returns 0.
-If \code{t} is between \code{t1} and \code{t2} (inclusive),
-the function returns \code{exp(alpha * (t - t1)) - 1}.
-If \code{t} is greater than \code{t2}, the function returns
-\code{(exp(alpha * (t2 - t1)) - 1) * exp(beta * (t - t2))}.
+A numeric vector of the same length as \code{t}, representing the function values.
 }
 \description{
-Computes a value based on an exponential growth curve and exponential decay model for time.
+A piecewise function with two exponential phases. The first exponential phase
+occurs between \code{t1} and \code{t2}, and the second phase continues after
+\code{t2} with a potentially different growth rate. The function ensures
+continuity at the transition point but not necessarily smoothness (in derivative).
 }
 \details{
 \if{html}{
@@ -41,6 +37,11 @@ e^{\alpha \cdot (t - t_1)} - 1 & \text{if } t_1 \leq t \leq t_2 \\
 \end{cases}
 }
 }
+
+The function rises from 0 starting at \code{t1} with exponential growth rate
+\code{alpha}, and transitions to a second exponential phase with rate
+\code{beta} at \code{t2}. The value at the transition point is preserved,
+ensuring continuity.
 }
 \examples{
 library(flexFitR)

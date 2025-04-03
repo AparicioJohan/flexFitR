@@ -7,23 +7,19 @@
 fn_lin_logis(t, t1, t2, k)
 }
 \arguments{
-\item{t}{Numeric. The time value.}
+\item{t}{A numeric vector of input values (e.g., time).}
 
-\item{t1}{Numeric. The lower threshold time. Default is 45.}
+\item{t1}{The onset time of the response. The function is 0 for all values less than \code{t1}.}
 
-\item{t2}{Numeric. The upper threshold time. Default is 80.}
+\item{t2}{The transition time between the linear and logistic phases. Must be greater than \code{t1}.}
 
-\item{k}{Numeric. The maximum value of the function. Default is 0.9. Assumed to be known.}
+\item{k}{The plateau height. The function transitions toward this value in the logistic phase.}
 }
 \value{
-A numeric value based on the linear-logistic growth curve.
-If \code{t} is less than \code{t1}, the function returns 0.
-If \code{t} is between \code{t1} and \code{t2} (inclusive),
-the function returns a value between 0 and \code{k} in a linear trend.
-If \code{t} is greater than \code{t2}, the function returns a value based on a logistic curve.
+A numeric vector of the same length as \code{t}, representing the function values.
 }
 \description{
-Computes a value based on a linear-logistic growth curve.
+A piecewise function that models an initial linear increase followed by a logistic saturation.
 }
 \details{
 \if{html}{
@@ -36,6 +32,9 @@ f(t; t_1, t_2, k) =
 \end{cases}
 }
 }
+
+The linear segment rises from 0 starting at \code{t1}, and the logistic segment begins at \code{t2},
+smoothly approaching the plateau value \code{k}.
 }
 \examples{
 library(flexFitR)

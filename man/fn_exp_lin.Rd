@@ -7,27 +7,24 @@
 fn_exp_lin(t, t1, t2, alpha, beta)
 }
 \arguments{
-\item{t}{Numeric. The time value.}
+\item{t}{A numeric vector of input values (e.g., time).}
 
-\item{t1}{Numeric. The lower threshold time. Assumed to be known.}
+\item{t1}{The onset time of the response. The function is 0 for all values less than \code{t1}.}
 
-\item{t2}{Numeric. The upper threshold time.}
+\item{t2}{The transition time between exponential and linear phases. Must be greater than \code{t1}.}
 
-\item{alpha}{Numeric. The parameter for the exponential term. Must be greater
-than 0.}
+\item{alpha}{The exponential growth rate during the exponential phase.}
 
-\item{beta}{Numeric. The parameter for the linear term. Must be less than 0.}
+\item{beta}{The slope of the linear phase after \code{t2}.}
 }
 \value{
-A numeric value based on the exponential linear model.
-If \code{t} is less than \code{t1}, the function returns 0.
-If \code{t} is between \code{t1} and \code{t2} (inclusive),
-the function returns \code{exp(alpha * (t - t1)) - 1}.
-If \code{t} is greater than \code{t2}, the function returns
-\code{beta * (t - t2) + (exp(alpha * (t2 - t1)) - 1)}.
+A numeric vector of the same length as \code{t}, representing the function values.
 }
 \description{
-Computes a value based on an exponential growth curve and linear decay model for time.
+A piecewise function that models a response with an initial exponential
+growth phase followed by a linear phase. Commonly used to describe processes
+with rapid early increases that slow into a linear trend, while maintaining
+continuity.
 }
 \details{
 \if{html}{
@@ -40,6 +37,10 @@ e^{\alpha \cdot (t - t_1)} - 1 & \text{if } t_1 \leq t \leq t_2 \\
 \end{cases}
 }
 }
+
+The exponential segment starts from 0 at \code{t1}, and the linear segment
+continues smoothly from the end of the exponential part. This ensures value
+continuity at \code{t2}, but not necessarily smoothness in slope.
 }
 \examples{
 library(flexFitR)

@@ -7,19 +7,21 @@
 fn_quad(t, a, b, c)
 }
 \arguments{
-\item{t}{Numeric value.}
+\item{t}{A numeric vector of input values (e.g., time).}
 
-\item{a}{Numeric value for coefficient a.}
+\item{a}{The quadratic coefficient (curvature).}
 
-\item{b}{Numeric value for coefficient b.}
+\item{b}{The linear coefficient (slope at the origin).}
 
-\item{c}{Numeric value for coefficient c.}
+\item{c}{The intercept (function value when \code{t = 0}).}
 }
 \value{
-A numeric value based on the linear function.
+A numeric vector of the same length as \code{t}, representing the
+quadratic function values.
 }
 \description{
-Computes a value based on a quadratic function..
+A standard quadratic function of the form \code{f(t) = a * t^2 + b * t + c}, where
+\code{a} controls curvature, \code{b} is the linear coefficient, and \code{c} is the intercept.
 }
 \details{
 \if{html}{
@@ -27,6 +29,9 @@ Computes a value based on a quadratic function..
 f(t; a, b, c) = a \cdot t^2 + b \cdot t + c
 }
 }
+
+This function represents a second-degree polynomial. The sign of \code{a}
+determines whether the parabola opens upward (\code{a > 0}) or downward (\code{a < 0}).
 }
 \examples{
 library(flexFitR)

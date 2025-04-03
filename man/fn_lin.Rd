@@ -7,17 +7,18 @@
 fn_lin(t, m, b)
 }
 \arguments{
-\item{t}{Numeric value.}
+\item{t}{A numeric vector of input values (e.g., time).}
 
-\item{m}{Numeric value for the slope coefficient.}
+\item{m}{The slope of the line.}
 
-\item{b}{Numeric value for the intercept coefficient.}
+\item{b}{The intercept (function value when \code{t = 0}).}
 }
 \value{
-A numeric value based on the linear function.
+A numeric vector of the same length as \code{t}, giving the linear function values.
 }
 \description{
-Computes a value based on a linear function.
+A basic linear function of the form \code{f(t) = m * t + b}, where \code{m}
+is the slope and \code{b} is the intercept.
 }
 \details{
 \if{html}{
