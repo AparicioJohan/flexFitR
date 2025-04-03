@@ -1,15 +1,19 @@
 # flexFitR 1.1.0.00009
 
+## New features
+
+* `update.modeler()` S3 method added to refit a model of class `modeler`.
+* Adding `fn_lin_logis()`, `fn_quad_plat()` and `fn_quad_pl_sm()`.
+* `predict.modeler()` includes `parallel` and `workers` to allow for parallel computing.
+
 ## Changes
 
 * When evaluating several methods in `modeler()`, Jacobian and Hessian are
 computed only for the best method.
 * Now functions are required to be vectorized (faster execution).
-* Renaming `fn_lin_plat()` function and adding `fn_lin_logis()`, `fn_quad_plat()` and 
-`fn_quad_pl_sm()`.
+* Renaming `fn_lin_plat()` function.
 * The `modeler()` function now uses `optimr` instead of `opm` for faster execution.
 * `plot.modeler()` includes `linewidth` argument to increase size in geom lines.
-* `predict.modeler()` includes `parallel` and `workers` to allow for parallel computing.
 
 ## Bug fixes
 
