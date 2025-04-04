@@ -4,10 +4,25 @@
 \alias{update.modeler}
 \title{Update a \code{modeler} object}
 \usage{
-\method{update}{modeler}(object, options = modeler.options(), control = list(), ...)
+\method{update}{modeler}(
+  object,
+  method = NULL,
+  track = TRUE,
+  options = modeler.options(),
+  control = list(),
+  ...
+)
 }
 \arguments{
 \item{object}{An object of class \code{modeler}.}
+
+\item{method}{A character vector specifying optimization methods.
+Check available methods using \code{list_methods()}. Defaults to
+\code{c("subplex", "pracmanm", "anms")}.}
+
+\item{track}{Logical. If \code{TRUE}, the function compares the sse
+before and after the update and reports how many groups improved. Useful for
+evaluating whether the refit led to better convergence.}
 
 \item{options}{A list of additional options. See \code{modeler.options()}
 \describe{
