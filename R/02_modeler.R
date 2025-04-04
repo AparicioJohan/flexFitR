@@ -530,7 +530,7 @@ modeler <- function(data,
   dimnames(hess_matrix) <- list(names_params, names_params)
   coef <- data.frame(
     parameter = c(names_params, names(fx_params)),
-    value = na.omit(unlist(c(best_params, fx_params))),
+    value = unlist(c(best_params, na.omit(fx_params))),
     type = c(
       rep("estimable", times = p),
       rep("fixed", times = length(names(fx_params)))
