@@ -10,18 +10,11 @@
 #' @param method A character vector specifying optimization methods.
 #' Check available methods using \code{list_methods()}. Defaults to
 #' \code{c("subplex", "pracmanm", "anms")}.
-#' @param options A list of additional options. See \code{modeler.options()}
-#' \describe{
-#'   \item{\code{progress}}{Logical. If \code{TRUE} a progress bar is displayed. Default is \code{FALSE}. Try this before running the function: \code{progressr::handlers("progress", "beepr")}.}
-#'   \item{\code{parallel}}{Logical. If \code{TRUE} the model fit is performed in parallel. Default is \code{FALSE}.}
-#'   \item{\code{workers}}{The number of parallel processes to use. \code{parallel::detectCores()}}
-#'   \item{\code{trace}}{If \code{TRUE} , convergence monitoring of the current fit is reported in the console. \code{FALSE} by default.}
-#'   \item{\code{return_method}}{ Logical. If \code{TRUE}, includes the optimization method used in the result. Default is \code{FALSE}.}
-#' }
-#' @param control A list of control parameters to be passed to the optimization function. For example: \code{list(maxit = 500)}.
-#' @param track Logical. If \code{TRUE}, the function compares the sse
+#' @param track Logical. If \code{TRUE}, the function compares the SSE
 #' before and after the update and reports how many groups improved. Useful for
 #' evaluating whether the refit led to better convergence.
+#' @param eps Numeric. The minimum change in SSE required to consider a fit improved.
+#' Defaults to \code{1e-6}. Smaller values may include numerical noise as improvements.
 #' @param ... Additional parameters for future functionality.
 #' @return An object of class \code{modeler}, which is a list containing the following elements:
 #' \describe{
@@ -58,8 +51,7 @@
 update.modeler <- function(object,
                            method = NULL,
                            track = TRUE,
-                           options = modeler.options(),
-                           control = list(), ...) {
+                           eps = 1e-6, ...) {
   # Validate input
   if (!inherits(object, "modeler")) {
     stop("The object should be of class 'modeler'.")
@@ -108,8 +100,8 @@ update.modeler <- function(object,
     fixed_params = fixed_params,
     method = if (!is.null(method)) method else unique(object$metrics$method),
     subset = unique(param_info$uid),
-    options = options,
-    control = control
+    options = attr(object, "options")[5:8],
+    control = attr(object, "control")
   )
   if (track) {
     comp <- merge(
@@ -118,9 +110,11 @@ update.modeler <- function(object,
       by = "uid",
       suffixes = c(".old", ".new")
     )
-    i <- with(comparison, (sse.new < sse.old))
+    improvement <- comp$sse.old - comp$sse.new
+    i <- improvement > eps
+    to <- nrow(comp)
     n_i <- sum(i, na.rm = TRUE)
-    message(sprintf("Update improved fit in %d/%d groups.", n_i, nrow(comp)))
+    message(sprintf("Improved SSE in %d/%d groups (eps = %.1e)", n_i, to, eps))
   }
   return(new_object)
 }

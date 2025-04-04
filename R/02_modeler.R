@@ -387,6 +387,8 @@ modeler <- function(data,
     fit = objt
   )
   class(out) <- "modeler"
+  attr(out, "options") <- opt.list
+  attr(out, "control") <- control
   return(invisible(out))
 }
 

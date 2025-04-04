@@ -4,14 +4,7 @@
 \alias{update.modeler}
 \title{Update a \code{modeler} object}
 \usage{
-\method{update}{modeler}(
-  object,
-  method = NULL,
-  track = TRUE,
-  options = modeler.options(),
-  control = list(),
-  ...
-)
+\method{update}{modeler}(object, method = NULL, track = TRUE, eps = 1e-06, ...)
 }
 \arguments{
 \item{object}{An object of class \code{modeler}.}
@@ -20,20 +13,12 @@
 Check available methods using \code{list_methods()}. Defaults to
 \code{c("subplex", "pracmanm", "anms")}.}
 
-\item{track}{Logical. If \code{TRUE}, the function compares the sse
+\item{track}{Logical. If \code{TRUE}, the function compares the SSE
 before and after the update and reports how many groups improved. Useful for
 evaluating whether the refit led to better convergence.}
 
-\item{options}{A list of additional options. See \code{modeler.options()}
-\describe{
-  \item{\code{progress}}{Logical. If \code{TRUE} a progress bar is displayed. Default is \code{FALSE}. Try this before running the function: \code{progressr::handlers("progress", "beepr")}.}
-  \item{\code{parallel}}{Logical. If \code{TRUE} the model fit is performed in parallel. Default is \code{FALSE}.}
-  \item{\code{workers}}{The number of parallel processes to use. \code{parallel::detectCores()}}
-  \item{\code{trace}}{If \code{TRUE} , convergence monitoring of the current fit is reported in the console. \code{FALSE} by default.}
-  \item{\code{return_method}}{ Logical. If \code{TRUE}, includes the optimization method used in the result. Default is \code{FALSE}.}
-}}
-
-\item{control}{A list of control parameters to be passed to the optimization function. For example: \code{list(maxit = 500)}.}
+\item{eps}{Numeric. The minimum change in SSE required to consider a fit improved.
+Defaults to \code{1e-6}. Smaller values may include numerical noise as improvements.}
 
 \item{...}{Additional parameters for future functionality.}
 }
