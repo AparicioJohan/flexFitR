@@ -118,6 +118,7 @@ plot_fn <- function(fn = "fn_lin_plat",
 #' @param parm Character vector specifying the parameters to plot for \code{type = 2}. If \code{NULL}, all parameters are included.
 #' @param n_points Numeric value specifying the number of points for interpolation along the x-axis. Default is 2000.
 #' @param title Optional character string to add a title to the plot.
+#' @param add_points Logical value indicating whether to add raw observations to the plot for \code{type = 3 and 4}. Default is \code{FALSE}.
 #' @param add_ci Logical value indicating whether to add confidence intervals for \code{type = 4, 5, 6}. Default is \code{TRUE}.
 #' @param color_ci Character string specifying the color of the confidence interval when \code{type = 4, 5, 6}. Default is "blue".
 #' @param color_pi Character string specifying the color of the prediction interval when \code{type = 4}. Default is "red".
@@ -161,6 +162,7 @@ plot.modeler <- function(x,
                          parm = NULL,
                          n_points = 1000,
                          title = NULL,
+                         add_points = FALSE,
                          add_ci = TRUE,
                          color_ci = "blue",
                          color_pi = "red",
@@ -266,6 +268,11 @@ plot.modeler <- function(x,
   if (type == 3) {
     p0 <- dt |>
       ggplot() +
+      {
+        if (add_points) {
+          geom_point(mapping = aes(x = x, y = y), alpha = 0.1)
+        }
+      } +
       geom_line(
         data = func_dt,
         mapping = aes(x = x, y = dens, group = grp, color = uid),
@@ -400,6 +407,11 @@ plot.modeler <- function(x,
               color = color_pi
             )
           )
+        }
+      } +
+      {
+        if (add_points && type == 4) {
+          geom_point(data = dt, mapping = aes(x = x, y = y), alpha = 0.5)
         }
       } +
       theme_classic(base_size = base_size) +
