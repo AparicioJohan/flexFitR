@@ -16,6 +16,7 @@
   parm = NULL,
   n_points = 1000,
   title = NULL,
+  add_points = FALSE,
   add_ci = TRUE,
   color_ci = "blue",
   color_pi = "red",
@@ -56,6 +57,8 @@
 \item{n_points}{Numeric value specifying the number of points for interpolation along the x-axis. Default is 2000.}
 
 \item{title}{Optional character string to add a title to the plot.}
+
+\item{add_points}{Logical value indicating whether to add raw observations to the plot for \code{type = 3 and 4}. Default is \code{FALSE}.}
 
 \item{add_ci}{Logical value indicating whether to add confidence intervals for \code{type = 4, 5, 6}. Default is \code{TRUE}.}
 
