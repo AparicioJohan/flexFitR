@@ -154,7 +154,8 @@ performance <- function(..., metrics = "all", metadata = FALSE, digits = 2) {
 #' \describe{
 #'   \item{\code{type = 1}}{Radar plot by uid}
 #'   \item{\code{type = 2}}{Radar plot averaging}
-#'   \item{\code{type = 3}}{Bar plot by model-metric}
+#'   \item{\code{type = 3}}{Line plot by model-metric}
+#'   \item{\code{type = 4}}{Ranking plot by model}
 #' }
 #' @param rescale Logical. If \code{TRUE}, metrics in type 3 plot are (0, 1) rescaled to improve interpretation.
 #' Higher values are better models. \code{FALSE} by default.
@@ -320,6 +321,28 @@ plot.performance <- function(x,
       labs(y = NULL, x = NULL, color = "uid") +
       theme(axis.text.x = element_text(hjust = 1, angle = 75)) +
       scale_color_viridis_d(option = "D", direction = 1)
+  }
+  if (type == 4) {
+    p <- .data |>
+      group_by(uid, fn_name) |>
+      summarise(k = mean(res), .groups = "drop") |>
+      ungroup() |>
+      group_by(uid) |>
+      mutate(rank = rank(-k)) |>
+      group_by(fn_name, rank) |>
+      summarise(freq = n(), .groups = "drop") |>
+      group_by(fn_name) |>
+      mutate(freq = freq / sum(freq) * 100) |>
+      ggplot(aes(x = rank, y = freq, fill = fn_name)) +
+      geom_bar(stat = "identity", alpha = 0.5, color = "black") +
+      theme_classic() +
+      scale_color_brewer(type = "qual", palette = "Dark2") +
+      scale_fill_brewer(type = "qual", palette = "Dark2") +
+      geom_text(
+        mapping = aes(label = round(freq, 1)),
+        position = position_stack(vjust = 0.5)
+      ) +
+      labs(y = "Frequency (%)", fill = "Model", x = "Rank")
   }
   if (return_table) {
     return(.data)
