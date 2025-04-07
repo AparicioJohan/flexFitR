@@ -11,7 +11,7 @@
 
 \item{method}{A character vector specifying optimization methods.
 Check available methods using \code{list_methods()}. Defaults to
-\code{c("subplex", "pracmanm", "anms")}.}
+the ones in \code{object}.}
 
 \item{track}{Logical. If \code{TRUE}, the function compares the SSE
 before and after the update and reports how many groups improved. Useful for
