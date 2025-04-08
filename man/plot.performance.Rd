@@ -25,7 +25,8 @@ This argument is not used when type = 2.}
 \describe{
   \item{\code{type = 1}}{Radar plot by uid}
   \item{\code{type = 2}}{Radar plot averaging}
-  \item{\code{type = 3}}{Bar plot by model-metric}
+  \item{\code{type = 3}}{Line plot by model-metric}
+  \item{\code{type = 4}}{Ranking plot by model}
 }}
 
 \item{rescale}{Logical. If \code{TRUE}, metrics in type 3 plot are (0, 1) rescaled to improve interpretation.
