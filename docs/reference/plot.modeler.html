@@ -66,6 +66,7 @@
 <span>  parm <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  n_points <span class="op">=</span> <span class="fl">1000</span>,</span>
 <span>  title <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  add_points <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  add_ci <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  color_ci <span class="op">=</span> <span class="st">"blue"</span>,</span>
 <span>  color_pi <span class="op">=</span> <span class="st">"red"</span>,</span>
@@ -144,6 +145,10 @@
 <dd><p>Optional character string to add a title to the plot.</p></dd>
 
 
+<dt id="arg-add-points">add_points<a class="anchor" aria-label="anchor" href="#arg-add-points"></a></dt>
+<dd><p>Logical value indicating whether to add raw observations to the plot for <code>type = 3 and 4</code>. Default is <code>FALSE</code>.</p></dd>
+
+
 <dt id="arg-add-ci">add_ci<a class="anchor" aria-label="anchor" href="#arg-add-ci"></a></dt>
 <dd><p>Logical value indicating whether to add confidence intervals for <code>type = 4, 5, 6</code>. Default is <code>TRUE</code>.</p></dd>
 
@@ -216,7 +221,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Groups      Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       3 0.4454 secs        100%   566 (id)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       3 0.5262 secs        100%   566 (id)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span>, id <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot.modeler-1.png" alt="" width="700" height="433"></span>
