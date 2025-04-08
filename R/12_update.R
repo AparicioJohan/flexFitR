@@ -112,9 +112,14 @@ update.modeler <- function(object,
     )
     improvement <- comp$sse.old - comp$sse.new
     i <- improvement > eps
-    to <- nrow(comp)
+    w <- improvement < -eps
     n_i <- sum(i, na.rm = TRUE)
+    n_w <- sum(w, na.rm = TRUE)
+    to <- nrow(comp)
     message(sprintf("Improved SSE in %d/%d groups (eps = %.1e)", n_i, to, eps))
+    if (n_w > 0) {
+      message(sprintf("SSE worsened in %d groups (change < -%.1e)", n_w, eps))
+    }
   }
   return(new_object)
 }
