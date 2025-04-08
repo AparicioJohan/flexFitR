@@ -95,6 +95,7 @@ utils::globalVariables(
     "fn_name",
     ".resid",
     ".sigma",
-    "grp"
+    "grp",
+    "freq"
   )
 )
