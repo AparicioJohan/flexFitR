@@ -32,7 +32,6 @@ A \code{tibble} with one row per group, containing:
 }
 \description{
 Computes the time (x-value) at which a fitted model reaches a user-specified response value (y-value).
-This function numerically inverts the fitted curve(s) to determine when a target y-value is attained.
 }
 \details{
 The function uses numeric root-finding to solve \code{f(t, ...params) = y}.
