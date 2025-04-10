@@ -14,3 +14,4 @@ inverse_predict(object, ...)
 \description{
 Generic for inverse prediction
 }
+\keyword{internal}

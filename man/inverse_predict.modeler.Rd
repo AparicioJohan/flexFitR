@@ -2,7 +2,7 @@
 % Please edit documentation in R/13_inverse_predict.R
 \name{inverse_predict.modeler}
 \alias{inverse_predict.modeler}
-\title{Inverse prediction from a `modeler` object}
+\title{Inverse prediction from a \code{modeler} object}
 \usage{
 \method{inverse_predict}{modeler}(object, y, id = NULL, interval = NULL, tol = 1e-06, ...)
 }

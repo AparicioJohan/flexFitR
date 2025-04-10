@@ -3,12 +3,14 @@
 #' @param object An object for which to compute the inverse prediction.
 #' @param ... Additional arguments passed to methods.
 #'
+#' @keywords internal
+#'
 #' @export
 inverse_predict <- function(object, ...) {
   UseMethod("inverse_predict")
 }
 
-#' Inverse prediction from a `modeler` object
+#' Inverse prediction from a \code{modeler} object
 #'
 #' Computes the time (x-value) at which a fitted model reaches a user-specified response value (y-value).
 #' This function numerically inverts the fitted curve(s) to determine when a target y-value is attained.
