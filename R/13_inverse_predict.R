@@ -21,6 +21,7 @@ inverse_predict <- function(object, ...) {
 #' @param interval Optional numeric vector of length 2 specifying the interval in which to search for the root.
 #' If \code{NULL}, the interval is inferred from the range of the observed x-values.
 #' @param tol Numerical tolerance passed to \code{\link[stats]{uniroot}} for root-finding accuracy.
+#' @param resolution Integer. Number of grid points used to scan the interval.
 #' @param ... Additional parameters for future functionality.
 #'
 #' @return A \code{tibble} with one row per group, containing:
@@ -62,7 +63,8 @@ inverse_predict.modeler <- function(object,
                                     y,
                                     id = NULL,
                                     interval = NULL,
-                                    tol = 1e-6, ...) {
+                                    tol = 1e-6,
+                                    resolution = 1000, ...) {
   # Check the class of object
   if (!inherits(object, "modeler")) {
     stop("The object should be of class 'modeler'.")
@@ -82,48 +84,64 @@ inverse_predict.modeler <- function(object,
   } else {
     uid <- unique(data$uid)
   }
-  # For applying to a list
-  .x_for_y <- function(fit, y, interval = NULL, tol = 1e-6) {
-    fn_name <- fit$fn_name
-    param_list <- setNames(fit$type$value, fit$type$parameter)
-    fn <- get(fn_name, mode = "function")
-    # Define the root function: f(t) - y = 0
-    root_fun <- function(t) do.call(fn, c(list(t), param_list)) - y
-    if (is.null(interval)) {
-      x_vals <- fit$x
-      interval <- range(x_vals, finite = TRUE)
-    }
-    # Solve numerically
-    result <- tryCatch(
-      {
-        uniroot(root_fun, interval = interval, tol = tol)$root
-      },
-      error = function(e) {
-        warning("Root not found: ", e$message)
-        return(NA)
-      }
-    )
-    # Predicted value
-    predicted_value <- ff(params = param_list, x_new = result, curve = fn_name)
-    # Combine results
-    results <- data.frame(
-      uid = fit$uid,
-      fn_name = fit$fn_name,
-      lower = interval[1],
-      upper = interval[2],
-      y = predicted_value,
-      x = result
-    )
-    return(results)
-  }
   # List of models
   fit_list <- object$fit
   id <- which(unlist(lapply(fit_list, function(x) x$uid)) %in% uid)
   fit_list <- fit_list[id]
-  iter <- seq_along(fit_list)
+  # For applying to a list
+  x_for_y <- function(fit,
+                      y,
+                      interval = NULL,
+                      tol = 1e-6,
+                      resolution = 1000) {
+    fn_name <- fit$fn_name
+    param_list <- setNames(fit$type$value, fit$type$parameter)
+    fn <- get(fn_name, mode = "function")
+    if (is.null(interval)) {
+      x_vals <- fit$x
+      interval <- range(x_vals, finite = TRUE)
+    }
+    t_seq <- seq(interval[1], interval[2], length.out = resolution)
+    y_seq <- ff(params = param_list, x_new = t_seq, curve = fn_name)
+    sign_change <- diff(sign(y_seq - y))
+    crossings <- which(sign_change != 0)
+    roots <- lapply(crossings, function(i) {
+      tryCatch(
+        {
+          uniroot(
+            f = function(t) do.call(fn, c(list(t), param_list)) - y,
+            interval = c(t_seq[i], t_seq[i + 1]),
+            tol = tol
+          )$root
+        },
+        error = function(e) {
+          warning("Root not found: ", e$message)
+          return(NA_real_)
+        }
+      )
+    })
+    roots <- unlist(roots)
+    # Build output rows for each root
+    y_pred <- ff(params = param_list, x_new = unlist(roots), curve = fn_name)
+    data.frame(
+      uid = fit$uid,
+      fn_name = fn_name,
+      lower = interval[1],
+      upper = interval[2],
+      y = y_pred,
+      x = roots
+    )
+  }
   inverse <- do.call(
     what = rbind,
-    args = lapply(fit_list, .x_for_y, y, interval = interval, tol = tol)
+    args = lapply(
+      X = fit_list,
+      FUN = x_for_y,
+      y = y,
+      interval = interval,
+      tol = tol,
+      resolution = resolution
+    )
   ) |>
     as_tibble()
   return(inverse)
