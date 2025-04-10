@@ -4,7 +4,15 @@
 \alias{inverse_predict.modeler}
 \title{Inverse prediction from a \code{modeler} object}
 \usage{
-\method{inverse_predict}{modeler}(object, y, id = NULL, interval = NULL, tol = 1e-06, ...)
+\method{inverse_predict}{modeler}(
+  object,
+  y,
+  id = NULL,
+  interval = NULL,
+  tol = 1e-06,
+  resolution = 1000,
+  ...
+)
 }
 \arguments{
 \item{object}{A fitted object of class \code{modeler}.}
@@ -17,6 +25,8 @@
 If \code{NULL}, the interval is inferred from the range of the observed x-values.}
 
 \item{tol}{Numerical tolerance passed to \code{\link[stats]{uniroot}} for root-finding accuracy.}
+
+\item{resolution}{Integer. Number of grid points used to scan the interval.}
 
 \item{...}{Additional parameters for future functionality.}
 }

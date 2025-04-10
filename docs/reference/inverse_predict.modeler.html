@@ -54,7 +54,15 @@
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for class 'modeler'</span></span>
-<span><span class="fu"><a href="inverse_predict.html">inverse_predict</a></span><span class="op">(</span><span class="va">object</span>, <span class="va">y</span>, id <span class="op">=</span> <span class="cn">NULL</span>, interval <span class="op">=</span> <span class="cn">NULL</span>, tol <span class="op">=</span> <span class="fl">1e-06</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="inverse_predict.html">inverse_predict</a></span><span class="op">(</span></span>
+<span>  <span class="va">object</span>,</span>
+<span>  <span class="va">y</span>,</span>
+<span>  id <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  interval <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  tol <span class="op">=</span> <span class="fl">1e-06</span>,</span>
+<span>  resolution <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -80,6 +88,10 @@ If <code>NULL</code>, the interval is inferred from the range of the observed x-
 
 <dt id="arg-tol">tol<a class="anchor" aria-label="anchor" href="#arg-tol"></a></dt>
 <dd><p>Numerical tolerance passed to <code><a href="https://rdrr.io/r/stats/uniroot.html" class="external-link">uniroot</a></code> for root-finding accuracy.</p></dd>
+
+
+<dt id="arg-resolution">resolution<a class="anchor" aria-label="anchor" href="#arg-resolution"></a></dt>
+<dd><p>Integer. Number of grid points used to scan the interval.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -134,7 +146,7 @@ If no root is found in the interval, <code>NA</code> is returned.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Groups      Timing Convergence  Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       3 0.4121 secs        100% 407.67 (id)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       3 0.3932 secs        100% 407.67 (id)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu"><a href="inverse_predict.html">inverse_predict</a></span><span class="op">(</span><span class="va">mod_1</span>, y <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 6</span></span>
