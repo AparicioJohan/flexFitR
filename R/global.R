@@ -96,6 +96,7 @@ utils::globalVariables(
     ".resid",
     ".sigma",
     "grp",
-    "freq"
+    "freq",
+    ".x_for_y"
   )
 )

@@ -2,6 +2,8 @@
 
 ## New features
 
+* `inverse_predict.modeler()` S3 method added to calculate inverse predictions for
+`modeler` objects.
 * `update.modeler()` S3 method added to refit a model of class `modeler`.
 * Adding `fn_lin_logis()`, `fn_quad_plat()` and `fn_quad_pl_sm()`.
 * `predict.modeler()` includes `parallel` and `workers` to allow for parallel computing.

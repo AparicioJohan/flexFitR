@@ -54,6 +54,7 @@ reference:
   - c.modeler
   - subset.modeler
   - update.modeler
+  - inverse_predict.modeler
   - list_methods
 - title: Model Performance
 - contents:
