@@ -12,7 +12,7 @@ inverse_predict <- function(object, ...) {
 
 #' Inverse prediction from a \code{modeler} object
 #'
-#' Computes the time (x-value) at which a fitted model reaches a user-specified response value (y-value).
+#' Computes the x-value at which a fitted model reaches a user-specified response value (y-value).
 #'
 #' @aliases inverse_predict.modeler
 #' @param object A fitted object of class \code{modeler}.

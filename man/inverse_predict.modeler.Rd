@@ -31,7 +31,7 @@ A \code{tibble} with one row per group, containing:
 }
 }
 \description{
-Computes the time (x-value) at which a fitted model reaches a user-specified response value (y-value).
+Computes the x-value at which a fitted model reaches a user-specified response value (y-value).
 }
 \details{
 The function uses numeric root-finding to solve \code{f(t, ...params) = y}.
