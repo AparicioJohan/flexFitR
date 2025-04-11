@@ -96,7 +96,6 @@ inverse_predict.modeler <- function(object,
                       resolution = 1000) {
     fn_name <- fit$fn_name
     param_list <- setNames(fit$type$value, fit$type$parameter)
-    fn <- get(fn_name, mode = "function")
     if (is.null(interval)) {
       x_vals <- fit$x
       interval <- range(x_vals, finite = TRUE)
@@ -109,7 +108,7 @@ inverse_predict.modeler <- function(object,
       tryCatch(
         {
           uniroot(
-            f = function(t) do.call(fn, c(list(t), param_list)) - y,
+            f = function(t) do.call(fn_name, c(list(t), param_list)) - y,
             interval = c(t_seq[i], t_seq[i + 1]),
             tol = tol
           )$root
