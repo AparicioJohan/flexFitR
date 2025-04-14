@@ -55,6 +55,7 @@ reference:
   - subset.modeler
   - update.modeler
   - inverse_predict.modeler
+  - compute_tangent
   - list_methods
 - title: Model Performance
 - contents:

@@ -2,6 +2,7 @@
 
 ## New features
 
+* `compute_tangent()` function added to compute tangent line(s) for a `modeler` object.
 * `inverse_predict.modeler()` S3 method added to calculate inverse predictions for
 `modeler` objects.
 * `update.modeler()` S3 method added to refit a model of class `modeler`.
