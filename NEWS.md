@@ -1,3 +1,5 @@
+# flexFitR (development version)
+
 # flexFitR 1.2.0
 
 ## New features
