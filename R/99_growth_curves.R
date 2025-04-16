@@ -70,7 +70,7 @@ fn_quad <- function(t, a, b, c) {
 #' @param t A numeric vector of input values (e.g., time).
 #' @param a The growth rate (steepness of the curve). Higher values lead to a steeper rise.
 #' @param t0 The time of the inflection point (midpoint of the transition).
-#' @param k The upper asymptote or plateau (maximum value as \code{t → ∞}).
+#' @param k The upper asymptote or plateau (maximum value as \code{t -> Inf}).
 #'
 #' @return A numeric vector of the same length as \code{t}, representing the logistic function values.
 #' @export

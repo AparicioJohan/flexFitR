@@ -13,7 +13,7 @@ fn_logistic(t, a, t0, k)
 
 \item{t0}{The time of the inflection point (midpoint of the transition).}
 
-\item{k}{The upper asymptote or plateau (maximum value as \code{t → ∞}).}
+\item{k}{The upper asymptote or plateau (maximum value as \code{t -> Inf}).}
 }
 \value{
 A numeric vector of the same length as \code{t}, representing the logistic function values.
