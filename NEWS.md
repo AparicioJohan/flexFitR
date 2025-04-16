@@ -1,7 +1,5 @@
 # flexFitR 1.2.0
 
-# flexFitR 1.1.0.00009
-
 ## New features
 
 * `compute_tangent()` function added to compute tangent line(s) for a `modeler` object.
