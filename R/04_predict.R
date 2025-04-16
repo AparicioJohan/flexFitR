@@ -570,7 +570,25 @@ ff_deriv <- function(params, x_new, curve, fixed_params = NA, which = "fd") {
   }
 }
 
-# Delta method generic function
+#' Delta method generic function
+#' @param fit A fit object which is located inside a modeler object
+#' @param formula A formula specifying a function of the parameters to be estimated (e.g., \code{~ b * 500}). Default is \code{NULL}.
+#' @return A data.frame of the evaluated formula.
+#' @examples
+#' library(flexFitR)
+#' data(dt_potato)
+#' mod_1 <- dt_potato |>
+#'   modeler(
+#'     x = DAP,
+#'     y = Canopy,
+#'     grp = Plot,
+#'     fn = "fn_lin_plat",
+#'     parameters = c(t1 = 45, t2 = 80, k = 0.9),
+#'     subset = c(15, 2, 45)
+#'   )
+#' print(mod_1)
+#' # Function of the parameters
+#' predict(mod_1, formula = ~ t2 - t1, id = 2)
 #' @export
 #' @keywords internal
 .delta_method_gen <- function(fit, formula) {
