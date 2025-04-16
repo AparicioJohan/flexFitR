@@ -42,7 +42,7 @@ mod <- dt_potato |>
     subset = 2
   )
 plot(mod)
-tl <- compute_tangent(mod, x = c(38, 65))
+tl <- compute_tangent(mod, x = c(48.35, 65))
 print(tl)
 plot(mod) +
   geom_abline(
@@ -50,6 +50,12 @@ plot(mod) +
     mapping = aes(slope = slope, intercept = intercept),
     linetype = 2,
     color = "blue"
+  ) +
+  geom_point(
+    data = tl,
+    mapping = aes(x = x, y = y),
+    shape = 8,
+    color = "blue",
+    size = 2
   )
-
 }
