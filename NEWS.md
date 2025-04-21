@@ -1,5 +1,9 @@
 # flexFitR (development version)
 
+## Changes 
+
+* `compute_tangent()` accepts the `x` argument as data.frame.
+
 # flexFitR 1.2.0
 
 ## New features

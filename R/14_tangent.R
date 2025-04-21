@@ -5,6 +5,7 @@
 #'
 #' @param object A fitted object of class \code{modeler}, created by \code{\link{modeler}()}.
 #' @param x A numeric vector of x-values at which to compute tangent lines.
+#' A data.frame is also accepted with columns <uid, x>.
 #' @param id Optional vector of \code{uid}s indicating which groups to compute tangent lines for. If \code{NULL}, all groups are used.
 #'
 #' @return A tibble with one row per tangent line and the following columns:
@@ -71,12 +72,20 @@ compute_tangent <- function(object, x = NULL, id = NULL) {
   id <- which(unlist(lapply(fit_list, function(x) x$uid)) %in% uid)
   fit_list <- fit_list[id]
   do_tangent <- function(fit, x) {
+    sample <- fit$uid
     fn_name <- fit$fn_name
     param_list <- setNames(fit$type$value, fit$type$parameter)
+    if (inherits(x, "data.frame")) {
+      stopifnot(all(c("uid", "x") %in% colnames(x)))
+      x <- x[x$uid %in% sample, "x", drop = TRUE]
+      if (length(x) == 0) {
+        stop("uid: '", sample, "' not found.")
+      }
+    }
     y_est <- ff(params = param_list, x_new = x, curve = fn_name)
     d_est <- ff_deriv(params = param_list, x_new = x, curve = fn_name)
     data.frame(
-      uid = fit$uid,
+      uid = sample,
       fn_name = fn_name,
       x = x,
       y = y_est,

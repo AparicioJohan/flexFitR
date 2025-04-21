@@ -9,7 +9,8 @@ compute_tangent(object, x = NULL, id = NULL)
 \arguments{
 \item{object}{A fitted object of class \code{modeler}, created by \code{\link{modeler}()}.}
 
-\item{x}{A numeric vector of x-values at which to compute tangent lines.}
+\item{x}{A numeric vector of x-values at which to compute tangent lines.
+A data.frame is also accepted with columns <uid, x>.}
 
 \item{id}{Optional vector of \code{uid}s indicating which groups to compute tangent lines for. If \code{NULL}, all groups are used.}
 }
