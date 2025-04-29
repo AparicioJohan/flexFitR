@@ -9,6 +9,7 @@
 status](https://www.r-pkg.org/badges/version/flexFitR)](https://CRAN.R-project.org/package=flexFitR)
 [![Lifecycle:
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
+![Minimal R Version](https://img.shields.io/badge/R%3E%3D-4.1-blue.svg)
 <!-- badges: end -->
 
 `{flexFitR}` is an R package designed for efficient modeling and
@@ -109,7 +110,7 @@ Optimization Results `head()`:
 
 Metrics:
  Groups      Timing Convergence Iterations
-      1 0.1074 secs        100%   511 (id)
+      1 0.1081 secs        100%   511 (id)
 ```
 
 ``` r
