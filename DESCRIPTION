@@ -1,7 +1,7 @@
 Package: flexFitR
 Type: Package
 Title: Flexible Non-Linear Least Square Model Fitting
-Version: 1.2.0.9000
+Version: 1.2.1
 Authors@R: 
     c(person(given = "Johan",
              family = "Aparicio",
