@@ -4,14 +4,25 @@
 \alias{.fitter_curve}
 \title{General-purpose optimization}
 \usage{
-.fitter_curve(data, id, fn, method, lower, upper, control, metadata, trace)
+.fitter_curve(
+  data,
+  id,
+  fn,
+  method,
+  lower,
+  upper,
+  control,
+  metadata,
+  trace,
+  fn_str
+)
 }
 \arguments{
 \item{data}{A nested data.frame with columns <plot, genotype, row, range, data, initials, fx_params>.}
 
 \item{id}{An optional vector of IDs to filter the data. Default is \code{NULL}, meaning all ids are used.}
 
-\item{fn}{A string specifying the name of the function to be used for the curve fitting. Default is \code{"fn_lin_plat"}.}
+\item{fn}{A function to be used for the curve fitting. Default is \code{"fn_lin_plat"}.}
 
 \item{method}{A character vector specifying the optimization methods to be used. See \code{optimx} package for available methods. Default is \code{c("subplex", "pracmanm", "anms")}.}
 
@@ -22,6 +33,8 @@
 \item{control}{A list of control parameters to be passed to the optimization function. For example, \code{list(maxit = 500)}.}
 
 \item{trace}{If \code{TRUE} , convergence monitoring of the current fit is reported in the console. \code{FALSE} by default.}
+
+\item{fn_str}{A string specifying the name of the function to be used for the curve fitting. Default is \code{"fn_lin_plat"}.}
 }
 \value{
 A list containing the following elements:

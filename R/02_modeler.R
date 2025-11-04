@@ -315,6 +315,7 @@ modeler <- function(data,
   p <- progressr::progressor(along = grp_id)
   init_time <- Sys.time()
   fn_name <- fn
+  fn_to_opt_flx <- get(fn_name)
   objt <- foreach(
     i = grp_id,
     .options.future = list(
@@ -326,13 +327,14 @@ modeler <- function(data,
     .fitter_curve(
       data = dt_nest,
       id = i,
-      fn = fn_name,
+      fn = fn_to_opt_flx,
       method = method,
       lower = lower,
       upper = upper,
       trace = trace,
       control = control,
-      metadata = metadata
+      metadata = metadata,
+      fn_str = fn_name
     )
   }
   end_time <- Sys.time()
@@ -399,12 +401,13 @@ modeler <- function(data,
 #'
 #' @param data A nested data.frame with columns <plot, genotype, row, range, data, initials, fx_params>.
 #' @param id An optional vector of IDs to filter the data. Default is \code{NULL}, meaning all ids are used.
-#' @param fn A string specifying the name of the function to be used for the curve fitting. Default is \code{"fn_lin_plat"}.
+#' @param fn A function to be used for the curve fitting. Default is \code{"fn_lin_plat"}.
 #' @param method A character vector specifying the optimization methods to be used. See \code{optimx} package for available methods. Default is \code{c("subplex", "pracmanm", "anms")}.
 #' @param lower Numeric vector specifying the lower bounds for the parameters. Default is \code{-Inf} for all parameters.
 #' @param upper Numeric vector specifying the upper bounds for the parameters. Default is \code{Inf} for all parameters.
 #' @param control A list of control parameters to be passed to the optimization function. For example, \code{list(maxit = 500)}.
 #' @param trace  If \code{TRUE} , convergence monitoring of the current fit is reported in the console. \code{FALSE} by default.
+#' @param fn_str A string specifying the name of the function to be used for the curve fitting. Default is \code{"fn_lin_plat"}.
 #' @return A list containing the following elements:
 #' \describe{
 #'   \item{\code{kkopt}}{opm object.}
@@ -449,7 +452,8 @@ modeler <- function(data,
                           upper,
                           control,
                           metadata,
-                          trace) {
+                          trace,
+                          fn_str) {
   dt <- data[data$uid == id, ]
   initials <- unlist(dt$initials)
   fx_params <- unlist(dt$fx_params)
@@ -502,7 +506,7 @@ modeler <- function(data,
   param <- rr |>
     dplyr::filter(method == best) |>
     dplyr::select(-c(fevals:convergence)) |>
-    dplyr::mutate(fn_name = fn)
+    dplyr::mutate(fn_name = fn_str)
   # Compute jacobian and hessian only for best
   jac_matrix <- NULL
   hess_matrix <- NULL
@@ -552,7 +556,7 @@ modeler <- function(data,
     p = p,
     n_obs = length(t),
     uid = id,
-    fn_name = fn
+    fn_name = fn_str
   )
   return(out)
 }

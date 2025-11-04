@@ -1,8 +1,13 @@
-# flexFitR (development version)
+# flexFitR 1.2.1
 
 ## Changes 
 
 * `compute_tangent()` accepts the `x` argument as data.frame.
+
+## Bug fixes
+
+* Fixed issue when `ggplot2` was updated.
+* Parallel was not working properly. 
 
 # flexFitR 1.2.0
 
