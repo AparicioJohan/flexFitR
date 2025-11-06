@@ -74,7 +74,12 @@ compute_tangent <- function(object, x = NULL, id = NULL) {
   do_tangent <- function(fit, x) {
     sample <- fit$uid
     fn_name <- fit$fn_name
-    param_list <- setNames(fit$type$value, fit$type$parameter)
+    est <- fit$type |>
+      dplyr::filter(type == "estimable") |>
+      dplyr::pull(value, name = parameter)
+    fix <- fit$type |>
+      dplyr::filter(type == "fixed") |>
+      dplyr::pull(value, name = parameter)
     if (inherits(x, "data.frame")) {
       stopifnot(all(c("uid", "x") %in% colnames(x)))
       x <- x[x$uid %in% sample, "x", drop = TRUE]
@@ -82,8 +87,8 @@ compute_tangent <- function(object, x = NULL, id = NULL) {
         stop("uid: '", sample, "' not found.")
       }
     }
-    y_est <- ff(params = param_list, x_new = x, curve = fn_name)
-    d_est <- ff_deriv(params = param_list, x_new = x, curve = fn_name)
+    y_est <- ff(params = est, x_new = x, curve = fn_name, fixed_params = fix)
+    d_est <- ff_deriv(params = est, x_new = x, curve = fn_name, fixed_params = fix)
     data.frame(
       uid = sample,
       fn_name = fn_name,
