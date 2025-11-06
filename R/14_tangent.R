@@ -80,6 +80,7 @@ compute_tangent <- function(object, x = NULL, id = NULL) {
     fix <- fit$type |>
       dplyr::filter(type == "fixed") |>
       dplyr::pull(value, name = parameter)
+    if (length(fix) == 0) fix <- NA
     if (inherits(x, "data.frame")) {
       stopifnot(all(c("uid", "x") %in% colnames(x)))
       x <- x[x$uid %in% sample, "x", drop = TRUE]

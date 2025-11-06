@@ -101,6 +101,7 @@ inverse_predict.modeler <- function(object,
     fix <- fit$type |>
       dplyr::filter(type == "fixed") |>
       dplyr::pull(value, name = parameter)
+    if (length(fix) == 0) fix <- NA
     param_list <- aux_fun(curve = fn_name, params = est, fixed_params = fix)
     if (is.null(interval)) {
       x_vals <- fit$x
@@ -157,7 +158,7 @@ inverse_predict.modeler <- function(object,
 }
 
 
-aux_fun  <- function(curve, params, fixed_params) {
+aux_fun <- function(curve, params, fixed_params) {
   args <- names(formals(curve))
   arg_names <- args[-1]
   full_params <- setNames(rep(NA, length(arg_names)), arg_names)
