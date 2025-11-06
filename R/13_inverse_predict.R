@@ -95,13 +95,19 @@ inverse_predict.modeler <- function(object,
                       tol = 1e-6,
                       resolution = 1000) {
     fn_name <- fit$fn_name
-    param_list <- setNames(fit$type$value, fit$type$parameter)
+    est <- fit$type |>
+      dplyr::filter(type == "estimable") |>
+      dplyr::pull(value, name = parameter)
+    fix <- fit$type |>
+      dplyr::filter(type == "fixed") |>
+      dplyr::pull(value, name = parameter)
+    param_list <- aux_fun(curve = fn_name, params = est, fixed_params = fix)
     if (is.null(interval)) {
       x_vals <- fit$x
       interval <- range(x_vals, finite = TRUE)
     }
     t_seq <- seq(interval[1], interval[2], length.out = resolution)
-    y_seq <- ff(params = param_list, x_new = t_seq, curve = fn_name)
+    y_seq <- ff(params = est, x_new = t_seq, curve = fn_name, fixed_params = fix)
     sign_change <- diff(sign(y_seq - y))
     crossings <- which(sign_change != 0)
     roots <- lapply(crossings, function(i) {
@@ -121,7 +127,11 @@ inverse_predict.modeler <- function(object,
     })
     roots <- unlist(roots)
     # Build output rows for each root
-    y_pred <- ff(params = param_list, x_new = unlist(roots), curve = fn_name)
+    y_pred <- ff(params = est, x_new = unlist(roots), curve = fn_name, fixed_params = fix)
+    if (is.logical(y_pred)) {
+      y_pred <- NA
+      roots <- NA
+    }
     data.frame(
       uid = fit$uid,
       fn_name = fn_name,
@@ -144,4 +154,17 @@ inverse_predict.modeler <- function(object,
   ) |>
     as_tibble()
   return(inverse)
+}
+
+
+aux_fun  <- function(curve, params, fixed_params) {
+  args <- names(formals(curve))
+  arg_names <- args[-1]
+  full_params <- setNames(rep(NA, length(arg_names)), arg_names)
+  if (!any(is.na(fixed_params))) {
+    full_params[names(fixed_params)] <- fixed_params
+  }
+  free_param_names <- setdiff(arg_names, names(fixed_params))
+  full_params[free_param_names] <- params
+  full_params
 }
