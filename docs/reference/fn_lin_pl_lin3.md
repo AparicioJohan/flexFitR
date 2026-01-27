@@ -1,0 +1,59 @@
+# Linear Plateau Linear Constrains
+
+Linear Plateau Linear Constrains
+
+## Usage
+
+``` r
+fn_lin_pl_lin3(t, t1, t2, t3, k, beta)
+```
+
+## Arguments
+
+- t:
+
+  Numeric. The time value.
+
+- t1:
+
+  Numeric. The lower threshold time. Default is 45.
+
+- t2:
+
+  Numeric. The upper threshold time before plateau. Default is 80.
+
+- t3:
+
+  Numeric. The lower threshold time after plateau. Default is 45.
+
+- k:
+
+  Numeric. The maximum value of the function. Default is 0.9.
+
+- beta:
+
+  Numeric. Slope of the linear decay.
+
+## Value
+
+A numeric value based on the linear plateau linear model.
+
+## Details
+
+\$\$ f(t; t_1, t_2, t_3, k, \beta) = \begin{cases} 0 & \text{if } t \<
+t_1 \\ \dfrac{k}{t_2 - t_1} \cdot (t - t_1) & \text{if } t_1 \leq t \leq
+t_2 \\ k & \text{if } t_2 \leq t \leq t_3 \\ k + \beta \cdot (t - t_3) &
+\text{if } t \> t_3 \end{cases} \$\$
+
+## Examples
+
+``` r
+library(flexFitR)
+plot_fn(
+  fn = "fn_lin_pl_lin3",
+  params = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
+  interval = c(0, 108),
+  n_points = 2000,
+  auc_label_size = 3
+)
+```
