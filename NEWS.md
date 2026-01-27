@@ -1,3 +1,9 @@
+# flexFitR 1.2.2
+
+## New features
+
+* New functions added: `fn_lpl`, `fn_qpl`, `fn_qpl`.
+
 # flexFitR 1.2.1
 
 ## Changes 

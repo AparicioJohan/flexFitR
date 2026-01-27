@@ -91,5 +91,7 @@ reference:
   - fn_exp_exp
   - fn_exp2_exp
   - fn_lin_pl_lin
-  - fn_lin_pl_lin2
+  - fn_lpl
+  - fn_lll
+  - fn_qpl
   - list_funs

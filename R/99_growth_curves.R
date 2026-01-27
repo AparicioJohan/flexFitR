@@ -605,13 +605,13 @@ fn_lin_pl_lin <- function(t, t1, t2, t3, k, beta) {
 #' @examples
 #' library(flexFitR)
 #' plot_fn(
-#'   fn = "fn_lin_pl_lin2",
+#'   fn = "fn_lpl",
 #'   params = c(t1 = 38.7, t2 = 62, dt = 28, k = 0.32, beta = -0.01),
 #'   interval = c(0, 108),
 #'   n_points = 2000,
 #'   auc_label_size = 3
 #' )
-fn_lin_pl_lin2 <- function(t, t1, t2, dt, k, beta) {
+fn_lpl <- function(t, t1, t2, dt, k, beta) {
   ifelse(
     test = t < t1,
     yes = 0,
@@ -626,6 +626,149 @@ fn_lin_pl_lin2 <- function(t, t1, t2, dt, k, beta) {
     )
   )
 }
+
+#' Linear–logistic–linear function
+#'
+#' A piecewise function that models (i) an initial linear increase from zero,
+#' (ii) a smooth logistic rise toward an upper asymptote, and (iii) a final
+#' linear phase.
+#'
+#' @param t A numeric vector of input values (e.g., time).
+#' @param t1 The onset time of the response. The function is 0 for all values
+#'   less than or equal to \code{t1}.
+#' @param t2 The time when the initial linear phase ends and the logistic phase
+#'   begins. Must be greater than \code{t1}.
+#' @param dt Duration of the logistic phase. Defines \code{t3 = t2 + dt} and must
+#'   be positive.
+#' @param k Upper asymptote (maximum level) of the logistic component.
+#' @param beta Slope of the final linear phase after \code{t3} (often negative).
+#'
+#' @return A numeric vector of the same length as \code{t}, representing the
+#'   function values.
+#'
+#' @export
+#'
+#' @details
+#' \if{html}{
+#' \deqn{
+#' f(t; t_1, t_2, dt, k, \beta) =
+#' \begin{cases}
+#' 0 & \text{if } t \le t_1 \\
+#' \dfrac{k/2}{t_2 - t_1}\,(t - t_1) & \text{if } t_1 < t \le t_2 \\
+#' \dfrac{k}{1 + \exp\left(-2\,\dfrac{t - t_2}{t_2 - t_1}\right)} & \text{if } t_2 < t \le t_3 \\
+#' \dfrac{k}{1 + \exp\left(-2\,\dfrac{t_3 - t_2}{t_2 - t_1}\right)} + \beta\,(t - t_3)
+#'   & \text{if } t > t_3
+#' \end{cases}
+#' }
+#' }
+#'
+#' where \eqn{t_3 = t_2 + dt}.
+#'
+#' The function is continuous at \code{t1}, \code{t2}, and \code{t3}. It is
+#' differentiable at \code{t2} by construction (the linear slope matches the
+#' logistic derivative at \code{t2}). It is not differentiable at \code{t1}, and
+#' it is generally not differentiable at \code{t3} unless \code{beta} matches
+#' the logistic derivative at \code{t3}.
+#'
+#' @examples
+#' library(flexFitR)
+#' plot_fn(
+#'   fn = "fn_lll",
+#'   params = c(t1 = 25, t2 = 35, dt = 45, k = 100, beta = -1),
+#'   interval = c(0, 100),
+#'   n_points = 2000,
+#'   auc_label_size = 3
+#' )
+fn_lll <- function(t, t1, t2, dt, k, beta = NULL) {
+  t3 <- t2 + dt
+  ifelse(
+    test = t <= t1,
+    yes = 0,
+    no = ifelse(
+      test = t <= t2,
+      yes = (k / 2) / (t2 - t1) * (t - t1),
+      no = ifelse(
+        test = t <= t3,
+        yes = k / (1 + exp(-2 * (t - t2) / (t2 - t1))),
+        no = k / (1 + exp(-2 * (t3 - t2) / (t2 - t1))) + beta * (t - t3)
+      )
+    )
+  )
+}
+
+#' Quadratic–plateau–linear function
+#'
+#' A piecewise function that models an initial quadratic increase from zero up
+#' to a plateau, maintains that plateau for a duration, and then changes
+#' linearly after the plateau ends.
+#'
+#' @param t A numeric vector of input values (e.g., time).
+#' @param t1 The onset time of the response. The function is 0 for all values
+#'   less than \code{t1}.
+#' @param t2 The time when the quadratic growth phase ends and the plateau
+#'   begins. Must be greater than \code{t1}.
+#' @param dt Duration of the plateau. Defines \code{t3 = t2 + dt} and must be
+#'   non-negative.
+#' @param b Linear coefficient of the quadratic growth phase.
+#' @param k The plateau value (level maintained between \code{t2} and \code{t3}).
+#' @param beta Slope of the final linear phase after \code{t3} (often negative).
+#'
+#' @return A numeric vector of the same length as \code{t}, representing the
+#'   function values.
+#'
+#' @export
+#'
+#' @details
+#' The quadratic phase is parameterized so that the curve reaches exactly
+#' \code{k} at \code{t2}. Let \eqn{\Delta = t_2 - t_1}. The quadratic coefficient
+#' \eqn{c} is computed internally as:
+#' \if{html}{
+#' \deqn{
+#' c = \frac{k - b\Delta}{\Delta^2}.
+#' }
+#' }
+#'
+#' \if{html}{
+#' \deqn{
+#' f(t; t_1, t_2, dt, b, k, \beta) =
+#' \begin{cases}
+#' 0 & \text{if } t < t_1 \\
+#' b(t - t_1) + c(t - t_1)^2 & \text{if } t_1 \le t \le t_2 \\
+#' k & \text{if } t_2 < t \le t_3 \\
+#' k + \beta (t - t_3) & \text{if } t > t_3
+#' \end{cases}
+#' }
+#' }
+#'
+#' where \eqn{t_3 = t_2 + dt}.
+#'
+#' The function is continuous at \code{t1}, \code{t2}, and \code{t3}. It is not
+#' differentiable at \code{t3} unless \code{beta = 0}.
+#'
+#' @examples
+#' library(flexFitR)
+#' plot_fn(
+#'   fn = "fn_qpl",
+#'   params = c(t1 = 30, t2 = 60, dt = 20, b = 0.01, k = 0.9, beta = -0.01),
+#'   interval = c(0, 100),
+#'   n_points = 2000,
+#'   auc_label_size = 3
+#' )
+fn_qpl <- function(t, t1, t2, dt, b, k, beta) {
+  t3 <- t2 + dt
+  delta <- t2 - t1
+  c <- (k - b * delta) / (delta^2)
+  ifelse(
+    test = t < t1,
+    yes = 0,
+    no = ifelse(
+      t <= t2,
+      yes = b * (t - t1) + c * (t - t1)^2,
+      no = ifelse(t <= t3, k, k + beta * (t - t3))
+    )
+  )
+}
+
 
 #' @examples
 #' params <- c(t1 = 34.9, t2 = 61.8)
@@ -739,7 +882,9 @@ list_funs <- function() {
     "fn_quad_plat",
     "fn_quad_pl_sm",
     "fn_lin_pl_lin",
-    "fn_lin_pl_lin2",
+    "fn_lpl",
+    "fn_lll",
+    "fn_qpl",
     "fn_exp_exp",
     "fn_exp_lin",
     "fn_exp2_exp",
