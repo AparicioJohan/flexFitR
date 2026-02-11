@@ -250,13 +250,13 @@ plot.performance <- function(x,
     select(fn_name, uid, any_of(.slt)) |>
     pivot_longer(cols = any_of(.slt), names_to = "name") |>
     filter(!is.infinite(value)) |> # Check
+    filter(!is.na(value)) |> # Check
     group_by(uid, name) |>
     mutate(
       o_min = min(value, na.rm = TRUE),
       o_max = max(value, na.rm = TRUE),
       res = (value - o_min) / (o_max - o_min) * (n_max - n_min) + n_min
     ) |>
-    na.omit() |>
     mutate(res = ifelse(name %in% .positive, 1.1 - res, res)) |>
     mutate(fn_name = as.factor(fn_name), name = factor(name, levels = .slt))
   if (nrow(.data) == 0) stop("The models being compared are identical.")

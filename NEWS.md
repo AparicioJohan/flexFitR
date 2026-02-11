@@ -1,8 +1,14 @@
+# flexFitR 1.2.2.0001
+
+## Bug fixes
+
+* Fixed issue with `plot.performance()` when reporting average metrics.
+
 # flexFitR 1.2.2
 
 ## New features
 
-* New functions added: `fn_lpl`, `fn_qpl`, `fn_qpl`.
+* New functions added: `fn_lpl()`, `fn_qpl()`, `fn_qpl()`.
 
 # flexFitR 1.2.1
 
