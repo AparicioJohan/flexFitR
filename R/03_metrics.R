@@ -249,6 +249,7 @@ plot.performance <- function(x,
   .data <- .data_performance |>
     select(fn_name, uid, any_of(.slt)) |>
     pivot_longer(cols = any_of(.slt), names_to = "name") |>
+    filter(!is.infinite(value)) |> # Check
     group_by(uid, name) |>
     mutate(
       o_min = min(value, na.rm = TRUE),
