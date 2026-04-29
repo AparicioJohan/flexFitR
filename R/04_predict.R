@@ -605,11 +605,8 @@ ff_deriv <- function(params, x_new, curve, fixed_params = NA, which = "fd") {
   params <- all.vars(formula)
   estimated_params <- estimated_params[names(estimated_params) %in% params]
   ff_gen <- function(equation, values) {
-    string <- paste(equation)[2]
-    for (i in seq_along(values)) {
-      string <- gsub(names(values)[i], values[i], string, fixed = TRUE)
-    }
-    eval(parse(text = string))
+    rhs <- equation[[length(equation)]]
+    eval(rhs, envir = as.list(values))
   }
   jac_matrix <- numDeriv::jacobian(
     func = ff_gen,
