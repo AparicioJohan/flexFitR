@@ -3,6 +3,7 @@
 ## Bug fixes
 
 * Fixed issue with `plot.performance()` when reporting average metrics.
+* Fixed minor bugs and issues.
 
 # flexFitR 1.2.2
 

@@ -75,8 +75,8 @@ mod
 #>    1 -15.5 19.5 449
 #> 
 #> Metrics:
-#>  Groups      Timing Convergence Iterations
-#>       1 0.3504 secs        100%   354 (id)
+#>  Groups   Timing Convergence Iterations
+#>       1 0.4 secs        100%   354 (id)
 ```
 
 Once the model is fitted, we can examine the output, extract the
@@ -246,7 +246,7 @@ mod_1
 #> 
 #> Metrics:
 #>  Groups      Timing Convergence Iterations
-#>       1 0.4093 secs        100%   473 (id)
+#>       1 0.3193 secs        100%   473 (id)
 ```
 
 After fitting the model, we can examine the results, plot the fitted
@@ -368,8 +368,8 @@ mod_2
 #>    1 38.6 61 99.8 0.449
 #> 
 #> Metrics:
-#>  Groups      Timing Convergence Iterations
-#>       1 0.4087 secs        100%   567 (id)
+#>  Groups     Timing Convergence Iterations
+#>       1 0.536 secs        100%   567 (id)
 coef(mod_2)
 #> # A tibble: 3 × 7
 #>     uid fn_name coefficient solution std.error `t value` `Pr(>|t|)`
@@ -407,7 +407,7 @@ mod_3
 #> 
 #> Metrics:
 #>  Groups      Timing Convergence Iterations
-#>       1 0.3306 secs        100%   313 (id)
+#>       1 0.2901 secs        100%   313 (id)
 coef(mod_3)
 #> # A tibble: 2 × 7
 #>     uid fn_name coefficient solution std.error `t value` `Pr(>|t|)`

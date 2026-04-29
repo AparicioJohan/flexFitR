@@ -7,7 +7,7 @@ final linear phase.
 ## Usage
 
 ``` r
-fn_lll(t, t1, t2, dt, k, beta = NULL)
+fn_lll(t, t1, t2, dt, k, beta)
 ```
 
 ## Arguments

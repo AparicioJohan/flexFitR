@@ -1,10 +1,23 @@
 # Changelog
 
+## flexFitR 1.2.2.0001
+
+### Bug fixes
+
+- Fixed issue with
+  [`plot.performance()`](https://apariciojohan.github.io/flexFitR/reference/plot.performance.md)
+  when reporting average metrics.
+
 ## flexFitR 1.2.2
+
+CRAN release: 2026-01-27
 
 ### New features
 
-- New functions added: `fn_lpl`, `fn_qpl`, `fn_qpl`.
+- New functions added:
+  [`fn_lpl()`](https://apariciojohan.github.io/flexFitR/reference/fn_lpl.md),
+  [`fn_qpl()`](https://apariciojohan.github.io/flexFitR/reference/fn_qpl.md),
+  [`fn_qpl()`](https://apariciojohan.github.io/flexFitR/reference/fn_qpl.md).
 
 ## flexFitR 1.2.1
 

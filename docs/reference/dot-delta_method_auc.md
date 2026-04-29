@@ -57,8 +57,8 @@ print(mod_1)
 #>   45 38.3 64.7 100.0 0.0026
 #> 
 #> Metrics:
-#>  Groups     Timing Convergence  Iterations
-#>       3 0.803 secs        100% 407.67 (id)
+#>  Groups      Timing Convergence  Iterations
+#>       3 0.8361 secs        100% 407.67 (id)
 #> 
 # AUC Prediction
 predict(mod_1, x = c(0, 108), type = "auc", id = 2)

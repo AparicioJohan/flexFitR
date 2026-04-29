@@ -63,7 +63,7 @@ print(mod)
 #> 
 #> Metrics:
 #>  Groups      Timing Convergence Iterations
-#>       2 0.3824 secs        100% 550.5 (id)
+#>       2 0.3946 secs        100% 550.5 (id)
 #> 
 mod_new <- subset(mod, id = 2)
 print(mod_new)
@@ -81,6 +81,6 @@ print(mod_new)
 #> 
 #> Metrics:
 #>  Groups      Timing Convergence Iterations
-#>       1 0.3824 secs        100%   532 (id)
+#>       1 0.3946 secs        100%   532 (id)
 #> 
 ```

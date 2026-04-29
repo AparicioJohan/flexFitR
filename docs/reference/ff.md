@@ -60,8 +60,8 @@ print(mod_1)
 #>   45 38.3 64.7 100.0 0.0026
 #> 
 #> Metrics:
-#>  Groups     Timing Convergence  Iterations
-#>       3 0.806 secs        100% 407.67 (id)
+#>  Groups      Timing Convergence  Iterations
+#>       3 1.1018 secs        100% 407.67 (id)
 #> 
 # Point Prediction
 predict(mod_1, x = 45, type = "point", id = 2)

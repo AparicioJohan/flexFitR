@@ -107,7 +107,7 @@ print(mod_1)
 #> 
 #> Metrics:
 #>  Groups      Timing Convergence Iterations
-#>       1 0.2931 secs        100%   532 (id)
+#>       1 0.3483 secs        100%   532 (id)
 #> 
 augment(mod_1)
 #> # A tibble: 8 × 10
