@@ -139,7 +139,7 @@ predict.modeler <- function(object,
       limit_inf <- min(data$x, na.rm = TRUE)
       limit_sup <- max(data$x, na.rm = TRUE)
     } else {
-      if (length(x) < 2) stop("Lenght of x needs to be of size 2 for AUC.")
+      if (length(x) < 2) stop("Length of x needs to be of size 2 for AUC.")
       limit_inf <- x[1]
       limit_sup <- x[2]
     }
