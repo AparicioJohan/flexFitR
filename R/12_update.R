@@ -86,6 +86,8 @@ update.modeler <- function(object,
   if (track) {
     old_metrics <- param_info[, c("uid", "sse")]
   }
+  # Options
+  o <- attr(object, "options")[c("parallel", "workers", "trace", "return_method")]
   # Re-fit
   new_object <- modeler(
     data = data,
@@ -100,7 +102,7 @@ update.modeler <- function(object,
     fixed_params = fixed_params,
     method = if (!is.null(method)) method else unique(object$metrics$method),
     subset = unique(param_info$uid),
-    options = attr(object, "options")[5:8],
+    options = o,
     control = attr(object, "control")
   )
   if (track) {
