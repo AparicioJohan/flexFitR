@@ -450,13 +450,13 @@ fn_lin_logis <- function(t, t1, t2, k) {
 #'   auc_label_size = 3
 #' )
 fn_quad_plat <- function(t, t1 = 45, t2 = 80, b = 1, k = 100) {
-  c <- suppressWarnings((k - b * (t2 - t1)) / (t2 - t1)^2)
+  cst <- suppressWarnings((k - b * (t2 - t1)) / (t2 - t1)^2)
   ifelse(
     test = t < t1,
     yes = 0,
     no = ifelse(
       test = t >= t1 & t <= t2,
-      yes = b * (t - t1) + c * (t - t1)^2,
+      yes = b * (t - t1) + cst * (t - t1)^2,
       no = k
     )
   )
@@ -679,7 +679,7 @@ fn_lpl <- function(t, t1, t2, dt, k, beta) {
 #'   n_points = 2000,
 #'   auc_label_size = 3
 #' )
-fn_lll <- function(t, t1, t2, dt, k, beta = NULL) {
+fn_lll <- function(t, t1, t2, dt, k, beta) {
   t3 <- t2 + dt
   ifelse(
     test = t <= t1,
