@@ -57,7 +57,7 @@ augment <- function(x, id = NULL, metadata = TRUE, ...) {
   .influence_residuals <- function(fit) {
     curve <- fit$fn_name
     rdf <- (fit$n_obs - fit$p)
-    stderr <- sqrt(fit$param$sse / rdf)
+    stderror <- sqrt(fit$param$sse / rdf)
     n <- fit$n_obs
     p <- fit$p
     x_vals <- fit$x
@@ -94,11 +94,11 @@ augment <- function(x, id = NULL, metadata = TRUE, ...) {
     )
     # Residuals
     raw_res <- y_vals - fitted.values
-    rstandard <- raw_res / stderr
-    rstudent <- raw_res / (stderr * sqrt(1 - hii))
+    rstandard <- raw_res / stderror
+    rstudent <- raw_res / (stderror * sqrt(1 - hii))
     rstudent[is.infinite(rstudent)] <- NaN
     # Cook D
-    cooks_d <- (raw_res^2 / (p * stderr^2)) * (hii / (1 - hii)^2)
+    cooks_d <- (raw_res^2 / (p * stderror^2)) * (hii / (1 - hii)^2)
     cooks_d[is.infinite(cooks_d)] <- NaN
     results <- data.frame(
       uid = uid,
