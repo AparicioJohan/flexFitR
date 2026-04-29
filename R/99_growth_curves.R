@@ -776,7 +776,7 @@ fn_qpl <- function(t, t1, t2, dt, b, k, beta) {
 #' t <- c(0, 29, 36, 42, 56, 76, 92, 100, 108)
 #' y <- c(0, 0, 4.379, 26.138, 78.593, 100, 100, 100, 100)
 #' fn <- "fn_lin_plat"
-#' minimizer(params, t, y, fn, fixed_params = fixed, metric = "rmse")
+#' minimizer(params, t, y, fn, fixed_params = fixed)
 #' res <- opm(
 #'   par = params,
 #'   fn = minimizer,
@@ -784,7 +784,6 @@ fn_qpl <- function(t, t1, t2, dt, b, k, beta) {
 #'   y = y,
 #'   curve = fn,
 #'   fixed_params = fixed,
-#'   metric = "rmse",
 #'   method = c("subplex"),
 #'   lower = -Inf,
 #'   upper = Inf

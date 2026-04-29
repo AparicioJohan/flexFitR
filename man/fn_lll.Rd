@@ -4,7 +4,7 @@
 \alias{fn_lll}
 \title{Linear–logistic–linear function}
 \usage{
-fn_lll(t, t1, t2, dt, k, beta = NULL)
+fn_lll(t, t1, t2, dt, k, beta)
 }
 \arguments{
 \item{t}{A numeric vector of input values (e.g., time).}
