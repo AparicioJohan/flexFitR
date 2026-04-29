@@ -137,6 +137,10 @@ anova.modeler <- function(object, full_model = NULL, ...) {
   numerator <- (rss_reduced - rss_full) / (p_full - p_reduced)
   denominator <- rss_full / (n - p_full)
   f_statistic <- numerator / denominator
+  # Warning
+  if (rss_full > rss_reduced) {
+    warning("rss_full > rss_reduced")
+  }
   # DF
   df1 <- p_full - p_reduced
   df2 <- n - p_full
