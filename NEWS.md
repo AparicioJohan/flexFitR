@@ -1,4 +1,4 @@
-# flexFitR 1.2.2.0001
+# flexFitR 1.2.3
 
 ## New features
 
