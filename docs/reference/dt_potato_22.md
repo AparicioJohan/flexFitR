@@ -1,7 +1,7 @@
-# Drone Data in Potato 2022
+# Drone-derived data from a potato breeding trial (2022)
 
-Vegetative indices and biomass related traits for a potato trial
-arranged in a p-rep design.
+Ground cover and plant height for a potato trial arranged in a p-rep
+design.
 
 ## Usage
 
@@ -11,15 +11,11 @@ dt_potato_22
 
 ## Format
 
-A tibble with 1568 rows and 17 variables:
+A tibble with 1764 rows and 9 variables:
 
 - Trial:
 
   chr trial name
-
-- DAP:
-
-  dbl denoting Days after planting
 
 - Plot:
 
@@ -33,22 +29,26 @@ A tibble with 1568 rows and 17 variables:
 
   dbl denoting range coordinate
 
-- Gen:
+- gid:
 
   chr denoting the genotype id
 
+- DAP:
+
+  dbl denoting Days after planting
+
+- GC:
+
+  dbl UAV-Derived Ground Cover
+
+- PH:
+
+  dbl UAV-Derived Plant Height
+
 - Yield:
 
-  dbl Total Yield measured at the end of the season
-
-- VineMaturity:
-
-  dbl VineMaturity measure once during the season
-
-- Red - Canopy:
-
-  dbl denoting the drone-derived traits
+  Total Yield
 
 ## Source
 
-UW - Potato Breeding Program
+UW - Potato Breeding Program 2022

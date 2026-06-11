@@ -14,12 +14,14 @@ observations, where X is the independent variable and Y is the dependent
 variable.
 
 ``` r
+
 library(flexFitR)
 library(dplyr)
 library(ggpubr)
 ```
 
 ``` r
+
 dt <- data.frame(X = 1:6, Y = c(12, 16, 44, 50, 95, 100))
 plot(explorer(dt, X, Y), type = "xy")
 ```
@@ -31,6 +33,7 @@ First, we define an objective function. In this case, the function
 and m is the slope of the regression.
 
 ``` r
+
 fn_lm <- function(x, b, m) {
   y <- b + m * x
   return(y)
@@ -43,6 +46,7 @@ visualizing the shape of the function before fitting the model to the
 data.
 
 ``` r
+
 plot_fn(fn = "fn_lm", params = c(b = 10, m = 5))
 ```
 
@@ -54,6 +58,7 @@ then a vector of parameters where we assign initial values to our
 coefficient b and coefficient m.
 
 ``` r
+
 mod <- dt |>
   modeler(
     x = X,
@@ -75,14 +80,15 @@ mod
 #>    1 -15.5 19.5 449
 #> 
 #> Metrics:
-#>  Groups   Timing Convergence Iterations
-#>       1 0.4 secs        100%   354 (id)
+#>  Groups     Timing Convergence Iterations
+#>       1 0.505 secs        100%   354 (id)
 ```
 
 Once the model is fitted, we can examine the output, extract the
 estimated parameters, make some plots, and predict new x values.
 
 ``` r
+
 a <- plot(mod, color = "blue", title = "Raw data")
 b <- plot(mod, type = 4, n_points = 200, color = "black")
 ggarrange(a, b)
@@ -99,6 +105,7 @@ we make use of the `coef` and `vcov` function, which only takes the
 model object as an argument.
 
 ``` r
+
 coef(mod)
 #> # A tibble: 2 × 7
 #>     uid fn_name coefficient solution std.error `t value` `Pr(>|t|)`
@@ -108,6 +115,7 @@ coef(mod)
 ```
 
 ``` r
+
 vcov(mod)
 #> $`1`
 #>           b          m
@@ -122,6 +130,7 @@ the fitted model as an object and X as the value for which we want to
 make the prediction.
 
 ``` r
+
 predict(mod, x = 4.5)
 #> # A tibble: 1 × 5
 #>     uid fn_name x_new predicted.value std.error
@@ -135,10 +144,12 @@ similar to those obtained with our package.
 ### Comparison with `lm`
 
 ``` r
+
 mo <- lm(Y ~ X, data = dt)
 ```
 
 ``` r
+
 summary(mo)$coefficients
 #>              Estimate Std. Error   t value    Pr(>|t|)
 #> (Intercept) -15.46667   9.859988 -1.568629 0.191812151
@@ -146,6 +157,7 @@ summary(mo)$coefficients
 ```
 
 ``` r
+
 vcov(mo)
 #>             (Intercept)          X
 #> (Intercept)    97.21937 -22.435238
@@ -189,6 +201,7 @@ have a piece-wise regression, parameterized by `t1`, `t2`, and `k`, and
 defined by the following expression:
 
 ``` r
+
 fun <- function(t, t1 = 45, t2 = 80, k = 0.9) {
   ifelse(
     test = t < t1,
@@ -205,6 +218,7 @@ fun <- function(t, t1 = 45, t2 = 80, k = 0.9) {
 Before fitting the model, let’s take a look at the example dataset.
 
 ``` r
+
 dt <- data.frame(
   time = c(0, 29, 36, 42, 56, 76, 92, 100, 108),
   variable = c(0, 0, 0.67, 15.11, 77.38, 99.81, 99.81, 99.81, 99.81)
@@ -218,12 +232,14 @@ We can make a plot of the piecewise function and then fit the model
 using the `modeler` function.
 
 ``` r
+
 plot_fn(fn = "fun", params = c(t1 = 25, t2 = 70, k = 90))
 ```
 
 ![Plot function](how_to_start_files/figure-html/unnamed-chunk-16-1.png)
 
 ``` r
+
 mod_1 <- dt |>
   modeler(
     x = time,
@@ -246,7 +262,7 @@ mod_1
 #> 
 #> Metrics:
 #>  Groups      Timing Convergence Iterations
-#>       1 0.3193 secs        100%   473 (id)
+#>       1 0.4889 secs        100%   473 (id)
 ```
 
 After fitting the model, we can examine the results, plot the fitted
@@ -255,12 +271,14 @@ the variance-covariance matrix, and make predictions for unknown values
 of x.
 
 ``` r
+
 plot(mod_1)
 ```
 
 ![Plot evolution](how_to_start_files/figure-html/unnamed-chunk-18-1.png)
 
 ``` r
+
 # Coefficients
 coef(mod_1)
 #> # A tibble: 3 × 7
@@ -272,6 +290,7 @@ coef(mod_1)
 ```
 
 ``` r
+
 # Variance-Covariance Matrix
 vcov(mod_1)
 #> $`1`
@@ -284,6 +303,7 @@ vcov(mod_1)
 ```
 
 ``` r
+
 # Making predictions
 predict(mod_1, x = 45)
 #> # A tibble: 1 × 5
@@ -295,6 +315,7 @@ predict(mod_1, x = 45)
 ### Comparison with `nls`
 
 ``` r
+
 mod_nls <- dt |>
   nls(
     formula = variable ~ fun(time, t1, t2, k),
@@ -345,6 +366,7 @@ parameters argument accordingly. This approach is primarily for
 illustrative purposes.
 
 ``` r
+
 init <- data.frame(uid = 1, t1 = 20, t2 = 30, k = 0.8)
 
 mod_2 <- dt |>
@@ -368,8 +390,8 @@ mod_2
 #>    1 38.6 61 99.8 0.449
 #> 
 #> Metrics:
-#>  Groups     Timing Convergence Iterations
-#>       1 0.536 secs        100%   567 (id)
+#>  Groups      Timing Convergence Iterations
+#>       1 0.8428 secs        100%   567 (id)
 coef(mod_2)
 #> # A tibble: 3 × 7
 #>     uid fn_name coefficient solution std.error `t value` `Pr(>|t|)`
@@ -382,6 +404,7 @@ coef(mod_2)
 ### Fixing parameters
 
 ``` r
+
 fix <- data.frame(uid = 1, k = 98)
 
 mod_3 <- dt |>
@@ -407,7 +430,7 @@ mod_3
 #> 
 #> Metrics:
 #>  Groups      Timing Convergence Iterations
-#>       1 0.2901 secs        100%   313 (id)
+#>       1 0.4835 secs        100%   313 (id)
 coef(mod_3)
 #> # A tibble: 2 × 7
 #>     uid fn_name coefficient solution std.error `t value` `Pr(>|t|)`
@@ -420,6 +443,7 @@ plot(mod_3)
 ![Plot evolution](how_to_start_files/figure-html/unnamed-chunk-24-1.png)
 
 ``` r
+
 performance(mod_1, mod_2, mod_3)
 #>   fn_name uid df nobs p logLik   AIC  AICc   BIC Sigma   SSE  MAE  MSE RMSE R2
 #> 1   fun_1   1  4    9 3   0.72  6.56 16.56  7.35  0.27  0.45 0.07 0.05 0.22  1

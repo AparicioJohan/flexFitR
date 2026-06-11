@@ -1,5 +1,9 @@
 # flexFitR 1.2.2.0001
 
+## New features
+
+* New example dataset `dt_potato_22`
+
 ## Bug fixes
 
 * Fixed issue with `plot.performance()` when reporting average metrics.

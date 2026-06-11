@@ -3,6 +3,7 @@
 ## Loading dataset and libraries
 
 ``` r
+
 library(flexFitR)
 library(dplyr)
 library(kableExtra)
@@ -24,6 +25,7 @@ head(dt_potato) |> kable()
 ## Modeling
 
 ``` r
+
 plots <- 2:7
 mod <- dt_potato |>
   modeler(
@@ -39,6 +41,7 @@ mod <- dt_potato |>
 ## Plotting predictions and derivatives
 
 ``` r
+
 # Raw data with fitted curves
 plot(mod, type = 1, color = "blue", id = plots, title = "Fitted curves")
 ```
@@ -46,6 +49,7 @@ plot(mod, type = 1, color = "blue", id = plots, title = "Fitted curves")
 ![plot derivatives](plotting_files/figure-html/unnamed-chunk-3-1.png)
 
 ``` r
+
 # Model coefficients
 plot(mod, type = 2, color = "blue", id = plots, label_size = 10)
 ```
@@ -53,21 +57,25 @@ plot(mod, type = 2, color = "blue", id = plots, label_size = 10)
 ![plot coef](plotting_files/figure-html/unnamed-chunk-4-1.png)
 
 ``` r
+
 # Fitted curves only
 c <- plot(mod, type = 3, color = "blue", id = plots, title = "Fitted curves")
 ```
 
 ``` r
+
 # Fitted curves with confidence intervals
 d <- plot(mod, type = 4, n_points = 200, title = "Fitted curve (uid = 2)")
 ```
 
 ``` r
+
 # First derivative with confidence intervals
 e <- plot(mod, type = 5, n_points = 200, title = "1st Derivative (uid = 2)")
 ```
 
 ``` r
+
 # Second derivative with confidence intervals
 f <- plot(mod, type = 6, n_points = 200, title = "2nd Derivative (uid = 2)")
 ggarrange(c, d, e, f)

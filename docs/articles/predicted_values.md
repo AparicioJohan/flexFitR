@@ -22,6 +22,7 @@ Each type of prediction includes corresponding standard errors, which
 are calculated using the delta method.
 
 ``` r
+
 library(flexFitR)
 library(dplyr)
 library(kableExtra)
@@ -49,6 +50,7 @@ dataset to fit logistic models of the form:
 \\f(t) = \frac{L}{1 + e^{-k(t - t_0)}}\\
 
 ``` r
+
 fun_logistic <- function(t, L, k, t0) L / (1 + exp(-k * (t - t0)))
 ```
 
@@ -58,10 +60,12 @@ model, we’ll take a closer look at the parameter estimates, visualize
 the fitted curves, and start making predictions.
 
 ``` r
+
 plots <- c(40, 166)
 ```
 
 ``` r
+
 mod_1 <- dt_potato |>
   modeler(
     x = DAP,
@@ -74,6 +78,7 @@ mod_1 <- dt_potato |>
 ```
 
 ``` r
+
 print(mod_1)
 #> 
 #> Call:
@@ -90,10 +95,11 @@ print(mod_1)
 #> 
 #> Metrics:
 #>  Groups      Timing Convergence Iterations
-#>       2 0.3463 secs        100%   712 (id)
+#>       2 0.8113 secs        100%   712 (id)
 ```
 
 ``` r
+
 plot(mod_1, id = plots)
 ```
 
@@ -108,6 +114,7 @@ default, the prediction type is set to `"point"`, so it is unnecessary
 to explicitly include `type = "point"`.
 
 ``` r
+
 points <- predict(mod_1, x = 55, type = "point", se_interval = "confidence")
 points |> kable()
 ```
@@ -121,6 +128,7 @@ A great way to visualize this is by plotting the fitted curve and
 overlaying the predicted points.
 
 ``` r
+
 mod_1 |>
   plot(id = plots, type = 3) +
   color_palette(palette = "jco") +
@@ -136,6 +144,7 @@ intervals you want to generate (sometimes referred to as narrow vs. wide
 intervals).
 
 ``` r
+
 points <- predict(mod_1, x = 55, type = "point", se_interval = "prediction")
 points |> kable()
 ```
@@ -158,6 +167,7 @@ high-resolution approximation here).
 \\ \text{Area} = \int\_{0}^{T} \frac{L}{1 + e^{-k(t - t_0)}} \\ dt \\
 
 ``` r
+
 predict(mod_1, x = c(0, 108), type = "auc", n_points = 500) |> kable()
 ```
 
@@ -175,6 +185,7 @@ their standard errors. No additional arguments are required for this
 functionality.
 
 ``` r
+
 predict(mod_1, formula = ~ k / L * 100) |> kable()
 ```
 
@@ -184,6 +195,7 @@ predict(mod_1, formula = ~ k / L * 100) |> kable()
 | 166 | fun_logistic | k/L \* 100 |       0.2644616 | 0.0312821 |
 
 ``` r
+
 predict(mod_1, formula = ~ (k * L) / 4) |> kable()
 ```
 
@@ -224,6 +236,7 @@ visualize the first derivative we can use the
 [`plot()`](https://rdrr.io/r/graphics/plot.default.html) function.
 
 ``` r
+
 plot(mod_1, id = plots, type = 5, color = "blue", add_ci = FALSE)
 ```
 
@@ -235,6 +248,7 @@ programmatically, and the corresponding value of \\\hat{f}(x)\\ can be
 computed using point predictions as follows:
 
 ``` r
+
 interval <- seq(0, 100, by = 0.1)
 points_fd <- mod_1 |>
   predict(x = interval, type = "fd") |>
@@ -252,6 +266,7 @@ points_fd |> kable()
 | 166 | 6.480117 |      42.8 |
 
 ``` r
+
 mod_1 |>
   plot(id = plots, type = 3) +
   color_palette(palette = "jco") +
@@ -264,6 +279,7 @@ mod_1 |>
 ![plot deriv](predicted_values_files/figure-html/unnamed-chunk-15-1.png)
 
 ``` r
+
 points_fd$y_hat <- sapply(
   X = plots,
   FUN = \(i) {
@@ -281,6 +297,7 @@ points_fd |> kable()
 | 166 | 6.480117 |      42.8 | 49.23131 |
 
 ``` r
+
 mod_1 |>
   plot(id = plots, type = 3) +
   color_palette(palette = "jco") +
@@ -298,6 +315,7 @@ changing, helping to determine when growth starts to slow down or speed
 up.
 
 ``` r
+
 plot(mod_1, id = plots, type = 6, color = "blue", add_ci = FALSE)
 ```
 
@@ -309,6 +327,7 @@ minimum values, and plot these changes for a deeper understanding of the
 growth dynamics.
 
 ``` r
+
 points_sd <- mod_1 |>
   predict(x = interval, type = "sd") |>
   group_by(uid) |>
@@ -327,6 +346,7 @@ points_sd |> kable()
 | 166 | 0.6530569 |      37.8 | -0.6530419 |      47.9 |
 
 ``` r
+
 mod_1 |>
   plot(id = plots, type = 3) +
   color_palette(palette = "jco") +

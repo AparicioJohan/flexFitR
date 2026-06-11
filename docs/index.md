@@ -13,6 +13,7 @@ processing.
 Install released version from CRAN:
 
 ``` r
+
 install.packages("flexFitR")
 ```
 
@@ -20,6 +21,7 @@ You can also install the development version of flexFitR from
 [GitHub](https://github.com/AparicioJohan/flexFitR) with:
 
 ``` r
+
 # install.packages("devtools")
 devtools::install_github("AparicioJohan/flexFitR")
 ```
@@ -54,6 +56,7 @@ Here’s a simple example to get you started with
 demonstrates fitting a piecewise regression model:
 
 ``` r
+
 library(flexFitR)
 
 dt <- data.frame(
@@ -66,6 +69,7 @@ plot(explorer(dt, time, variable), type = "xy")
 ![plot xy](reference/figures/README_unnamed-chunk-2-1.png)
 
 ``` r
+
 fn_lin_plat <- function(t, t1 = 45, t2 = 80, k = 0.9) {
   ifelse(
     test = t < t1,
@@ -76,6 +80,7 @@ fn_lin_plat <- function(t, t1 = 45, t2 = 80, k = 0.9) {
 ```
 
 ``` r
+
 # Fitting a linear plateau function
 mod_1 <- dt |>
   modeler(
@@ -106,6 +111,7 @@ Metrics:
 ```
 
 ``` r
+
 # Auto plot
 plot(mod_1)
 ```

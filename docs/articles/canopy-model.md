@@ -15,6 +15,7 @@ images were collected in 2020 and processed in 2024.
 ## Loading libraries
 
 ``` r
+
 library(flexFitR)
 library(dplyr)
 library(kableExtra)
@@ -29,17 +30,20 @@ summaries and descriptive statistics, as well as visualizations to help
 understand the temporal evolution of each plot.
 
 ``` r
+
 data(dt_potato)
 explorer <- explorer(dt_potato, x = DAP, y = Canopy, id = Plot)
 ```
 
 ``` r
+
 names(explorer)
 #> [1] "summ_vars"      "summ_metadata"  "locals_min_max" "dt_long"       
 #> [5] "metadata"       "x_var"
 ```
 
 ``` r
+
 p1 <- plot(explorer, type = "evolution", return_gg = TRUE, add_avg = TRUE)
 p2 <- plot(explorer, type = "x_by_var", return_gg = TRUE)
 ggarrange(p1, p2)
@@ -88,6 +92,7 @@ In this example, we have 196 plots but will only fit the model for plots
 and set initial values for the parameters.
 
 ``` r
+
 mod_1 <- dt_potato |>
   modeler(
     x = DAP,
@@ -113,19 +118,21 @@ mod_1
 #> 
 #> Metrics:
 #>  Groups     Timing Convergence Iterations
-#>       2 0.626 secs        100% 551.5 (id)
+#>       2 0.665 secs        100% 551.5 (id)
 ```
 
 After fitting, we can inspect the model summary and visualize the fit
 using the plot function:
 
 ``` r
+
 plot(mod_1, id = c(166, 40))
 ```
 
 ![plot fit](canopy-model_files/figure-html/unnamed-chunk-9-1.png)
 
 ``` r
+
 kable(mod_1$param)
 ```
 
@@ -152,6 +159,7 @@ The functions `coef`, `confint`, and `vcov` are used as follows:
   variability.
 
 ``` r
+
 coef(mod_1)
 #> # A tibble: 6 × 7
 #>     uid fn_name     coefficient solution std.error `t value` `Pr(>|t|)`
@@ -165,6 +173,7 @@ coef(mod_1)
 ```
 
 ``` r
+
 confint(mod_1)
 #> # A tibble: 6 × 7
 #>     uid fn_name     coefficient solution std.error ci_lower ci_upper
@@ -178,6 +187,7 @@ confint(mod_1)
 ```
 
 ``` r
+
 vcov(mod_1)
 #> $`40`
 #>               t1            t2            k
@@ -203,6 +213,7 @@ parameter values for each plot and even fix certain parameters to
 improve the model.
 
 ``` r
+
 initials <- data.frame(
   uid = c(166, 40),
   t1 = c(70, 60),
@@ -212,6 +223,7 @@ initials <- data.frame(
 ```
 
 ``` r
+
 kable(initials)
 ```
 
@@ -221,6 +233,7 @@ kable(initials)
 |  40 |  60 |  80 | 100 |
 
 ``` r
+
 mod_2 <- dt_potato |>
   modeler(
     x = DAP,
@@ -233,12 +246,14 @@ mod_2 <- dt_potato |>
 ```
 
 ``` r
+
 plot(mod_2, id = c(166, 40))
 ```
 
 ![plot fit 2](canopy-model_files/figure-html/unnamed-chunk-16-1.png)
 
 ``` r
+
 kable(mod_2$param)
 ```
 
@@ -261,10 +276,12 @@ unchanged. For example, we can fix the parameter `k`, which represents
 the maximum canopy value, as follows:
 
 ``` r
+
 fixed_params <- list(k = "max(y)")
 ```
 
 ``` r
+
 mod_3 <- dt_potato |>
   modeler(
     x = DAP,
@@ -278,12 +295,14 @@ mod_3 <- dt_potato |>
 ```
 
 ``` r
+
 plot(mod_3, id = c(166, 40))
 ```
 
 ![plot fit 3](canopy-model_files/figure-html/unnamed-chunk-19-1.png)
 
 ``` r
+
 kable(mod_3$param)
 ```
 
@@ -300,6 +319,7 @@ accuracy of their estimates by reducing the complexity of the model.
 ## 6. Comparing estimations
 
 ``` r
+
 rbind.data.frame(
   mutate(mod_1$param, model = "1", .before = uid),
   mutate(mod_2$param, model = "2", .before = uid),
@@ -321,6 +341,7 @@ coefficients and sum of square errors (`sse`) to evaluate the impact of
 these changes.
 
 ``` r
+
 comparison <- performance(mod_1, mod_2, mod_3)
 comparison |>
   filter(uid %in% 166) |>
@@ -334,6 +355,7 @@ comparison |>
 | fn_lin_plat_3 | 166 | 3 | 8 | 2 | -17.88 | 41.76 | 47.76 | 42.00 | 2.61 | 40.91 | 1.27 | 5.11 | 2.26 | 1.0 |
 
 ``` r
+
 plot(comparison, id = 166)
 ```
 
@@ -351,6 +373,7 @@ of the parameters. Below are some examples demonstrating these
 capabilities:
 
 ``` r
+
 # Point Prediction
 predict(mod_1, x = 45, type = "point", id = 166) |> kable()
 ```
@@ -360,6 +383,7 @@ predict(mod_1, x = 45, type = "point", id = 166) |> kable()
 | 166 | fn_lin_plat |    45 |        51.62246 |  1.656734 |
 
 ``` r
+
 # AUC Prediction
 predict(mod_1, x = c(0, 108), type = "auc", id = 166) |> kable()
 ```
@@ -369,6 +393,7 @@ predict(mod_1, x = c(0, 108), type = "auc", id = 166) |> kable()
 | 166 | fn_lin_plat |     0 |   108 |        6342.308 |  93.61781 |
 
 ``` r
+
 # Function of the parameters
 predict(mod_1, formula = ~ t2 - t1, id = 166) |> kable()
 ```
@@ -393,6 +418,7 @@ using the function
 which automatically detects the available cores.
 
 ``` r
+
 mod <- dt_potato |>
   modeler(
     x = DAP,

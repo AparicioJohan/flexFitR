@@ -128,7 +128,9 @@
 Example Dataset
 
 - [`dt_potato`](https://apariciojohan.github.io/flexFitR/reference/dt_potato.md)
-  : Drone-derived data from a potato breeding trial
+  : Drone-derived data from a potato breeding trial (2020)
+- [`dt_potato_22`](https://apariciojohan.github.io/flexFitR/reference/dt_potato_22.md)
+  : Drone-derived data from a potato breeding trial (2022)
 
 ## Growth Modelling
 

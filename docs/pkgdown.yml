@@ -1,4 +1,4 @@
-pandoc: '3.4'
+pandoc: 3.8.3
 pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
@@ -7,7 +7,7 @@ articles:
   maturity-model: maturity-model.html
   plotting: plotting.html
   predicted_values: predicted_values.html
-last_built: 2026-04-29T15:53Z
+last_built: 2026-06-11T04:06Z
 urls:
   reference: https://apariciojohan.github.io/flexFitR/reference
   article: https://apariciojohan.github.io/flexFitR/articles

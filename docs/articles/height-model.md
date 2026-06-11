@@ -20,6 +20,7 @@ images were collected in 2022 and processed in 2024.
 ## Loading libraries
 
 ``` r
+
 library(flexFitR)
 library(dplyr)
 library(kableExtra)
@@ -35,17 +36,20 @@ understanding the temporal evolution of the variables for each plot and
 their correlations.
 
 ``` r
+
 data(dt_potato_22)
 results <- explorer(dt_potato_22, x = DAP, y = c(PH, Canopy), id = Plot)
 ```
 
 ``` r
+
 names(results)
 #> [1] "summ_vars"      "summ_metadata"  "locals_min_max" "dt_long"       
 #> [5] "metadata"       "x_var"
 ```
 
 ``` r
+
 p1 <- plot(results, type = "evolution", return_gg = TRUE, add_avg = TRUE)
 p2 <- plot(results, type = "x_by_var", return_gg = TRUE)
 ggarrange(p1, p2, nrow = 2)
@@ -54,6 +58,7 @@ ggarrange(p1, p2, nrow = 2)
 ![plot corr](height-model_files/figure-html/unnamed-chunk-5-1.png)
 
 ``` r
+
 kable(mutate_if(filter(results$summ_vars, var == "PH"), is.numeric, round, 2))
 ```
 
@@ -87,10 +92,12 @@ The parameters find here will serve as fixed parameters in the plant
 height model.
 
 ``` r
+
 fixed_params <- data.frame(uid = c(195, 40), k = c(100, 100))
 ```
 
 ``` r
+
 mod_1 <- dt_potato_22 |>
   modeler(
     x = DAP,
@@ -105,12 +112,14 @@ mod_1 <- dt_potato_22 |>
 ```
 
 ``` r
+
 plot(mod_1, id = c(195, 40))
 ```
 
 ![plot fit](height-model_files/figure-html/unnamed-chunk-10-1.png)
 
 ``` r
+
 kable(mod_1$param)
 ```
 
@@ -143,6 +152,7 @@ canopy model and use them as fixed parameters in the plant height model.
 This ensures consistency between the two models.
 
 ``` r
+
 fixed_params <- mod_1 |>
   pluck("param") |>
   select(uid, t1)
@@ -158,6 +168,7 @@ Additionally, we can specify initial values for the parameters of each
 plot to improve the model’s convergence.
 
 ``` r
+
 initials <- mod_1 |>
   pluck("param") |>
   select(uid, t1, t2) |>
@@ -183,6 +194,7 @@ plots 195 and 40 as a subset. The `fn_exp2_exp` function is defined, and
 we set initial values for the parameters.
 
 ``` r
+
 mod_2 <- dt_potato_22 |>
   modeler(
     x = DAP,
@@ -200,12 +212,14 @@ After fitting, we can inspect the model summary and visualize the fit
 using the plot function:
 
 ``` r
+
 plot(mod_2, id = c(195, 40))
 ```
 
 ![plot fit 2](height-model_files/figure-html/unnamed-chunk-15-1.png)
 
 ``` r
+
 kable(mod_2$param)
 ```
 
@@ -231,6 +245,7 @@ The functions `coef`, `confint`, and `vcov` are used as follows:
   variability.
 
 ``` r
+
 coef(mod_2)
 #> # A tibble: 6 × 6
 #>     uid coefficient  solution std.error `t value` `Pr(>|t|)`
@@ -244,6 +259,7 @@ coef(mod_2)
 ```
 
 ``` r
+
 confint(mod_2)
 #> # A tibble: 6 × 6
 #>     uid coefficient  solution std.error  ci_lower  ci_upper
@@ -257,6 +273,7 @@ confint(mod_2)
 ```
 
 ``` r
+
 vcov(mod_2)
 #> $`40`
 #>                  t2         alpha          beta
@@ -278,6 +295,7 @@ to reach maximum plant height, we can use the predict function to
 calculate the expected maximum height at that specific time point.
 
 ``` r
+
 # Maximum Plant Height
 predict(mod_2, x = 64.5550589254, id = 40)
 #> # A tibble: 1 × 4
@@ -304,6 +322,7 @@ cores with
 the process becomes much more efficient.
 
 ``` r
+
 mod <- dt_potato_22 |>
   modeler(
     x = DAP,

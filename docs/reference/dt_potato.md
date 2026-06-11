@@ -1,4 +1,4 @@
-# Drone-derived data from a potato breeding trial
+# Drone-derived data from a potato breeding trial (2020)
 
 Canopy and Green Leaf Index for a potato trial arranged in a p-rep
 design.
@@ -47,4 +47,4 @@ A tibble with 1372 rows and 8 variables:
 
 ## Source
 
-UW - Potato Breeding Program
+UW - Potato Breeding Program 2020

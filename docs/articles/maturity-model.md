@@ -35,6 +35,7 @@ constraints to ensure this relationship hold.
 ## Loading libraries
 
 ``` r
+
 library(flexFitR)
 library(dplyr)
 library(kableExtra)
@@ -49,11 +50,13 @@ summaries and visualizations to help understand the temporal evolution
 of each plot.
 
 ``` r
+
 data(dt_potato)
 explorer <- explorer(dt_potato, x = DAP, y = c(GLI), id = Plot)
 ```
 
 ``` r
+
 p1 <- plot(explorer, type = "evolution", return_gg = TRUE, add_avg = TRUE)
 p2 <- plot(explorer, type = "x_by_var", return_gg = TRUE)
 ggarrange(p1, p2, nrow = 1)
@@ -62,6 +65,7 @@ ggarrange(p1, p2, nrow = 1)
 ![plot corr](maturity-model_files/figure-html/unnamed-chunk-4-1.png)
 
 ``` r
+
 kable(mutate_if(explorer$summ_vars, is.numeric, round, 2))
 ```
 
@@ -90,6 +94,7 @@ t_1 \leq t \leq t_2 \\ k & \text{if } t_2 \leq t \leq t_3 \\ k + \beta
 \cdot (t - t_3) & \text{if } t \> t_3 \end{cases} \end{equation}\\
 
 ``` r
+
 plot_fn(
   fn = "fn_lin_pl_lin",
   params = c(t1 = 38.7, t2 = 62, t3 = 90, k = 0.32, beta = -0.01),
@@ -116,6 +121,7 @@ the end of the curve), we specify bounds in the modeler function as
 follows:
 
 ``` r
+
 # Define constraints and bounds for the model
 lower_bounds <- c(t1 = 0, t2 = 0, dt = 0, k = 0, beta = -Inf)
 upper_bounds <- c(t1 = Inf, t2 = Inf, dt = Inf, k = Inf, beta = 0)
@@ -130,6 +136,7 @@ arguments to `modeler`. In this vignette, we fit the model for plots 195
 and 40 as a `subset` of the total 196 plots.
 
 ``` r
+
 mod_1 <- dt_potato |>
   modeler(
     x = DAP,
@@ -156,6 +163,7 @@ After fitting, we can inspect the model summary and visualize the fit
 using the `plot` function:
 
 ``` r
+
 print(mod_1)
 #> 
 #> Call:
@@ -172,16 +180,18 @@ print(mod_1)
 #> 
 #> Metrics:
 #>  Groups      Timing Convergence Iterations
-#>       2 0.6015 secs        100%   311 (id)
+#>       2 0.8616 secs        100%   311 (id)
 ```
 
 ``` r
+
 plot(mod_1, id = c(195, 40))
 ```
 
 ![plot fit 1](maturity-model_files/figure-html/unnamed-chunk-10-1.png)
 
 ``` r
+
 kable(mod_1$param)
 ```
 
@@ -207,6 +217,7 @@ The functions `coef`, `confint`, and `vcov` are used as follows:
   variability.
 
 ``` r
+
 coef(mod_1, id = 40)
 #> # A tibble: 5 × 7
 #>     uid fn_name coefficient solution std.error `t value`  `Pr(>|t|)`
@@ -219,6 +230,7 @@ coef(mod_1, id = 40)
 ```
 
 ``` r
+
 confint(mod_1, id = 40)
 #> # A tibble: 5 × 7
 #>     uid fn_name coefficient solution std.error ci_lower ci_upper
@@ -231,6 +243,7 @@ confint(mod_1, id = 40)
 ```
 
 ``` r
+
 vcov(mod_1, id = 40)
 #> $`40`
 #>                 t1            t2            dt             k          beta
@@ -250,6 +263,7 @@ This allows us to view the estimated coefficients and their associated
 confidence intervals for each group.
 
 ``` r
+
 plot(mod_1, type = 2, id = c(195, 40), label_size = 8)
 ```
 
@@ -261,6 +275,7 @@ confidence interval (blue-dashed line), and prediction interval
 derivative, indicating the rate of change over time.
 
 ``` r
+
 a <- plot(mod_1, type = 4, color = "black", title = "Fitted Curve + CIs & PIs")
 b <- plot(mod_1, type = 5, color = "black")
 ggarrange(a, b)

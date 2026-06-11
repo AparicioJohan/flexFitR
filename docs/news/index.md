@@ -7,6 +7,7 @@
 - Fixed issue with
   [`plot.performance()`](https://apariciojohan.github.io/flexFitR/reference/plot.performance.md)
   when reporting average metrics.
+- Fixed minor bugs and issues.
 
 ## flexFitR 1.2.2
 

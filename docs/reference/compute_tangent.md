@@ -47,7 +47,7 @@ A tibble with one row per tangent line and the following columns:
 ``` r
 library(flexFitR)
 library(ggplot2)
-#> Warning: package 'ggplot2' was built under R version 4.5.2
+#> Warning: package 'ggplot2' was built under R version 4.5.3
 data(dt_potato)
 mod <- dt_potato |>
   modeler(
