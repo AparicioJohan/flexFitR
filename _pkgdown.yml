@@ -76,6 +76,7 @@ reference:
   desc: Example Dataset
 - contents:
   - dt_potato
+  - dt_potato_22
 - title: Growth Modelling
   desc: Collection of functions
 - contents:
