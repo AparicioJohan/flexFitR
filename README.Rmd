@@ -36,8 +36,8 @@ install.packages("flexFitR")
 You can also install the development version of flexFitR from [GitHub](https://github.com/AparicioJohan/flexFitR) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("AparicioJohan/flexFitR")
+# install.packages("pak")
+pak::pkg_install("AparicioJohan/flexFitR")
 ```
 
 ## Features

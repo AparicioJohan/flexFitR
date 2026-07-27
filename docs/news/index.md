@@ -1,6 +1,12 @@
 # Changelog
 
-## flexFitR 1.2.2.0001
+## flexFitR 1.2.3
+
+CRAN release: 2026-06-11
+
+### New features
+
+- New example dataset `dt_potato_22`
 
 ### Bug fixes
 

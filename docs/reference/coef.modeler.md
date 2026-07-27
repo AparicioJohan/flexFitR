@@ -75,8 +75,8 @@ print(mod_1)
 #>   45 38.3 64.7 100.0 0.0026
 #> 
 #> Metrics:
-#>  Groups     Timing Convergence  Iterations
-#>       3 0.855 secs        100% 407.67 (id)
+#>  Groups      Timing Convergence  Iterations
+#>       3 0.5948 secs        100% 407.67 (id)
 #> 
 coef(mod_1, id = 2)
 #> # A tibble: 3 × 7

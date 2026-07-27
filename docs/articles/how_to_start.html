@@ -31,7 +31,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">flexFitR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.2.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.2.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -151,8 +151,8 @@ to our coefficient b and coefficient m.</p>
 <span><span class="co">#&gt;    1 -15.5 19.5 449</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
-<span><span class="co">#&gt;  Groups     Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;       1 0.505 secs        100%   354 (id)</span></span></code></pre></div>
+<span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
+<span><span class="co">#&gt;       1 0.1856 secs        100%   354 (id)</span></span></code></pre></div>
 <p>Once the model is fitted, we can examine the output, extract the
 estimated parameters, make some plots, and predict new x values.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -295,7 +295,7 @@ using the <code>modeler</code> function.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
 <span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;       1 0.4889 secs        100%   473 (id)</span></span></code></pre></div>
+<span><span class="co">#&gt;       1 0.1907 secs        100%   473 (id)</span></span></code></pre></div>
 <p>After fitting the model, we can examine the results, plot the fitted
 curve, extract the coefficients and their associated p-values, obtain
 the variance-covariance matrix, and make predictions for unknown values
@@ -360,9 +360,9 @@ of x.</p>
 <span><span class="co">#&gt; 38.60286 61.04288 99.81000</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/vcov.html" class="external-link">vcov</a></span><span class="op">(</span><span class="va">mod_nls</span><span class="op">)</span></span>
 <span><span class="co">#&gt;               t1           t2             k</span></span>
-<span><span class="co">#&gt; t1  6.062452e-03 -0.002940973 -6.025873e-13</span></span>
+<span><span class="co">#&gt; t1  6.062452e-03 -0.002940973 -6.025872e-13</span></span>
 <span><span class="co">#&gt; t2 -2.940973e-03  0.008433026  4.205209e-03</span></span>
-<span><span class="co">#&gt; k  -6.025873e-13  0.004205209  1.870417e-02</span></span>
+<span><span class="co">#&gt; k  -6.025872e-13  0.004205209  1.870417e-02</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">mod_nls</span>, newdata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>time <span class="op">=</span> <span class="fl">45</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 28.45357</span></span></code></pre></div>
 <p>As we can see, we get very similar results when compared to
@@ -405,7 +405,7 @@ approach is primarily for illustrative purposes.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
 <span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;       1 0.8428 secs        100%   567 (id)</span></span>
+<span><span class="co">#&gt;       1 0.2214 secs        100%   567 (id)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">mod_2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 7</span></span></span>
 <span><span class="co">#&gt;     uid fn_name coefficient solution std.error `t value` `Pr(&gt;|t|)`</span></span>
@@ -443,7 +443,7 @@ approach is primarily for illustrative purposes.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
 <span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;       1 0.4835 secs        100%   313 (id)</span></span>
+<span><span class="co">#&gt;       1 0.1816 secs        100%   313 (id)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">mod_3</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 7</span></span></span>
 <span><span class="co">#&gt;     uid fn_name coefficient solution std.error `t value` `Pr(&gt;|t|)`</span></span>

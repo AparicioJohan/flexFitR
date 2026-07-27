@@ -22,8 +22,8 @@ You can also install the development version of flexFitR from
 
 ``` r
 
-# install.packages("devtools")
-devtools::install_github("AparicioJohan/flexFitR")
+# install.packages("pak")
+pak::pkg_install("AparicioJohan/flexFitR")
 ```
 
 ## Features
@@ -98,8 +98,8 @@ Call:
 variable ~ fn_lin_plat(time, t1, t2, k) 
 
 Residuals (`Standardized`):
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
- 0.0000  0.0000  0.0000  0.2722  0.0000  2.4495 
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+0.000e+00 0.000e+00 0.000e+00 2.722e-01 1.000e-08 2.449e+00 
 
 Optimization Results `head()`:
  uid   t1 t2    k   sse
@@ -107,7 +107,7 @@ Optimization Results `head()`:
 
 Metrics:
  Groups      Timing Convergence Iterations
-      1 0.1081 secs        100%   511 (id)
+      1 0.2479 secs        100%   511 (id)
 ```
 
 ``` r

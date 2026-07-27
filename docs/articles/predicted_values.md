@@ -95,7 +95,7 @@ print(mod_1)
 #> 
 #> Metrics:
 #>  Groups      Timing Convergence Iterations
-#>       2 0.8113 secs        100%   712 (id)
+#>       2 0.3614 secs        100%   712 (id)
 ```
 
 ``` r

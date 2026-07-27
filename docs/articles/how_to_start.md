@@ -80,8 +80,8 @@ mod
 #>    1 -15.5 19.5 449
 #> 
 #> Metrics:
-#>  Groups     Timing Convergence Iterations
-#>       1 0.505 secs        100%   354 (id)
+#>  Groups      Timing Convergence Iterations
+#>       1 0.1856 secs        100%   354 (id)
 ```
 
 Once the model is fitted, we can examine the output, extract the
@@ -262,7 +262,7 @@ mod_1
 #> 
 #> Metrics:
 #>  Groups      Timing Convergence Iterations
-#>       1 0.4889 secs        100%   473 (id)
+#>       1 0.1907 secs        100%   473 (id)
 ```
 
 After fitting the model, we can examine the results, plot the fitted
@@ -343,9 +343,9 @@ coef(mod_nls)
 #> 38.60286 61.04288 99.81000
 vcov(mod_nls)
 #>               t1           t2             k
-#> t1  6.062452e-03 -0.002940973 -6.025873e-13
+#> t1  6.062452e-03 -0.002940973 -6.025872e-13
 #> t2 -2.940973e-03  0.008433026  4.205209e-03
-#> k  -6.025873e-13  0.004205209  1.870417e-02
+#> k  -6.025872e-13  0.004205209  1.870417e-02
 predict(mod_nls, newdata = data.frame(time = 45))
 #> [1] 28.45357
 ```
@@ -391,7 +391,7 @@ mod_2
 #> 
 #> Metrics:
 #>  Groups      Timing Convergence Iterations
-#>       1 0.8428 secs        100%   567 (id)
+#>       1 0.2214 secs        100%   567 (id)
 coef(mod_2)
 #> # A tibble: 3 × 7
 #>     uid fn_name coefficient solution std.error `t value` `Pr(>|t|)`
@@ -430,7 +430,7 @@ mod_3
 #> 
 #> Metrics:
 #>  Groups      Timing Convergence Iterations
-#>       1 0.4835 secs        100%   313 (id)
+#>       1 0.1816 secs        100%   313 (id)
 coef(mod_3)
 #> # A tibble: 2 × 7
 #>     uid fn_name coefficient solution std.error `t value` `Pr(>|t|)`

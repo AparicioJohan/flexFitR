@@ -64,8 +64,8 @@ print(mod_1)
 #>   40 34.8 60.6 100 0.0545
 #> 
 #> Metrics:
-#>  Groups      Timing Convergence Iterations
-#>       1 0.3212 secs        100%   509 (id)
+#>  Groups     Timing Convergence Iterations
+#>       1 0.198 secs        100%   509 (id)
 #> 
 # Model 2
 mod_2 <- dt_potato |>
@@ -92,7 +92,7 @@ print(mod_2)
 #> 
 #> Metrics:
 #>  Groups      Timing Convergence Iterations
-#>       1 0.2602 secs        100%   582 (id)
+#>       1 0.1737 secs        100%   582 (id)
 #> 
 # Model 3
 mod_3 <- dt_potato |>
@@ -119,7 +119,7 @@ print(mod_3)
 #> 
 #> Metrics:
 #>  Groups      Timing Convergence Iterations
-#>       1 0.4218 secs        100%   251 (id)
+#>       1 0.1462 secs        100%   251 (id)
 #> 
 performance(mod_1, mod_2, mod_3, metrics = c("AIC", "AICc", "BIC", "Sigma"))
 #>         fn_name uid df nobs p   AIC  AICc   BIC Sigma
