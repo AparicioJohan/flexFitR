@@ -49,6 +49,7 @@
 #'   \item{\code{keep}}{Metadata retained based on the \code{keep} argument.}
 #'   \item{\code{fun}}{Name of the curve-fitting function used.}
 #'   \item{\code{parallel}}{List containing parallel execution details (if applicable).}
+#'   \item{\code{constraints}}{List containing the constraints (lower, upper).}
 #'   \item{\code{fit}}{List of fitted models for each group.}
 #' }
 #' @export
@@ -386,6 +387,7 @@ modeler <- function(data,
     keep = metadata,
     fun = fn,
     parallel = list("parallel" = parallel, "workers" = workers),
+    constraints = list("lower" = lower, "upper" = upper),
     fit = objt
   )
   class(out) <- "modeler"

@@ -52,6 +52,25 @@ print.modeler <- function(x, ...) {
   cat("Optimization Results `head()`:\n")
   print(as.data.frame(head(param, 4)), digits = 3, row.names = FALSE)
   cat("\n")
+  if (!is.null(x$constraints) && length(x$constraints$lower) > 1) {
+    cat("Constraints:\n")
+    if (!is.null(names(x$constraints$lower))) {
+      constraints <- data.frame(
+        lower = unname(x$constraints$lower),
+        parameter = names(x$constraints$lower),
+        upper = unname(x$constraints$upper),
+        check.names = FALSE
+      )
+    } else {
+      constraints <- data.frame(
+        lower = x$constraints$lower,
+        upper = x$constraints$upper,
+        check.names = FALSE
+      )
+    }
+    print(constraints, row.names = FALSE)
+  }
+  cat("\n")
   cat("Metrics:\n")
   total_time <- x$execution
   dt <- x$metrics |>

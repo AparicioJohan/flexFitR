@@ -3,6 +3,7 @@
 ## New features
 
 * New example dataset `dt_soybean_22` (Keller et all., 2026)
+* When printing a `modeler` object now it reports the box constraints.
 
 ## Bug fixes
 

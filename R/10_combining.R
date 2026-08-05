@@ -61,6 +61,7 @@ c.modeler <- function(...) {
     keep = metadata,
     fun = fn,
     parallel = NULL,
+    constraints = NULL,
     fit = objt
   )
   class(out) <- "modeler"
@@ -130,6 +131,7 @@ subset.modeler <- function(x, id = NULL, ...) {
     keep = metadata,
     fun = fn,
     parallel = paralell,
+    constraints = x$constraints,
     fit = objt
   )
   class(out) <- "modeler"
