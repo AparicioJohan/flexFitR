@@ -37,7 +37,7 @@
 
 
 
-#' Soybean canopy cover from UAV imagery year 2022 (Keller et all., 2026)
+#' Soybean canopy cover from HTP platform (Keller et all., 2026)
 #'
 #' @description
 #' Canopy cover time series for 78 soybean plots grown at the ETH Zurich Field
