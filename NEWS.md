@@ -1,3 +1,15 @@
+# flexFitR 1.2.4
+
+## New features
+
+* New example dataset `dt_soybean_22`
+
+## Bug fixes
+
+* `plot.modeler()` no longer emits an "Ignoring unknown labels" message from
+`ggplot2` (>= 4.0) for plot types 4, 5 and 6. Legend labels are now set only
+when the corresponding aesthetics are mapped.
+
 # flexFitR 1.2.3
 
 ## New features

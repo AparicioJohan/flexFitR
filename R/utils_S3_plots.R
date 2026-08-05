@@ -418,11 +418,13 @@ plot.modeler <- function(x,
       labs(
         y = label,
         x = "x",
-        color = "Model",
-        fill = "Model",
-        linetype = "Model",
         title = ifelse(is.null(title), title_tmp, title)
-      )
+      ) +
+      {
+        if (n_funs > 1 && !add_ci && !add_ribbon_ci && !add_ribbon_pi) {
+          labs(color = "Model", linetype = "Model")
+        }
+      }
     if (n_funs == 1 && n_ids == 1) {
       p0 <- p0
     }
