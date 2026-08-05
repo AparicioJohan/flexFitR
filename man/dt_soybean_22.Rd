@@ -3,7 +3,7 @@
 \docType{data}
 \name{dt_soybean_22}
 \alias{dt_soybean_22}
-\title{Soybean canopy cover from UAV imagery (Keller et all., 2026)}
+\title{Soybean canopy cover from HTP platform (Keller et all., 2026)}
 \format{
 A tibble with 2,793 rows and 7 variables:
 \describe{
