@@ -110,7 +110,7 @@ Optimization Results `head()`:
 
 Metrics:
  Groups      Timing Convergence Iterations
-      1 0.2677 secs        100%   511 (id)
+      1 0.2622 secs        100%   511 (id)
 ```
 
 ``` r
