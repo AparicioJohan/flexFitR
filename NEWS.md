@@ -2,7 +2,7 @@
 
 ## New features
 
-* New example dataset `dt_soybean_22`
+* New example dataset `dt_soybean_22` (Keller et all., 2026)
 
 ## Bug fixes
 
