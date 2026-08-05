@@ -105,9 +105,10 @@ Optimization Results `head()`:
  uid   t1 t2    k   sse
    1 38.6 61 99.8 0.449
 
+
 Metrics:
  Groups      Timing Convergence Iterations
-      1 0.2479 secs        100%   511 (id)
+      1 0.2646 secs        100%   511 (id)
 ```
 
 ``` r
@@ -157,13 +158,15 @@ For detailed documentation and examples, visit
 
 - Vignette 1: [How to
   start](https://apariciojohan.github.io/flexFitR/articles/how_to_start.html)
-- Vignette 2: [Modeling plant emergence and canopy growth using UAV
-  data](https://apariciojohan.github.io/flexFitR/articles/canopy-model.html)
-- Vignette 3: [Modeling with
-  constraints](https://apariciojohan.github.io/flexFitR/articles/maturity-model.html)
-- Vignette 4: [Making
+- Vignette 2: [Modeling plant emergence and canopy growth in
+  potato](https://apariciojohan.github.io/flexFitR/articles/canopy-model.html)
+- Vignette 3: [Fitting constrained models to vegetation index time
+  series](https://apariciojohan.github.io/flexFitR/articles/maturity-model.html)
+- Vignette 4: [Modeling soybean ground
+  cover](https://apariciojohan.github.io/flexFitR/working%20on%20it)
+- Vignette 5: [Generating
   predictions](https://apariciojohan.github.io/flexFitR/articles/predicted_values.html)
-- Vignette 5: [Plotting
+- Vignette 6: [Plotting
   options](https://apariciojohan.github.io/flexFitR/articles/plotting.html)
 
 ## Contributing
@@ -318,6 +321,8 @@ Example Dataset
   : Drone-derived data from a potato breeding trial (2020)
 - [`dt_potato_22`](https://apariciojohan.github.io/flexFitR/reference/dt_potato_22.md)
   : Drone-derived data from a potato breeding trial (2022)
+- [`dt_soybean_22`](https://apariciojohan.github.io/flexFitR/reference/dt_soybean_22.md)
+  : Soybean canopy cover from HTP platform (Keller et all., 2026)
 
 ## Growth Modelling
 
@@ -365,6 +370,8 @@ Collection of functions
   start](https://apariciojohan.github.io/flexFitR/articles/how_to_start.md):
 - [Modeling with
   constraints](https://apariciojohan.github.io/flexFitR/articles/maturity-model.md):
+- [Modeling soybean canopy
+  cover](https://apariciojohan.github.io/flexFitR/articles/modeling_soybean.md):
 - [Plotting
   options](https://apariciojohan.github.io/flexFitR/articles/plotting.md):
 - [Predicted

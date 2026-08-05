@@ -118,7 +118,7 @@ mod_1
 #> 
 #> Metrics:
 #>  Groups      Timing Convergence Iterations
-#>       2 0.3761 secs        100% 551.5 (id)
+#>       2 0.3586 secs        100% 551.5 (id)
 ```
 
 After fitting, we can inspect the model summary and visualize the fit

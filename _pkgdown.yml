@@ -31,7 +31,9 @@ navbar:
         href: articles/canopy-model.html
       - text: Modeling with constraints
         href: articles/maturity-model.html
-      - text: Predicted values
+      - text: Modeling soybean canopy
+        href: articles/modeling_soybean.html
+      - text: Generating predictions
         href: articles/predicted_values.html
       - text: Plotting options
         href: articles/plotting.html

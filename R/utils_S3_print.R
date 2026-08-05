@@ -69,8 +69,8 @@ print.modeler <- function(x, ...) {
       )
     }
     print(constraints, row.names = FALSE)
+    cat("\n")
   }
-  cat("\n")
   cat("Metrics:\n")
   total_time <- x$execution
   dt <- x$metrics |>

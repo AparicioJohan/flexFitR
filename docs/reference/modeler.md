@@ -189,6 +189,10 @@ elements:
 
   List containing parallel execution details (if applicable).
 
+- `constraints`:
+
+  List containing the constraints (lower, upper).
+
 - `fit`:
 
   List of fitted models for each group.
@@ -226,7 +230,7 @@ print(mod_1)
 #> 
 #> Metrics:
 #>  Groups      Timing Convergence Iterations
-#>       1 0.4491 secs        100%  3156 (id)
+#>       1 0.4781 secs        100%  3156 (id)
 #> 
 # Example 2
 mod_2 <- dt_potato |>
@@ -255,6 +259,6 @@ print(mod_2)
 #> 
 #> Metrics:
 #>  Groups      Timing Convergence Iterations
-#>       1 0.1993 secs        100%   351 (id)
+#>       1 0.1922 secs        100%   351 (id)
 #> 
 ```

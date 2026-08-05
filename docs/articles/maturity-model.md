@@ -178,9 +178,17 @@ print(mod_1)
 #>   40 37.3 64.4 19.5 0.369 -0.01454 1.96e-05
 #>  195 40.1 63.1 28.3 0.325 -0.00809 1.39e-04
 #> 
+#> Constraints:
+#>  lower parameter upper
+#>      0        t1   Inf
+#>      0        t2   Inf
+#>      0        dt   Inf
+#>      0         k   Inf
+#>   -Inf      beta     0
+#> 
 #> Metrics:
 #>  Groups      Timing Convergence Iterations
-#>       2 0.3316 secs        100%   311 (id)
+#>       2 0.3223 secs        100%   311 (id)
 ```
 
 ``` r
@@ -279,14 +287,6 @@ derivative, indicating the rate of change over time.
 a <- plot(mod_1, type = 4, color = "black", title = "Fitted Curve + CIs & PIs")
 b <- plot(mod_1, type = 5, color = "black")
 ggarrange(a, b)
-#> Ignoring unknown labels:
-#> • colour : "Model"
-#> • fill : "Model"
-#> • linetype : "Model"
-#> Ignoring unknown labels:
-#> • colour : "Model"
-#> • fill : "Model"
-#> • linetype : "Model"
 ```
 
 ![plot

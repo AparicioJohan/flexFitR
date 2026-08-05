@@ -81,7 +81,7 @@ mod
 #> 
 #> Metrics:
 #>  Groups      Timing Convergence Iterations
-#>       1 0.1856 secs        100%   354 (id)
+#>       1 0.1797 secs        100%   354 (id)
 ```
 
 Once the model is fitted, we can examine the output, extract the
@@ -92,10 +92,6 @@ estimated parameters, make some plots, and predict new x values.
 a <- plot(mod, color = "blue", title = "Raw data")
 b <- plot(mod, type = 4, n_points = 200, color = "black")
 ggarrange(a, b)
-#> Ignoring unknown labels:
-#> • colour : "Model"
-#> • fill : "Model"
-#> • linetype : "Model"
 ```
 
 ![Plot evolution](how_to_start_files/figure-html/unnamed-chunk-7-1.png)
@@ -262,7 +258,7 @@ mod_1
 #> 
 #> Metrics:
 #>  Groups      Timing Convergence Iterations
-#>       1 0.1907 secs        100%   473 (id)
+#>       1 0.1932 secs        100%   473 (id)
 ```
 
 After fitting the model, we can examine the results, plot the fitted
@@ -391,7 +387,7 @@ mod_2
 #> 
 #> Metrics:
 #>  Groups      Timing Convergence Iterations
-#>       1 0.2214 secs        100%   567 (id)
+#>       1 0.2058 secs        100%   567 (id)
 coef(mod_2)
 #> # A tibble: 3 × 7
 #>     uid fn_name coefficient solution std.error `t value` `Pr(>|t|)`
@@ -430,7 +426,7 @@ mod_3
 #> 
 #> Metrics:
 #>  Groups      Timing Convergence Iterations
-#>       1 0.1816 secs        100%   313 (id)
+#>       1 0.1842 secs        100%   313 (id)
 coef(mod_3)
 #> # A tibble: 2 × 7
 #>     uid fn_name coefficient solution std.error `t value` `Pr(>|t|)`

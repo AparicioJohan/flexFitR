@@ -28,7 +28,8 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/how_to_start.html">Get started</a></li>
     <li><a class="dropdown-item" href="../articles/canopy-model.html">Modeling</a></li>
     <li><a class="dropdown-item" href="../articles/maturity-model.html">Modeling with constraints</a></li>
-    <li><a class="dropdown-item" href="../articles/predicted_values.html">Predicted values</a></li>
+    <li><a class="dropdown-item" href="../articles/modeling_soybean.html">Modeling soybean canopy</a></li>
+    <li><a class="dropdown-item" href="../articles/predicted_values.html">Generating predictions</a></li>
     <li><a class="dropdown-item" href="../articles/plotting.html">Plotting options</a></li>
   </ul></li>
 <li class="active nav-item"><a class="nav-link" href="../news/index.html">News</a></li>
@@ -52,6 +53,19 @@
       <small>Source: <a href="https://github.com/AparicioJohan/flexFitR/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.2.4" id="flexfitr-124">flexFitR 1.2.4<a class="anchor" aria-label="anchor" href="#flexfitr-124"></a></h2>
+<div class="section level3">
+<h3 id="new-features-1-2-4">New features<a class="anchor" aria-label="anchor" href="#new-features-1-2-4"></a></h3>
+<ul><li>New example dataset <code>dt_soybean_22</code> (Keller et all., 2026)</li>
+<li>When printing a <code>modeler</code> object now it reports the box constraints.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-1-2-4">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-2-4"></a></h3>
+<ul><li>
+<code><a href="../reference/plot.modeler.html">plot.modeler()</a></code> no longer emits an “Ignoring unknown labels” message from <code>ggplot2</code> (&gt;= 4.0) for plot types 4, 5 and 6. Legend labels are now set only when the corresponding aesthetics are mapped.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.2.3" id="flexfitr-123">flexFitR 1.2.3<a class="anchor" aria-label="anchor" href="#flexfitr-123"></a></h2><p class="text-muted">CRAN release: 2026-06-11</p>
 <div class="section level3">

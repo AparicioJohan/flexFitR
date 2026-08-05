@@ -1,5 +1,19 @@
 # Changelog
 
+## flexFitR 1.2.4
+
+### New features
+
+- New example dataset `dt_soybean_22` (Keller et all., 2026)
+- When printing a `modeler` object now it reports the box constraints.
+
+### Bug fixes
+
+- [`plot.modeler()`](https://apariciojohan.github.io/flexFitR/reference/plot.modeler.md)
+  no longer emits an “Ignoring unknown labels” message from `ggplot2`
+  (\>= 4.0) for plot types 4, 5 and 6. Legend labels are now set only
+  when the corresponding aesthetics are mapped.
+
 ## flexFitR 1.2.3
 
 CRAN release: 2026-06-11

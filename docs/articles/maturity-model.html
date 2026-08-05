@@ -48,7 +48,8 @@
 <li><a class="dropdown-item" href="../articles/how_to_start.html">Get started</a></li>
     <li><a class="dropdown-item" href="../articles/canopy-model.html">Modeling</a></li>
     <li><a class="dropdown-item" href="../articles/maturity-model.html">Modeling with constraints</a></li>
-    <li><a class="dropdown-item" href="../articles/predicted_values.html">Predicted values</a></li>
+    <li><a class="dropdown-item" href="../articles/modeling_soybean.html">Modeling soybean canopy</a></li>
+    <li><a class="dropdown-item" href="../articles/predicted_values.html">Generating predictions</a></li>
     <li><a class="dropdown-item" href="../articles/plotting.html">Plotting options</a></li>
   </ul>
 </li>
@@ -388,9 +389,17 @@ using the <code>plot</code> function:</p>
 <span><span class="co">#&gt;   40 37.3 64.4 19.5 0.369 -0.01454 1.96e-05</span></span>
 <span><span class="co">#&gt;  195 40.1 63.1 28.3 0.325 -0.00809 1.39e-04</span></span>
 <span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Constraints:</span></span>
+<span><span class="co">#&gt;  lower parameter upper</span></span>
+<span><span class="co">#&gt;      0        t1   Inf</span></span>
+<span><span class="co">#&gt;      0        t2   Inf</span></span>
+<span><span class="co">#&gt;      0        dt   Inf</span></span>
+<span><span class="co">#&gt;      0         k   Inf</span></span>
+<span><span class="co">#&gt;   -Inf      beta     0</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
 <span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;       2 0.3316 secs        100%   311 (id)</span></span></code></pre></div>
+<span><span class="co">#&gt;       2 0.3223 secs        100%   311 (id)</span></span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="maturity-model_files/figure-html/unnamed-chunk-10-1.png" class="r-plt" alt="plot fit 1" width="768"></p>
@@ -511,15 +520,7 @@ derivative, indicating the rate of change over time.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span>, type <span class="op">=</span> <span class="fl">4</span>, color <span class="op">=</span> <span class="st">"black"</span>, title <span class="op">=</span> <span class="st">"Fitted Curve + CIs &amp; PIs"</span><span class="op">)</span></span>
 <span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_1</span>, type <span class="op">=</span> <span class="fl">5</span>, color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rpkgs.datanovia.com/ggpubr/reference/ggarrange.html" class="external-link">ggarrange</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Ignoring unknown labels:</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> <span style="color: #00BB00;">colour</span> : <span style="color: #0000BB;">"Model"</span></span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> <span style="color: #00BB00;">fill</span> : <span style="color: #0000BB;">"Model"</span></span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> <span style="color: #00BB00;">linetype</span> : <span style="color: #0000BB;">"Model"</span></span></span>
-<span><span class="co">#&gt; Ignoring unknown labels:</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> <span style="color: #00BB00;">colour</span> : <span style="color: #0000BB;">"Model"</span></span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> <span style="color: #00BB00;">fill</span> : <span style="color: #0000BB;">"Model"</span></span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> <span style="color: #00BB00;">linetype</span> : <span style="color: #0000BB;">"Model"</span></span></span></code></pre></div>
+<span><span class="fu"><a href="https://rpkgs.datanovia.com/ggpubr/reference/ggarrange.html" class="external-link">ggarrange</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span><span class="op">)</span></span></code></pre></div>
 <p><img src="maturity-model_files/figure-html/unnamed-chunk-15-1.png" class="r-plt" alt="plot derivatives" width="768"></p>
 </div>
 <div class="section level2">
