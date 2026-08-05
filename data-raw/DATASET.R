@@ -15,3 +15,9 @@ dt_potato_22 <- readr::read_csv("data-raw/dt_potato_2022_paper.csv") |>
   select(Trial, Plot, Row, Range, gid, DAP, GC, PH = ph, Yield = yield)
 
 usethis::use_data(dt_potato_22, overwrite = TRUE)
+
+
+# Soybean
+dt_soybean_22 <- readr::read_csv("data-raw/dt_soybean_22.csv")
+
+usethis::use_data(dt_soybean_22, overwrite = TRUE)
