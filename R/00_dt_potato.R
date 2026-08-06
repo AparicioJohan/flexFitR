@@ -65,9 +65,10 @@
 #' \code{\link{series_mutate}(add_zero = TRUE)} when the dataset was assembled.
 #'
 #' @source
-#' Derived from the \code{Soybean_CanopyCover_data.csv} file of the FIP 1.0
-#' soybean data collection, subset to the 2022 season:
-#' \url{https://www.research-collection.ethz.ch/entities/researchdata/2f3b96fb-7d41-4851-ae72-3781a3df2e8f}
+#' Keller et al. (2026). Derived from the
+#' \code{Soybean_CanopyCover_data.csv} file in the FIP 1.0 soybean data
+#' collection and subset to the 2022 growing season.
+#' \doi{10.3929/ethz-b-000742401}
 #'
 #' @references
 #' Keller, B., Kirchgessner, N., Oppliger, C., Kronenberg, L., Roth, L.,
@@ -86,4 +87,3 @@
 #' explorer(dt_soybean_22, x = time_since_sowing, y = Canopy_cover, id = plot.UID) |>
 #'   plot(type = "evolution", add_avg = TRUE)
 "dt_soybean_22"
-
