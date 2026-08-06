@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">flexFitR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.2.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.2.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,13 +57,14 @@
 <h2 class="pkg-version" data-toc-text="1.2.4" id="flexfitr-124">flexFitR 1.2.4<a class="anchor" aria-label="anchor" href="#flexfitr-124"></a></h2>
 <div class="section level3">
 <h3 id="new-features-1-2-4">New features<a class="anchor" aria-label="anchor" href="#new-features-1-2-4"></a></h3>
-<ul><li>New example dataset <code>dt_soybean_22</code> (Keller et all., 2026)</li>
-<li>When printing a <code>modeler</code> object now it reports the box constraints.</li>
+<ul><li>Added a new vignette, <a href="https://apariciojohan.github.io/flexFitR/articles/modeling_soybean.html">Modeling soybean canopy cover</a>.</li>
+<li>Added the example dataset <code>dt_soybean_22</code>, containing soybean canopy-cover time-series data from Keller et al. (2026).</li>
+<li>The <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> method for <code>modeler</code> objects now reports the parameter box constraints used during model fitting.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-1-2-4">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-2-4"></a></h3>
 <ul><li>
-<code><a href="../reference/plot.modeler.html">plot.modeler()</a></code> no longer emits an “Ignoring unknown labels” message from <code>ggplot2</code> (&gt;= 4.0) for plot types 4, 5 and 6. Legend labels are now set only when the corresponding aesthetics are mapped.</li>
+<code><a href="../reference/plot.modeler.html">plot.modeler()</a></code> no longer produces the <code>"Ignoring unknown labels"</code> message with <code>ggplot2</code> &gt;= 4.0 for plot types 4, 5, and 6. Legend labels are now added only when the corresponding aesthetics are mapped.</li>
 </ul></div>
 </div>
     <div class="section level2">

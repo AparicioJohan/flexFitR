@@ -105,10 +105,9 @@ Optimization Results `head()`:
  uid   t1 t2    k   sse
    1 38.6 61 99.8 0.449
 
-
 Metrics:
  Groups      Timing Convergence Iterations
-      1 0.2646 secs        100%   511 (id)
+      1 0.2622 secs        100%   511 (id)
 ```
 
 ``` r
@@ -162,8 +161,8 @@ For detailed documentation and examples, visit
   potato](https://apariciojohan.github.io/flexFitR/articles/canopy-model.html)
 - Vignette 3: [Fitting constrained models to vegetation index time
   series](https://apariciojohan.github.io/flexFitR/articles/maturity-model.html)
-- Vignette 4: [Modeling soybean ground
-  cover](https://apariciojohan.github.io/flexFitR/working%20on%20it)
+- Vignette 4: [Modeling soybean canopy
+  cover](https://apariciojohan.github.io/flexFitR/articles/modeling_soybean.html)
 - Vignette 5: [Generating
   predictions](https://apariciojohan.github.io/flexFitR/articles/predicted_values.html)
 - Vignette 6: [Plotting

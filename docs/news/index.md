@@ -4,15 +4,20 @@
 
 ### New features
 
-- New example dataset `dt_soybean_22` (Keller et all., 2026)
-- When printing a `modeler` object now it reports the box constraints.
+- Added a new vignette, [Modeling soybean canopy
+  cover](https://apariciojohan.github.io/flexFitR/articles/modeling_soybean.html).
+- Added the example dataset `dt_soybean_22`, containing soybean
+  canopy-cover time-series data from Keller et al. (2026).
+- The [`print()`](https://rdrr.io/r/base/print.html) method for
+  `modeler` objects now reports the parameter box constraints used
+  during model fitting.
 
 ### Bug fixes
 
 - [`plot.modeler()`](https://apariciojohan.github.io/flexFitR/reference/plot.modeler.md)
-  no longer emits an “Ignoring unknown labels” message from `ggplot2`
-  (\>= 4.0) for plot types 4, 5 and 6. Legend labels are now set only
-  when the corresponding aesthetics are mapped.
+  no longer produces the `"Ignoring unknown labels"` message with
+  `ggplot2` \>= 4.0 for plot types 4, 5, and 6. Legend labels are now
+  added only when the corresponding aesthetics are mapped.
 
 ## flexFitR 1.2.3
 

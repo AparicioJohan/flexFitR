@@ -65,7 +65,7 @@ print(mod_1)
 #> 
 #> Metrics:
 #>  Groups      Timing Convergence  Iterations
-#>       3 0.5188 secs        100% 407.67 (id)
+#>       3 0.9813 secs        100% 407.67 (id)
 #> 
 # First Derivative
 predict(mod_1, x = 45, type = "fd", id = 2)

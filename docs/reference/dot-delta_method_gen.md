@@ -54,7 +54,7 @@ print(mod_1)
 #> 
 #> Metrics:
 #>  Groups      Timing Convergence  Iterations
-#>       3 0.5146 secs        100% 407.67 (id)
+#>       3 0.7578 secs        100% 407.67 (id)
 #> 
 # Function of the parameters
 predict(mod_1, formula = ~ t2 - t1, id = 2)
