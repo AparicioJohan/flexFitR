@@ -1,3 +1,10 @@
+# flexFitR 1.2.5
+
+## New features
+* Added a new vignette, [Model Selection]().
+* A `model_selection` function was created to automate the model selection process.
+* New default option for `performance`. "AICc" was set as default.
+
 # flexFitR 1.2.4
 
 ## New features

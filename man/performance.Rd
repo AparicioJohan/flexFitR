@@ -4,14 +4,14 @@
 \alias{performance}
 \title{Compare performance of different models}
 \usage{
-performance(..., metrics = "all", metadata = FALSE, digits = 2)
+performance(..., metrics = "AICc", metadata = FALSE, digits = 2)
 }
 \arguments{
 \item{...}{Multiple model objects (only of class `modeler`).}
 
 \item{metrics}{Can be "all" or a character vector of metrics to be computed
 (one or more of "logLik", "AIC", "AICc", "BIC", "Sigma", "SSE", "MAE", "MSE", "RMSE", "R2").
-"all" by default.}
+"AICc" by default.}
 
 \item{metadata}{Logical. If \code{TRUE}, metadata is included with the
 performance metrics. Default is \code{FALSE}.}

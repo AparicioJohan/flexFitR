@@ -85,7 +85,7 @@ info_criteria <- function(object, metrics = "all", metadata = TRUE, digits = 2) 
 #' @param ... Multiple model objects (only of class `modeler`).
 #' @param metrics Can be "all" or a character vector of metrics to be computed
 #' (one or more of "logLik", "AIC", "AICc", "BIC", "Sigma", "SSE", "MAE", "MSE", "RMSE", "R2").
-#' "all" by default.
+#' "AICc" by default.
 #' @param metadata Logical. If \code{TRUE}, metadata is included with the
 #' performance metrics. Default is \code{FALSE}.
 #' @param digits An integer. The number of decimal places to round the output. Default is 2.
@@ -129,7 +129,7 @@ info_criteria <- function(object, metrics = "all", metadata = TRUE, digits = 2) 
 #'   )
 #' print(mod_3)
 #' performance(mod_1, mod_2, mod_3, metrics = c("AIC", "AICc", "BIC", "Sigma"))
-performance <- function(..., metrics = "all", metadata = FALSE, digits = 2) {
+performance <- function(..., metrics = "AICc", metadata = FALSE, digits = 2) {
   .arguments <- list(...)
   .lf <- length(.arguments)
   if (.lf == 0) stop("You must provide a model")
@@ -201,7 +201,7 @@ performance <- function(..., metrics = "all", metadata = FALSE, digits = 2) {
 #'     parameters = c(m = 20, b = 2),
 #'     subset = 40
 #'   )
-#' plot(performance(mod_1, mod_2, mod_3), type = 1)
+#' plot(performance(mod_1, mod_2, mod_3), metrics = "all", type = 1)
 #' plot(performance(mod_1, mod_2, mod_3, metrics = c("AICc", "BIC")), type = 3)
 #' @import ggplot2
 #' @import dplyr
@@ -433,4 +433,183 @@ metrics <- function(x, by_grp = TRUE) {
   } else {
     return(val_metrics)
   }
+}
+
+
+#' @title Select the best model for each group
+#' @description
+#' Compares several fitted \code{modeler} objects group by group (\code{uid})
+#' and returns a single \code{modeler} object holding, for every group, the fit
+#' of whichever candidate model scored best.
+#'
+#' Metrics are not comparable across groups, so they are min-max rescaled to
+#' \code{(0.1, 1)} within each group, flipped where lower is better, and then
+#' averaged over the requested metrics. The model with the highest mean score
+#' wins the group.
+#'
+#' @param ... Two or more model objects (only of class \code{modeler}), fitted
+#' on the same groups.
+#' @param metrics Can be "all" or a character vector of metrics used to rank the
+#' models (one or more of "logLik", "AIC", "AICc", "BIC", "Sigma", "SSE", "MAE",
+#' "MSE", "RMSE", "R2"). "AICc" by default.
+#'
+#' Note that these metrics are not independent: "logLik", "AIC", "AICc" and
+#' "BIC" all rank models by penalised likelihood, while "SSE", "MSE", "RMSE" and
+#' "R2" are monotone transformations of one another within a group.
+#' \code{metrics = "all"} therefore gives roughly 0.4 of the weight to the
+#' likelihood family and 0.4 to the residual-sum-of-squares family, rather than
+#' weighting ten independent criteria. Pass an explicit subset when a specific
+#' trade-off is wanted.
+#' @param return_table Logical. If \code{TRUE}, the selection table is returned
+#' instead of the combined \code{modeler} object. \code{FALSE} by default.
+#' @return A \code{modeler} object holding the winning fit for each group. Two
+#' attributes are attached: \code{"selection"} (the winner, its score and the
+#' number of metrics used, per group) and \code{"performance"} (the full
+#' comparison table, of class \code{performance}, ready for
+#' \code{plot()}).
+#' @details
+#' Groups are compared only where every candidate model produced a fit; groups
+#' missing from any model are dropped with a warning. Within a group, a metric is
+#' used only if every model produced a finite value for it, so the mean score is
+#' always taken over the same set of metrics. If all models tie on a metric it
+#' carries no information and every model receives the same score for it. Ties on
+#' the final score are broken in favour of the model passed first in \code{...}.
+#' @author Johan Aparicio [aut]
+#' @export
+#' @examples
+#' library(flexFitR)
+#' data(dt_potato)
+#' mod_1 <- dt_potato |>
+#'   modeler(
+#'     x = DAP,
+#'     y = Canopy,
+#'     grp = Plot,
+#'     fn = "fn_lin_plat",
+#'     parameters = c(t1 = 45, t2 = 80, k = 90),
+#'     subset = c(1, 7)
+#'   )
+#' mod_2 <- dt_potato |>
+#'   modeler(
+#'     x = DAP,
+#'     y = Canopy,
+#'     grp = Plot,
+#'     fn = "fn_logistic",
+#'     parameters = c(a = 0.199, t0 = 47.7, k = 100),
+#'     subset = c(1, 7)
+#'   )
+#' best <- model_selection(mod_1, mod_2, metrics = "AIC")
+#' print(best)
+#' attr(best, "selection")
+#' plot(best, id = c(1, 7))
+#' @import dplyr
+model_selection <- function(..., metrics = "AICc", return_table = FALSE) {
+  .arguments <- list(...)
+  .lf <- length(.arguments)
+  if (.lf <= 1) {
+    stop("You must provide at least two models to compare.", call. = FALSE)
+  }
+  .is_modeler <- vapply(.arguments, inherits, logical(1), what = "modeler")
+  if (!all(.is_modeler)) {
+    stop(
+      "Objects passed in `...` must be of class 'modeler'. Check argument(s): ",
+      paste(which(!.is_modeler), collapse = ", "),
+      call. = FALSE
+    )
+  }
+  # Direction of each metric
+  .lower_better <- c("AIC", "AICc", "BIC", "Sigma", "SSE", "MAE", "MSE", "RMSE")
+  .higher_better <- c("logLik", "R2")
+  # Only groups fitted by every model can be compared
+  .ids <- lapply(.arguments, \(x) unique(x$param$uid))
+  .common <- Reduce(intersect, .ids)
+  if (length(.common) == 0) {
+    stop("The models provided have no groups (uid) in common.", call. = FALSE)
+  }
+  .dropped <- setdiff(Reduce(union, .ids), .common)
+  if (length(.dropped) > 0) {
+    warning(
+      "Only groups fitted by every model are compared. ",
+      length(.dropped), " group(s) dropped: ",
+      paste(head(.dropped, 5), collapse = ", "),
+      ifelse(length(.dropped) > 5, ", ...", ""),
+      call. = FALSE
+    )
+  }
+  .evaluation <- lapply(
+    X = .arguments,
+    FUN = \(x) {
+      info_criteria(
+        object = subset(x, id = .common),
+        metrics = metrics,
+        metadata = FALSE,
+        digits = 15
+      )
+    }
+  )
+  for (i in seq_len(.lf)) {
+    .evaluation[[i]]$model <- .evaluation[[i]]$fn_name
+    .evaluation[[i]]$fn_name <- paste0(.evaluation[[i]]$fn_name, "_", i)
+    .evaluation[[i]]$order <- i
+  }
+  .out <- bind_rows(.evaluation) |> arrange(uid, fn_name)
+  .meta <- .out |>
+    select(uid, fn_name, model, order) |>
+    unique.data.frame()
+  .slt <- names(.out)[names(.out) %in% c(.lower_better, .higher_better)]
+  if (length(.slt) == 0) {
+    stop("None of the requested metrics could be computed.", call. = FALSE)
+  }
+  n_min <- 0.1
+  n_max <- 1
+  .scores <- .out |>
+    select(fn_name, uid, any_of(.slt)) |>
+    tidyr::pivot_longer(cols = any_of(.slt), names_to = "name") |>
+    group_by(uid, name) |>
+    filter(all(is.finite(value))) |>
+    mutate(
+      o_min = min(value),
+      o_max = max(value),
+      res = (value - o_min) / (o_max - o_min) * (n_max - n_min) + n_min,
+      res = ifelse(name %in% .lower_better, n_min + n_max - res, res),
+      res = ifelse(o_max > o_min, res, n_max)
+    ) |>
+    ungroup() |>
+    mutate(fn_name = as.factor(fn_name), name = factor(name, levels = .slt))
+  .index <- .scores |>
+    group_by(uid, fn_name) |>
+    summarise(score = mean(res), n_metrics = n(), .groups = "drop") |>
+    left_join(.meta, by = join_by(uid, fn_name)) |>
+    arrange(uid, order) |>
+    group_by(uid) |>
+    slice_max(score, n = 1, with_ties = FALSE) |>
+    ungroup()
+  .no_metric <- setdiff(.common, unique(.index$uid))
+  if (length(.no_metric) > 0) {
+    warning(
+      "No usable metric for ", length(.no_metric), " group(s): ",
+      paste(head(.no_metric, 5), collapse = ", "),
+      ifelse(length(.no_metric) > 5, ", ...", ""),
+      ". They are not present in the output.",
+      call. = FALSE
+    )
+  }
+  if (return_table) {
+    return(.index)
+  }
+  .selected <- split(x = .index$uid, f = .index$order)
+  .models <- lapply(
+    X = names(.selected),
+    FUN = \(k) subset(.arguments[[as.numeric(k)]], id = .selected[[k]])
+  )
+  .best <- do.call(what = c, args = .models)
+  .ord <- as.character(.index$uid)
+  .pos <- order(match(vapply(.best$fit, \(z) as.character(z$uid), ""), .ord))
+  .best$fit <- .best$fit[.pos]
+  .best$param <- arrange(.best$param, match(as.character(uid), .ord))
+  .best$dt <- arrange(.best$dt, match(as.character(uid), .ord))
+  .best$metrics <- arrange(.best$metrics, match(as.character(uid), .ord))
+  class(.out) <- c("performance", class(.out))
+  attr(.best, "selection") <- .index
+  attr(.best, "performance") <- .out
+  return(.best)
 }
