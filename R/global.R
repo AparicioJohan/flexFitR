@@ -97,6 +97,7 @@ utils::globalVariables(
     ".sigma",
     "grp",
     "freq",
-    ".x_for_y"
+    ".x_for_y",
+    "score"
   )
 )
