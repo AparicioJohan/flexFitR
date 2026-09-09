@@ -109,7 +109,7 @@ print(mod_1)
 #> 
 #> Metrics:
 #>  Groups      Timing Convergence  Iterations
-#>       3 0.8269 secs        100% 407.67 (id)
+#>       3 0.5682 secs        100% 407.67 (id)
 #> 
 inverse_predict(mod_1, y = 50)
 #> # A tibble: 3 × 6

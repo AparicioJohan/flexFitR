@@ -1,13 +1,8 @@
 # Select the best model for each group
 
-Compares several fitted `modeler` objects group by group (`uid`) and
-returns a single `modeler` object holding, for every group, the fit of
-whichever candidate model scored best.
-
-Metrics are not comparable across groups, so they are min-max rescaled
-to `(0.1, 1)` within each group, flipped where lower is better, and then
-averaged over the requested metrics. The model with the highest mean
-score wins the group.
+Compares two or more fitted `modeler` objects and selects the preferred
+model separately for each group (`uid`). Candidate models are ranked
+using one or more model-performance metrics.
 
 ## Usage
 
@@ -24,17 +19,10 @@ model_selection(..., metrics = "AICc", return_table = FALSE)
 
 - metrics:
 
-  Can be "all" or a character vector of metrics used to rank the models
-  (one or more of "logLik", "AIC", "AICc", "BIC", "Sigma", "SSE", "MAE",
-  "MSE", "RMSE", "R2"). "AICc" by default.
-
-  Note that these metrics are not independent: "logLik", "AIC", "AICc"
-  and "BIC" all rank models by penalised likelihood, while "SSE", "MSE",
-  "RMSE" and "R2" are monotone transformations of one another within a
-  group. `metrics = "all"` therefore gives roughly 0.4 of the weight to
-  the likelihood family and 0.4 to the residual-sum-of-squares family,
-  rather than weighting ten independent criteria. Pass an explicit
-  subset when a specific trade-off is wanted.
+  Character vector specifying the metrics used for model selection.
+  Available options are `"logLik"`, `"AIC"`, `"AICc"`, `"BIC"`,
+  `"Sigma"`, `"SSE"`, `"MAE"`, `"MSE"`, `"RMSE"`, and `"R2"`. Use
+  `"all"` to include all available metrics. The default is `"AICc"`.
 
 - return_table:
 
@@ -51,13 +39,27 @@ comparison table, of class `performance`, ready for
 
 ## Details
 
-Groups are compared only where every candidate model produced a fit;
-groups missing from any model are dropped with a warning. Within a
-group, a metric is used only if every model produced a finite value for
-it, so the mean score is always taken over the same set of metrics. If
-all models tie on a metric it carries no information and every model
-receives the same score for it. Ties on the final score are broken in
-favour of the model passed first in `...`.
+Model selection is performed independently within each group. For each
+metric, candidate models are min-max rescaled to a range from 0.1 to 1.
+Metrics for which smaller values indicate better performance (`AIC`,
+`AICc`, `BIC`, `Sigma`, `SSE`, `MAE`, `MSE`, and `RMSE`) are reversed
+after rescaling, whereas `logLik` and `R2` retain their original
+direction. Higher rescaled values therefore always indicate better
+performance.
+
+Several available metrics contain overlapping information. For example,
+`SSE`, `MSE`, `RMSE`, and `R2` produce equivalent rankings within a
+group, while `AIC`, `AICc`, and `BIC` are all likelihood-based criteria
+that differ in how model complexity is penalized. Consequently,
+`metrics = "all"` should not be interpreted as combining independent
+measures of model performance. When multiple metrics are used, an
+explicit subset should be chosen according to the objective of the
+analysis.
+
+## See also
+
+[`performance`](https://apariciojohan.github.io/flexFitR/reference/performance.md),
+[`modeler`](https://apariciojohan.github.io/flexFitR/reference/modeler.md)
 
 ## Author
 
@@ -106,7 +108,7 @@ print(best)
 #> 
 #> Metrics:
 #>  Groups Timing Convergence Iterations
-#>       2 0.7778        100% 575.5 (id)
+#>       2 0.5269        100% 575.5 (id)
 #> 
 attr(best, "selection")
 #> # A tibble: 2 × 6

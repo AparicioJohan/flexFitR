@@ -68,7 +68,7 @@ print(mod)
 #> 
 #> Metrics:
 #>  Groups Timing Convergence Iterations
-#>       2 1.1625        100%   519 (id)
+#>       2 0.6324        100%   519 (id)
 #> 
 plot(mod, id = 1:2)
 ```

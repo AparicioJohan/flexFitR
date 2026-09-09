@@ -229,7 +229,7 @@ best
 #> 
 #> Metrics:
 #>  Groups Timing Convergence Iterations
-#>       5 2.9006        100% 458.8 (id)
+#>       5 1.1302        100% 458.8 (id)
 ```
 
 The function returns a single `modeler` object containing the selected

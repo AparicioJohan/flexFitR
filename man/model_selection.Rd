@@ -10,17 +10,11 @@ model_selection(..., metrics = "AICc", return_table = FALSE)
 \item{...}{Two or more model objects (only of class \code{modeler}), fitted
 on the same groups.}
 
-\item{metrics}{Can be "all" or a character vector of metrics used to rank the
-models (one or more of "logLik", "AIC", "AICc", "BIC", "Sigma", "SSE", "MAE",
-"MSE", "RMSE", "R2"). "AICc" by default.
-
-Note that these metrics are not independent: "logLik", "AIC", "AICc" and
-"BIC" all rank models by penalised likelihood, while "SSE", "MSE", "RMSE" and
-"R2" are monotone transformations of one another within a group.
-\code{metrics = "all"} therefore gives roughly 0.4 of the weight to the
-likelihood family and 0.4 to the residual-sum-of-squares family, rather than
-weighting ten independent criteria. Pass an explicit subset when a specific
-trade-off is wanted.}
+\item{metrics}{Character vector specifying the metrics used for model
+selection. Available options are \code{"logLik"}, \code{"AIC"},
+\code{"AICc"}, \code{"BIC"}, \code{"Sigma"}, \code{"SSE"}, \code{"MAE"},
+\code{"MSE"}, \code{"RMSE"}, and \code{"R2"}. Use \code{"all"} to include
+all available metrics. The default is \code{"AICc"}.}
 
 \item{return_table}{Logical. If \code{TRUE}, the selection table is returned
 instead of the combined \code{modeler} object. \code{FALSE} by default.}
@@ -33,22 +27,27 @@ comparison table, of class \code{performance}, ready for
 \code{plot()}).
 }
 \description{
-Compares several fitted \code{modeler} objects group by group (\code{uid})
-and returns a single \code{modeler} object holding, for every group, the fit
-of whichever candidate model scored best.
-
-Metrics are not comparable across groups, so they are min-max rescaled to
-\code{(0.1, 1)} within each group, flipped where lower is better, and then
-averaged over the requested metrics. The model with the highest mean score
-wins the group.
+Compares two or more fitted \code{modeler} objects and selects the preferred
+model separately for each group (\code{uid}). Candidate models are ranked
+using one or more model-performance metrics.
 }
 \details{
-Groups are compared only where every candidate model produced a fit; groups
-missing from any model are dropped with a warning. Within a group, a metric is
-used only if every model produced a finite value for it, so the mean score is
-always taken over the same set of metrics. If all models tie on a metric it
-carries no information and every model receives the same score for it. Ties on
-the final score are broken in favour of the model passed first in \code{...}.
+Model selection is performed independently within each group. For each
+metric, candidate models are min-max rescaled to a range from 0.1 to 1.
+Metrics for which smaller values indicate better performance
+(\code{AIC}, \code{AICc}, \code{BIC}, \code{Sigma}, \code{SSE},
+\code{MAE}, \code{MSE}, and \code{RMSE}) are reversed after rescaling,
+whereas \code{logLik} and \code{R2} retain their original direction.
+Higher rescaled values therefore always indicate better performance.
+
+Several available metrics contain overlapping information. For example,
+\code{SSE}, \code{MSE}, \code{RMSE}, and \code{R2} produce equivalent
+rankings within a group, while \code{AIC}, \code{AICc}, and \code{BIC}
+are all likelihood-based criteria that differ in how model complexity is
+penalized. Consequently, \code{metrics = "all"} should not be interpreted
+as combining independent measures of model performance. When multiple
+metrics are used, an explicit subset should be chosen according to the
+objective of the analysis.
 }
 \examples{
 library(flexFitR)
@@ -75,6 +74,9 @@ best <- model_selection(mod_1, mod_2, metrics = "AIC")
 print(best)
 attr(best, "selection")
 plot(best, id = c(1, 7))
+}
+\seealso{
+\code{\link{performance}}, \code{\link{modeler}}
 }
 \author{
 Johan Aparicio [aut]

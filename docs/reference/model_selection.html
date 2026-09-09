@@ -5,19 +5,11 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Select the best model for each group — model_selection"><meta name="description" content="Compares several fitted modeler objects group by group (uid)
-and returns a single modeler object holding, for every group, the fit
-of whichever candidate model scored best.
-Metrics are not comparable across groups, so they are min-max rescaled to
-(0.1, 1) within each group, flipped where lower is better, and then
-averaged over the requested metrics. The model with the highest mean score
-wins the group."><meta property="og:description" content="Compares several fitted modeler objects group by group (uid)
-and returns a single modeler object holding, for every group, the fit
-of whichever candidate model scored best.
-Metrics are not comparable across groups, so they are min-max rescaled to
-(0.1, 1) within each group, flipped where lower is better, and then
-averaged over the requested metrics. The model with the highest mean score
-wins the group."><meta property="og:image" content="https://apariciojohan.github.io/flexFitR/logo.png"></head><body>
+</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Select the best model for each group — model_selection"><meta name="description" content="Compares two or more fitted modeler objects and selects the preferred
+model separately for each group (uid). Candidate models are ranked
+using one or more model-performance metrics."><meta property="og:description" content="Compares two or more fitted modeler objects and selects the preferred
+model separately for each group (uid). Candidate models are ranked
+using one or more model-performance metrics."><meta property="og:image" content="https://apariciojohan.github.io/flexFitR/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -68,13 +60,9 @@ wins the group."><meta property="og:image" content="https://apariciojohan.github
     </div>
 
     <div class="ref-description section level2">
-    <p>Compares several fitted <code>modeler</code> objects group by group (<code>uid</code>)
-and returns a single <code>modeler</code> object holding, for every group, the fit
-of whichever candidate model scored best.</p>
-<p>Metrics are not comparable across groups, so they are min-max rescaled to
-<code>(0.1, 1)</code> within each group, flipped where lower is better, and then
-averaged over the requested metrics. The model with the highest mean score
-wins the group.</p>
+    <p>Compares two or more fitted <code>modeler</code> objects and selects the preferred
+model separately for each group (<code>uid</code>). Candidate models are ranked
+using one or more model-performance metrics.</p>
     </div>
 
     <div class="section level2">
@@ -92,16 +80,11 @@ on the same groups.</p></dd>
 
 
 <dt id="arg-metrics">metrics<a class="anchor" aria-label="anchor" href="#arg-metrics"></a></dt>
-<dd><p>Can be "all" or a character vector of metrics used to rank the
-models (one or more of "logLik", "AIC", "AICc", "BIC", "Sigma", "SSE", "MAE",
-"MSE", "RMSE", "R2"). "AICc" by default.</p>
-<p>Note that these metrics are not independent: "logLik", "AIC", "AICc" and
-"BIC" all rank models by penalised likelihood, while "SSE", "MSE", "RMSE" and
-"R2" are monotone transformations of one another within a group.
-<code>metrics = "all"</code> therefore gives roughly 0.4 of the weight to the
-likelihood family and 0.4 to the residual-sum-of-squares family, rather than
-weighting ten independent criteria. Pass an explicit subset when a specific
-trade-off is wanted.</p></dd>
+<dd><p>Character vector specifying the metrics used for model
+selection. Available options are <code>"logLik"</code>, <code>"AIC"</code>,
+<code>"AICc"</code>, <code>"BIC"</code>, <code>"Sigma"</code>, <code>"SSE"</code>, <code>"MAE"</code>,
+<code>"MSE"</code>, <code>"RMSE"</code>, and <code>"R2"</code>. Use <code>"all"</code> to include
+all available metrics. The default is <code>"AICc"</code>.</p></dd>
 
 
 <dt id="arg-return-table">return_table<a class="anchor" aria-label="anchor" href="#arg-return-table"></a></dt>
@@ -119,12 +102,25 @@ comparison table, of class <code>performance</code>, ready for
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Groups are compared only where every candidate model produced a fit; groups
-missing from any model are dropped with a warning. Within a group, a metric is
-used only if every model produced a finite value for it, so the mean score is
-always taken over the same set of metrics. If all models tie on a metric it
-carries no information and every model receives the same score for it. Ties on
-the final score are broken in favour of the model passed first in <code>...</code>.</p>
+    <p>Model selection is performed independently within each group. For each
+metric, candidate models are min-max rescaled to a range from 0.1 to 1.
+Metrics for which smaller values indicate better performance
+(<code>AIC</code>, <code>AICc</code>, <code>BIC</code>, <code>Sigma</code>, <code>SSE</code>,
+<code>MAE</code>, <code>MSE</code>, and <code>RMSE</code>) are reversed after rescaling,
+whereas <code>logLik</code> and <code>R2</code> retain their original direction.
+Higher rescaled values therefore always indicate better performance.</p>
+<p>Several available metrics contain overlapping information. For example,
+<code>SSE</code>, <code>MSE</code>, <code>RMSE</code>, and <code>R2</code> produce equivalent
+rankings within a group, while <code>AIC</code>, <code>AICc</code>, and <code>BIC</code>
+are all likelihood-based criteria that differ in how model complexity is
+penalized. Consequently, <code>metrics = "all"</code> should not be interpreted
+as combining independent measures of model performance. When multiple
+metrics are used, an explicit subset should be chosen according to the
+objective of the analysis.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <div class="dont-index"><p><code><a href="performance.html">performance</a></code>, <code><a href="modeler.html">modeler</a></code></p></div>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
@@ -173,7 +169,7 @@ the final score are broken in favour of the model passed first in <code>...</cod
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Metrics:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Groups Timing Convergence Iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       2 0.7778        100% 575.5 (id)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       2 0.5269        100% 575.5 (id)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">best</span>, <span class="st">"selection"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 6</span></span>

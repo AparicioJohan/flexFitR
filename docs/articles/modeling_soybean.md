@@ -154,7 +154,7 @@ print(mod_1)
 #> 
 #> Metrics:
 #>  Groups      Timing Convergence  Iterations
-#>      10 5.5383 secs        100% 2149.7 (id)
+#>      10 2.7749 secs        100% 2149.7 (id)
 ```
 
 Passing more than one optimizer to `method` makes
