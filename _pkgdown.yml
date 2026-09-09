@@ -70,6 +70,7 @@ reference:
   - metrics
   - performance
   - plot.performance
+  - model_selection
 - title: Data Exploration
 - contents:
   - explorer

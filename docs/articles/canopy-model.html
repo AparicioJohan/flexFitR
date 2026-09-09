@@ -50,6 +50,7 @@
     <li><a class="dropdown-item" href="../articles/maturity-model.html">Modeling with constraints</a></li>
     <li><a class="dropdown-item" href="../articles/modeling_soybean.html">Modeling soybean canopy</a></li>
     <li><a class="dropdown-item" href="../articles/predicted_values.html">Generating predictions</a></li>
+    <li><a class="dropdown-item" href="../articles/model_selection.html">Model selection</a></li>
     <li><a class="dropdown-item" href="../articles/plotting.html">Plotting options</a></li>
   </ul>
 </li>
@@ -334,8 +335,8 @@ plots 166 and 40 as a subset. We define the piecewise function
 <span><span class="co">#&gt;  166 31.6 57.5 100 40.9135</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Metrics:</span></span>
-<span><span class="co">#&gt;  Groups     Timing Convergence Iterations</span></span>
-<span><span class="co">#&gt;       2 0.522 secs        100% 551.5 (id)</span></span></code></pre></div>
+<span><span class="co">#&gt;  Groups      Timing Convergence Iterations</span></span>
+<span><span class="co">#&gt;       2 0.9782 secs        100% 551.5 (id)</span></span></code></pre></div>
 <p>After fitting, we can inspect the model summary and visualize the fit
 using the plot function:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -639,40 +640,14 @@ impact of these changes.</p>
 <span><span class="va">comparison</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">uid</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fl">166</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<table style="width:100%;" class="table">
-<colgroup>
-<col width="14%">
-<col width="4%">
-<col width="3%">
-<col width="5%">
-<col width="3%">
-<col width="7%">
-<col width="6%">
-<col width="7%">
-<col width="6%">
-<col width="6%">
-<col width="9%">
-<col width="6%">
-<col width="8%">
-<col width="6%">
-<col width="4%">
-</colgroup>
+<table class="table">
 <thead><tr class="header">
 <th align="left">fn_name</th>
 <th align="right">uid</th>
 <th align="right">df</th>
 <th align="right">nobs</th>
 <th align="right">p</th>
-<th align="right">logLik</th>
-<th align="right">AIC</th>
 <th align="right">AICc</th>
-<th align="right">BIC</th>
-<th align="right">Sigma</th>
-<th align="right">SSE</th>
-<th align="right">MAE</th>
-<th align="right">MSE</th>
-<th align="right">RMSE</th>
-<th align="right">R2</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -681,16 +656,7 @@ impact of these changes.</p>
 <td align="right">4</td>
 <td align="right">8</td>
 <td align="right">3</td>
-<td align="right">-17.88</td>
-<td align="right">43.76</td>
 <td align="right">57.09</td>
-<td align="right">44.08</td>
-<td align="right">2.86</td>
-<td align="right">40.91</td>
-<td align="right">1.27</td>
-<td align="right">5.11</td>
-<td align="right">2.26</td>
-<td align="right">1.0</td>
 </tr>
 <tr class="even">
 <td align="left">fn_lin_plat_2</td>
@@ -698,16 +664,7 @@ impact of these changes.</p>
 <td align="right">4</td>
 <td align="right">8</td>
 <td align="right">3</td>
-<td align="right">-40.17</td>
-<td align="right">88.35</td>
 <td align="right">101.68</td>
-<td align="right">88.67</td>
-<td align="right">46.42</td>
-<td align="right">10775.31</td>
-<td align="right">18.88</td>
-<td align="right">1346.91</td>
-<td align="right">36.70</td>
-<td align="right">0.3</td>
 </tr>
 <tr class="odd">
 <td align="left">fn_lin_plat_3</td>
@@ -715,16 +672,7 @@ impact of these changes.</p>
 <td align="right">3</td>
 <td align="right">8</td>
 <td align="right">2</td>
-<td align="right">-17.88</td>
-<td align="right">41.76</td>
 <td align="right">47.76</td>
-<td align="right">42.00</td>
-<td align="right">2.61</td>
-<td align="right">40.91</td>
-<td align="right">1.27</td>
-<td align="right">5.11</td>
-<td align="right">2.26</td>
-<td align="right">1.0</td>
 </tr>
 </tbody>
 </table>

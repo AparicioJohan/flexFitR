@@ -117,8 +117,8 @@ mod_1
 #>  166 31.6 57.5 100 40.9135
 #> 
 #> Metrics:
-#>  Groups     Timing Convergence Iterations
-#>       2 0.522 secs        100% 551.5 (id)
+#>  Groups      Timing Convergence Iterations
+#>       2 0.9782 secs        100% 551.5 (id)
 ```
 
 After fitting, we can inspect the model summary and visualize the fit
@@ -348,11 +348,11 @@ comparison |>
   kable()
 ```
 
-| fn_name | uid | df | nobs | p | logLik | AIC | AICc | BIC | Sigma | SSE | MAE | MSE | RMSE | R2 |
-|:---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| fn_lin_plat_1 | 166 | 4 | 8 | 3 | -17.88 | 43.76 | 57.09 | 44.08 | 2.86 | 40.91 | 1.27 | 5.11 | 2.26 | 1.0 |
-| fn_lin_plat_2 | 166 | 4 | 8 | 3 | -40.17 | 88.35 | 101.68 | 88.67 | 46.42 | 10775.31 | 18.88 | 1346.91 | 36.70 | 0.3 |
-| fn_lin_plat_3 | 166 | 3 | 8 | 2 | -17.88 | 41.76 | 47.76 | 42.00 | 2.61 | 40.91 | 1.27 | 5.11 | 2.26 | 1.0 |
+| fn_name       | uid |  df | nobs |   p |   AICc |
+|:--------------|----:|----:|-----:|----:|-------:|
+| fn_lin_plat_1 | 166 |   4 |    8 |   3 |  57.09 |
+| fn_lin_plat_2 | 166 |   4 |    8 |   3 | 101.68 |
+| fn_lin_plat_3 | 166 |   3 |    8 |   2 |  47.76 |
 
 ``` r
 

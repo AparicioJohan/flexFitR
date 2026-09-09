@@ -107,6 +107,9 @@
 
   Plot an object of class `performance`
 
+- [`model_selection()`](https://apariciojohan.github.io/flexFitR/reference/model_selection.md)
+  : Select the best model for each group
+
 ## Data Exploration
 
 - [`explorer()`](https://apariciojohan.github.io/flexFitR/reference/explorer.md)

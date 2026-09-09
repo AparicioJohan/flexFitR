@@ -6,7 +6,7 @@ hence allows comparison of indices across models.
 ## Usage
 
 ``` r
-performance(..., metrics = "all", metadata = FALSE, digits = 2)
+performance(..., metrics = "AICc", metadata = FALSE, digits = 2)
 ```
 
 ## Arguments
@@ -19,7 +19,7 @@ performance(..., metrics = "all", metadata = FALSE, digits = 2)
 
   Can be "all" or a character vector of metrics to be computed (one or
   more of "logLik", "AIC", "AICc", "BIC", "Sigma", "SSE", "MAE", "MSE",
-  "RMSE", "R2"). "all" by default.
+  "RMSE", "R2"). "AICc" by default.
 
 - metadata:
 
@@ -64,8 +64,8 @@ print(mod_1)
 #>   40 34.8 60.6 100 0.0545
 #> 
 #> Metrics:
-#>  Groups      Timing Convergence Iterations
-#>       1 0.2869 secs        100%   509 (id)
+#>  Groups     Timing Convergence Iterations
+#>       1 0.392 secs        100%   509 (id)
 #> 
 # Model 2
 mod_2 <- dt_potato |>
@@ -92,7 +92,7 @@ print(mod_2)
 #> 
 #> Metrics:
 #>  Groups      Timing Convergence Iterations
-#>       1 0.4848 secs        100%   582 (id)
+#>       1 0.4562 secs        100%   582 (id)
 #> 
 # Model 3
 mod_3 <- dt_potato |>

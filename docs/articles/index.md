@@ -7,6 +7,8 @@
   start](https://apariciojohan.github.io/flexFitR/articles/how_to_start.md):
 - [Modeling with
   constraints](https://apariciojohan.github.io/flexFitR/articles/maturity-model.md):
+- [Model
+  selection](https://apariciojohan.github.io/flexFitR/articles/model_selection.md):
 - [Modeling soybean canopy
   cover](https://apariciojohan.github.io/flexFitR/articles/modeling_soybean.md):
 - [Plotting

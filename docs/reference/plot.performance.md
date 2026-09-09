@@ -117,7 +117,7 @@ mod_3 <- dt_potato |>
     parameters = c(m = 20, b = 2),
     subset = 40
   )
-plot(performance(mod_1, mod_2, mod_3), type = 1)
+plot(performance(mod_1, mod_2, mod_3), metrics = "all", type = 1)
 
 plot(performance(mod_1, mod_2, mod_3, metrics = c("AICc", "BIC")), type = 3)
 ```
