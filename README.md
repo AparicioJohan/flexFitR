@@ -110,7 +110,7 @@ Optimization Results `head()`:
 
 Metrics:
  Groups      Timing Convergence Iterations
-      1 0.2622 secs        100%   511 (id)
+      1 0.3673 secs        100%   511 (id)
 ```
 
 ``` r
@@ -167,7 +167,9 @@ For detailed documentation and examples, visit
   cover](https://apariciojohan.github.io/flexFitR/articles/modeling_soybean.html)
 - Vignette 5: [Generating
   predictions](https://apariciojohan.github.io/flexFitR/articles/predicted_values.html)
-- Vignette 6: [Plotting
+- Vignette 6: [Model
+  selection](https://apariciojohan.github.io/flexFitR/articles/model_selection.html)
+- Vignette 7: [Plotting
   options](https://apariciojohan.github.io/flexFitR/articles/plotting.html)
 
 ## Contributing

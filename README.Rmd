@@ -119,7 +119,8 @@ For detailed documentation and examples, visit [flexFitR](https://apariciojohan.
 * Vignette 3: [Fitting constrained models to vegetation index time series](https://apariciojohan.github.io/flexFitR/articles/maturity-model.html) 
 * Vignette 4: [Modeling soybean canopy cover](https://apariciojohan.github.io/flexFitR/articles/modeling_soybean.html) 
 * Vignette 5: [Generating predictions](https://apariciojohan.github.io/flexFitR/articles/predicted_values.html) 
-* Vignette 6: [Plotting options](https://apariciojohan.github.io/flexFitR/articles/plotting.html) 
+* Vignette 6: [Model selection](https://apariciojohan.github.io/flexFitR/articles/model_selection.html) 
+* Vignette 7: [Plotting options](https://apariciojohan.github.io/flexFitR/articles/plotting.html) 
 
 ## Contributing
 

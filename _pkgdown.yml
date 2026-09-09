@@ -35,6 +35,8 @@ navbar:
         href: articles/modeling_soybean.html
       - text: Generating predictions
         href: articles/predicted_values.html
+      - text: Model selection
+        href: articles/model_selection.html
       - text: Plotting options
         href: articles/plotting.html
   - icon:
