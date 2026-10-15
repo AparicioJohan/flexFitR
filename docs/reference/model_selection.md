@@ -108,7 +108,7 @@ print(best)
 #> 
 #> Metrics:
 #>  Groups Timing Convergence Iterations
-#>       2 0.5269        100% 575.5 (id)
+#>       2 0.7251        100% 575.5 (id)
 #> 
 attr(best, "selection")
 #> # A tibble: 2 × 6

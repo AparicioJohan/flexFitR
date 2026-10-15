@@ -230,7 +230,7 @@ print(mod_1)
 #> 
 #> Metrics:
 #>  Groups      Timing Convergence Iterations
-#>       1 0.4671 secs        100%  3156 (id)
+#>       1 0.8485 secs        100%  3156 (id)
 #> 
 # Example 2
 mod_2 <- dt_potato |>
@@ -259,6 +259,6 @@ print(mod_2)
 #> 
 #> Metrics:
 #>  Groups      Timing Convergence Iterations
-#>       1 0.2015 secs        100%   351 (id)
+#>       1 0.3052 secs        100%   351 (id)
 #> 
 ```

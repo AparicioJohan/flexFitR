@@ -67,7 +67,7 @@ print(mod_1)
 #> 
 #> Metrics:
 #>  Groups      Timing Convergence  Iterations
-#>       3 0.5482 secs        100% 407.67 (id)
+#>       3 0.7598 secs        100% 407.67 (id)
 #> 
 vcov(mod_1)
 #> $`2`
