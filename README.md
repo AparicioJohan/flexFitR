@@ -18,6 +18,13 @@ parameter estimation, model fitting, and visualization, leveraging the
 `{optimx}` package for optimization and the `{future}` package for
 parallel processing.
 
+## Publication
+
+Aparicio, J. S., Sitonik, C., & Endelman, J. B. (2026). flexFitR and
+exploreHTP: Open-source software to enable nonlinear modeling of plant
+growth from remote-sensing imagery. The Plant Phenome Journal, 9,
+e70111. <https://doi.org/10.1002/ppj2.70111>
+
 ## Installation
 
 Install released version from CRAN:
@@ -110,7 +117,7 @@ Optimization Results `head()`:
 
 Metrics:
  Groups      Timing Convergence Iterations
-      1 0.3673 secs        100%   511 (id)
+      1 0.2798 secs        100%   511 (id)
 ```
 
 ``` r
